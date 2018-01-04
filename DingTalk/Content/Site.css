@@ -79,7 +79,9 @@ a{
     font-size:24px;
 }
 
-
+.title :hover{
+    background-color:none;
+}
 
 /*首页选项卡*/
 .card {
@@ -157,18 +159,42 @@ ol li {
     overflow: hidden;
 }
 
+/*设备列表*/
+.device-box {
+    width: 130px;
+    /*height: 160px;*/
+    padding: 5px;
+    border: 1px solid #c1c1c1;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.device-box-img {
+    width: 120px;
+    height: 80px;
+    background: url(images/card2.jpg) no-repeat;
+    margin: auto;
+}
+.device-box p {
+    margin: 0px;
+}
+.device-box span{
+    height:auto;
+    line-height:16px;
+}
+
 /*审批列表*/
-.approval-box {
+    .approval-box {
     width: 130px;
     height: 80px;
     padding: 15px;
     border: 1px solid #c1c1c1;
     float: left;
     margin-right: 20px;
-    margin-bottom:20px;
+    margin-bottom: 20px;
     text-align: center;
 }
-
 .approval-box-img {
     width: 60px;
     height: 60px;
@@ -176,7 +202,6 @@ ol li {
     background-position:-54px -47px;
     margin:auto;
 }
-
 .approval-box p{
     margin:5px;
 }
@@ -189,7 +214,6 @@ ol li {
     vertical-align:central;
     margin-bottom:26px;
 }
-
 .head-fixed i{
     font-size:20px;
     border:1px solid #c1c1c1;
@@ -212,4 +236,7 @@ ol li {
 }
 .el-card__body {
     padding-top: 5px;
+}
+.el-menu--horizontal .el-menu-item:focus, .el-menu--horizontal .el-menu-item:hover {
+    background-color: rgba(0,0,0,0);
 }
