@@ -1,0 +1,48 @@
+﻿@{
+    Layout = null;
+}
+
+<div>
+    <el-tabs type="border-card">
+        <!--主分页-->
+        <el-tab-pane label="在线办公">
+            <el-container style="border: 1px solid #eee">
+                <!--左侧导航栏-->
+                <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+                    <el-menu :default-openeds="['2']"
+                             :default-active="'1'">
+                        <el-menu-item index="1" onclick="loadPage('/Home/partHome')">
+                            <i class="el-icon-menu"></i>状态监控
+                        </el-menu-item>
+                        <el-submenu index="2">
+                            <template slot="title">
+                                <i class="el-icon-message"></i>参数信息
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="2-1" onclick="loadPage('/Main/approval')">订单参数</el-menu-item>
+                                <el-menu-item index="2-2" onclick="loadPage('/Main/approval_waitMe')">
+                                    设备参数<el-badge class="mark" :value="12" />
+                                </el-menu-item>
+                                <el-menu-item index="2-3" onclick="loadPage('/Main/approval_IDone')">产品参数</el-menu-item>
+                                <el-menu-item index="2-4" onclick="loadPage('/Main/approval_fromMe')">质量参数</el-menu-item>
+                                <el-menu-item index="2-4" onclick="loadPage('/Main/approval_copyMe')">
+                                    其他参数<el-badge class="item" value="new" />
+                                </el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-submenu index="3">
+                            <template slot="title">
+                                <i class="el-icon-phone"></i>图表可视化
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="3-1" onclick="loadPage('/Main/Main5')">实时生产</el-menu-item>
+                                <el-menu-item index="3-2" onclick="loadPage('/Main/Main6')">产量与耗材</el-menu-item>
+                                <el-menu-item index="3-3" onclick="loadPage('/Main/Main7')">质量分析</el-menu-item>
+                                <el-menu-item index="3-4" onclick="loadPage('/Main/Main8')">综合分析</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
+                        <el-menu-item index="3">
+                            <i class="el-icon-bell"></i>处理中心
+                        </el-menu-item>
+                    </el-menu>
+                </el-aside>
