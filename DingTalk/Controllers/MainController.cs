@@ -12,28 +12,33 @@ namespace WebZhongZhi.Controllers
         {
             return View();
         }
-        public ActionResult Approval()
+        public ActionResult DeviceMonitor()
         {
             return View();
         }
 
-        public ActionResult Approval_waitMe()
+        public ActionResult TableDevice()
         {
             return View();
         }
 
-        public ActionResult Approval_IDone()
+        public ActionResult TableOrder()
+        {
+            return View();
+        }
+
+        public ActionResult TableOther()
         {
             ViewBag.Message = "Your contact page.";
             return View();
         }
 
-        public ActionResult Approval_fromMe()
+        public ActionResult TableProduct()
         {
             return View();
         }
 
-        public ActionResult Approval_copyMe()
+        public ActionResult TableQuality()
         {
             return View();
         }
