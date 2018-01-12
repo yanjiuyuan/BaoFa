@@ -7,20 +7,28 @@
     content: '';
     display: block;
 }
-
 hr {
     height: 1px;
     border: none;
     border-top: 1px solid #b3b3b3;
 }
-
 .hint{
     color:#808080;
 }
-
 .clickable-text {
     color: #409EFF;
     cursor: pointer;
+}
+.mask {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(80,80,80,0.7);
+    width: 100%;
+    height: 100%;
+    z-index: 666;
+    word-break: break-all;
+    overflow: hidden;
 }
 
 /*总体布局*/
@@ -83,81 +91,7 @@ a{
     background-color:none;
 }
 
-/*首页选项卡*/
-.card {
-    border: 1px solid #409EFF;
-    margin-top: 30px;
-    height: 350px;
-    overflow:hidden;
-}
 
-.card p, .card h5{
-    margin-top: 5px;
-}
-
-.cardImage {
-    float: left;
-    width: 306px;
-    height: 182px;
-}
-
-.cardText {
-    line-height: 2;
-    text-indent: 25px;
-}
-
-.cardButtonTitle, .cardPannelTitle {
-    float: left;
-    background: url(gif/dt-5.gif) repeat-x;
-    height: 32px;
-    line-height: 32px;
-    padding: 0px 25px;
-    color: #fff;
-    font-weight: normal;
-    font-size: 14px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-}
-.cardPannelTitle{
-    width:80%;
-}
-
-.card-box{
-    border-bottom:1px dashed;
-    padding-bottom:5px;
-    margin-bottom:10px;
-}
-
-.card-box h5{
-    margin-bottom:2px;
-}
-
-.card-box-text{
-    font-size:10px;
-}
-.card-box-image {
-    float: left;
-    width: 102px;
-    height: 60px;
-    padding-right:10px;
-}
-
-.card-time{
-    float:right;
-}
-
-ol {
-    list-style: none;
-    padding: 0px;
-    margin: 0px;
-    
-}
-ol li {
-    height: 28px;
-    font-size: 12px;
-    line-height: 28px;
-    overflow: hidden;
-}
 
 /*设备列表*/
 .device-box {
@@ -183,9 +117,46 @@ ol li {
     height:auto;
     line-height:16px;
 }
-
+.device-button {
+    position: absolute;
+    width: 120px;
+    border-radius: 12px;
+    background-size: 100% 100%;
+    padding: 0 0 0 10px;
+    font-size: 12px;
+    background: linear-gradient(left, rgb(255, 245, 245) 20%, rgb(191, 191, 191) 73%);
+    background: -o-linear-gradient(left, rgb(255, 245, 245) 20%, rgb(191, 191, 191) 73%);
+    background: -moz-linear-gradient(left, rgb(255, 245, 245) 20%, rgb(191, 191, 191) 73%);
+    background: -webkit-linear-gradient(left, rgb(255, 245, 245) 20%, rgb(191, 191, 191) 73%);
+}
+.device-button:hover{
+    z-index:2;
+}
+.device-button hr {
+    margin: 0 0;
+    border-top: 1px solid
+}
+.device-button-success {
+    border: 1px solid #67C23A;
+}
+.device-button-warning {
+    border: 1px solid #E6A23C;
+}
+.device-button-danger {
+    border: 1px solid #F56C6C;
+}
+.device-button-info {
+    border: 1px solid #909399;
+}
+.device-status {
+    float: right;
+    padding: 3px !important;
+    line-height: 14px;
+    height: auto;
+    font-size: 12px;
+}
 /*审批列表*/
-    .approval-box {
+.approval-box {
     width: 130px;
     height: 80px;
     padding: 15px;
@@ -240,3 +211,81 @@ ol li {
 .el-menu--horizontal .el-menu-item:focus, .el-menu--horizontal .el-menu-item:hover {
     background-color: rgba(0,0,0,0);
 }
+
+/*首页选项卡*/
+.card {
+    border: 1px solid #409EFF;
+    margin-top: 30px;
+    height: 350px;
+    overflow: hidden;
+}
+
+    .card p, .card h5 {
+        margin-top: 5px;
+    }
+
+.cardImage {
+    float: left;
+    width: 306px;
+    height: 182px;
+}
+
+.cardText {
+    line-height: 2;
+    text-indent: 25px;
+}
+
+.cardButtonTitle, .cardPannelTitle {
+    float: left;
+    background: url(gif/dt-5.gif) repeat-x;
+    height: 32px;
+    line-height: 32px;
+    padding: 0px 25px;
+    color: #fff;
+    font-weight: normal;
+    font-size: 14px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.cardPannelTitle {
+    width: 80%;
+}
+
+.card-box {
+    border-bottom: 1px dashed;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+    .card-box h5 {
+        margin-bottom: 2px;
+    }
+
+.card-box-text {
+    font-size: 10px;
+}
+
+.card-box-image {
+    float: left;
+    width: 102px;
+    height: 60px;
+    padding-right: 10px;
+}
+
+.card-time {
+    float: right;
+}
+
+ol {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+    ol li {
+        height: 28px;
+        font-size: 12px;
+        line-height: 28px;
+        overflow: hidden;
+    }

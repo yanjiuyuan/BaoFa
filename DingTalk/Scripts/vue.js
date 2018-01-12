@@ -14,7 +14,7 @@
 var emptyObject = Object.freeze({});
 
 // these helpers produces better vm code in JS engines due to their
-// explicitness and function inlining
+// explicitness and function inlining11
 function isUndef (v) {
   return v === undefined || v === null
 }

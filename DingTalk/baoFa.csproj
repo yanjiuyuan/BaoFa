@@ -160,9 +160,11 @@
     <Content Include="Content\gif\dt-5.gif" />
     <Content Include="Content\gif\dt-6.gif" />
     <Content Include="Content\gif\more.gif" />
+    <Content Include="Content\images\buttonBg.png" />
     <Content Include="Content\images\card1.jpg" />
     <Content Include="Content\images\card2.jpg" />
     <Content Include="Content\images\card3.jpg" />
+    <Content Include="Content\images\deviceMonitor.png" />
     <Content Include="Content\images\flowLine.jpg" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\icon900-540.png" />
@@ -265,6 +267,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Main\TableOther.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

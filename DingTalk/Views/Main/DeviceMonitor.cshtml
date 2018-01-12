@@ -4,8 +4,18 @@
 
 <!--右侧实体内容-->
 <el-main id="partPage">
+    <div class="mask"></div>
     <el-collapse v-model="activeNames">
         <el-collapse-item title="宝发硫化鞋生产线01" name="1">
+            <div style="margin-bottom:30px;position:relative;">
+                <img src="~/Content/images/deviceMonitor.png" style="width:900px;height:430px;"/>
+                <!--设备状态按钮-->
+                <template v-for="(btn,index) of deviceBtns">
+                    <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
+                </template>
+                <i class="el-icon-rank" onclick="alert(123)" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
+            </div>
+
             <div class="device-box">
                 <div class="device-box-img"></div>
                 <p>3#鞋面刷胶</p>
@@ -72,12 +82,418 @@
 </el-main>
 
 <script>
+    var deviceBtnsParam = [
+        {
+            num:1,
+            tooltip: {
+                disabled: false,
+                placement: 'top'
+            },
+            position: {
+                top: '400px',
+                left: '5px'
+            }
+        }, {
+            num:2,
+            tooltip: {
+                disabled: false,
+                placement: 'right'
+            },
+            position: {
+                top: '275px',
+                left: '5px'
+            }
+        }, {
+            num: 3,
+            tooltip: {
+                disabled: false,
+                placement: 'top'
+            },
+            position: {
+                top: '250px',
+                left: '5px'
+            }
+        }, {
+            num: 4,
+            tooltip: {
+                disabled: false,
+                placement: 'top'
+            },
+            position: {
+                top: '195px',
+                left: '5px'
+            }
+        }, {
+            num: 5,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '162px',
+                left: '140px'
+            }
+        }, {
+            num: 6,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '134px',
+                left: '140px'
+            }
+        }, {
+            num: 7,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '105px',
+                left: '140px'
+            }
+        }, {
+            num: 8,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '76px',
+                left: '140px'
+            }
+        }, {
+            num: 9,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '64px',
+                left: '275px'
+            }
+        }, {
+            num: 10,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '38px',
+                left: '275px'
+            }
+        }, {
+            num: 11,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '15px',
+                left: '275px'
+            }
+        }, {
+            num: 12,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '12px',
+                left: '764px'
+            }
+        }, {
+            num: 13,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '40px',
+                left: '764px'
+            }
+        }, {
+            num: 14,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '200px',
+                left: '764px'
+            }
+        }, {
+            num: 15,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '230px',
+                left: '764px'
+            }
+        }, {
+            num: 16,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '270px',
+                left: '630px'
+            }
+        }, {
+            num: 17,
+            tooltip: {
+                disabled: false,
+                placement: 'left'
+            },
+            position: {
+                top: '316px',
+                left: '630px'
+            }
+        }]
+    var devices = [{
+        num: 1,
+        status: 0,
+        name: '烤箱机',
+        detail: {
+            '机器温度': '66℃',
+            '烤箱温度': '160℃'
+        },
+        tips: {
+            '参数1': '参数1',
+            '参数2': '参数2'
+        }
+    },
+    {
+            num: 2,
+            status: 1,
+            name: '喷胶机',
+            detail: {
+                '机器温度': '66℃',
+                '烤箱温度': '160℃'
+            },
+            tips: {
+                '参数1': '参数1',
+                '参数2': '参数2'
+            }
+        },
+        {
+            num: 3,
+            status: 2,
+            name: '烤箱机',
+            detail: {
+                '机器温度': '66℃',
+                '烤箱温度': '160℃'
+            },
+            tips: {
+                '参数1': '参数1',
+                '参数2': '参数2'
+            }
+    },
+    {
+        num: 4,
+        status: 3,
+        name: '烤箱机',
+        detail: {
+            '机器温度': '66℃',
+            '烤箱温度': '160℃'
+        },
+        tips: {
+            '参数1': '参数1',
+            '参数2': '参数2'
+        }
+        },
+        {
+            num: 5,
+            status: 1,
+            name: '烤箱机',
+            detail: {
+                '机器温度': '66℃',
+                '烤箱温度': '160℃'
+            },
+            tips: {
+                '参数1': '参数1',
+                '参数2': '参数2'
+            }
+    },
+    {
+        num: 6,
+        status: 3,
+        name: '烤箱机',
+        detail: {
+            '机器温度': '66℃',
+            '烤箱温度': '160℃'
+        },
+        tips: {
+            '参数1': '参数1',
+            '参数2': '参数2'
+        }
+        },
+        {
+            num: 7,
+            status: 2,
+            name: '烤箱机',
+            detail: {
+                '机器温度': '66℃',
+                '烤箱温度': '160℃'
+            },
+            tips: {
+                '参数1': '参数1',
+                '参数2': '参数2'
+            }
+    },
+    {
+        num: 8,
+        status: 1,
+        name: '烤箱机',
+        detail: {
+            '机器温度': '66℃',
+            '烤箱温度': '160℃'
+        },
+        tips: {
+            '参数1': '参数1',
+            '参数2': '参数2'
+        }
+        },
+        {
+            num: 9,
+            status: 1,
+            name: '烤箱机',
+            detail: {
+                '机器温度': '66℃',
+                '烤箱温度': '160℃'
+            },
+            tips: {
+                '参数1': '参数1',
+                '参数2': '参数2'
+            }
+    },
+    {
+        num: 10,
+        status: 1,
+        name: '烤箱机',
+        detail: {
+            '机器温度': '66℃',
+            '烤箱温度': '160℃'
+        },
+        tips: {
+            '参数1': '参数1',
+            '参数2': '参数2'
+        }
+        },
+        {
+            num: 11,
+            status: 3,
+            name: '烤箱机',
+            detail: {
+                '机器温度': '66℃',
+                '烤箱温度': '160℃'
+            },
+            tips: {
+                '参数1': '参数1',
+                '参数2': '参数2'
+            }
+    },
+    {
+        num: 12,
+        status: 1,
+        name: '烤箱机',
+        detail: {
+            '机器温度': '66℃',
+            '烤箱温度': '160℃'
+        },
+        tips: {
+            '参数1': '参数1',
+            '参数2': '参数2'
+        }
+        },
+        {
+            num: 13,
+            status: 1,
+            name: '烤箱机',
+            detail: {
+                '机器温度': '66℃',
+                '烤箱温度': '160℃'
+            },
+            tips: {
+                '参数1': '参数1',
+                '参数2': '参数2'
+            }
+    },
+    {
+        num: 14,
+        status: 1,
+        name: '烤箱机',
+        detail: {
+            '机器温度': '66℃',
+            '烤箱温度': '160℃'
+        },
+        tips: {
+            '参数1': '参数1',
+            '参数2': '参数2'
+        }
+        },
+        {
+            num: 15,
+            status: 0,
+            name: '烤箱机',
+            detail: {
+                '机器温度': '66℃',
+                '烤箱温度': '160℃'
+            },
+            tips: {
+                '参数1': '参数1',
+                '参数2': '参数2'
+            }
+    },
+    {
+        num: 16,
+        status: 2,
+        name: '烤箱机',
+        detail: {
+            '机器温度': '66℃',
+            '烤箱温度': '160℃'
+        },
+        tips: {
+            '参数1': '参数1',
+            '参数2': '参数2'
+        }
+        },
+        {
+            num: 17,
+            status: 0,
+            name: '烤箱机',
+            detail: {
+                '机器温度': '66℃',
+                '烤箱温度': '160℃'
+            },
+            tips: {
+                '参数1': '参数1',
+                '参数2': '参数2'
+            }
+    }]
+
+    for (let param of deviceBtnsParam) {
+        for (let dev of devices) {
+            if (param.num == dev.num) {
+                for (let p in dev) {
+                    param[p]=dev[p]
+                }
+                break;
+            }
+        }
+    }
+
     var index = new Vue({
         el: "#partPage",
         mixins: [mixin],
         data: function () {
             return {
-                activeNames: ['1']
+                activeNames: ['1'],
+                deviceBtns: deviceBtnsParam
             }
         },
         methods: {
@@ -88,6 +504,7 @@
         }
     })
 
+    
 </script>
 
 
