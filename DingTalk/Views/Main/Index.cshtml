@@ -32,8 +32,8 @@
         //vue组件-设备按钮显示
         Vue.component('sam-devicebtn', {
             props:['param','index'],
-            template:`<el-tooltip :placement="param.tooltip.placement" effect="light">
-                        <div slot="content">
+            template:`<el-tooltip :placement="param.tooltip.placement" effect="light" class="tips">
+                        <div slot="content" :style="{fontSize:param.tooltip.font_size}">
                             <template v-for="t in param.tips">
                                 {{t}} : {{param.tips[t]}}
                                  <br />

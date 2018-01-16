@@ -121,7 +121,7 @@ a{
     width: 120px;
     border-radius: 12px;
     background-size: 100% 100%;
-    padding: 0 0 0 10px;
+    padding-left:10px;
     font-size: 12px;
     background: linear-gradient(left, rgb(255, 245, 245) 20%, rgb(191, 191, 191) 73%);
     background: -o-linear-gradient(left, rgb(255, 245, 245) 20%, rgb(191, 191, 191) 73%);
