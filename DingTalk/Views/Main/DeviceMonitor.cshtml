@@ -4,16 +4,19 @@
 
 <!--右侧实体内容-->
 <el-main id="partPage">
-    <div class="mask"></div>
+    <div v-show="showMask">
+        <div class="mask"></div>
+    </div>
+    
     <el-collapse v-model="activeNames">
         <el-collapse-item title="宝发硫化鞋生产线01" name="1">
-            <div style="margin-bottom:30px;position:relative;">
+            <div id="imgFrame" style="margin-bottom:30px;position:relative;width:900px;height:430px;">
                 <img src="~/Content/images/deviceMonitor.png" style="width:900px;height:430px;"/>
                 <!--设备状态按钮-->
                 <template v-for="(btn,index) of deviceBtns">
                     <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
                 </template>
-                <i class="el-icon-rank" onclick="alert(123)" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
+                <i class="el-icon-rank" v-on:click="changeFullScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
             </div>
 
             <div class="device-box">
@@ -82,26 +85,27 @@
 </el-main>
 
 <script>
+    var img = $("#imgFrame img").find("img")[0]
     var deviceBtnsParam = [
         {
-            num:1,
+            num: 1,
             tooltip: {
                 disabled: false,
                 placement: 'top'
             },
             position: {
-                top: '400px',
-                left: '5px'
+                top: '93.02%',
+                left: '0.56%'
             }
         }, {
-            num:2,
+            num: 2,
             tooltip: {
                 disabled: false,
                 placement: 'right'
             },
             position: {
-                top: '275px',
-                left: '5px'
+                top: '63.95%',
+                left: '0.56%'
             }
         }, {
             num: 3,
@@ -110,8 +114,8 @@
                 placement: 'top'
             },
             position: {
-                top: '250px',
-                left: '5px'
+                top: '58.14%',
+                left: '0.56%'
             }
         }, {
             num: 4,
@@ -120,8 +124,8 @@
                 placement: 'top'
             },
             position: {
-                top: '195px',
-                left: '5px'
+                top: '45.35%',
+                left: '0.56%'
             }
         }, {
             num: 5,
@@ -130,8 +134,8 @@
                 placement: 'left'
             },
             position: {
-                top: '162px',
-                left: '140px'
+                top: '37.67%',
+                left: '15.56%'
             }
         }, {
             num: 6,
@@ -140,8 +144,8 @@
                 placement: 'left'
             },
             position: {
-                top: '134px',
-                left: '140px'
+                top: '31.16%',
+                left: '15.56%'
             }
         }, {
             num: 7,
@@ -150,8 +154,8 @@
                 placement: 'left'
             },
             position: {
-                top: '105px',
-                left: '140px'
+                top: '24.42%',
+                left: '15.56%'
             }
         }, {
             num: 8,
@@ -161,7 +165,7 @@
             },
             position: {
                 top: '76px',
-                left: '140px'
+                left: '15.56%'
             }
         }, {
             num: 9,
@@ -170,8 +174,8 @@
                 placement: 'left'
             },
             position: {
-                top: '64px',
-                left: '275px'
+                top: '17.67%',
+                left: '30.56%'
             }
         }, {
             num: 10,
@@ -180,8 +184,8 @@
                 placement: 'left'
             },
             position: {
-                top: '38px',
-                left: '275px'
+                top: '8.84%',
+                left: '30.56%'
             }
         }, {
             num: 11,
@@ -190,8 +194,8 @@
                 placement: 'left'
             },
             position: {
-                top: '15px',
-                left: '275px'
+                top: '3.49%',
+                left: '30.56%'
             }
         }, {
             num: 12,
@@ -200,8 +204,8 @@
                 placement: 'left'
             },
             position: {
-                top: '12px',
-                left: '764px'
+                top: '2.79%',
+                left: '84.88%'
             }
         }, {
             num: 13,
@@ -210,8 +214,8 @@
                 placement: 'left'
             },
             position: {
-                top: '40px',
-                left: '764px'
+                top: '9.30%',
+                left: '84.88%'
             }
         }, {
             num: 14,
@@ -220,8 +224,8 @@
                 placement: 'left'
             },
             position: {
-                top: '200px',
-                left: '764px'
+                top: '46.51%',
+                left: '84.88%'
             }
         }, {
             num: 15,
@@ -230,8 +234,8 @@
                 placement: 'left'
             },
             position: {
-                top: '230px',
-                left: '764px'
+                top: '53.49%',
+                left: '84.88%'
             }
         }, {
             num: 16,
@@ -240,8 +244,8 @@
                 placement: 'left'
             },
             position: {
-                top: '270px',
-                left: '630px'
+                top: '62.79%',
+                left: '70%'
             }
         }, {
             num: 17,
@@ -250,8 +254,8 @@
                 placement: 'left'
             },
             position: {
-                top: '316px',
-                left: '630px'
+                top: '73.49%',
+                left: '70%'
             }
         }]
     var devices = [{
@@ -493,18 +497,200 @@
         data: function () {
             return {
                 activeNames: ['1'],
-                deviceBtns: deviceBtnsParam
+                deviceBtns: deviceBtnsParam,
+                showMask:false
             }
         },
         methods: {
-            
+            changeFullScreen: function () {
+                var screenHeight = window.screen.height;
+                var screenWidth = window.screen.width;
+                this.showMask = true;
+                console.log('screenWidth = ' + screenWidth)
+                $("#imgFrame").css({ "width": screenWidth + 'px', "position": "absolute", "top": "0", "left": "0" })
+                $("#imgFrame").find("img").css({ "width": screenWidth + 'px'})
+            },
+            restoreScreen: function () {
+                this.showMask = false;
+            }
         },
         created: function () {
             loadHtml("mainPage", "partPage")
         }
     })
 
-    
+       //var deviceBtnsParam = [
+    //    {
+    //        num:1,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'top'
+    //        },
+    //        position: {
+    //            top: '400px',
+    //            left: '5px'
+    //        }
+    //    }, {
+    //        num:2,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'right'
+    //        },
+    //        position: {
+    //            top: '275px',
+    //            left: '5px'
+    //        }
+    //    }, {
+    //        num: 3,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'top'
+    //        },
+    //        position: {
+    //            top: '250px',
+    //            left: '5px'
+    //        }
+    //    }, {
+    //        num: 4,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'top'
+    //        },
+    //        position: {
+    //            top: '195px',
+    //            left: '5px'
+    //        }
+    //    }, {
+    //        num: 5,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '162px',
+    //            left: '140px'
+    //        }
+    //    }, {
+    //        num: 6,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '134px',
+    //            left: '140px'
+    //        }
+    //    }, {
+    //        num: 7,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '105px',
+    //            left: '140px'
+    //        }
+    //    }, {
+    //        num: 8,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '76px',
+    //            left: '140px'
+    //        }
+    //    }, {
+    //        num: 9,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '64px',
+    //            left: '275px'
+    //        }
+    //    }, {
+    //        num: 10,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '38px',
+    //            left: '275px'
+    //        }
+    //    }, {
+    //        num: 11,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '15px',
+    //            left: '275px'
+    //        }
+    //    }, {
+    //        num: 12,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '12px',
+    //            left: '764px'
+    //        }
+    //    }, {
+    //        num: 13,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '40px',
+    //            left: '764px'
+    //        }
+    //    }, {
+    //        num: 14,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '200px',
+    //            left: '764px'
+    //        }
+    //    }, {
+    //        num: 15,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '230px',
+    //            left: '764px'
+    //        }
+    //    }, {
+    //        num: 16,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '270px',
+    //            left: '630px'
+    //        }
+    //    }, {
+    //        num: 17,
+    //        tooltip: {
+    //            disabled: false,
+    //            placement: 'left'
+    //        },
+    //        position: {
+    //            top: '316px',
+    //            left: '630px'
+    //        }
+    //    }]
 </script>
 
 
