@@ -276,6 +276,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <Content Include="Views\Main\ChartLineRealTime.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
