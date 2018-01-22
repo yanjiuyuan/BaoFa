@@ -25,9 +25,6 @@ namespace DingTalk.Controllers
         /// Color 1：黑色，2：白色，3：红色，4：黄，5：绿，6：紫，7：其他
         public string GetOrder()
         {
-            //
-
-
             OrderServer oServer = new OrderServer();
             return oServer.GetOrderMessage();
         }
