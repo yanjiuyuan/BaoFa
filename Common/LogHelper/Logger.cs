@@ -1,7 +1,9 @@
 ﻿using log4net;
 using log4net.Config;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Common.LogHelper
 {
-    public class Logger
+    public  class Logger
     {
         static Logger()
         {
@@ -75,5 +77,6 @@ namespace Common.LogHelper
             Console.WriteLine(msg);
             loger.Debug(msg);
         }
+        
     }
 }
