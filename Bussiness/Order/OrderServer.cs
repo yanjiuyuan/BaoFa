@@ -12,9 +12,40 @@ namespace Bussiness.Order
     public class OrderServer
     {
 
-        public string GetOrderMessage()
+
+        public string GetAllOrderMessage()
         {
-            string strSql = "SELECT * FROM huabao.order";
+           string  strSql = "SELECT * FROM huabao.order";
+           return  GetOrderMessage(strSql);
+        }
+
+        public string GetAllOrderMessageWithParameter(int PageIndex, int PageSize, string strColor,
+            string strMaterial, string strStartOrderTime, string strEndOrderTime,
+            string strStartDeliveryTime, string strEndDeliveryTime)
+        {
+            strMaterial =strMaterial == "" || strMaterial==null ? "1=1": "Material='"+strMaterial+"'";
+            strColor = strColor == "" || strColor == null ? "1=1" : "color='" + strColor + "'";
+            strStartOrderTime = strStartOrderTime == "" || strStartOrderTime == null ? "1=1" : strStartOrderTime;
+            strEndOrderTime = strEndOrderTime == "" || strEndOrderTime == null ? "1=1" : strEndOrderTime;
+            strStartDeliveryTime = strStartDeliveryTime == "" || strStartDeliveryTime == null ? "1=1" : strStartDeliveryTime;
+            strEndDeliveryTime = strEndDeliveryTime == "" || strEndDeliveryTime == null ? "1=1" : strEndDeliveryTime;
+            string strSql=string.Format(" SELECT * FROM huabao.`order` " +
+                "WHERE  {0} AND {1} " +
+                "AND ordtime BETWEEN '{2}'  AND '{3}' " +
+                " AND DeliveryTime BETWEEN '{4}'  AND '{5}'" +
+                " LIMIT {6},{7} ",strMaterial,strColor, strStartOrderTime
+                , strEndOrderTime, strStartDeliveryTime, strEndDeliveryTime
+                , PageIndex,PageSize);
+            return GetOrderMessage(strSql);
+        }
+
+        /// <summary>
+        /// 执行查询语句转换参数
+        /// </summary>
+        /// <param name="strSql"></param>
+        /// <returns></returns>
+        public string GetOrderMessage(string strSql)
+        {
             DataSet dataSet = MySqlHelper.GetDataSet(strSql);
 
             DataSet newDataSet = new DataSet();
@@ -84,13 +115,12 @@ namespace Bussiness.Order
                             dr["Material"] = "其他";
                             break;
                     }
-
-                    newDataSet.Tables.Add(newTB);
                 }
+                newDataSet.Tables.Add(newTB);
             }
 
             string strJsonString = string.Empty;
-            strJsonString = JsonHelper.DataTableToJsonWithJsonNet(newDataSet);
+            strJsonString = JsonHelper.DatasetToJson(newDataSet);
             return strJsonString;
         }
 
