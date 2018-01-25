@@ -1,0 +1,159 @@
+﻿@{
+    Layout = null;
+}
+
+<!--右侧实体内容-->
+<script src="~/Scripts/echarts-all.js"></script>
+<el-main id="partPage">
+    <el-collapse v-model="activeNames">
+        <el-collapse-item title="总订单编号001 子订单编号001" name="1">
+            <div id="lineChart" style="height:300px;"></div>
+            <div id="barChart" style="height:300px;"></div>
+        </el-collapse-item>
+    </el-collapse>
+</el-main>
+
+<script>
+    var demo = new Vue({
+        el: "#partPage",
+        mixins: [mixin],
+        data: function () {
+            return {
+                activeNames: ['1'],
+            }
+        },
+        methods: {
+
+        },
+        created: function () {
+            loadHtml("mainPage", "partPage")
+        }
+    })
+    //折线图
+    var lineChart = echarts.init(document.getElementById('lineChart'));
+    lineOption = {
+        title: {
+            text: '产量增长图',
+            x: 'center'
+        },
+        legend: {
+            data: ['当班产量', '预加工量'],
+            x:'left'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                magicType: {
+                    show: true,
+                    type: ['line', 'bar']
+                },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                boundaryGap: false,
+                data: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00']
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} 只'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '当班产量',
+                type: 'line',
+                data: [0, 11, 25, 33, 52, 63, 70],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '当班产量' }
+                    ]
+                },
+            },
+            {
+                name: '预加工量',
+                type: 'line',
+                data: [100, 100, 100, 100, 100, 100, 100],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '预加工量' }
+                    ]
+                },
+            }
+        ]
+    };
+    lineChart.setOption(lineOption);
+    //柱状图
+    var barChart = echarts.init(document.getElementById('barChart'));
+    barOption = {
+        title: {
+            text: '用料统计图',
+            x: 'center'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        calculable: true,
+        grid: {
+            borderWidth: 0,
+            y: 80,
+            y2: 60
+        },
+        xAxis: [
+            {
+                type: 'category',
+                show: false,
+                data: ['围条用量', '护齿用量', '标签用量', '大底用量','鞋带用量']
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                show: false
+            }
+        ],
+        series: [
+            {
+                name: '用料统计',
+                type: 'bar',
+                itemStyle: {
+                    normal: {
+                        color: function (params) {
+                            // build a color map as your need.
+                            var colorList = [
+                                '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                                '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD',
+                                '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0'
+                            ];
+                            return colorList[params.dataIndex]
+                        },
+                        label: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{b}\n{c}'
+                        }
+                    }
+                },
+                data: [70, 71, 75, 83, 87]
+            }
+        ]
+    };
+    barChart.setOption(barOption);
+</script>
+
+
+

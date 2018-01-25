@@ -1,0 +1,126 @@
+﻿@{
+    Layout = null;
+}
+
+<!--右侧实体内容-->
+<script src="~/Scripts/echarts-all.js"></script>
+<el-main id="partPage">
+    <!--查詢表單-->
+    <el-form :inline="true" :model="formInline" class="demo-form-inline"
+             size="medium">
+
+        <el-form-item label="总订单">
+            <el-select v-model="formInline.region">
+                <el-option label="订单1" value="1"></el-option>
+                <el-option label="订单2" value="2"></el-option>
+                <el-option label="订单3" value="3"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="子订单时间">
+            <el-date-picker v-model="formInline.startDate"
+                            type="daterange"
+                            :picker-options="pickerOptions"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+            </el-date-picker>
+        </el-form-item>
+        
+    </el-form>
+    <div id="chart" style="height:500px;"></div>
+</el-main>
+
+<script>
+    var demo = new Vue({
+        el: "#partPage",
+        mixins: [mixin],
+        data: function () {
+            return {
+                formInline: {
+                    region: '',
+                    startDate: '',
+                    endDate: ''
+                }
+            }
+        },
+        methods: {
+
+        },
+        created: function () {
+            loadHtml("mainPage", "partPage")
+        }
+    })
+    var myChart = echarts.init(document.getElementById('chart'));
+    option = {
+        title: {
+            text: '质量分析'
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            data: ['合格', '次品', '废品']
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        polar: [
+            {
+                indicator: [
+                    { text: '硫化前外观' },
+                    { text: '鞋面拉力' },
+                    { text: '大底拉力' },
+                    { text: '折弯疲劳' },
+                    { text: '硫化后外观' }
+                ],
+                center: [document.getElementById('chart').offsetWidth - 250, 225],
+                radius: 120
+            }
+        ],
+        calculable: false,
+        series: [
+            {
+                name: '品质分析',
+                type: 'pie',
+                radius: [0, 110],
+                center: [250, 225],
+                data: [
+                    {
+                        name: '合格',
+                        value: Math.round(Math.random() * 10)
+                    },
+                    {
+                        name: '次品',
+                        value: Math.round(Math.random() * 10)
+                    },
+                    {
+                        name: '废品',
+                        value: Math.round(Math.random() * 10)
+                    }]
+            },
+            {
+                name: 'radar',
+                type: 'radar',
+                itemStyle: { normal: { areaStyle: { type: 'default' } } },
+                data: [{
+                    name: '质量参数',
+                    value: [
+                        Math.round(Math.random() * 100),
+                        Math.round(Math.random() * 100),
+                        Math.round(Math.random() * 100),
+                        Math.round(Math.random() * 100),
+                        Math.round(Math.random() * 100)
+                    ]
+                }]
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>
+
+
+

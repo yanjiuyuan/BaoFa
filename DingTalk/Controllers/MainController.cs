@@ -17,42 +17,50 @@ namespace WebZhongZhi.Controllers
             return View();
         }
 
-        public ActionResult TableDevice()
+        public ActionResult ParamOrder()
         {
             return View();
         }
 
-        public ActionResult TableOrder()
+        public ActionResult ParamStand()
         {
             return View();
         }
 
-        public ActionResult TableOther()
-        {
-            ViewBag.Message = "Your contact page.";
-            return View();
-        }
-
-        public ActionResult TableProduct()
+        public ActionResult ParamLine()
         {
             return View();
         }
 
+        public ActionResult ParamOther()
+        {
+            return View();
+        }
+
+        public ActionResult ChartProduce()
+        {
+            return View();
+        }
+        public ActionResult ChartOrderQuality()
+        {
+            return View();
+        }
+        public ActionResult ChartProductQuality()
+        {
+            return View();
+        }
+        public ActionResult ChartMultiply()
+        {
+            return View();
+        }
         public ActionResult TableQuality()
         {
             return View();
         }
-        public ActionResult Main6()
+        public ActionResult TableCount()
         {
             return View();
         }
-        public ActionResult Main7()
-        {
-            return View();
-        }
-        public ActionResult Main8()
-        {
-            return View();
-        }
+
     }
 }

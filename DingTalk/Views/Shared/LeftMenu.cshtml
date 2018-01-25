@@ -9,7 +9,7 @@
             <el-container style="border: 1px solid #eee">
                 <!--左侧导航栏-->
                 <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-                    <el-menu :default-openeds="['2']"
+                    <el-menu :default-openeds="['2','3']"
                              :default-active="'1'">
                         <el-menu-item index="1" onclick="loadPage('/Main/DeviceMonitor')">
                             <i class="el-icon-menu"></i>状态监控
@@ -19,30 +19,35 @@
                                 <i class="el-icon-message"></i>参数信息
                             </template>
                             <el-menu-item-group>
-                                <el-menu-item index="2-1" onclick="loadPage('/Main/TableOrder')">订单参数</el-menu-item>
-                                <el-menu-item index="2-2" onclick="loadPage('/Main/TableDevice')">
-                                    设备参数<el-badge class="mark" :value="12" />
+                                <el-menu-item index="2-1" onclick="loadPage('/Main/ParamOrder')">订单参数</el-menu-item>
+                                <el-menu-item index="2-2" onclick="loadPage('/Main/ParamStand')">
+                                    胶站参数<el-badge class="mark" :value="12" />
                                 </el-menu-item>
-                                <el-menu-item index="2-3" onclick="loadPage('/Main/TableProduct')">产品参数</el-menu-item>
-                                <el-menu-item index="2-4" onclick="loadPage('/Main/TableQuality')">质量参数</el-menu-item>
-                                <el-menu-item index="2-4" onclick="loadPage('/Main/TableOther')">
+                                <el-menu-item index="2-3" onclick="loadPage('/Main/ParamLine')">生产线参数</el-menu-item>
+                                <el-menu-item index="2-4" onclick="loadPage('/Main/ParamOther')">
                                     其他参数<el-badge class="item" value="new" />
                                 </el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="3">
                             <template slot="title">
-                                <i class="el-icon-phone"></i>图表可视化
+                                <i class="el-icon-phone"></i>图表可视化分析
                             </template>
                             <el-menu-item-group>
-                                <el-menu-item index="3-1" onclick="loadPage('/Main/Main5')">实时生产</el-menu-item>
-                                <el-menu-item index="3-2" onclick="loadPage('/Main/Main6')">产量与耗材</el-menu-item>
-                                <el-menu-item index="3-3" onclick="loadPage('/Main/Main7')">质量分析</el-menu-item>
-                                <el-menu-item index="3-4" onclick="loadPage('/Main/Main8')">综合分析</el-menu-item>
+                                <el-menu-item index="3-1" onclick="loadPage('/Main/ChartProduce')">实时生产统计</el-menu-item>
+                                <el-menu-item index="3-2" onclick="loadPage('/Main/ChartOrderQuality')">批次质量分析</el-menu-item>
+                                <el-menu-item index="3-3" onclick="loadPage('/Main/ChartProductQuality')">单品质量分析</el-menu-item>
+                                <el-menu-item index="3-4" onclick="loadPage('/Main/ChartMultiply')">综合分析</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
-                        <el-menu-item index="3">
-                            <i class="el-icon-bell"></i>处理中心
+                        <el-menu-item index="4">
+                            <template slot="title">
+                                <i class="el-icon-phone"></i>数据统计
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="4-1" onclick="loadPage('/Main/TableQuality')">订单质量表</el-menu-item>
+                                <el-menu-item index="4-2" onclick="loadPage('/Main/TableCount')">产量统计表</el-menu-item>
+                            </el-menu-item-group>
                         </el-menu-item>
                     </el-menu>
                 </el-aside>
