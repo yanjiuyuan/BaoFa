@@ -17,16 +17,16 @@ namespace Bussiness.Register
         /// <returns></returns>
         public static bool CheckUserName(string strUserName)
         {
-            string strSql=string.Format("select * from  hzsk.userinfo where username='{0}'", strUserName);
+            string strSql=string.Format("select * from  huabao.userinfo where username='{0}'", strUserName);
             DataSet dataset = MySqlHelper.GetDataSet(strSql);
             int iResult = dataset.Tables[0].Rows.Count;
             if (iResult > 0) 
             {
-                return true; //用户名存在
+                return false;  //用户名存在
             }
             else
             {
-                return false;
+                return true;
             }
         }
 
@@ -54,9 +54,10 @@ namespace Bussiness.Register
             string strphoneNumber, string strPassword, string strRegisterTime,string strLastLoginTime,
             int iStatus, string strAddress, int iRole, string strProvince, string strCity,
             string strTelephone, string strOtherContact, string strFax, int iIsActive,
-            string strLastLoginIp, string strEmail)
+            string strLastLoginIp, string strEmail, string strCompanyId, string strCompanyName)
         {
-            string strSql = string.Format("insert into hzsk.userinfo set " +
+            strRegisterTime = DateTime.Now.ToString();
+            string strSql = string.Format("insert into huabao.userinfo set " +
                 "userName='{0}',realName='{1}',phoneNumber='{2},password='{3}'," +
                 "registertime='{4}',lastLoginTime='{5}',status='{6}',address='{7}'," +
                 "role='{8}',province='{9}',city='{10}',telephone='{11}',otherContact='{12}'," +

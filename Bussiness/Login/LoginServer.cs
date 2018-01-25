@@ -10,14 +10,18 @@ namespace Bussiness
 {
     public class LoginServer
     {
-        public static int ChekLogin(string strUserName, string strPassword)
+        public  bool ChekLogin(string strUserName, string strPassword)
         {
-            string strSql = string.Format("select username,password from hzsk.userInfo where username='{0}' and password = '{1}' and  status='1'",
+            string strSql = string.Format("select username,password from huabao.userInfo where username='{0}' and password = '{1}' and  status='1'",
                 strUserName, strPassword);
             //int iResult= MySqlHelper.ExecuteSql(strSql);
             DataSet dataset = MySqlHelper.GetDataSet(strSql);
             int iResult = dataset.Tables[0].Rows.Count;
-            return iResult;
+            if (iResult == 1)
+            {
+                return true;
+            }
+            return false;
         }
 
 
