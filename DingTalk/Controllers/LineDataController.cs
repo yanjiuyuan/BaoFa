@@ -17,11 +17,6 @@ namespace DingTalk.Controllers
     [RoutePrefix("api/dt")]
     public class LineDataController : ApiController
     {
-        [Route("GetAll")]
-        public string GetAll()
-        {
-            return "123";
-        }
 
         [Route("Get")]
         public HttpResponseMessage Get()
@@ -45,7 +40,7 @@ namespace DingTalk.Controllers
                 {
                     string message = Encoding.UTF8.GetString(buffer.Array, 0, result.Count);
                     string returnMessage = "You send :" + message + ". at" + DateTime.Now.ToLongTimeString();
-
+                    
 
                     buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(returnMessage));
                     await socket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
@@ -56,5 +51,18 @@ namespace DingTalk.Controllers
                 }
             }
         }
+
+
+        /// <summary>
+        /// 1号胶站信息
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetSpray")]
+        public async Task<string> GetSpray()
+        {
+            var result = "";//await dtManager.GetDepartmentList();
+            return result;
+        }
+
     }
 }
