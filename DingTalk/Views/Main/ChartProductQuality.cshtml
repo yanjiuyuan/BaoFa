@@ -8,87 +8,119 @@
     <!--查詢表單-->
     <el-form :inline="true" :model="formInline" class="demo-form-inline"
              size="medium">
-
         <el-form-item label="二维码号">
             <el-input v-model="formInline.qrCode"
                       placeholder="请输入鞋子二维码"></el-input>
         </el-form-item>
-        
-
+        <el-form-item>
+            <el-button type="primary" v-on:click="search">搜索</el-button>
+        </el-form-item>
     </el-form>
+
+    <div id="lineChart" style="height:300px;"></div>
 </el-main>
 
 <script>
+    var paramOption = []
     var demo = new Vue({
         el: "#partPage",
         mixins: [mixin],
         data: function () {
             return {
-
+                formInline: {
+                    qrCode: ''
+                }
             }
         },
         methods: {
+            search: function () {
 
+            }
         },
         created: function () {
             loadHtml("mainPage", "partPage")
         }
     })
-    var myChart = echarts.init(document.getElementById('partPage'));
-    option = {
+    var realTimeData = {
+        name: '鞋面喷胶站信息实时数据表',
+        params: ['雾化压力', '物料压力', '胶重', '流量计', '烤箱实时温度', '机器人状态号', '机器人报警号'],
+        time: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '18:00', '19:00', '20:00', '121:00', '22:00', '23:00', '24:00'],
+        dada: {
+
+        }
+    }
+    var myChart = echarts.init(document.getElementById('lineChart'));
+    lineOption = {
         title: {
-            text: '某站点用户访问来源',
-            subtext: '纯属虚构',
-            x: 'center'
-        },
-        tooltip: {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
+            text: realTimeData.name,
+            x: 'left'
         },
         legend: {
-            orient: 'vertical',
-            x: 'left',
-            data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
-        },
-        toolbox: {
-            show: true,
-            feature: {
-                mark: { show: true },
-                dataView: { show: true, readOnly: false },
-                magicType: {
-                    show: true,
-                    type: ['pie', 'funnel'],
-                    option: {
-                        funnel: {
-                            x: '25%',
-                            width: '50%',
-                            funnelAlign: 'left',
-                            max: 1548
-                        }
-                    }
-                },
-                restore: { show: true },
-                saveAsImage: { show: true }
-            }
+            data: realTimeData.params,
+            //orient: 'vertical',
+            x: 'right'
         },
         calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                boundaryGap: false,
+                data: realTimeData.time
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
         series: [
             {
-                name: '访问来源',
-                type: 'pie',
-                radius: '55%',
-                center: ['50%', '60%'],
-                data: [
-                    { value: 335, name: '直接访问' },
-                    { value: 310, name: '邮件营销' },
-                    { value: 234, name: '联盟广告' },
-                    { value: 135, name: '视频广告' },
-                    { value: 1548, name: '搜索引擎' }
-                ]
+                name: '雾化压力',
+                type: 'line',
+                data: [100, 100, 101, 100, 100, 100, 100, 100, 100, 100, 100, 100, 99, 100],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '最大压力' },
+                        { type: 'min', name: '最小压力' }
+                    ]
+                }
+            },
+            {
+                name: '物料压力',
+                type: 'line',
+                data: [90, 90, 91, 90, 90, 90, 90, 90, 90, 90, 90, 90, 99, 90]
+            },
+            {
+                name: '胶重',
+                type: 'line',
+                data: [80, 80, 81, 80, 80, 80, 80, 80, 80, 80, 80, 80, 89, 80]
+            },
+            {
+                name: '流量计',
+                type: 'line',
+                data: [70, 70, 71, 70, 70, 70, 70, 70, 70, 70, 70, 70, 79, 70]
+            },
+            {
+                name: '烤箱实时温度',
+                type: 'line',
+                data: [60, 60, 61, 60, 60, 60, 60, 60, 100, 60, 60, 60, 69, 60]
+            },
+            {
+                name: '机器人状态号',
+                type: 'line',
+                data: [1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 9, 1]
+            },
+            {
+                name: '机器人报警号',
+                type: 'line',
+                data: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0]
             }
         ]
     };
-    myChart.setOption(option);
+    myChart.setOption(lineOption);
 </script>
 
 
