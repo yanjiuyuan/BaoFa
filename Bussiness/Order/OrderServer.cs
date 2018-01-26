@@ -29,13 +29,14 @@ namespace Bussiness.Order
             strEndOrderTime = strEndOrderTime == "" || strEndOrderTime == null ? "1=1" : strEndOrderTime;
             strStartDeliveryTime = strStartDeliveryTime == "" || strStartDeliveryTime == null ? "1=1" : "DeliveryTime BETWEEN '" +strStartDeliveryTime+"'";
             strEndDeliveryTime = strEndDeliveryTime == "" || strEndDeliveryTime == null ? "1=1" : strEndDeliveryTime;
+            int startRow = PageIndex * PageSize;
             string strSql=string.Format("SELECT * FROM ( SELECT * FROM huabao.`order` " +
                 "WHERE  {0} AND {1} " +
                 "AND {2}  AND '{3}'" +
                 " AND {4}  AND '{5}'" +
                 " LIMIT {6},{7} ) a,( SELECT COUNT(*) AS Counts FROM huabao.`order` ) b", strMaterial,strColor, strStartOrderTime
                 , strEndOrderTime, strStartDeliveryTime, strEndDeliveryTime
-                , PageIndex,PageSize);
+                , startRow, PageSize);
             return GetOrderMessage(strSql);
         }   
 
