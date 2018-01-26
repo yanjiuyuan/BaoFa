@@ -19,42 +19,6 @@
                 <i v-if="showMask" class="el-icon-error" v-on:click="restoreScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
                 <i v-else class="el-icon-rank" v-on:click="changeFullScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
             </div>
-
-            <div class="device-box">
-                <div class="device-box-img"></div>
-                <p>3#鞋面刷胶</p>
-                <div><span>状态</span>&nbsp;<el-tag type="success">正常</el-tag></div>
-                <div><span>雾化压力</span>&nbsp;<el-tag type="success">6</el-tag></div>
-                <div><span>物料压力</span>&nbsp;<el-tag type="success">8</el-tag></div>
-            </div>
-            <div class="device-box">
-                <div class="device-box-img"></div>
-                <p>11#围条一胶</p>
-                <div><span>状态</span>&nbsp;<el-tag type="warning">警告</el-tag></div>
-                <div><span>雾化压力</span>&nbsp;<el-tag type="warning">16</el-tag></div>
-                <div><span>物料压力</span>&nbsp;<el-tag type="success">8</el-tag></div>
-            </div>
-            <div class="device-box">
-                <div class="device-box-img"></div>
-                <p>12#围条二胶</p>
-                <div><span>状态</span>&nbsp;<el-tag type="danger">异常</el-tag></div>
-                <div><span>雾化压力</span>&nbsp;<el-tag type="danger">56</el-tag></div>
-                <div><span>物料压力</span>&nbsp;<el-tag type="success">8</el-tag></div>
-            </div>
-            <div class="device-box">
-                <div class="device-box-img"></div>
-                <p>13#围条三胶</p>
-                <div><span>状态</span>&nbsp;<el-tag type="success">正常</el-tag></div>
-                <div><span>雾化压力</span>&nbsp;<el-tag type="success">7</el-tag></div>
-                <div><span>物料压力</span>&nbsp;<el-tag type="success">7</el-tag></div>
-            </div>
-            <div class="device-box">
-                <div class="device-box-img"></div>
-                <p>18#护齿刷胶</p>
-                <div><span>状态</span>&nbsp;<el-tag type="info">离线</el-tag></div>
-                <div><span>雾化压力</span>&nbsp;<el-tag type="info">0</el-tag></div>
-                <div><span>物料压力</span>&nbsp;<el-tag type="info">0</el-tag></div>
-            </div>
         </el-collapse-item>
         <el-collapse-item title="宝发硫化鞋生产线02" name="2">
             <div class="device-box">
@@ -86,10 +50,71 @@
 </el-main>
 
 <script>
+    //vue组件-设备按钮显示
+    Vue.component('sam-devicebtn', {
+        props: ['param', 'index'],
+        template: `<el-tooltip :placement="param.tooltip.placement" effect="light" class="tips">
+                        <div slot="content" :style="{fontSize:param.tooltip.font_size}">
+                            <template v-for="t in param.tips">
+                                {{t}} : {{param.tips[t]}}
+                                 <br />
+                            </template>
+                        </div>
+                        <div v-on:mouseover="showMore=true" v-on:mouseout="showMore=false"
+                             class="device-button" :class="theme.mainClass"
+                            :style="{left:param.position.left,top:param.position.top}">
+                            <span>{{param.name}}</span>
+                            <el-button :type="theme.warnType" round class="device-status">{{theme.text}}</el-button>
+                            <el-collapse-transition>
+                                <div v-show="showMore">
+                                    <hr :style="{color:theme.color}" />
+                                    <template v-for="d in param.detail">
+                                        {{d}} : {{param.detail[d]}}
+                                         <br />
+                                    </template>
+                                </div>
+                            </el-collapse-transition>
+                        </div>
+                    </el-tooltip>`,
+        data: function () {
+            let theme
+            switch (this.param.status) {
+                case 0: theme = {
+                    mainClass: 'device-button-info',
+                    warnType: 'info',
+                    text: '离线',
+                    color: '#909399'
+                }; break;
+                case 2: theme = {
+                    mainClass: 'device-button-warning',
+                    warnType: 'warning',
+                    text: '警告',
+                    color: '#E6A23C'
+                }; break;
+                case 3: theme = {
+                    mainClass: 'device-button-danger',
+                    warnType: 'danger',
+                    text: '危险',
+                    color: '#F56C6C'
+                }; break;
+                default: theme = {
+                    mainClass: 'device-button-success',
+                    warnType: 'success',
+                    text: '正常',
+                    color: '#67C23A'
+                };
+            }
+            return {
+                showMore: false,
+                theme: theme
+            }
+        }
+    })
     var img = $("#imgFrame img").find("img")[0]
     var deviceBtnsParam = [
         {
             num: 1,
+            name: '视觉1号站',
             tooltip: {
                 disabled: false,
                 placement: 'top'
@@ -100,6 +125,7 @@
             }
         }, {
             num: 2,
+            name: '鞋面喷胶站',
             tooltip: {
                 disabled: false,
                 placement: 'right'
@@ -110,6 +136,7 @@
             }
         }, {
             num: 3,
+            name: '鞋面烤箱',
             tooltip: {
                 disabled: false,
                 placement: 'top'
@@ -120,6 +147,7 @@
             }
         }, {
             num: 4,
+            name: '大底烤箱',
             tooltip: {
                 disabled: false,
                 placement: 'top'
@@ -130,6 +158,7 @@
             }
         }, {
             num: 5,
+            name: '压底机',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -140,6 +169,7 @@
             }
         }, {
             num: 6,
+            name: '视觉2号站',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -150,6 +180,7 @@
             }
         }, {
             num: 7,
+            name: '围条一胶站',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -160,6 +191,7 @@
             }
         }, {
             num: 8,
+            name: '围条二胶站',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -170,6 +202,7 @@
             }
         }, {
             num: 9,
+            name: '围一烤箱',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -180,6 +213,7 @@
             }
         }, {
             num: 10,
+            name: '围二烤箱',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -190,6 +224,7 @@
             }
         }, {
             num: 11,
+            name: '围条三胶站',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -200,6 +235,7 @@
             }
         }, {
             num: 12,
+            name: '围三烤箱',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -210,6 +246,7 @@
             }
         }, {
             num: 13,
+            name: '视觉3号站',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -220,6 +257,7 @@
             }
         }, {
             num: 14,
+            name: '围条贴附1号站',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -230,6 +268,7 @@
             }
         }, {
             num: 15,
+            name: '围条贴附2号站',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -240,6 +279,7 @@
             }
         }, {
             num: 16,
+            name: '护齿喷胶站',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -250,6 +290,7 @@
             }
         }, {
             num: 17,
+            name: '十字压站',
             tooltip: {
                 disabled: false,
                 placement: 'left'
@@ -262,7 +303,6 @@
     var devices = [{
         num: 1,
         status: 0,
-        name: '烤箱机',
         detail: {
             '机器温度': '66℃',
             '烤箱温度': '160℃'
@@ -275,7 +315,6 @@
     {
             num: 2,
             status: 1,
-            name: '喷胶机',
             detail: {
                 '机器温度': '66℃',
                 '烤箱温度': '160℃'
@@ -288,7 +327,6 @@
         {
             num: 3,
             status: 2,
-            name: '烤箱机',
             detail: {
                 '机器温度': '66℃',
                 '烤箱温度': '160℃'
@@ -301,7 +339,6 @@
     {
         num: 4,
         status: 3,
-        name: '烤箱机',
         detail: {
             '机器温度': '66℃',
             '烤箱温度': '160℃'
@@ -314,7 +351,6 @@
         {
             num: 5,
             status: 1,
-            name: '烤箱机',
             detail: {
                 '机器温度': '66℃',
                 '烤箱温度': '160℃'
@@ -327,7 +363,6 @@
     {
         num: 6,
         status: 3,
-        name: '烤箱机',
         detail: {
             '机器温度': '66℃',
             '烤箱温度': '160℃'
@@ -340,7 +375,6 @@
         {
             num: 7,
             status: 2,
-            name: '烤箱机',
             detail: {
                 '机器温度': '66℃',
                 '烤箱温度': '160℃'
@@ -353,7 +387,6 @@
     {
         num: 8,
         status: 1,
-        name: '烤箱机',
         detail: {
             '机器温度': '66℃',
             '烤箱温度': '160℃'
@@ -366,7 +399,6 @@
         {
             num: 9,
             status: 1,
-            name: '烤箱机',
             detail: {
                 '机器温度': '66℃',
                 '烤箱温度': '160℃'
@@ -379,7 +411,6 @@
     {
         num: 10,
         status: 1,
-        name: '烤箱机',
         detail: {
             '机器温度': '66℃',
             '烤箱温度': '160℃'
@@ -392,7 +423,6 @@
         {
             num: 11,
             status: 3,
-            name: '烤箱机',
             detail: {
                 '机器温度': '66℃',
                 '烤箱温度': '160℃'
@@ -405,7 +435,6 @@
     {
         num: 12,
         status: 1,
-        name: '烤箱机',
         detail: {
             '机器温度': '66℃',
             '烤箱温度': '160℃'
@@ -418,7 +447,6 @@
         {
             num: 13,
             status: 1,
-            name: '烤箱机',
             detail: {
                 '机器温度': '66℃',
                 '烤箱温度': '160℃'
@@ -431,7 +459,6 @@
     {
         num: 14,
         status: 1,
-        name: '烤箱机',
         detail: {
             '机器温度': '66℃',
             '烤箱温度': '160℃'
@@ -444,7 +471,6 @@
         {
             num: 15,
             status: 0,
-            name: '烤箱机',
             detail: {
                 '机器温度': '66℃',
                 '烤箱温度': '160℃'
@@ -457,7 +483,6 @@
     {
         num: 16,
         status: 2,
-        name: '烤箱机',
         detail: {
             '机器温度': '66℃',
             '烤箱温度': '160℃'
@@ -470,7 +495,6 @@
         {
             num: 17,
             status: 0,
-            name: '烤箱机',
             detail: {
                 '机器温度': '66℃',
                 '烤箱温度': '160℃'
@@ -559,6 +583,8 @@
             
         }
     })
+
+   
 
        //var deviceBtnsParam = [
     //    {

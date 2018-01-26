@@ -29,66 +29,7 @@
         })
         $("#tempPage").load('/Main/DeviceMonitor')
 
-        //vue组件-设备按钮显示
-        Vue.component('sam-devicebtn', {
-            props:['param','index'],
-            template:`<el-tooltip :placement="param.tooltip.placement" effect="light" class="tips">
-                        <div slot="content" :style="{fontSize:param.tooltip.font_size}">
-                            <template v-for="t in param.tips">
-                                {{t}} : {{param.tips[t]}}
-                                 <br />
-                            </template>
-                        </div>
-                        <div v-on:mouseover="showMore=true" v-on:mouseout="showMore=false"
-                             class="device-button" :class="theme.mainClass"
-                            :style="{left:param.position.left,top:param.position.top}">
-                            <span>{{index+1}}{{param.name}}</span>
-                            <el-button :type="theme.warnType" round class="device-status">{{theme.text}}</el-button>
-                            <el-collapse-transition>
-                                <div v-show="showMore">
-                                    <hr :style="{color:theme.color}" />
-                                    <template v-for="d in param.detail">
-                                        {{d}} : {{param.detail[d]}}
-                                         <br />
-                                    </template>
-                                </div>
-                            </el-collapse-transition>
-                        </div>
-                    </el-tooltip>`,
-            data: function () {
-                let theme
-                switch(this.param.status){
-                    case 0: theme = {
-                        mainClass: 'device-button-info',
-                        warnType: 'info',
-                        text: '离线',
-                        color:'#909399'
-                    }; break;
-                    case 2: theme = {
-                        mainClass: 'device-button-warning',
-                        warnType: 'warning',
-                        text: '警告',
-                        color: '#E6A23C'
-                    }; break;
-                    case 3: theme = {
-                        mainClass: 'device-button-danger',
-                        warnType: 'danger',
-                        text: '危险',
-                        color: '#F56C6C'
-                    }; break;
-                    default: theme = {
-                        mainClass: 'device-button-success',
-                        warnType: 'success',
-                        text: '正常',
-                        color: '#67C23A'
-                    };
-                }
-                return {
-                    showMore: false,
-                    theme:theme
-                }
-            }
-        })
+        
         //首页JS
         var scollImages = []
         for (let i = 1; i < 7; i++) {

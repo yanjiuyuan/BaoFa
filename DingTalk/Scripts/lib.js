@@ -29,6 +29,24 @@ function _cloneObj(obj) {
     return newObj
 }
 
+function _formatQueryStr(obj) {
+    let queryStr = '?'
+    for (let o in obj) {
+        queryStr = queryStr+o+'='+obj[o]+'&'
+    }
+    return queryStr.substring(0, queryStr.length-1)
+}
+
+function _dateToString(date,split) {
+    let d = new Date(date)
+    let year = d.getFullYear()
+    let month = d.getMonth()+1
+    let day = d.getDate()
+    if (month < 10) month = '0' + month
+    if (day < 10) day = '0' + day
+    return year+split+month+split+day
+}
+
 function isArray(o) {
     return Object.prototype.toString.call(o) == '[object Array]';
 }
