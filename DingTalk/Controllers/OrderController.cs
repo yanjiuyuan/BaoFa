@@ -24,10 +24,10 @@ namespace DingTalk.Controllers
         /// Material  1：色织布，2：帆布，3：尼龙，4：皮革，5：反毛皮，6：其他
         /// Color 1：黑色，2：白色，3：红色，4：黄，5：绿，6：紫，7：其他
         ///  /// 测试数据：/order/GetOrder
-        public string GetOrder()
+        public string GetOrder(int PageIndex, int PageSize)
         {
             OrderServer oServer = new OrderServer();
-            return oServer.GetAllOrderMessage();
+            return oServer.GetAllOrderMessage(PageIndex, PageSize);
         }
 
 
@@ -55,7 +55,5 @@ namespace DingTalk.Controllers
              strMaterial, strStartOrderTime, strEndOrderTime,
              strStartDeliveryTime, strEndDeliveryTime);
         }
-
-
     }
 }

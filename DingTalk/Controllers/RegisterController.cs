@@ -18,7 +18,7 @@ namespace WebZhongZhi.Controllers
 
 
         /// <summary>
-        /// 注册接口（必填字段：用户名，密码，所属公司Id）
+        /// 注册接口（必填字段：用户名，密码，所属公司Id，所属公司名称）
         /// </summary>
         /// <param name="strUserName">用户名</param>
         /// <param name="strRealName">真实姓名</param>

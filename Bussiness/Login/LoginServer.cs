@@ -35,13 +35,27 @@ namespace Bussiness
         /// </summary>
         /// <param name="strUserName"></param>
         /// <returns></returns>
-        public static int GetRole(string strUserName)
+        public  int GetRole(string strUserName)
         {
             int iRole = 0;
             string strSql = string.Format("select role from hzsk.userInfo where username='{0}'", strUserName);
             DataSet dataset = MySqlHelper.GetDataSet(strSql);
             iRole= Int32.TryParse(dataset.Tables[0].Rows[0]["role"].ToString(),out iRole) ?iRole:0;
             return iRole;
+        }
+
+        /// <summary>
+        /// 返回CompanyId，多公司职位以逗号隔开
+        /// </summary>
+        /// <param name="strUserName"></param>
+        /// <returns></returns>
+        public string GetCompanyId(string strUserName)
+        {
+            string GetCompanyId = string.Empty;
+            string strSql = string.Format("select CompanyId from hzsk.userInfo where username='{0}'", strUserName);
+            DataSet dataset = MySqlHelper.GetDataSet(strSql);
+            GetCompanyId = dataset.Tables[0].Rows[0]["role"].ToString();
+            return GetCompanyId;
         }
     }
 }

@@ -17,6 +17,7 @@ namespace WebZhongZhi.Controllers
         }
 
 
+
         /// <summary>
         /// 登入接口
         /// </summary>
@@ -26,7 +27,15 @@ namespace WebZhongZhi.Controllers
         public bool CheckLogin(string strUserName, string strPassword)
         {
             LoginServer loginServer = new LoginServer();
-            return loginServer.ChekLogin(strUserName, strPassword);
+            bool IsSuccess = false;
+            IsSuccess =loginServer.ChekLogin(strUserName, strPassword);
+            if (IsSuccess)
+            {
+                Session["UserName"] = strUserName;
+                Session["Role"] = loginServer.GetRole(strUserName);
+                Session["CompanyId"] = loginServer.GetCompanyId(strUserName);
+            }
+            return IsSuccess;
         }
     }
 }

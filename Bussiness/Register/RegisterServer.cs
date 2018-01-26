@@ -61,12 +61,11 @@ namespace Bussiness.Register
                 "userName='{0}',realName='{1}',phoneNumber='{2},password='{3}'," +
                 "registertime='{4}',lastLoginTime='{5}',status='{6}',address='{7}'," +
                 "role='{8}',province='{9}',city='{10}',telephone='{11}',otherContact='{12}'," +
-                "fax='fax',isActive='{14}',lastLoginIp='{15}',email='{16}'",  strUserName,  strRealName,
+                "fax='fax',isActive='{14}',lastLoginIp='{15}',email='{16}',CompanyId='{17}',CompanyName='{18}'",  strUserName,  strRealName,
              strphoneNumber,  strPassword,  strRegisterTime, strLastLoginTime,
              iStatus,  strAddress,  iRole,  strProvince,  strCity,
              strTelephone,  strOtherContact,  strFax,  iIsActive,
-             strLastLoginIp,  strEmail);
-
+             strLastLoginIp,  strEmail,strCompanyId, strCompanyName);
             bool bResult = MySqlHelper.ExecuteSql(strSql)==1?true:false;
             return bResult;
         }

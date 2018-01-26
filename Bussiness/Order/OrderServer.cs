@@ -13,9 +13,9 @@ namespace Bussiness.Order
     {
 
 
-        public string GetAllOrderMessage()
+        public string GetAllOrderMessage(int PageIndex, int PageSize)
         {
-           string  strSql = "SELECT * FROM huabao.order";
+           string  strSql = string.Format("SELECT * FROM huabao.order LIMIT {0},{1}", PageIndex, PageSize);
            return  GetOrderMessage(strSql);
         }
 
