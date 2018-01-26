@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LineData\LineDataServer.cs" />
     <Compile Include="Login\LoginServer.cs" />
     <Compile Include="Order\OrderServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

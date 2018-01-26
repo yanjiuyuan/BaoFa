@@ -92,7 +92,7 @@ namespace Common.DbHelper
         /// </summary>
         /// <param name="sql"></param>
         /// <returns></returns>
-        public  static int ExecuteSql(string sql)
+        public static int ExecuteSql(string sql)
         {
             using (MySqlConnection conn = new MySqlConnection(connstr))
             {
@@ -152,6 +152,31 @@ namespace Common.DbHelper
                 }
             }
         }
+        #endregion
+
+        #region  执行带参数的查询语句，返回DataTable
+        /// <summary>
+        /// 执行带参数的查询语句，返回DataTable
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public static DataTable ExecuteQuery(MySqlConnection conn, string sql, MySqlParameter[] parameters)
+        {
+            DataTable table = new DataTable();
+            using (MySqlCommand cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = sql;
+                cmd.Parameters.AddRange(parameters);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    table.Load(reader);
+                }
+            }
+            return table;
+        }
+
         #endregion
 
         #region 执行查询语句，返回DataSet
@@ -221,7 +246,7 @@ namespace Common.DbHelper
             }
         }
         #endregion
-
+    
         #region 执行带参数的sql语句，并返回object
         /// <summary>
         /// 执行带参数的sql语句，并返回object
@@ -263,6 +288,8 @@ namespace Common.DbHelper
             }
         }
         #endregion
+        
+        #region 执行存储过程,返回数据集
 
         /// <summary>
         /// 执行存储过程,返回数据集
@@ -283,7 +310,9 @@ namespace Common.DbHelper
                 return dataSet;
             }
         }
-
+        #endregion
+        
+        #region 构建 SqlCommand 对象(用来返回一个结果集，而不是一个整数值)
         /// <summary>
         /// 构建 SqlCommand 对象(用来返回一个结果集，而不是一个整数值)
         /// </summary>
@@ -302,7 +331,8 @@ namespace Common.DbHelper
             }
             return command;
         }
-
+        #endregion
+        
         #region 装载MySqlCommand对象
         /// <summary>
         /// 装载MySqlCommand对象
@@ -330,5 +360,7 @@ namespace Common.DbHelper
             }
         }
         #endregion
+
+        
     }
 }
