@@ -15,30 +15,32 @@ namespace Bussiness.Order
 
         public string GetAllOrderMessage(int PageIndex, int PageSize)
         {
-           string  strSql = string.Format("SELECT * FROM huabao.order LIMIT {0},{1}", PageIndex, PageSize);
-           return  GetOrderMessage(strSql);
+            string strSql = string.Format("SELECT * FROM huabao.order LIMIT {0},{1}", PageIndex, PageSize);
+            return GetOrderMessage(strSql);
         }
 
         public string GetAllOrderMessageWithParameter(int PageIndex, int PageSize, string strColor,
             string strMaterial, string strStartOrderTime, string strEndOrderTime,
-            string strStartDeliveryTime, string strEndDeliveryTime)
+            string strStartDeliveryTime, string strEndDeliveryTime, string strCustomer, string strExpCountries)
         {
-            strMaterial =strMaterial == "" || strMaterial==null ? "1=1": "Material='"+strMaterial+"'";
+            strMaterial = strMaterial == "" || strMaterial == null ? "1=1" : "Material='" + strMaterial + "'";
             strColor = strColor == "" || strColor == null ? "1=1" : "color='" + strColor + "'";
-            strStartOrderTime = strStartOrderTime == "" || strStartOrderTime == null ? "1=1" : "ordtime BETWEEN '" +strStartOrderTime+"'";
+            strStartOrderTime = strStartOrderTime == "" || strStartOrderTime == null ? "1=1" : "ordtime BETWEEN '" + strStartOrderTime + "'";
             strEndOrderTime = strEndOrderTime == "" || strEndOrderTime == null ? "1=1" : strEndOrderTime;
-            strStartDeliveryTime = strStartDeliveryTime == "" || strStartDeliveryTime == null ? "1=1" : "DeliveryTime BETWEEN '" +strStartDeliveryTime+"'";
+            strStartDeliveryTime = strStartDeliveryTime == "" || strStartDeliveryTime == null ? "1=1" : "DeliveryTime BETWEEN '" + strStartDeliveryTime + "'";
             strEndDeliveryTime = strEndDeliveryTime == "" || strEndDeliveryTime == null ? "1=1" : strEndDeliveryTime;
+            strCustomer = strCustomer == "" || strCustomer == null ? "1=1" : " Customer like ‘%" + strCustomer + "%'";
+            strExpCountries = strExpCountries == "" || strExpCountries == null ? "1=1" : " Customer like ‘%" + strExpCountries + "%'";
             int startRow = PageIndex * PageSize;
-            string strSql=string.Format("SELECT * FROM ( SELECT * FROM huabao.`order` " +
+            string strSql = string.Format("SELECT * FROM ( SELECT * FROM huabao.`order` " +
                 "WHERE  {0} AND {1} " +
                 "AND {2}  AND '{3}'" +
                 " AND {4}  AND '{5}'" +
-                " LIMIT {6},{7} ) a,( SELECT COUNT(*) AS Counts FROM huabao.`order` ) b", strMaterial,strColor, strStartOrderTime
+                " LIMIT {6},{7} ) a,( SELECT COUNT(*) AS Counts FROM huabao.`order` ) b", strMaterial, strColor, strStartOrderTime
                 , strEndOrderTime, strStartDeliveryTime, strEndDeliveryTime
                 , startRow, PageSize);
-            return GetOrderMessage(strSql);
-        }   
+           return GetOrderMessage(strSql);
+        }
 
         /// <summary>
         /// 执行查询语句转换参数
@@ -54,7 +56,7 @@ namespace Bussiness.Order
             /// Color 1：黑色，2：白色，3：红色，4：黄，5：绿，6：紫，7：其他
             foreach (DataTable tb in dataSet.Tables)
             {
-                DataTable newTB=UpdateDataTable(tb);
+                DataTable newTB = UpdateDataTable(tb);
                 //foreach (DataColumn cols in tb.Columns)
                 //{
                 //    if (cols.ColumnName == "Color")
@@ -68,7 +70,7 @@ namespace Bussiness.Order
                 //        cols.DataType = typeof(String);
                 //    }
                 //}
-                foreach (DataRow  dr in newTB.Rows)
+                foreach (DataRow dr in newTB.Rows)
                 {
                     switch (dr["Color"].ToString())
                     {
