@@ -15,10 +15,12 @@ using System.Web.WebSockets;
 
 namespace DingTalk.Controllers
 {
-
     [RoutePrefix("api/dt")]
     public class LineDataController : ApiController
     {
+        //定义缓存锁类型
+        public static object _oLock = new object();  
+        
 
         [Route("Get")]
         public HttpResponseMessage Get()
@@ -52,23 +54,25 @@ namespace DingTalk.Controllers
                     //string returnMessage = GetSpray();
 
 
-                    //string returnSpray = GetSpray();
-                    string returnVamp = GetTableByTableName("Vamp");
-                    string returnWaio = GetTableByTableName("Waio");
-                    string returnWaiT = GetTableByTableName("WaiT");
-                    string returnWaiS = GetTableByTableName("WaiS");
-                    string returnOutsole = GetTableByTableName("Outsole");
-                    Dictionary<string, string> dString = new Dictionary<string, string>();
-                    //dString.Add("Spray", returnSpray);
-                    dString.Add("Vamp", returnVamp);
-                    dString.Add("Waio", returnWaio);
-                    dString.Add("WaiT", returnWaiT);
-                    dString.Add("WaiS", returnWaiS);
-                    dString.Add("Outsole", returnOutsole);
+                    ////string returnSpray = GetSpray();
+                    //string returnVamp = GetTableByTableName("Vamp");
+                    //string returnWaio = GetTableByTableName("Waio");
+                    //string returnWaiT = GetTableByTableName("WaiT");
+                    //string returnWaiS = GetTableByTableName("WaiS");
+                    //string returnOutsole = GetTableByTableName("Outsole");
+                    //Dictionary<string, string> dString = new Dictionary<string, string>();
+                    ////dString.Add("Spray", returnSpray);
+                    //dString.Add("Vamp", returnVamp);
+                    //dString.Add("Waio", returnWaio);
+                    //dString.Add("WaiT", returnWaiT);
+                    //dString.Add("WaiS", returnWaiS);
+                    //dString.Add("Outsole", returnOutsole);
 
-                    //string[] strList = new string[4] { "Vamp", };
 
-                    string returnMessage = JsonConvert.SerializeObject(dString);
+                    string[] strList = new string[5] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole" };
+                    string JsonString = RunAllTask(strList);
+
+                    string returnMessage = JsonConvert.SerializeObject(JsonString);
                     buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(returnMessage));
                     await socket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
                 }
@@ -104,6 +108,11 @@ namespace DingTalk.Controllers
 
 
 
+        /// <summary>
+        /// 多线程同时查N张表
+        /// </summary>
+        /// <param name="strTableNames">表名数组</param>
+        /// <returns>返回Json格式数组</returns>
         public static string RunAllTask(string[] strTableNames)
         {
             int iCount = strTableNames.Length;
@@ -115,12 +124,15 @@ namespace DingTalk.Controllers
                 if (iCount >= 1)
                 {
                     Task[] tasks = new Task[iCount];
-                    for (int i = 0; i < strTableNames.Length; i++)
+                    for (int i = 0; i <  strTableNames.Length ; i++)
                     {
-                        tasks[i] = Task.Factory.StartNew(() =>
+                        lock (_oLock)
                         {
-                            dString.Add(strTableNames[i], GetTableByTableName(strTableNames[i]));
+                            tasks[i] = Task.Factory.StartNew(() =>
+                        {
                         });
+                            dString.Add(strTableNames[i], GetTableByTableName(strTableNames[i]));
+                        }
                     }
                     Task.WaitAll(tasks);
                     strJsonString = JsonConvert.SerializeObject(dString);
@@ -135,7 +147,7 @@ namespace DingTalk.Controllers
                 strJsonString = ex.Message;
                 throw;
             }
-           
+
             return strJsonString;
         }
 
