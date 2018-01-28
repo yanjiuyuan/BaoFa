@@ -25,7 +25,7 @@ namespace Common.JsonHelper
             _jsonSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             _jsonSettings.Converters.Add(datetimeConverter);
         }
-
+        
         /// <summary>
         /// 将指定的对象序列化成 JSON 数据。
         /// </summary>

@@ -162,13 +162,40 @@ namespace Common.DbHelper
         /// <param name="sql"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        public static DataTable ExecuteQuery(MySqlConnection conn, string sql, MySqlParameter[] parameters)
+        public static DataTable ExecuteQuery(string sql, MySqlParameter[] parameters)
         {
+            MySqlConnection connection = new MySqlConnection(connstr);
             DataTable table = new DataTable();
-            using (MySqlCommand cmd = conn.CreateCommand())
+            using (MySqlCommand cmd = connection.CreateCommand())
             {
                 cmd.CommandText = sql;
                 cmd.Parameters.AddRange(parameters);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    table.Load(reader);
+                }
+            }
+            return table;
+        }
+
+        #endregion
+
+        #region  执行带参数的查询语句，返回DataTable
+        /// <summary>
+        /// 执行带参数的查询语句，返回DataTable
+        /// </summary>
+        /// <param name="conn"></param>
+        /// <param name="sql"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public static DataTable ExecuteQuery(string sql)
+        {
+            MySqlConnection connection = new MySqlConnection(connstr);
+            DataTable table = new DataTable();
+            using (MySqlCommand cmd = connection.CreateCommand())
+            {
+                connection.Open();
+                cmd.CommandText = sql;
                 using (MySqlDataReader reader = cmd.ExecuteReader())
                 {
                     table.Load(reader);
