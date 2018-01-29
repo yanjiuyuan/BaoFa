@@ -44,11 +44,12 @@ namespace DingTalk.Controllers
             WebSocket socket = arg.WebSocket;
             while (true)
             {
+                
                 ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[1024]);
                 WebSocketReceiveResult result = await socket.ReceiveAsync(buffer, CancellationToken.None);
                 if (socket.State == WebSocketState.Open)
                 {
-                    string message = Encoding.UTF8.GetString(buffer.Array, 0, result.Count);
+                    string strMessage = Encoding.UTF8.GetString(buffer.Array, 0, result.Count);
                     //string returnMessage = "You send :" + message + ". at" + DateTime.Now.ToLongTimeString();
 
                     //string returnMessage = GetSpray();
@@ -67,12 +68,33 @@ namespace DingTalk.Controllers
                     //dString.Add("WaiT", returnWaiT);
                     //dString.Add("WaiS", returnWaiS);
                     //dString.Add("Outsole", returnOutsole);
-
-
-                    string[] strList = new string[5] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole" };
-                    string JsonString = RunAllTask(strList);
-
-                    string returnMessage = JsonConvert.SerializeObject(JsonString);
+                    string strJsonString = string.Empty;
+                    if (strMessage == "GetAllTable")
+                    {
+                        string[] strList = new string[5] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole" };
+                        strJsonString = RunAllTask(strList);
+                    }
+                    if (strMessage.Contains("GetTable"))   //GetTable:Vamp,Waio,WaiT...  
+                    {
+                       string[] strList= strMessage.Split(':');
+                        if (strList.Length > 1)
+                        {
+                            Dictionary<string, string> dString = new Dictionary<string, string>();
+                            string strTable = strList[1].ToString();
+                            string[] strTablesList = strTable.Split(',');
+                            foreach (var item in strTablesList)
+                            {
+                                dString.Add(item,GetTableByTableName(item));
+                            }
+                            strJsonString = JsonConvert.SerializeObject(dString);
+                        }
+                        else
+                        {
+                            strJsonString = "未输入表名!";
+                        }
+                       
+                    }
+                    string returnMessage = JsonConvert.SerializeObject(strJsonString);
                     buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(returnMessage));
                     await socket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
                 }
