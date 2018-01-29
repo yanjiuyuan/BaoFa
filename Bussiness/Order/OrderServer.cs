@@ -29,15 +29,16 @@ namespace Bussiness.Order
             strEndOrderTime = strEndOrderTime == "" || strEndOrderTime == null ? "1=1" : strEndOrderTime;
             strStartDeliveryTime = strStartDeliveryTime == "" || strStartDeliveryTime == null ? "1=1" : "DeliveryTime BETWEEN '" + strStartDeliveryTime + "'";
             strEndDeliveryTime = strEndDeliveryTime == "" || strEndDeliveryTime == null ? "1=1" : strEndDeliveryTime;
-            strCustomer = strCustomer == "" || strCustomer == null ? "1=1" : " Customer like ‘%" + strCustomer + "%'";
-            strExpCountries = strExpCountries == "" || strExpCountries == null ? "1=1" : " Customer like ‘%" + strExpCountries + "%'";
+            strCustomer = strCustomer == "" || strCustomer == null ? "1=1" : " Customer LIKE '%" + strCustomer + "%'";
+            strExpCountries = strExpCountries == "" || strExpCountries == null ? "1=1" : " Customer LIKE '%" + strExpCountries + "%'";
             int startRow = PageIndex * PageSize;
             string strSql = string.Format("SELECT * FROM ( SELECT * FROM huabao.`order` " +
                 "WHERE  {0} AND {1} " +
                 "AND {2}  AND '{3}'" +
                 " AND {4}  AND '{5}'" +
-                " LIMIT {6},{7} ) a,( SELECT COUNT(*) AS Counts FROM huabao.`order` ) b", strMaterial, strColor, strStartOrderTime
-                , strEndOrderTime, strStartDeliveryTime, strEndDeliveryTime
+                " AND {6}  AND '{7}'" +
+                " LIMIT {8},{9} ) a,( SELECT COUNT(*) AS Counts FROM huabao.`order` ) b", strMaterial, strColor, strStartOrderTime
+                , strEndOrderTime, strStartDeliveryTime, strEndDeliveryTime, strCustomer, strExpCountries
                 , startRow, PageSize);
            return GetOrderMessage(strSql);
         }

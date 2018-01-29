@@ -50,12 +50,12 @@ namespace DingTalk.Controllers
         /// 测试数据：/order/GetOrderByPara?PageIndex=0&PageSize=1&strColor=1&strMaterial=2&strStartOrderTime=2010-01-01&strEndOrderTime=2018-03-01&strStartDeliveryTime=2010-01-01&strEndDeliveryTime=2018-03-01&strCustomer=鳄鱼&strExpCountries=非洲
         public string GetOrderByPara(int PageIndex, int PageSize, string strColor,
             string strMaterial, string strStartOrderTime, string strEndOrderTime,
-            string strStartDeliveryTime, string strEndDeliveryTime,string strCustomer,string strExpCountries)
+            string strStartDeliveryTime, string strEndDeliveryTime,string Customer,string ExpCountries)
         {
             OrderServer oServer = new OrderServer();
             return oServer.GetAllOrderMessageWithParameter(PageIndex, PageSize, strColor,
              strMaterial, strStartOrderTime, strEndOrderTime,
-             strStartDeliveryTime, strEndDeliveryTime, strCustomer, strExpCountries);
+             strStartDeliveryTime, strEndDeliveryTime, Customer, ExpCountries);
         }
     }
 }
