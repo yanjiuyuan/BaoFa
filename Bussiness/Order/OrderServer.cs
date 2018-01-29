@@ -30,7 +30,7 @@ namespace Bussiness.Order
             strStartDeliveryTime = strStartDeliveryTime == "" || strStartDeliveryTime == null ? "1=1" : "DeliveryTime BETWEEN '" + strStartDeliveryTime + "'";
             strEndDeliveryTime = strEndDeliveryTime == "" || strEndDeliveryTime == null ? "1=1" : strEndDeliveryTime;
             strCustomer = strCustomer == "" || strCustomer == null ? "1=1" : " Customer LIKE '%" + strCustomer + "%'";
-            strExpCountries = strExpCountries == "" || strExpCountries == null ? "1=1" : " Customer LIKE '%" + strExpCountries + "%'";
+            strExpCountries = strExpCountries == "" || strExpCountries == null ? "1=1" : " ExpCountries LIKE '%" + strExpCountries + "%'";
             int startRow = PageIndex * PageSize;
             string strSql = string.Format("SELECT * FROM ( SELECT * FROM huabao.`order` " +
                 "WHERE  {0} AND {1} " +
