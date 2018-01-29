@@ -34,9 +34,9 @@ namespace Bussiness.Order
             int startRow = PageIndex * PageSize;
             string strSql = string.Format("SELECT * FROM ( SELECT * FROM huabao.`order` " +
                 "WHERE  {0} AND {1} " +
-                "AND {2}  AND '{3}'" +
-                " AND {4}  AND '{5}'" +
-                " AND {6}  AND '{7}'" +
+                "AND {2}  AND {3}" +
+                " AND {4}  AND {5}" +
+                " AND {6}  AND {7}" +
                 " LIMIT {8},{9} ) a,( SELECT COUNT(*) AS Counts FROM huabao.`order` ) b", strMaterial, strColor, strStartOrderTime
                 , strEndOrderTime, strStartDeliveryTime, strEndDeliveryTime, strCustomer, strExpCountries
                 , startRow, PageSize);
