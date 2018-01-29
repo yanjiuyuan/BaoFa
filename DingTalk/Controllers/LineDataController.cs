@@ -19,8 +19,7 @@ namespace DingTalk.Controllers
     public class LineDataController : ApiController
     {
         //定义缓存锁类型
-        public static object _oLock = new object();  
-        
+        public static object _oLock = new object();
 
         [Route("Get")]
         public HttpResponseMessage Get()
@@ -44,16 +43,13 @@ namespace DingTalk.Controllers
             WebSocket socket = arg.WebSocket;
             while (true)
             {
-                
                 ArraySegment<byte> buffer = new ArraySegment<byte>(new byte[1024]);
                 WebSocketReceiveResult result = await socket.ReceiveAsync(buffer, CancellationToken.None);
                 if (socket.State == WebSocketState.Open)
                 {
                     string strMessage = Encoding.UTF8.GetString(buffer.Array, 0, result.Count);
                     //string returnMessage = "You send :" + message + ". at" + DateTime.Now.ToLongTimeString();
-
                     //string returnMessage = GetSpray();
-
 
                     ////string returnSpray = GetSpray();
                     //string returnVamp = GetTableByTableName("Vamp");
@@ -71,12 +67,12 @@ namespace DingTalk.Controllers
                     string strJsonString = string.Empty;
                     if (strMessage == "GetAllTable")
                     {
-                        string[] strList = new string[5] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole" };
+                        string[] strList = new string[7] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
                         strJsonString = RunAllTask(strList);
                     }
                     if (strMessage.Contains("GetTable"))   //GetTable:Vamp,Waio,WaiT...  
                     {
-                       string[] strList= strMessage.Split(':');
+                        string[] strList = strMessage.Split(':');
                         if (strList.Length > 1)
                         {
                             Dictionary<string, string> dString = new Dictionary<string, string>();
@@ -84,7 +80,7 @@ namespace DingTalk.Controllers
                             string[] strTablesList = strTable.Split(',');
                             foreach (var item in strTablesList)
                             {
-                                dString.Add(item,GetTableByTableName(item));
+                                dString.Add(item, GetTableByTableName(item));
                             }
                             strJsonString = JsonConvert.SerializeObject(dString);
                         }
@@ -92,7 +88,7 @@ namespace DingTalk.Controllers
                         {
                             strJsonString = "未输入表名!";
                         }
-                       
+
                     }
                     string returnMessage = JsonConvert.SerializeObject(strJsonString);
                     buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(returnMessage));
@@ -119,6 +115,47 @@ namespace DingTalk.Controllers
         }
 
 
+        /// <summary>
+        /// Post时时数据接口
+        /// </summary>
+        /// <param name="strMessage">获取所有表或者单独表</param>
+        /// 所有表 GetAllTable   单独表 GetTable:Vamp,Waio,WaiT... 
+        /// <returns></returns>
+        /// 测试数据 /api/dt/GetAllTable?strMessage=GetAllTable
+        [Route("GetAllTable")]
+        public string GetAllTable(string strMessage)
+        {
+            string strJsonString = string.Empty;
+            if (strMessage == "GetAllTable")
+            {
+                string[] strList = new string[7] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
+                strJsonString = RunAllTask(strList);
+            }
+            if (strMessage.Contains("GetTable"))   //GetTable:Vamp,Waio,WaiT...  
+            {
+                string[] strList = strMessage.Split(':');
+                if (strList.Length > 1)
+                {
+                    Dictionary<string, string> dString = new Dictionary<string, string>();
+                    string strTable = strList[1].ToString();
+                    string[] strTablesList = strTable.Split(',');
+                    foreach (var item in strTablesList)
+                    {
+                        dString.Add(item, GetTableByTableName(item));
+                    }
+                    strJsonString = JsonConvert.SerializeObject(dString);
+                }
+                else
+                {
+                    strJsonString = "未输入表名!";
+                }
+
+            }
+            string returnMessage = JsonConvert.SerializeObject(strJsonString);
+            return returnMessage;
+        }
+
+
         [Route("GetTable")]
 
         public static string GetTableByTableName(string strTableName)
@@ -127,7 +164,6 @@ namespace DingTalk.Controllers
             var result = lineDataServer.GetTableMessage(strTableName);
             return result;
         }
-
 
 
         /// <summary>
@@ -146,7 +182,7 @@ namespace DingTalk.Controllers
                 if (iCount >= 1)
                 {
                     Task[] tasks = new Task[iCount];
-                    for (int i = 0; i <  strTableNames.Length ; i++)
+                    for (int i = 0; i < strTableNames.Length; i++)
                     {
                         lock (_oLock)
                         {
