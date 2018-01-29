@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -65,6 +66,7 @@ namespace DingTalk.Controllers
                     //dString.Add("WaiS", returnWaiS);
                     //dString.Add("Outsole", returnOutsole);
                     string strJsonString = string.Empty;
+                    
                     if (strMessage == "GetAllTable")
                     {
                         string[] strList = new string[7] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
@@ -75,7 +77,7 @@ namespace DingTalk.Controllers
                         string[] strList = strMessage.Split(':');
                         if (strList.Length > 1)
                         {
-                            Dictionary<string, string> dString = new Dictionary<string, string>();
+                            Dictionary<string, DataTable> dString = new Dictionary<string, DataTable>();
                             string strTable = strList[1].ToString();
                             string[] strTablesList = strTable.Split(',');
                             foreach (var item in strTablesList)
@@ -136,7 +138,7 @@ namespace DingTalk.Controllers
                 string[] strList = strMessage.Split(':');
                 if (strList.Length > 1)
                 {
-                    Dictionary<string, string> dString = new Dictionary<string, string>();
+                    Dictionary<string, DataTable> dString = new Dictionary<string, DataTable>();
                     string strTable = strList[1].ToString();
                     string[] strTablesList = strTable.Split(',');
                     foreach (var item in strTablesList)
@@ -158,7 +160,7 @@ namespace DingTalk.Controllers
 
         [Route("GetTable")]
 
-        public static string GetTableByTableName(string strTableName)
+        public static DataTable GetTableByTableName(string strTableName)
         {
             LineDataServer lineDataServer = new LineDataServer();
             var result = lineDataServer.GetTableMessage(strTableName);
@@ -175,7 +177,7 @@ namespace DingTalk.Controllers
         {
             int iCount = strTableNames.Length;
             string strJsonString = string.Empty;
-            Dictionary<string, string> dString = new Dictionary<string, string>();
+            Dictionary<string, DataTable> dString = new Dictionary<string, DataTable>();
 
             try
             {

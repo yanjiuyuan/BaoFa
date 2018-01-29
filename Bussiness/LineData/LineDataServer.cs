@@ -24,15 +24,15 @@ namespace Bussiness.LineData
             return strJsonString;
         }
 
-        public string GetTableMessage(string strTableName)
+        public DataTable GetTableMessage(string strTableName)
         {
             string strSql = string.Format("SELECT  * FROM huabao.`{0}` ORDER  BY {1}id DESC LIMIT 0,1;", strTableName,strTableName);
 
             DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
-            string strJsonString = string.Empty;
+            //string strJsonString = string.Empty;
             //strJsonString = JsonHelper.DataTableToJson(newTb);
-            strJsonString = JsonConvert.SerializeObject(newTb, new DataTableConverter());
-            return strJsonString;
+            //strJsonString = JsonConvert.SerializeObject(newTb, new DataTableConverter());
+            return newTb;
         }
     }
 }
