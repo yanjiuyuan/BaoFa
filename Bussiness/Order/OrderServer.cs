@@ -1,5 +1,6 @@
 ﻿using Common.DbHelper;
 using Common.JsonHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,36 +12,98 @@ namespace Bussiness.Order
 {
     public class OrderServer
     {
-
-
         public string GetAllOrderMessage(int PageIndex, int PageSize)
         {
             string strSql = string.Format("SELECT * FROM huabao.order LIMIT {0},{1}", PageIndex, PageSize);
             return GetOrderMessage(strSql);
         }
 
-        public string GetAllOrderMessageWithParameter(int PageIndex, int PageSize, string strColor,
-            string strMaterial, string strStartOrderTime, string strEndOrderTime,
-            string strStartDeliveryTime, string strEndDeliveryTime, string strCustomer, string strExpCountries)
+        public  string  GetAllOrderMessageWithParameter(string Color,
+            string Material, string StartOrderTime, string EndOrderTime,
+            string StartDeliveryTime, string EndDeliveryTime, string Customer, string ExpCountries, string KeyWord, int? PageIndex = 0, int? PageSize = 5)
         {
-            strMaterial = strMaterial == "" || strMaterial == null ? "1=1" : "Material='" + strMaterial + "'";
-            strColor = strColor == "" || strColor == null ? "1=1" : "color='" + strColor + "'";
-            strStartOrderTime = strStartOrderTime == "" || strStartOrderTime == null ? "1=1" : "ordtime BETWEEN '" + strStartOrderTime + "'";
-            strEndOrderTime = strEndOrderTime == "" || strEndOrderTime == null ? "1=1" : strEndOrderTime;
-            strStartDeliveryTime = strStartDeliveryTime == "" || strStartDeliveryTime == null ? "1=1" : "DeliveryTime BETWEEN '" + strStartDeliveryTime + "'";
-            strEndDeliveryTime = strEndDeliveryTime == "" || strEndDeliveryTime == null ? "1=1" : strEndDeliveryTime;
-            strCustomer = strCustomer == "" || strCustomer == null ? "1=1" : " Customer LIKE '%" + strCustomer + "%'";
-            strExpCountries = strExpCountries == "" || strExpCountries == null ? "1=1" : " ExpCountries LIKE '%" + strExpCountries + "%'";
-            int startRow = PageIndex * PageSize;
-            string strSql = string.Format("SELECT * FROM ( SELECT * FROM huabao.`order` " +
-                "WHERE  {0} AND {1} " +
-                "AND {2}  AND {3}" +
-                " AND {4}  AND {5}" +
-                " AND {6}  AND {7}" +
-                " LIMIT {8},{9} ) a,( SELECT COUNT(*) AS Counts FROM huabao.`order` ) b", strMaterial, strColor, strStartOrderTime
-                , strEndOrderTime, strStartDeliveryTime, strEndDeliveryTime, strCustomer, strExpCountries
-                , startRow, PageSize);
-           return GetOrderMessage(strSql);
+            // strMaterial = strMaterial == "" || strMaterial == null ? "1=1" : "Material='" + strMaterial + "'";
+            // strColor = strColor == "" || strColor == null ? "1=1" : "color='" + strColor + "'";
+            // strStartOrderTime = strStartOrderTime == "" || strStartOrderTime == null ? "1=1" : "ordtime BETWEEN '" + strStartOrderTime + "'";
+            // strEndOrderTime = strEndOrderTime == "" || strEndOrderTime == null ? "1=1" : strEndOrderTime;
+            // strStartDeliveryTime = strStartDeliveryTime == "" || strStartDeliveryTime == null ? "1=1" : "DeliveryTime BETWEEN '" + strStartDeliveryTime + "'";
+            // strEndDeliveryTime = strEndDeliveryTime == "" || strEndDeliveryTime == null ? "1=1" : strEndDeliveryTime;
+            // strCustomer = strCustomer == "" || strCustomer == null ? "1=1" : " Customer LIKE '%" + strCustomer + "%'";
+            // strExpCountries = strExpCountries == "" || strExpCountries == null ? "1=1" : " ExpCountries LIKE '%" + strExpCountries + "%'";
+            // int startRow = PageIndex * PageSize;
+            // string strSql = string.Format("SELECT * FROM ( SELECT * FROM huabao.`order` " +
+            //     "WHERE  {0} AND {1} " +
+            //     "AND {2}  AND {3}" +
+            //     " AND {4}  AND {5}" +
+            //     " AND {6}  AND {7}" +
+            //     " LIMIT {8},{9} ) a,( SELECT COUNT(*) AS Counts FROM huabao.`order` ) b", strMaterial, strColor, strStartOrderTime
+            //     , strEndOrderTime, strStartDeliveryTime, strEndDeliveryTime, strCustomer, strExpCountries
+            //     , startRow, PageSize);
+
+
+            //return GetOrderMessage(strSql);
+            int startRow = PageIndex.Value * PageSize.Value;
+            StringBuilder sb = new StringBuilder();
+            sb.Append("SELECT * FROM huabao.`order` ");
+            if (Color!=null || Material != null || StartOrderTime != null || EndOrderTime != null || StartDeliveryTime != null 
+                || EndDeliveryTime != null || Customer != null || ExpCountries != null || KeyWord != null)
+            {
+                sb.Append(" where 1=1 ");
+            }
+            if (KeyWord != null)
+            {
+                string strWhereKeyWord = string.Format("  Color like '%{0}%'  " +
+                    "or Material like  '%{0}%' " +
+                    "or  ExpCountries  like  '%{0}%' " +
+                    " or Customer like  '%{0}%' ",KeyWord);
+                sb.Append(strWhereKeyWord);
+            }
+            if (Material != null)
+            {
+                sb.Append(string.Format(" and Material='{0}'", Material));
+            }
+            if (Color != null)
+            {
+                sb.Append(string.Format(" and Color='{0}'", Color));
+            }
+            if (StartOrderTime != null || EndOrderTime != null)
+            {
+                sb.Append(string.Format(" and ordtime between '{0}' and '{1}' ", StartOrderTime, EndOrderTime));
+            }
+            if (StartDeliveryTime != null || EndDeliveryTime != null)
+            {
+                sb.Append(string.Format(" and DeliveryTime between '{0}' and '{1}' ", StartDeliveryTime, EndDeliveryTime));
+            }
+            if (Customer != null)
+            {
+                sb.Append(string.Format(" and Customer='{0}'", Customer));
+            }
+            if (ExpCountries != null)
+            {
+                sb.Append(string.Format(" and ExpCountries='{0}'", ExpCountries));
+            }
+
+            string strWhereLimit = string.Format(" LIMIT {0},{1}", startRow, PageSize.Value);
+            sb.Append(strWhereLimit);
+            
+            Dictionary<string, DataTable> dic = new Dictionary<string, DataTable>();
+            DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
+            int iRows = tb.Rows.Count;
+
+            //DataTable dbCounts = new DataTable();
+            //dbCounts.Columns.Add("Counts", Type.GetType("System.String"));
+            //DataRow newRow = dbCounts.NewRow();
+            //newRow["Counts"] = iRows.ToString();
+            //dbCounts.Rows.Add(newRow);
+
+            //dic.Add("Counts", dbCounts);
+            dic.Add("OrderTable", tb);
+
+
+            //string strJsonString = JsonConvert.SerializeObject(dic);
+
+            string strJsonString = JsonHelper.DataTableToJson(tb,iRows);
+            return strJsonString;
         }
 
         /// <summary>

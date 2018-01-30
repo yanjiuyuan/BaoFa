@@ -1,4 +1,5 @@
 ﻿using Bussiness.Order;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,14 +49,14 @@ namespace DingTalk.Controllers
         /// Color 1：黑色，2：白色，3：红色，4：黄，5：绿，6：紫，7：其他
         /// <returns></returns>
         /// 测试数据：/order/GetOrderByPara?PageIndex=0&PageSize=1&strColor=1&strMaterial=2&strStartOrderTime=2010-01-01&strEndOrderTime=2018-03-01&strStartDeliveryTime=2010-01-01&strEndDeliveryTime=2018-03-01&strCustomer=鳄鱼&strExpCountries=非洲
-        public string GetOrderByPara(int PageIndex, int PageSize, string strColor,
+        public string GetOrderByPara( string strColor,
             string strMaterial, string strStartOrderTime, string strEndOrderTime,
-            string strStartDeliveryTime, string strEndDeliveryTime,string Customer,string ExpCountries)
+            string strStartDeliveryTime, string strEndDeliveryTime,string Customer,string ExpCountries,string KeyWord, int? PageIndex = 0, int? PageSize=5)
         {
             OrderServer oServer = new OrderServer();
-            return oServer.GetAllOrderMessageWithParameter(PageIndex, PageSize, strColor,
+            return oServer.GetAllOrderMessageWithParameter(strColor,
              strMaterial, strStartOrderTime, strEndOrderTime,
-             strStartDeliveryTime, strEndDeliveryTime, Customer, ExpCountries);
+             strStartDeliveryTime, strEndDeliveryTime, Customer, ExpCountries, KeyWord, PageIndex, PageSize);
         }
     }
 }

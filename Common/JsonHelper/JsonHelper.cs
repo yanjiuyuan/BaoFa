@@ -123,6 +123,38 @@ namespace Common.JsonHelper
             return jsonBuilder.ToString();
         }
 
+
+        /// <summary>  
+        /// table转json  
+        /// </summary>  
+        /// <param name="dt"></param>  
+        /// <param name="iCounts">查询行数</param>  
+        /// <returns></returns>  
+        public static string DataTableToJson(DataTable dt,int iCounts)
+        {
+            StringBuilder jsonBuilder = new StringBuilder();
+            jsonBuilder.Append("{\"Name\":\"" + dt.TableName + "\","+ "\"Counts\":\"" + iCounts + "\"Rows");
+            jsonBuilder.Append("\":[");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                jsonBuilder.Append("{");
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    jsonBuilder.Append("\"");
+                    jsonBuilder.Append(dt.Columns[j].ColumnName);
+                    jsonBuilder.Append("\":\"");
+                    jsonBuilder.Append(dt.Rows[i][j].ToString().Replace("\"", "\\\""));
+                    jsonBuilder.Append("\",");
+                }
+                jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+                jsonBuilder.Append("},");
+            }
+            jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+            jsonBuilder.Append("]");
+            jsonBuilder.Append("}");
+            return jsonBuilder.ToString();
+        }
+
         /// <summary>  
         /// dataset转Json  
         /// </summary>  
