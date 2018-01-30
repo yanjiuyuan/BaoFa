@@ -216,6 +216,7 @@
     </Content>
     <Content Include="Content\fonts\element-icons.ttf" />
     <Content Include="Content\fonts\element-icons.woff" />
+    <Content Include="Scripts\config.js" />
     <Content Include="Scripts\echarts-all.js" />
     <Content Include="Scripts\element.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
