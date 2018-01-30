@@ -130,10 +130,10 @@ namespace Common.JsonHelper
         /// <param name="dt"></param>  
         /// <param name="iCounts">查询行数</param>  
         /// <returns></returns>  
-        public static string DataTableToJson(DataTable dt,int iCounts)
+        public static string DataTableToJson(DataTable dt, int iCounts)
         {
             StringBuilder jsonBuilder = new StringBuilder();
-            jsonBuilder.Append("{\"Name\":\"" + dt.TableName + "\","+ "\"Counts\":\"" + iCounts + "\"Rows");
+            jsonBuilder.Append("{\"Name\":\"" + dt.TableName +"\""+","+"\"Counts\":"+"\""+iCounts.ToString()+"\"" + ",\"Rows");
             jsonBuilder.Append("\":[");
             for (int i = 0; i < dt.Rows.Count; i++)
             {
