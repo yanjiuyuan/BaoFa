@@ -68,8 +68,8 @@
                             <el-collapse-transition>
                                 <div v-show="showMore">
                                     <hr :style="{color:theme.color}" />
-                                    <template v-for="d in param.detail">
-                                        {{d}} : {{param.detail[d]}}
+                                    <template v-for="(d,i) in param.detail">
+                                        {{i}} : {{d}}
                                          <br />
                                     </template>
                                 </div>
@@ -525,7 +525,7 @@
         data: function () {
             return {
                 activeNames: ['1'],
-                deviceBtns: deviceBtnsParam,
+                deviceBtns: DEVICES,
                 showMask:false
             }
         },
@@ -580,184 +580,44 @@
         },
         created: function () {
             loadHtml("mainPage", "partPage")
-            
+            var that = this
+            $.ajax({
+                url: '/api/dt/GetAllTable?strMessage=GetAllTable',
+                dataType: 'json',
+                success: function (data) {
+                    let devData = JSON.parse(JSON.parse(data))
+                    for (let dev of that.deviceBtns) {
+                        if (dev.detail) {
+                            
+                            for (let det in dev.detail) {
+                                for (let d in devData) {
+                                    let dObj = devData[d][0]
+                                    if (dObj.RFIDN == dev.RFIDN) {
+                                        
+                                        console.log(dObj[dev.detail[det]])
+                                        if (dObj[dev.detail[det]] && dObj[dev.detail[det]] != '') {
+                                            console.log(1)
+                                            console.log(dObj[dev.detail[det]])
+                                            dev.detail[det] = dObj[dev.detail[det]]
+                                            //dev.detail[det] = '123'
+                                        }
+                                        else {
+                                            console.log(0)
+                                            delete dev.detail[det]
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    console.log(devData)
+                    console.log(that.deviceBtns)
+                }
+            })
         }
     })
 
-   
-
-       //var deviceBtnsParam = [
-    //    {
-    //        num:1,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'top'
-    //        },
-    //        position: {
-    //            top: '400px',
-    //            left: '5px'
-    //        }
-    //    }, {
-    //        num:2,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'right'
-    //        },
-    //        position: {
-    //            top: '275px',
-    //            left: '5px'
-    //        }
-    //    }, {
-    //        num: 3,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'top'
-    //        },
-    //        position: {
-    //            top: '250px',
-    //            left: '5px'
-    //        }
-    //    }, {
-    //        num: 4,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'top'
-    //        },
-    //        position: {
-    //            top: '195px',
-    //            left: '5px'
-    //        }
-    //    }, {
-    //        num: 5,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '162px',
-    //            left: '140px'
-    //        }
-    //    }, {
-    //        num: 6,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '134px',
-    //            left: '140px'
-    //        }
-    //    }, {
-    //        num: 7,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '105px',
-    //            left: '140px'
-    //        }
-    //    }, {
-    //        num: 8,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '76px',
-    //            left: '140px'
-    //        }
-    //    }, {
-    //        num: 9,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '64px',
-    //            left: '275px'
-    //        }
-    //    }, {
-    //        num: 10,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '38px',
-    //            left: '275px'
-    //        }
-    //    }, {
-    //        num: 11,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '15px',
-    //            left: '275px'
-    //        }
-    //    }, {
-    //        num: 12,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '12px',
-    //            left: '764px'
-    //        }
-    //    }, {
-    //        num: 13,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '40px',
-    //            left: '764px'
-    //        }
-    //    }, {
-    //        num: 14,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '200px',
-    //            left: '764px'
-    //        }
-    //    }, {
-    //        num: 15,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '230px',
-    //            left: '764px'
-    //        }
-    //    }, {
-    //        num: 16,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '270px',
-    //            left: '630px'
-    //        }
-    //    }, {
-    //        num: 17,
-    //        tooltip: {
-    //            disabled: false,
-    //            placement: 'left'
-    //        },
-    //        position: {
-    //            top: '316px',
-    //            left: '630px'
-    //        }
-    //    }]
 </script>
 
 
