@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = null;
+   Layout = null;
 }
 
 <!--右侧实体内容-->
@@ -8,10 +8,10 @@
     <el-form :inline="true" :model="formInline" class="demo-form-inline"
              size="medium">
         @*<el-form-item label="关键字">
-            <el-input v-model="formInline.key" style="width:500px;"
-                      placeholder="请输入搜索关键字"></el-input>
-        </el-form-item>*@
-        
+                <el-input v-model="formInline.key" style="width:500px;"
+                          placeholder="请输入搜索关键字"></el-input>
+            </el-form-item>*@
+
         <template @*v-if="superSearch"*@>
             <el-form-item label="开始日期">
                 <el-date-picker v-model="formInline.OrderTime"
@@ -32,7 +32,7 @@
                 </el-date-picker>
             </el-form-item>
         </template>
-        
+
         <el-form-item label="客户">
             <el-select v-model="formInline.Customer">
                 <el-option label="全部" value=""></el-option>
@@ -49,17 +49,17 @@
         <el-form-item>
             <el-button type="primary" v-on:click="onFilter">搜索</el-button>
             @*<span v-if="superSearch" v-on:click="changeSuperSearch" class="clickable-text">关闭高级搜索</span>
-            <span v-else v-on:click="changeSuperSearch" class="clickable-text">高级搜索</span>*@
+                <span v-else v-on:click="changeSuperSearch" class="clickable-text">高级搜索</span>*@
         </el-form-item>
 
         @*<el-form-item>
-            <el-radio-group v-model="formInline.state">
-                <el-radio :label="0">全部</el-radio>
-                <el-radio :label="1">运动鞋</el-radio>
-                <el-radio :label="2">休闲鞋</el-radio>
-                <el-radio :label="3">皮鞋</el-radio>
-            </el-radio-group>
-        </el-form-item>*@
+                <el-radio-group v-model="formInline.state">
+                    <el-radio :label="0">全部</el-radio>
+                    <el-radio :label="1">运动鞋</el-radio>
+                    <el-radio :label="2">休闲鞋</el-radio>
+                    <el-radio :label="3">皮鞋</el-radio>
+                </el-radio-group>
+            </el-form-item>*@
     </el-form>
     <!--表格實體-->
     <el-table :data="tableData" stripe border>
@@ -148,7 +148,7 @@
                 let searchParam = {}
                 let formInline = this.formInline
                 var date = new Date()
-                
+
                 for (let p in formInline) {
                     if (formInline[p] == ''|| formInline[p] == null) continue
                     if (p == 'OrderTime' || p == 'DeliveryTime') {
@@ -206,6 +206,6 @@
     })
 
 
-    
+
 
 </script>
