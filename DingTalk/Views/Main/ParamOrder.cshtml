@@ -174,11 +174,13 @@
                 console.log(_formatQueryStr(obj))
                 $.ajax({
                     url: "/order/GetOrderByPara"+ _formatQueryStr(obj),
-                    dataType: 'json',
+                    //dataType: 'json',
                     success: function (data) {
-                        if (data && data.Tables) {
-                            that.tableData = data.Tables[0].Rows
-                            that.totalRows = parseInt(that.tableData[0].Counts)
+                        //data=JSON.parse(data)
+                        console.log(data)
+                        if (data && data.Rows) {
+                            that.tableData = data.Rows
+                            that.totalRows = parseInt(data.Counts)
                             that.Customer = []
                             that.ExpCountries = []
                             for (let r of that.tableData) {
