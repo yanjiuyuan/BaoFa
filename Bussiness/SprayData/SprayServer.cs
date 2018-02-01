@@ -1,4 +1,5 @@
 ﻿using Common.DbHelper;
+using Common.JsonHelper;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -28,25 +29,31 @@ namespace Bussiness.SprayData
             }
             if (Keyword != null)
             {
-                string strWhereKeyWord = string.Format("and  OrderID like '%{0}%'  " +
-                    "or GlueType like  '%{0}%' or SprayID like  '%{0}%'  or ProductLineId   like  '%{0}%'  ", Keyword);
+                string strWhereKeyWord = string.Format(
+                    " and ( GlueType like  '%{0}%' or SprayID like  '%{0}%' ) ", Keyword);
                 sb.Append(strWhereKeyWord);
             }
             if (GlueType != null)
             {
-                sb.Append(string.Format(" and GlueType='{0}'", GlueType));
+                sb.Append(string.Format(" and GlueType='{0}' ", GlueType));
             }
             if (OrderID != null)
             {
                 sb.Append(string.Format(" and OrderID='{0}'", OrderID));
             }
-
+            if (BakingTime != null)
+            {
+                sb.Append(string.Format(" and BakingTime='{0}'", BakingTime));
+            }
+            int iRows = MySqlHelper.ExecuteQuery(sb.ToString()).Rows.Count;
             string strWhereLimit = string.Format(" LIMIT {0},{1}", startRow, PageSize.Value);
+
             sb.Append(strWhereLimit);
             DataTable db=MySqlHelper.ExecuteQuery(sb.ToString());
-            Dictionary<string, DataTable> dic = new Dictionary<string, DataTable>();
-            dic.Add("Spray", db);
-            return JsonConvert.SerializeObject(dic);
+            //Dictionary<string, DataTable> dic = new Dictionary<string, DataTable>();
+            //dic.Add("Spray", db);
+            string strJsonString = JsonHelper.DataTableToJson(db, iRows);
+            return strJsonString;
         }
     }
 }

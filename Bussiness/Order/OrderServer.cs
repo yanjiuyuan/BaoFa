@@ -52,10 +52,10 @@ namespace Bussiness.Order
             }
             if (KeyWord != null)
             {
-                string strWhereKeyWord = string.Format("and  Color like '%{0}%'  " +
+                string strWhereKeyWord = string.Format("and ( Color like '%{0}%'  " +
                     "or Material like  '%{0}%' " +
                     "or  ExpCountries  like  '%{0}%' " +
-                    " or Customer like  '%{0}%' ",KeyWord);
+                    " or Customer like  '%{0}%'  )",KeyWord);
                 sb.Append(strWhereKeyWord);
             }
             if (Material != null)
