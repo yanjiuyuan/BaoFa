@@ -59,6 +59,7 @@
     <Compile Include="Order\OrderServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Register\RegisterServer.cs" />
+    <Compile Include="SprayData\SprayServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
