@@ -29,6 +29,17 @@ function _cloneObj(obj) {
     return newObj
 }
 
+function _cloneArr(arr) {
+    var newArr = []
+    for (var a of arr) {
+        if (typeof (a) == 'object') {
+            newArr.push($.extend(true, {}, a))
+        }
+        else newArr.push(a)
+    }
+    return newArr
+}
+
 function _formatQueryStr(obj) {
     let queryStr = '?'
     for (let o in obj) {

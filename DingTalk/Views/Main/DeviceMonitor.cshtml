@@ -53,7 +53,7 @@
     //vue组件-设备按钮显示
     Vue.component('sam-devicebtn', {
         props: ['param', 'index'],
-        template: `<el-tooltip :placement="param.tooltip.placement" effect="light" class="tips">
+        template: `<el-tooltip :placement="param.tooltip.placement" :disabled="param.tooltip.disabled" effect="light" class="tips">
                         <div slot="content" :style="{fontSize:param.tooltip.font_size}">
                             <template v-for="t in param.tips">
                                 {{t}} : {{param.tips[t]}}
@@ -111,413 +111,10 @@
         }
     })
     var img = $("#imgFrame img").find("img")[0]
-    var deviceBtnsParam = [
-        {
-            num: 1,
-            name: '视觉1号站',
-            tooltip: {
-                disabled: false,
-                placement: 'top'
-            },
-            position: {
-                top: '93.02%',
-                left: '0.56%'
-            }
-        }, {
-            num: 2,
-            name: '鞋面喷胶站',
-            tooltip: {
-                disabled: false,
-                placement: 'right'
-            },
-            position: {
-                top: '63.95%',
-                left: '0.56%'
-            }
-        }, {
-            num: 3,
-            name: '鞋面烤箱',
-            tooltip: {
-                disabled: false,
-                placement: 'top'
-            },
-            position: {
-                top: '58.14%',
-                left: '0.56%'
-            }
-        }, {
-            num: 4,
-            name: '大底烤箱',
-            tooltip: {
-                disabled: false,
-                placement: 'top'
-            },
-            position: {
-                top: '45.35%',
-                left: '0.56%'
-            }
-        }, {
-            num: 5,
-            name: '压底机',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '37.67%',
-                left: '15.56%'
-            }
-        }, {
-            num: 6,
-            name: '视觉2号站',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '31.16%',
-                left: '15.56%'
-            }
-        }, {
-            num: 7,
-            name: '围条一胶站',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '24.42%',
-                left: '15.56%'
-            }
-        }, {
-            num: 8,
-            name: '围条二胶站',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '17.67%',
-                left: '15.56%'
-            }
-        }, {
-            num: 9,
-            name: '围一烤箱',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '14.80%',
-                left: '30.56%'
-            }
-        }, {
-            num: 10,
-            name: '围二烤箱',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '8.84%',
-                left: '30.56%'
-            }
-        }, {
-            num: 11,
-            name: '围条三胶站',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '2.60%',
-                left: '30.56%'
-            }
-        }, {
-            num: 12,
-            name: '围三烤箱',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '2.79%',
-                left: '84.88%'
-            }
-        }, {
-            num: 13,
-            name: '视觉3号站',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '9.30%',
-                left: '84.88%'
-            }
-        }, {
-            num: 14,
-            name: '围条贴附1号站',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '46.51%',
-                left: '84.88%'
-            }
-        }, {
-            num: 15,
-            name: '围条贴附2号站',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '53.49%',
-                left: '84.88%'
-            }
-        }, {
-            num: 16,
-            name: '护齿喷胶站',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '62.79%',
-                left: '70%'
-            }
-        }, {
-            num: 17,
-            name: '十字压站',
-            tooltip: {
-                disabled: false,
-                placement: 'left'
-            },
-            position: {
-                top: '73.49%',
-                left: '70%'
-            }
-        }]
-    var devices = [{
-        num: 1,
-        status: 0,
-        detail: {
-            '机器温度': '66℃',
-            '烤箱温度': '160℃'
-        },
-        tips: {
-            '参数1': '参数1',
-            '参数2': '参数2'
-        }
-    },
-    {
-            num: 2,
-            status: 1,
-            detail: {
-                '机器温度': '66℃',
-                '烤箱温度': '160℃'
-            },
-            tips: {
-                '参数1': '参数1',
-                '参数2': '参数2'
-            }
-        },
-        {
-            num: 3,
-            status: 2,
-            detail: {
-                '机器温度': '66℃',
-                '烤箱温度': '160℃'
-            },
-            tips: {
-                '参数1': '参数1',
-                '参数2': '参数2'
-            }
-    },
-    {
-        num: 4,
-        status: 3,
-        detail: {
-            '机器温度': '66℃',
-            '烤箱温度': '160℃'
-        },
-        tips: {
-            '参数1': '参数1',
-            '参数2': '参数2'
-        }
-        },
-        {
-            num: 5,
-            status: 1,
-            detail: {
-                '机器温度': '66℃',
-                '烤箱温度': '160℃'
-            },
-            tips: {
-                '参数1': '参数1',
-                '参数2': '参数2'
-            }
-    },
-    {
-        num: 6,
-        status: 3,
-        detail: {
-            '机器温度': '66℃',
-            '烤箱温度': '160℃'
-        },
-        tips: {
-            '参数1': '参数1',
-            '参数2': '参数2'
-        }
-        },
-        {
-            num: 7,
-            status: 2,
-            detail: {
-                '机器温度': '66℃',
-                '烤箱温度': '160℃'
-            },
-            tips: {
-                '参数1': '参数1',
-                '参数2': '参数2'
-            }
-    },
-    {
-        num: 8,
-        status: 1,
-        detail: {
-            '机器温度': '66℃',
-            '烤箱温度': '160℃'
-        },
-        tips: {
-            '参数1': '参数1',
-            '参数2': '参数2'
-        }
-        },
-        {
-            num: 9,
-            status: 1,
-            detail: {
-                '机器温度': '66℃',
-                '烤箱温度': '160℃'
-            },
-            tips: {
-                '参数1': '参数1',
-                '参数2': '参数2'
-            }
-    },
-    {
-        num: 10,
-        status: 1,
-        detail: {
-            '机器温度': '66℃',
-            '烤箱温度': '160℃'
-        },
-        tips: {
-            '参数1': '参数1',
-            '参数2': '参数2'
-        }
-        },
-        {
-            num: 11,
-            status: 3,
-            detail: {
-                '机器温度': '66℃',
-                '烤箱温度': '160℃'
-            },
-            tips: {
-                '参数1': '参数1',
-                '参数2': '参数2'
-            }
-    },
-    {
-        num: 12,
-        status: 1,
-        detail: {
-            '机器温度': '66℃',
-            '烤箱温度': '160℃'
-        },
-        tips: {
-            '参数1': '参数1',
-            '参数2': '参数2'
-        }
-        },
-        {
-            num: 13,
-            status: 1,
-            detail: {
-                '机器温度': '66℃',
-                '烤箱温度': '160℃'
-            },
-            tips: {
-                '参数1': '参数1',
-                '参数2': '参数2'
-            }
-    },
-    {
-        num: 14,
-        status: 1,
-        detail: {
-            '机器温度': '66℃',
-            '烤箱温度': '160℃'
-        },
-        tips: {
-            '参数1': '参数1',
-            '参数2': '参数2'
-        }
-        },
-        {
-            num: 15,
-            status: 0,
-            detail: {
-                '机器温度': '66℃',
-                '烤箱温度': '160℃'
-            },
-            tips: {
-                '参数1': '参数1',
-                '参数2': '参数2'
-            }
-    },
-    {
-        num: 16,
-        status: 2,
-        detail: {
-            '机器温度': '66℃',
-            '烤箱温度': '160℃'
-        },
-        tips: {
-            '参数1': '参数1',
-            '参数2': '参数2'
-        }
-        },
-        {
-            num: 17,
-            status: 0,
-            detail: {
-                '机器温度': '66℃',
-                '烤箱温度': '160℃'
-            },
-            tips: {
-                '参数1': '参数1',
-                '参数2': '参数2'
-            }
-    }]
     var deviceButtoCss = {}
     var deviceStatusCss = {}
     var imgWidth = 900
     var imgHeight = 430
-    for (let param of deviceBtnsParam) {
-        for (let dev of devices) {
-            if (param.num == dev.num) {
-                for (let p in dev) {
-                    param[p]=dev[p]
-                }
-                break;
-            }
-        }
-    }
 
     var index = new Vue({
         el: "#partPage",
@@ -525,11 +122,12 @@
         data: function () {
             return {
                 activeNames: ['1'],
-                deviceBtns: DEVICES,
+                deviceBtns: _cloneArr(DEVICES),
                 showMask:false
             }
         },
         methods: {
+            //监控界面全屏
             changeFullScreen: function () {
                 var screenHeight = window.screen.height;
                 var screenWidth = window.screen.width;
@@ -561,6 +159,7 @@
                 }
 
             },
+            //监控界面恢复
             restoreScreen: function () {
                 $("#imgFrame").css({ "width": imgWidth + 'px', "height": imgHeight + 'px', "position": "relative", "top": "0", "left": "0" })
                 $("#imgFrame").find("img").css({ "width": imgWidth + 'px', "height": imgHeight + 'px' })
@@ -584,35 +183,26 @@
             $.ajax({
                 url: '/api/dt/GetAllTable?strMessage=GetAllTable',
                 dataType: 'json',
+                cache:false,
                 success: function (data) {
                     let devData = JSON.parse(JSON.parse(data))
                     for (let dev of that.deviceBtns) {
                         if (dev.detail) {
-                            
-                            for (let det in dev.detail) {
-                                for (let d in devData) {
-                                    let dObj = devData[d][0]
-                                    if (dObj.RFIDN == dev.RFIDN) {
-                                        
-                                        console.log(dObj[dev.detail[det]])
+                            for (let d in devData) {
+                                let dObj = devData[d][0]
+                                if (dObj.RFIDN == dev.RFIDN) {
+                                    for (let det in dev.detail) {
                                         if (dObj[dev.detail[det]] && dObj[dev.detail[det]] != '') {
-                                            console.log(1)
-                                            console.log(dObj[dev.detail[det]])
                                             dev.detail[det] = dObj[dev.detail[det]]
-                                            //dev.detail[det] = '123'
                                         }
                                         else {
-                                            console.log(0)
                                             delete dev.detail[det]
                                         }
-
                                     }
                                 }
                             }
                         }
                     }
-                    console.log(devData)
-                    console.log(that.deviceBtns)
                 }
             })
         }

@@ -16,7 +16,7 @@ var DEVICES = [
         num: 1,
         name: '视觉1号站',
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'top'
         },
         position: {
@@ -29,7 +29,7 @@ var DEVICES = [
         RFIDN: 1,
         detail: _cloneObj(SPRAY),
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'right'
         },
         tips: {
@@ -46,7 +46,7 @@ var DEVICES = [
         RFIDN: 1,
         detail: _cloneObj(ROSTER),
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'top'
         },
         position: {
@@ -59,7 +59,7 @@ var DEVICES = [
         RFIDN: 6,
         detail: _cloneObj(ROSTER),
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'top'
         },
         position: {
@@ -71,7 +71,7 @@ var DEVICES = [
         name: '压底机',
         status: 0,
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
@@ -83,7 +83,7 @@ var DEVICES = [
         name: '视觉2号站',
         status: 2,
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
@@ -97,7 +97,7 @@ var DEVICES = [
         RFIDN: 2,
         detail: _cloneObj(SPRAY),
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
@@ -110,7 +110,7 @@ var DEVICES = [
         RFIDN: 3,
         detail: _cloneObj(SPRAY),
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
@@ -123,7 +123,7 @@ var DEVICES = [
         RFIDN: 2,
         detail: _cloneObj(ROSTER),
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
@@ -136,7 +136,7 @@ var DEVICES = [
         RFIDN: 3,
         detail: _cloneObj(ROSTER),
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
@@ -149,7 +149,7 @@ var DEVICES = [
         RFIDN: 4,
         detail: _cloneObj(SPRAY),
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
@@ -162,7 +162,7 @@ var DEVICES = [
         RFIDN: 4,
         detail: _cloneObj(ROSTER),
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
@@ -173,7 +173,7 @@ var DEVICES = [
         num: 13,
         name: '视觉3号站',
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
@@ -184,7 +184,7 @@ var DEVICES = [
         num: 14,
         name: '围条贴附1号站',
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
@@ -195,7 +195,7 @@ var DEVICES = [
         num: 15,
         name: '围条贴附2号站',
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
@@ -208,7 +208,7 @@ var DEVICES = [
         RFIDN: 5,
         detail: _cloneObj(SPRAY),
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
@@ -219,7 +219,7 @@ var DEVICES = [
         num: 17,
         name: '十字压站',
         tooltip: {
-            disabled: false,
+            disabled: true,
             placement: 'left'
         },
         position: {
