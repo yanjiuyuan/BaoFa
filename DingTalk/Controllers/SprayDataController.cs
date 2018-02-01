@@ -30,11 +30,11 @@ namespace DingTalk.Controllers
         /// <param name="MaterialAdjustment">物料调节</param>
         /// <param name="BakingTemperature">烘烤温度</param>
         /// <param name="BakingTime">烘烤时间</param>
-        /// <param name="Keyword">关键字查询(目前支持：)</param>
+        /// <param name="Keyword">关键字查询(目前支持：SprayID GlueType)</param>
         /// <param name="PageIndex">每数(默认0)</param>
         /// <param name="PageSize">每页条数(默认5)</param>
         /// <returns>返回Json数组</returns>
-        /// 测试数据：
+        /// 测试数据：/SprayData/GetSprayData?Keyword=白色
         public string GetSprayData(string OrderID,string SprayID,string 
             ProductLineId,string GlueType,string SprayDistance,string GlueLinePosition,
             string AtomizationAdjustment,string MaterialAdjustment,
