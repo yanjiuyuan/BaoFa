@@ -82,10 +82,9 @@ namespace Bussiness.Order
             {
                 sb.Append(string.Format(" and ExpCountries='{0}'", ExpCountries));
             }
-
+            int iRows = MySqlHelper.ExecuteQuery(sb.ToString()).Rows.Count;
             string strWhereLimit = string.Format(" LIMIT {0},{1}", startRow, PageSize.Value);
             sb.Append(strWhereLimit);
-            int iRows = MySqlHelper.ExecuteQuery(sb.ToString()).Rows.Count;
             Dictionary<string, DataTable> dic = new Dictionary<string, DataTable>();
             DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
 
