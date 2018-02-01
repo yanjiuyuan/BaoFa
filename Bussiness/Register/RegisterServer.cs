@@ -17,6 +17,7 @@ namespace Bussiness.Register
         /// <returns></returns>
         public static bool CheckUserName(string strUserName)
         {
+
             string strSql=string.Format("select * from  huabao.userinfo where username='{0}'", strUserName);
             DataSet dataset = MySqlHelper.GetDataSet(strSql);
             int iResult = dataset.Tables[0].Rows.Count;
