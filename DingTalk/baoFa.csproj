@@ -257,7 +257,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Account\" />
-    <Folder Include="Views\Order\" />
     <Folder Include="Views\SprayData\" />
   </ItemGroup>
   <ItemGroup>
@@ -308,6 +307,7 @@
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Views\Main\TableCount.cshtml" />
     <Content Include="Views\Main\ChartMultiply.cshtml" />
+    <Content Include="Views\Order\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bussiness\Bussiness.csproj">
