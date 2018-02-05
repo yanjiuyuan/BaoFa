@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace WebZhongZhi.Controllers
 {
+
     public class LoginController : Controller
     {
         // GET: Login
