@@ -15,6 +15,7 @@ namespace DingTalk.Controllers
         /// </summary>
         /// <param name="codeLength">验证码长度</param>
         /// <returns></returns>
+        /// 测试数据：/Code?codeLength=4
         public ActionResult Index(int? codeLength=4)
         {
             CodeServer codeServer = new CodeServer();
