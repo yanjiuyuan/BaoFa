@@ -104,11 +104,11 @@ namespace Common.DbHelper
                         int rows = cmd.ExecuteNonQuery();
                         return rows;
                     }
-                    catch (MySql.Data.MySqlClient.MySqlException e)
+                    catch (MySql.Data.MySqlClient.MySqlException ex)
                     {
                         conn.Close();
-                        logger.Error(e.Message);
-                        throw e;
+                        logger.Error(ex.Message);
+                        throw ex;
                     }
                     finally
                     {
@@ -140,9 +140,10 @@ namespace Common.DbHelper
                         cmd.Parameters.Clear();
                         return rows;
                     }
-                    catch (System.Data.SqlClient.SqlException E)
+                    catch (System.Data.SqlClient.SqlException ex)
                     {
-                        throw new Exception(E.Message);
+                        logger.Error(ex.Message);
+                        throw new Exception(ex.Message);
                     }
                     finally
                     {
@@ -166,15 +167,31 @@ namespace Common.DbHelper
         {
             MySqlConnection connection = new MySqlConnection(connstr);
             DataTable table = new DataTable();
+
             using (MySqlCommand cmd = connection.CreateCommand())
             {
-                cmd.CommandText = sql;
-                cmd.Parameters.AddRange(parameters);
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                try
                 {
-                    table.Load(reader);
+                    connection.Open();
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddRange(parameters);
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        table.Load(reader);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex.Message);
+                    throw;
+                }
+                finally
+                {
+                    cmd.Dispose();
+                    connection.Close();
                 }
             }
+
             return table;
         }
 
@@ -194,12 +211,26 @@ namespace Common.DbHelper
             DataTable table = new DataTable();
             using (MySqlCommand cmd = connection.CreateCommand())
             {
-                connection.Open();
-                cmd.CommandText = sql;
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                try
                 {
-                    table.Load(reader);
+                    connection.Open();
+                    cmd.CommandText = sql;
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        table.Load(reader);
+                    }
                 }
+                catch (Exception ex)
+                {
+                    logger.Error(ex.Message);
+                    throw;
+                }
+                finally
+                {
+                    cmd.Dispose();
+                    connection.Close();
+                }
+
             }
             return table;
         }
@@ -273,7 +304,7 @@ namespace Common.DbHelper
             }
         }
         #endregion
-    
+
         #region 执行带参数的sql语句，并返回object
         /// <summary>
         /// 执行带参数的sql语句，并返回object
@@ -315,7 +346,7 @@ namespace Common.DbHelper
             }
         }
         #endregion
-        
+
         #region 执行存储过程,返回数据集
 
         /// <summary>
@@ -338,7 +369,7 @@ namespace Common.DbHelper
             }
         }
         #endregion
-        
+
         #region 构建 SqlCommand 对象(用来返回一个结果集，而不是一个整数值)
         /// <summary>
         /// 构建 SqlCommand 对象(用来返回一个结果集，而不是一个整数值)
@@ -359,7 +390,7 @@ namespace Common.DbHelper
             return command;
         }
         #endregion
-        
+
         #region 装载MySqlCommand对象
         /// <summary>
         /// 装载MySqlCommand对象
@@ -388,6 +419,6 @@ namespace Common.DbHelper
         }
         #endregion
 
-        
+
     }
 }
