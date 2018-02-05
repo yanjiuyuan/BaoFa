@@ -24,11 +24,14 @@ namespace Bussiness.DosageInfo
             //   // new MySqlParameter ("@Childid",MySqlDbType.VarChar
             //    new MySqlParameter ("@OldN",MySqlDbType.String),
             //};
+            
             string strSearchSql = string.Format("SELECT WeiTiaoConsumption,HuChiConsumption,BiaoQianConsumption,DaDiConsumption FROM huabao.`Usage` WHERE orderid ='{0}' AND childid ='{1}'  ORDER BY CT DESC   LIMIT 0,1", OrderId, ChildId);
             //string strSearchSql = "SELECT * FROM huabao.`Usage`";
             DataTable db = Common.DbHelper.MySqlHelper.ExecuteQuery(strSearchSql);
             string strJsonString = JsonConvert.SerializeObject(db);
             //string strJsonString = JsonHelper.DataTableToJson(db);
+            
+
             return strJsonString;
         }
 

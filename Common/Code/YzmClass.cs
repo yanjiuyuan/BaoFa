@@ -24,7 +24,7 @@ namespace Common.Code
             //CreateImage(randomCode);
         }
 
-        public string CreateRandomCode(int length)
+        public string CreateRandomCode(int? length=4)
         {
             int rand; char code;
             string randomCode = String.Empty;
@@ -46,7 +46,7 @@ namespace Common.Code
         }
 
         //创建随机图片 
-        public byte[] CreateImage(string randomCode)
+        public  byte[] CreateImage(string randomCode)
         {
             try
             {

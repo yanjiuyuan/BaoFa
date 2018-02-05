@@ -142,8 +142,6 @@ namespace Common.Code
         }
 
 
-
-        //C# MVC 升级版
         /// <summary>
         /// 创建验证码的图片
         /// </summary>

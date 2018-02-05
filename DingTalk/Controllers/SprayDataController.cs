@@ -21,7 +21,7 @@ namespace DingTalk.Controllers
         /// 胶站数据读取接口
         /// </summary>
         /// <param name="OrderID">总订单编号</param>
-        /// <param name="SprayID">胶站编号</param>
+        /// <param name="SprayID">胶站编号  围条一胶</param>
         /// <param name="ProductLineId">所属产线Id</param>
         /// <param name="GlueType">胶水类型</param>
         /// <param name="SprayDistance">喷距</param>

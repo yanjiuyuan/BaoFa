@@ -1,4 +1,5 @@
 ﻿using Common.DbHelper;
+using Common.Encrypt;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,6 +32,7 @@ namespace Bussiness.Register
             }
         }
 
+
         /// <summary>
         /// 注册用户信息
         /// </summary>
@@ -53,19 +55,21 @@ namespace Bussiness.Register
         /// <returns></returns>
         public static bool  Register(string strUserName, string strRealName,
             string strphoneNumber, string strPassword, string strRegisterTime,string strLastLoginTime,
-            int iStatus, string strAddress, int iRole, string strProvince, string strCity,
-            string strTelephone, string strOtherContact, string strFax, int iIsActive,
-            string strLastLoginIp, string strEmail, string strCompanyId, string strCompanyName)
+             string strAddress, string strProvince, string strCity,
+            string strTelephone, string strOtherContact, string strFax,
+            string strLastLoginIp, string strEmail, string strCompanyId, string strCompanyName, int? iStatus=1, int? iRole=1,int? IsActive=1)
         {
             strRegisterTime = DateTime.Now.ToString();
+            //进行MD5 加密
+            strPassword = MD5Encrypt.Encrypt(strPassword);
             string strSql = string.Format("insert into huabao.userinfo set " +
-                "userName='{0}',realName='{1}',phoneNumber='{2},password='{3}'," +
+                "userName='{0}',realName='{1}',phoneNumber='{2}',password='{3}'," +
                 "registertime='{4}',lastLoginTime='{5}',status='{6}',address='{7}'," +
                 "role='{8}',province='{9}',city='{10}',telephone='{11}',otherContact='{12}'," +
                 "fax='fax',isActive='{14}',lastLoginIp='{15}',email='{16}',CompanyId='{17}',CompanyName='{18}'",  strUserName,  strRealName,
              strphoneNumber,  strPassword,  strRegisterTime, strLastLoginTime,
              iStatus,  strAddress,  iRole,  strProvince,  strCity,
-             strTelephone,  strOtherContact,  strFax,  iIsActive,
+             strTelephone,  strOtherContact,  strFax, IsActive,
              strLastLoginIp,  strEmail,strCompanyId, strCompanyName);
             bool bResult = MySqlHelper.ExecuteSql(strSql)==1?true:false;
             return bResult;

@@ -20,10 +20,11 @@ namespace WebZhongZhi.Controllers
         /// <summary>
         /// 注册接口（必填字段：用户名，密码，所属公司Id，所属公司名称）
         /// </summary>
-        /// <param name="strUserName">用户名</param>
+        /// <param name="strCode">验证码(必填)</param>
+        /// <param name="strUserName">用户名(必填)</param>
         /// <param name="strRealName">真实姓名</param>
         /// <param name="strphoneNumber"></param>
-        /// <param name="strPassword">密码</param>
+        /// <param name="strPassword">密码(必填)</param>
         /// <param name="strRegisterTime">注册时间</param>
         /// <param name="strLastLoginTime">最后登入时间</param>
         /// <param name="iStatus">状态</param>
@@ -42,13 +43,20 @@ namespace WebZhongZhi.Controllers
         /// <param name="iIsActive">是否活跃</param>
         /// <param name="strLastLoginIp">最后一次登入Ip</param>
         /// <param name="strEmail">邮箱</param>
+        /// <param name="strCompanyId">公司Id</param>
+        /// <param name="strCompanyName">公司名</param>
+        /// 测试数据：Register/CheckRegister?strUserName=sa&strPassword=123&strCompanyId=1&strCompanyName=华宝有限公司
         /// <returns></returns>
-        public string CheckRegister(string strUserName, string strRealName,
+        public string CheckRegister(string strCode,string strUserName, string strRealName,
             string strphoneNumber, string strPassword, string strRegisterTime, string strLastLoginTime,
-            int iStatus, string strAddress, int iRole, string strProvince, string strCity,
-            string strTelephone, string strOtherContact, string strFax, int iIsActive,
-            string strLastLoginIp, string strEmail,string strCompanyId,string strCompanyName)
+           string strAddress, string strProvince, string strCity,
+            string strTelephone, string strOtherContact, string strFax,
+            string strLastLoginIp, string strEmail,string strCompanyId,string strCompanyName,int? iStatus = 1,int? iRole=1, int IsActive=1)
         {
+            if (Session["Code"].ToString() != strCode)
+            {
+                return "验证码有误!";
+            }
             if (strUserName == null || strPassword == null || strCompanyId == null || strCompanyName==null)
             {
                 return "信息不完整!";
@@ -57,9 +65,9 @@ namespace WebZhongZhi.Controllers
             {
                 if (RegisterServer.Register(strUserName, strRealName,
              strphoneNumber, strPassword, strRegisterTime, strLastLoginTime,
-             iStatus, strAddress, iRole, strProvince, strCity,
-             strTelephone, strOtherContact, strFax, iIsActive,
-             strLastLoginIp, strEmail,strCompanyId, strCompanyName))
+              strAddress, strProvince, strCity,
+             strTelephone, strOtherContact, strFax,
+             strLastLoginIp, strEmail,strCompanyId, strCompanyName,iStatus, iRole,IsActive))
                 {
                     return "注册成功！";
                 }
