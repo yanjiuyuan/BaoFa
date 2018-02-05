@@ -17,7 +17,7 @@
     </el-form-item>
 
     <el-form-item label="验证码" prop="remenber">
-        <img id="code" v-on:click="refreshCode" src="/Code?codeLength=4" />
+        <img id="code" v-on:click="refreshCode" src="/Code?id=" />
     </el-form-item>
 
     <el-form-item>
@@ -68,7 +68,7 @@
                 refreshCode() {
                     alert('refreshed')
                     var code = document.getElementById("code")
-                    code.src = '/Code?codeLength=4'
+                    code.src = code.src+'1'
                 }
             },
             created: function () {
