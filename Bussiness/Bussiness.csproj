@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\CodeServer.cs" />
+    <Compile Include="Company\CompanyServer.cs" />
     <Compile Include="DosageInfo\DosageInfoServer.cs" />
     <Compile Include="LineData\LineDataServer.cs" />
     <Compile Include="Login\LoginServer.cs" />
