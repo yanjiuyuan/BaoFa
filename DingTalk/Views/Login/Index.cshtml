@@ -16,6 +16,10 @@
         <el-switch v-model="ruleForm.remenber"></el-switch>
     </el-form-item>
 
+    <el-form-item label="验证码" prop="remenber">
+        <img id="code" v-on:click="refreshCode" src="/Code?codeLength=4" />
+    </el-form-item>
+
     <el-form-item>
         <el-button type="primary" v-on:click="submitForm('ruleForm')">登录</el-button>
         <el-button v-on:click="resetForm('ruleForm')">重置</el-button>
@@ -60,6 +64,11 @@
                 },
                 resetForm(formName) {
                     this.$refs[formName].resetFields();
+                },
+                refreshCode() {
+                    alert('refreshed')
+                    var code = document.getElementById("code")
+                    code.src = '/Code?codeLength=4'
                 }
             },
             created: function () {
