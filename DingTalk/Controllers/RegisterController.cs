@@ -47,9 +47,9 @@ namespace WebZhongZhi.Controllers
             string strphoneNumber, string strPassword, string strRegisterTime, string strLastLoginTime,
             int iStatus, string strAddress, int iRole, string strProvince, string strCity,
             string strTelephone, string strOtherContact, string strFax, int iIsActive,
-            string strLastLoginIp, string strEmail,string strCompanyId,string strCompanyName)
+            string strLastLoginIp, string strEmail,string strCompanyId,string strProductLineId)
         {
-            if (strUserName == null || strPassword == null || strCompanyId == null || strCompanyName==null)
+            if (strUserName == null || strPassword == null || strCompanyId == null || strProductLineId==null)
             {
                 return "信息不完整!";
             }
@@ -59,7 +59,7 @@ namespace WebZhongZhi.Controllers
              strphoneNumber, strPassword, strRegisterTime, strLastLoginTime,
              iStatus, strAddress, iRole, strProvince, strCity,
              strTelephone, strOtherContact, strFax, iIsActive,
-             strLastLoginIp, strEmail,strCompanyId, strCompanyName))
+             strLastLoginIp, strEmail,strCompanyId, strProductLineId))
                 {
                     return "注册成功！";
                 }
