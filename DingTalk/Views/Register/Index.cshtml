@@ -5,8 +5,8 @@
 }
 
 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-    <el-form-item label="账号" prop="strUserName">
-        <el-input v-model="ruleForm.strUserName"></el-input>
+    <el-form-item label="账号" prop="username">
+        <el-input v-model="ruleForm.username"></el-input>
     </el-form-item>
     <el-form-item label="密码" prop="strPassword">
         <el-input type="strPassword" v-model="ruleForm.strPassword" auto-complete="off"></el-input>
@@ -41,14 +41,14 @@
                     activeIndex: '0',
                     companys: [],
                     ruleForm: {
-                        strUserName: '',
+                        username: '',
                         strPassword: '',
                         checkPassword: '',
                         strCompanyId: '',
                         strCode: ''
                     },
                     rules: {
-                        strUserName: [
+                        username: [
                             { required: true, message: '请输入账号', trigger: 'blur' },
                             { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
                         ],
@@ -86,7 +86,12 @@
                             $.ajax({
                                 url: '/Register/CheckRegister' + _formatQueryStr(that.ruleForm),
                                 success: function (result) {
-                                    console.log(result)
+                                    result = JSON.parse(result)
+                                    if (result.ErrorType == 0) {
+                                        setLocalObj('user', that.ruleForm)
+                                        location.href = '/'
+                                    }
+                                    alert(result.ErrorMessage)
                                 }
                             })
                             //setLocalObj('user', this.ruleForm)

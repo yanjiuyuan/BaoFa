@@ -21,7 +21,7 @@ namespace WebZhongZhi.Controllers
         /// 注册接口（必填字段：验证码，用户名，密码，所属公司Id，所属公司名称）
         /// </summary>
         /// <param name="strCode">验证码(必填)</param>
-        /// <param name="strUserName">用户名(必填)</param>
+        /// <param name="username">用户名(必填)</param>
         /// <param name="strRealName">真实姓名</param>
         /// <param name="strphoneNumber"></param>
         /// <param name="strPassword">密码(必填)</param>
@@ -45,9 +45,9 @@ namespace WebZhongZhi.Controllers
         /// <param name="strEmail">邮箱</param>
         /// <param name="strCompanyId">公司Id</param>
         /// <param name="strCompanyName">公司名</param>
-        /// 测试数据：Register/CheckRegister?strUserName=sa&strPassword=123&strCompanyId=1&strCompanyName=华宝有限公司
+        /// 测试数据：Register/CheckRegister?username=sa&strPassword=123&strCompanyId=1&strCompanyName=华宝有限公司
         /// <returns></returns>
-        public string CheckRegister(string strCode,string strUserName, string strRealName,
+        public string CheckRegister(string strCode,string username, string strRealName,
             string strphoneNumber, string strPassword, string strRegisterTime, string strLastLoginTime,
            string strAddress, string strProvince, string strCity,
             string strTelephone, string strOtherContact, string strFax,
@@ -57,13 +57,13 @@ namespace WebZhongZhi.Controllers
             {
                 return "{\"ErrorType\":1,\"ErrorMessage\":\"验证码有误!\"}";
             }
-            if (strUserName == null || strPassword == null || strCompanyId == null || strCompanyName==null)
+            if (username == null || strPassword == null || strCompanyId == null || strCompanyName==null)
             {
                 return "{\"ErrorType\":2,\"ErrorMessage\":\"信息不完整!\"}";
             }
-            if (RegisterServer.CheckUserName(strUserName))
+            if (RegisterServer.CheckUserName(username))
             {
-                if (RegisterServer.Register(strUserName, strRealName,
+                if (RegisterServer.Register(username, strRealName,
              strphoneNumber, strPassword, strRegisterTime, strLastLoginTime,
               strAddress, strProvince, strCity,
              strTelephone, strOtherContact, strFax,
