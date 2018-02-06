@@ -55,11 +55,11 @@ namespace WebZhongZhi.Controllers
         {
             if (Session["Code"].ToString() != strCode)
             {
-                return "验证码有误!";
+                return "{\"ErrorType\":1,\"ErrorMessage\":\"验证码有误!\"}";
             }
             if (strUserName == null || strPassword == null || strCompanyId == null || strCompanyName==null)
             {
-                return "信息不完整!";
+                return "{\"ErrorType\":2,\"ErrorMessage\":\"信息不完整!\"}";
             }
             if (RegisterServer.CheckUserName(strUserName))
             {
@@ -69,16 +69,16 @@ namespace WebZhongZhi.Controllers
              strTelephone, strOtherContact, strFax,
              strLastLoginIp, strEmail,strCompanyId, strCompanyName,iStatus, iRole,IsActive))
                 {
-                    return "注册成功！";
+                    return "{\"ErrorType\":0,\"ErrorMessage\":\"注册成功!\"}";
                 }
                 else
                 {
-                    return "注册失败！";
+                    return "{\"ErrorType\":3,\"ErrorMessage\":\"注册失败,请联系管理员!\"}";
                 }
             }
             else
             {
-                return "用户名已存在！";
+                return "{\"ErrorType\":4,\"ErrorMessage\":\"用户名已存在!\"}"; 
             }
         }
     }
