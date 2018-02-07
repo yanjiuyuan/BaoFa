@@ -1,6 +1,8 @@
 ﻿using Common.DbHelper;
 using Common.JsonHelper;
+using Common.LogHelper;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,51 @@ namespace Bussiness.Quality
 {
     public class QualityServer
     {
+        public string GetQualityCounts(string OrderId, string ChildId, string StartTime, string EndTime)
+        {
+            try
+            {
+                Dictionary<string, int> dic = new Dictionary<string, int>();
+                int iGoods, iBads, iInferior;
+                iGoods = Search(OrderId, ChildId, StartTime, EndTime, 1);
+                iBads = Search(OrderId, ChildId, StartTime, EndTime, 2);
+                iInferior = Search(OrderId, ChildId, StartTime, EndTime, 3);
+                dic.Add("Goods", iGoods);
+                dic.Add("Bads", iBads);
+                dic.Add("Inferior", iInferior);
+                string strJsonString = JsonConvert.SerializeObject(dic);
+                return strJsonString;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public int Search(string OrderId, string ChildId, string StartTime, string EndTime,int iValue)
+        {
+            string strSql = "SELECT  COUNT(b.`QualityType`) as Counts   FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage`  ";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(strSql);
+            if (OrderId != null)
+            {
+                sb.Append(string.Format(" and a.`OrderID`='{0}'", OrderId));
+            }
+            if (ChildId != null)
+            {
+                sb.Append(string.Format(" and a.`ChildID`='{0}'", ChildId));
+            }
+            if (StartTime != null || EndTime != null)
+            {
+                sb.Append(string.Format(" and ct BETWEEN '{0}' AND  '{1}'", StartTime, EndTime));
+            }
+            sb.Append(string.Format(" and QualityType = {0}", iValue));
+            DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
+            int iResult;
+            iResult = Int32.TryParse(tb.Rows[0][0].ToString(),out iResult)?iResult:0;
+            return iResult;
+        }
+
         public string GetBatchQuality(string OrderId, string ChildId, string StartTime, string EndTime)
         {
             string strSql = "SELECT a.`OrderID`,a.`ChildID`,b.`AppearanceQualified`,b.`AppearanceAfterQualified`,b.`VampPullQualified`,b.`DaDiPullQualified`,b.`ZheWangQualified`,b.`ImageUrl`,ct FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage`  ";
@@ -67,11 +114,15 @@ namespace Bussiness.Quality
                 tb.Rows.Add(newRow);
                 tb.TableName = "Quality";
                 strJsonString = JsonHelper.DataTableToJson(tb);
+
+                //JObject jObject = (JObject)JsonConvert.SerializeObject(strJsonString);
+                //strJsonString= JsonConvert.SerializeObject(strJsonString);
+
                 //strJsonString = JsonConvert.SerializeObject(tb);
 
                 //var settings = new JsonSerializerSettings() { ContractResolver = new NullToEmptyStringResolver() };
                 //strJsonString = JsonConvert.SerializeObject(tb, settings);
-                
+
             }
             else
             {
