@@ -131,7 +131,7 @@
             changeFullScreen: function () {
                 var screenHeight = window.screen.height;
                 var screenWidth = window.screen.width;
-                var scale = screenWidth / 900;
+                var scale = screenWidth / screenHeight > 900 / 430 ? screenHeight / 430 : screenWidth / 900;
                 this.showMask = true;
                 deviceButtoCss = {
                     "width": parseInt($(".device-button").css("width")),
@@ -145,8 +145,8 @@
                     "line-height": parseInt($(".device-status").css("line-height"))
                 }
                 console.log('padding = ' + $(".device-button").css("padding"));
-                $("#imgFrame").css({ "width": screenWidth + 'px', "height": imgHeight * scale + 'px', "position": "absolute", "top": "0", "left": "0" })
-                $("#imgFrame").find("img").css({ "width": screenWidth + 'px', "height": imgHeight * scale + 'px' })
+                $("#imgFrame").css({ "width": imgWidth * scale + 'px', "height": imgHeight * scale + 'px', "position": "absolute", "top": "0", "left": "0" })
+                $("#imgFrame").find("img").css({ "width": imgWidth * scale + 'px', "height": imgHeight * scale + 'px' })
                 $("body").css({ "overflow": "hidden" })
                 for (let param of DEVICES) {
                     param.tooltip.font_size="21px"
@@ -186,70 +186,28 @@
                 if (ws.readyState == WebSocket.OPEN) {
                     window.setInterval(function () {
                         ws.send("GetAllTable");
-                    },10000)
-                    
-                } else {
-
-                }
-            };
-           
-            ws.onmessage = function (result) {
-                // $("#messageSpan").text(result.data);
-                //alert(result.data)
-                let devData = JSON.parse(JSON.parse(result.data))
-                console.log(devData)
-                for (let dev of that.deviceBtns) {
-                    if (dev.detail) {
-                        for (let d in devData) {
-                            let dObj = devData[d][0]
-                            if (dObj.SprayID == dev.SprayID) {
-                                for (let det in dev.detail) {
-                                    if (dObj[dev.detail[det]] && dObj[dev.detail[det]] != '') {
-                                        dev.detail[det] = dObj[dev.detail[det]]
-                                    }
-                                    else {
-                                        delete dev.detail[det]
+                    console.log(devData)
+                    for (let dev of that.deviceBtns) {
+                        if (dev.detail) {
+                            for (let d in devData) {
+                                let dObj = devData[d][0]
+                                if (dObj.SprayID == dev.SprayID) {
+                                    for (let det in dev.detail) {
+                                        if (dObj[dev.detail[det]] && dObj[dev.detail[det]] != '') {
+                                            dev.detail[det] = dObj[dev.detail[det]]
+                                        }
+                                        else {
+                                            delete dev.detail[det]
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-            };
-            ws.onerror = function (error) {
-              //  $("#messageSpan").text(error.data);
-            };
-            ws.onclose = function () {
-              //  $("#messageSpan").text("Disconnected!");
-            };
 
-            loadHtml("mainPage", "partPage")
-            
-            //$.ajax({
-            //    url: '/api/dt/GetAllTable?strMessage=GetAllTable',
-            //    dataType: 'json',
-            //    cache:false,
-            //    success: function (data) {
-            //        let devData = JSON.parse(JSON.parse(data))
-            //        for (let dev of that.deviceBtns) {
-            //            if (dev.detail) {
-            //                for (let d in devData) {
-            //                    let dObj = devData[d][0]
-            //                    if (dObj.RFIDN == dev.RFIDN) {
-            //                        for (let det in dev.detail) {
-            //                            if (dObj[dev.detail[det]] && dObj[dev.detail[det]] != '') {
-            //                                dev.detail[det] = dObj[dev.detail[det]]
-            //                            }
-            //                            else {
-            //                                delete dev.detail[det]
-            //                            }
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //})
+                    console.log(that.deviceBtns)
+                }
+            })
         }
     })
 

@@ -10,6 +10,13 @@
 var ROSTER = {
     '烤箱温度':'OvenTemperatureNow'
 }
+var PRESS = {
+    '十字压': 'BOilPressure',
+    '左十字压': 'LOilPressure',
+    '右十字压': 'ROilPressure',
+    '左右脚': 'LRFoot',
+    '鞋长': 'ShoeL'
+}
 
 var DEVICES = [
     {
@@ -20,13 +27,13 @@ var DEVICES = [
             placement: 'top'
         },
         position: {
-            top: '93.02%',
+            top: '82.02%',
             left: '0.56%'
         }
     }, {
         num: 2,
         name: '鞋面喷胶站',
-        RFIDN: 1,
+        SprayID: 1,
         detail: _cloneObj(SPRAY),
         tooltip: {
             disabled: true,
@@ -43,7 +50,7 @@ var DEVICES = [
     }, {
         num: 3,
         name: '鞋面烤箱',
-        RFIDN: 1,
+        SprayID: 1,
         detail: _cloneObj(ROSTER),
         tooltip: {
             disabled: true,
@@ -56,30 +63,42 @@ var DEVICES = [
     }, {
         num: 4,
         name: '大底烤箱',
-        RFIDN: 6,
+        SprayID: 6,
         detail: _cloneObj(ROSTER),
         tooltip: {
             disabled: true,
-            placement: 'top'
+            placement: 'right'
         },
         position: {
-            top: '45.35%',
+            top: '49.55%',
             left: '0.56%'
         }
     }, {
         num: 5,
+        name: '大底喷胶',
+        status: 0,
+        tooltip: {
+            disabled: true,
+            placement: 'right'
+        },
+        position: {
+            top: '43.27%',
+            left: '0.56%'
+        }
+    }, {
+        num: 6,
         name: '压底机',
         status: 0,
         tooltip: {
             disabled: true,
-            placement: 'left'
+            placement: 'right'
         },
         position: {
-            top: '37.67%',
-            left: '15.56%'
+            top: '36.67%',
+            left: '0.56%'
         }
     }, {
-        num: 6,
+        num: 7,
         name: '视觉2号站',
         status: 2,
         tooltip: {
@@ -91,10 +110,10 @@ var DEVICES = [
             left: '15.56%'
         }
     }, {
-        num: 7,
+        num: 8,
         name: '围条一胶站',
         status: 3,
-        RFIDN: 2,
+        SprayID: 2,
         detail: _cloneObj(SPRAY),
         tooltip: {
             disabled: true,
@@ -105,23 +124,10 @@ var DEVICES = [
             left: '15.56%'
         }
     }, {
-        num: 8,
-        name: '围条二胶站',
-        RFIDN: 3,
-        detail: _cloneObj(SPRAY),
-        tooltip: {
-            disabled: true,
-            placement: 'left'
-        },
-        position: {
-            top: '17.67%',
-            left: '15.56%'
-        }
-    }, {
         num: 9,
-        name: '围一烤箱',
-        RFIDN: 2,
-        detail: _cloneObj(ROSTER),
+        name: '围条二胶站',
+        SprayID: 3,
+        detail: _cloneObj(SPRAY),
         tooltip: {
             disabled: true,
             placement: 'left'
@@ -132,8 +138,21 @@ var DEVICES = [
         }
     }, {
         num: 10,
+        name: '围一烤箱',
+        SprayID: 2,
+        detail: _cloneObj(ROSTER),
+        tooltip: {
+            disabled: true,
+            placement: 'left'
+        },
+        position: {
+            top: '17.67%',
+            left: '15.56%'
+        }
+    }, {
+        num: 11,
         name: '围二烤箱',
-        RFIDN: 3,
+        SprayID: 3,
         detail: _cloneObj(ROSTER),
         tooltip: {
             disabled: true,
@@ -144,22 +163,22 @@ var DEVICES = [
             left: '30.56%'
         }
     }, {
-        num: 11,
+        num: 12,
         name: '围条三胶站',
-        RFIDN: 4,
+        SprayID: 4,
         detail: _cloneObj(SPRAY),
         tooltip: {
             disabled: true,
             placement: 'left'
         },
         position: {
-            top: '2.60%',
-            left: '30.56%'
+            top: '9.30%',
+            left: '84.88%'
         }
     }, {
-        num: 12,
+        num: 13,
         name: '围三烤箱',
-        RFIDN: 4,
+        SprayID: 4,
         detail: _cloneObj(ROSTER),
         tooltip: {
             disabled: true,
@@ -170,18 +189,18 @@ var DEVICES = [
             left: '84.88%'
         }
     }, {
-        num: 13,
+        num: 14,
         name: '视觉3号站',
         tooltip: {
             disabled: true,
             placement: 'left'
         },
         position: {
-            top: '9.30%',
+            top: '23.30%',
             left: '84.88%'
         }
     }, {
-        num: 14,
+        num: 15,
         name: '围条贴附1号站',
         tooltip: {
             disabled: true,
@@ -192,7 +211,7 @@ var DEVICES = [
             left: '84.88%'
         }
     }, {
-        num: 15,
+        num: 16,
         name: '围条贴附2号站',
         tooltip: {
             disabled: true,
@@ -203,9 +222,9 @@ var DEVICES = [
             left: '84.88%'
         }
     }, {
-        num: 16,
+        num: 17,
         name: '护齿喷胶站',
-        RFIDN: 5,
+        SprayID: 5,
         detail: _cloneObj(SPRAY),
         tooltip: {
             disabled: true,
@@ -216,8 +235,10 @@ var DEVICES = [
             left: '70%'
         }
     }, {
-        num: 17,
+        num: 18,
         name: '十字压站',
+        SprayID: 231,
+        detail: _cloneObj(PRESS),
         tooltip: {
             disabled: true,
             placement: 'left'

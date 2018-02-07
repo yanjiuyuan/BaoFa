@@ -33,7 +33,7 @@ _ReSharper*/
 .vs/
 
 log/
-
+/log/
 #Nuget packages folder
 
 packages/
