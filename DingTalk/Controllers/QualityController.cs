@@ -31,6 +31,7 @@ namespace DingTalk.Controllers
         /// 测试数据：Quality/GetBatchQuality?OrderId=18-35-12-1&ChildId=362-0102-1&StartTime=2018-01-26&EndTime=2018-01-27
         public string GetBatchQuality(string OrderId, string ChildId, string StartTime, string EndTime)
         {
+
             QualityServer qualityServer = new QualityServer();
             return qualityServer.GetBatchQuality(OrderId, ChildId, StartTime, EndTime);
         }

@@ -178,33 +178,78 @@
             }
         },
         created: function () {
-            loadHtml("mainPage", "partPage")
-            var that = this
-            $.ajax({
-                url: '/api/dt/GetAllTable?strMessage=GetAllTable',
-                dataType: 'json',
-                cache:false,
-                success: function (data) {
-                    let devData = JSON.parse(JSON.parse(data))
-                    for (let dev of that.deviceBtns) {
-                        if (dev.detail) {
-                            for (let d in devData) {
-                                let dObj = devData[d][0]
-                                if (dObj.RFIDN == dev.RFIDN) {
-                                    for (let det in dev.detail) {
-                                        if (dObj[dev.detail[det]] && dObj[dev.detail[det]] != '') {
-                                            dev.detail[det] = dObj[dev.detail[det]]
-                                        }
-                                        else {
-                                            delete dev.detail[det]
-                                        }
+            var that = this;
+            var ws;
+            ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/api/dt/Get");
+            ws.onopen = function () {
+               // $("#messageSpan").text("Connected!");
+                if (ws.readyState == WebSocket.OPEN) {
+                    window.setInterval(function () {
+                        ws.send("GetAllTable");
+                    },10000)
+                    
+                } else {
+
+                }
+            };
+           
+            ws.onmessage = function (result) {
+                // $("#messageSpan").text(result.data);
+                //alert(result.data)
+                let devData = JSON.parse(JSON.parse(result.data))
+                console.log(devData)
+                for (let dev of that.deviceBtns) {
+                    if (dev.detail) {
+                        for (let d in devData) {
+                            let dObj = devData[d][0]
+                            if (dObj.SprayID == dev.SprayID) {
+                                for (let det in dev.detail) {
+                                    if (dObj[dev.detail[det]] && dObj[dev.detail[det]] != '') {
+                                        dev.detail[det] = dObj[dev.detail[det]]
+                                    }
+                                    else {
+                                        delete dev.detail[det]
                                     }
                                 }
                             }
                         }
                     }
                 }
-            })
+            };
+            ws.onerror = function (error) {
+              //  $("#messageSpan").text(error.data);
+            };
+            ws.onclose = function () {
+              //  $("#messageSpan").text("Disconnected!");
+            };
+
+            loadHtml("mainPage", "partPage")
+            
+            //$.ajax({
+            //    url: '/api/dt/GetAllTable?strMessage=GetAllTable',
+            //    dataType: 'json',
+            //    cache:false,
+            //    success: function (data) {
+            //        let devData = JSON.parse(JSON.parse(data))
+            //        for (let dev of that.deviceBtns) {
+            //            if (dev.detail) {
+            //                for (let d in devData) {
+            //                    let dObj = devData[d][0]
+            //                    if (dObj.RFIDN == dev.RFIDN) {
+            //                        for (let det in dev.detail) {
+            //                            if (dObj[dev.detail[det]] && dObj[dev.detail[det]] != '') {
+            //                                dev.detail[det] = dObj[dev.detail[det]]
+            //                            }
+            //                            else {
+            //                                delete dev.detail[det]
+            //                            }
+            //                        }
+            //                    }
+            //                }
+            //            }
+            //        }
+            //    }
+            //})
         }
     })
 
