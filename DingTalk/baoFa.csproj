@@ -168,6 +168,7 @@
     <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductionLinesController.cs" />
+    <Compile Include="Controllers\QualityController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ShowDetailController.cs" />
     <Compile Include="Controllers\SprayDataController.cs" />
@@ -195,6 +196,10 @@
     <Content Include="Content\images\icon900-540.png" />
     <Content Include="Content\images\miaov.png" />
     <Content Include="Content\images\portrait.png" />
+    <Content Include="Content\images\QualityImages\1.png" />
+    <Content Include="Content\images\QualityImages\2.png" />
+    <Content Include="Content\images\QualityImages\3.png" />
+    <Content Include="Content\images\QualityImages\4.png" />
     <Content Include="Content\images\scoll1.jpg" />
     <Content Include="Content\images\scoll2.jpg" />
     <Content Include="Content\images\scoll3.JPG" />
@@ -321,6 +326,7 @@
     <Content Include="Views\Main\TableCount.cshtml" />
     <Content Include="Views\Main\ChartMultiply.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
+    <Content Include="Views\Quality\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bussiness\Bussiness.csproj">
