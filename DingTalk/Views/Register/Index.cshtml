@@ -8,15 +8,15 @@
     <el-form-item label="账号" prop="username">
         <el-input v-model="ruleForm.username"></el-input>
     </el-form-item>
-    <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="ruleForm.password" auto-complete="off"></el-input>
+    <el-form-item label="密码" prop="strPassword">
+        <el-input type="strPassword" v-model="ruleForm.strPassword" auto-complete="off"></el-input>
     </el-form-item>
     <el-form-item label="确认密码" prop="checkPassword">
-        <el-input type="password" v-model="ruleForm.checkPassword" auto-complete="off"></el-input>
+        <el-input type="strPassword" v-model="ruleForm.checkPassword" auto-complete="off"></el-input>
     </el-form-item>
 
-    <el-form-item label="公司名称" prop="company">
-        <el-select v-model="ruleForm.company">
+    <el-form-item label="公司名称" prop="strCompanyId">
+        <el-select v-model="ruleForm.strCompanyId">
             <el-option v-for="e of companys" :label="e.CompanyName" :value="e.CompanyId" key="e.CompanyId"></el-option>
         </el-select>
     </el-form-item>
@@ -39,21 +39,20 @@
             data: function () {
                 return {
                     activeIndex: '0',
-                    companys:[],
+                    companys: [],
                     ruleForm: {
                         username: '',
-                        password: '',
+                        strPassword: '',
                         checkPassword: '',
-                        company: '',
-                        strCode: '',
-                        remenber: true
+                        strCompanyId: '',
+                        strCode: ''
                     },
                     rules: {
                         username: [
                             { required: true, message: '请输入账号', trigger: 'blur' },
                             { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
                         ],
-                        password: [
+                        strPassword: [
                             { required: true, message: '请输入密码', trigger: 'blur' },
                             { min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }
                         ],
@@ -61,7 +60,7 @@
                             { required: true, message: '请输入密码', trigger: 'blur' },
                             { min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }
                         ],
-                        company: [
+                        strCompanyId: [
                             { required: true, message: '请选择公司名称', trigger: 'blur' }
                         ],
                         strCode: [
@@ -73,9 +72,28 @@
             },
             methods: {
                 submitForm(formName) {
+                    var that = this
+                    that.ruleForm.strCompanyName = that.companys.filter(function (e) {
+                        return e.CompanyId == that.ruleForm.strCompanyId
+                    })[0].CompanyName
+                    console.log(that.companys)
+                    console.log(that.ruleForm.strCompanyId)
+                    console.log(that.ruleForm.strCompanyName)
                     this.$refs[formName].validate((valid) => {
                         if (valid) {
-
+                            console.log('/Register/CheckRegister' + _formatQueryStr(that.ruleForm))
+                            
+                            $.ajax({
+                                url: '/Register/CheckRegister' + _formatQueryStr(that.ruleForm),
+                                success: function (result) {
+                                    result = JSON.parse(result)
+                                    if (result.ErrorType == 0) {
+                                        setLocalObj('user', that.ruleForm)
+                                        location.href = '/'
+                                    }
+                                    alert(result.ErrorMessage)
+                                }
+                            })
                             //setLocalObj('user', this.ruleForm)
                             //location.href = '/'
                         } else {
@@ -88,7 +106,6 @@
                     this.$refs[formName].resetFields();
                 },
                 refreshCode() {
-                    alert('refreshed')
                     var code = document.getElementById("code")
                     code.src = code.src + '1'
                 }
