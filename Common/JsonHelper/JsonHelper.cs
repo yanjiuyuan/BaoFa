@@ -149,7 +149,10 @@ namespace Common.JsonHelper
                 jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
                 jsonBuilder.Append("},");
             }
-            jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+            if (iCounts > 0)
+            {
+                jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+            }
             jsonBuilder.Append("]");
             jsonBuilder.Append("}");
             return jsonBuilder.ToString();
