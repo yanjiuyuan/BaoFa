@@ -123,7 +123,7 @@
             return {
                 activeNames: ['1'],
                 deviceBtns: _cloneArr(DEVICES),
-                showMask:false
+                showMask: false
             }
         },
         methods: {
@@ -149,13 +149,13 @@
                 $("#imgFrame").find("img").css({ "width": imgWidth * scale + 'px', "height": imgHeight * scale + 'px' })
                 $("body").css({ "overflow": "hidden" })
                 for (let param of DEVICES) {
-                    param.tooltip.font_size="21px"
+                    param.tooltip.font_size = "21px"
                 }
                 for (let css in deviceButtoCss) {
-                    $(".device-button").css(css,deviceButtoCss[css]*scale+'px')
+                    $(".device-button").css(css, deviceButtoCss[css] * scale + 'px')
                 }
                 for (let css in deviceStatusCss) {
-                    css == "padding" ? $(".device-status").css("cssText", css+":"+Math.ceil(deviceStatusCss[css] * scale) + 'px !important;') : $(".device-status").css(css, deviceStatusCss[css] * scale + 'px')
+                    css == "padding" ? $(".device-status").css("cssText", css + ":" + Math.ceil(deviceStatusCss[css] * scale) + 'px !important;') : $(".device-status").css(css, deviceStatusCss[css] * scale + 'px')
                 }
 
             },
@@ -186,29 +186,60 @@
                 if (ws.readyState == WebSocket.OPEN) {
                     window.setInterval(function () {
                         ws.send("GetAllTable");
-                    console.log(devData)
-                    for (let dev of that.deviceBtns) {
-                        if (dev.detail) {
-                            for (let d in devData) {
-                                let dObj = devData[d][0]
-                                if (dObj.SprayID == dev.SprayID) {
-                                    for (let det in dev.detail) {
-                                        if (dObj[dev.detail[det]] && dObj[dev.detail[det]] != '') {
-                                            dev.detail[det] = dObj[dev.detail[det]]
-                                        }
-                                        else {
-                                            delete dev.detail[det]
-                                        }
+                    },2000)
+                    
+                } else {
+
+                }
+            };
+           
+            ws.onmessage = function (result) {
+                // $("#messageSpan").text(result.data);
+                //alert(result.data)
+                let devData = JSON.parse(JSON.parse(result.data))
+                that.deviceBtns = _cloneArr(DEVICES)
+                console.log(that.deviceBtns)
+                console.log(devData)
+                for (let dev of that.deviceBtns) {
+                    if (dev.detail) {
+                        for (let d in devData) {
+                            let dObj = devData[d][0]
+                            //console.error(d)
+                            //console.error(dObj)
+                            //console.log(dev.SprayID)
+                            if (dObj.SprayID == dev.SprayID && dObj.SprayID != null) {
+                                for (let det in dev.detail) {
+                                    //console.log('1111111111111')
+                                    //console.log(det)
+                                    //console.log(dev.detail[det])
+                                    //console.log(dObj)
+                                    //console.log(dObj[dev.detail[det]])
+                                    //console.log('2222222222222')
+                                    if (dObj[dev.detail[det]] !=null) {
+                                        //console.log('1111111111111')
+                                        //console.log(dObj[dev.detail[det]])
+                                        //console.log('2222222222222')
+                                        dev.detail[det] = dObj[dev.detail[det]]
+                                    }
+                                    else {
+                                        delete dev.detail[det]
                                     }
                                 }
                             }
                         }
                     }
-
-                    console.log(that.deviceBtns)
                 }
-            })
+            };
+            ws.onerror = function (error) {
+              //  $("#messageSpan").text(error.data);
+            };
+            ws.onclose = function () {
+              //  $("#messageSpan").text("Disconnected!");
+            };
+
+            loadHtml("mainPage", "partPage")
         }
+
     })
 
 </script>

@@ -237,7 +237,6 @@ var DEVICES = [
     }, {
         num: 18,
         name: '十字压站',
-        SprayID: 231,
         detail: _cloneObj(PRESS),
         tooltip: {
             disabled: true,
