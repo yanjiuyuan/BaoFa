@@ -5,7 +5,7 @@
 <!--右侧实体内容-->
 <script src="~/Scripts/echarts-all.js"></script>
 <el-main id="partPage">
-    <el-collapse v-model="activeNames">
+    <el-collapse>
         <el-collapse-item title="总订单编号001 子订单编号001" name="1">
             <div id="lineChart" style="height:300px;"></div>
             <div id="barChart" style="height:300px;"></div>
@@ -19,7 +19,7 @@
         mixins: [mixin],
         data: function () {
             return {
-                activeNames: ['1'],
+                
             }
         },
         methods: {

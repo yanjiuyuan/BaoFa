@@ -3,136 +3,107 @@
 }
 
 <!--右侧实体内容-->
-<div id="partPage">
-    <!--查詢表單-->
-    <el-form :inline="true" :model="formInline" class="demo-form-inline"
-             size="medium">
-        <el-form-item label="关键字">
-            <el-input v-model="formInline.user" style="width:500px;"
-                      placeholder="请输入搜索关键字，包括审批标题、正文内容、审批意见"></el-input>
-        </el-form-item>
-        
-        <template v-if="superSearch">
-            <el-form-item label="发起日期（提交审批日期）">
-                <el-date-picker v-model="formInline.startDate"
-                                type="daterange"
-                                :picker-options="pickerOptions"
-                                range-separator="至"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期">
-                </el-date-picker>
-            </el-form-item>
-            <el-form-item label="完成日期（最终审批日期）">
-                <el-date-picker v-model="formInline.endDate"
-                                type="daterange"
-                                :picker-options="pickerOptions"
-                                range-separator="至"
-                                start-placeholder="开始日期"
-                                end-placeholder="结束日期">
-                </el-date-picker>
-            </el-form-item>
-        </template>
-
-        <el-form-item>
-            <el-button type="primary" v-on:click="onFilter">搜索</el-button>
-            <span v-if="superSearch" v-on:click="changeSuperSearch" class="clickable-text">关闭高级搜索</span>
-            <span v-else v-on:click="changeSuperSearch" class="clickable-text">高级搜索</span>
-        </el-form-item>
-        
-        <el-form-item label="审批类型">
-            <el-select v-model="formInline.region">
-                <el-option label="全部" value=""></el-option>
-                <el-option label="办公用品申领" value="1"></el-option>
-                <el-option label="用车申请" value="2"></el-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item>
-            <el-radio-group v-model="formInline.state">
-                <el-radio :label="0">全部</el-radio>
-                <el-radio :label="1">审批完成</el-radio>
-                <el-radio :label="2">审批中</el-radio>
-                <el-radio :label="3">已撤回</el-radio>
-            </el-radio-group>
-        </el-form-item>
-    </el-form>
-    <!--表格實體-->
-    <el-table :data="tableData" stripe border>
-        <el-table-column prop="name" label="审批标题" width="120">
-        </el-table-column>
-        <el-table-column prop="address" label="审批摘要">
-        </el-table-column>
-        <el-table-column prop="date" label="发起时间" width="140">
-        </el-table-column>
-        <el-table-column prop="date" label="完成时间" width="140">
-        </el-table-column>
-        <el-table-column prop="address" label="状态">
-        </el-table-column>
-    </el-table>
-    <!--底部翻頁-->
-    <div style="text-align:right">
-        <el-pagination v-on:size-change="handleSizeChange"
-                       v-on:current-change="handleCurrentChange"
-                       :current-page="currentPage4"
-                       :page-sizes="[1, 3, 5, 10]"
-                       :page-size="5"
-                       layout="total, sizes, prev, pager, next, jumper"
-                       :total="10">
-        </el-pagination>
+<el-main id="partPage">
+    <div v-show="showMask">
+        <div class="mask"></div>
     </div>
-</div>
 
+    <el-collapse v-model="activeNames">
+        <el-collapse-item title="宝发硫化鞋生产线01" name="1">
+            <div id="imgFrame" style="margin-bottom:30px;position:relative;width:900px;height:430px;">
+                <img src="~/Content/images/deviceMonitor.png" style="width:900px;height:430px;" />
+                <!--设备状态按钮-->
+                @*<template v-for="(btn,index) of deviceBtns">
+                    <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
+                </template>*@
+            </div>
+        </el-collapse-item>
+        <el-collapse-item title="宝发硫化鞋生产线02" name="2">
+            <div>暂无数据</div>
+        </el-collapse-item>
+        <el-collapse-item title="华宝硫化鞋生产线03" name="3">
+            <div>暂无数据</div>
+        </el-collapse-item>
+    </el-collapse>
+</el-main>
 
 <script>
+    //vue组件-设备按钮显示
+    Vue.component('sam-devicebtn', {
+        props: ['param', 'index'],
+        template: `<el-tooltip :placement="param.tooltip.placement" :disabled="param.tooltip.disabled" effect="light" class="tips">
+                        <div slot="content" :style="{fontSize:param.tooltip.font_size}">
+                            <template v-for="t in param.tips">
+                                {{t}} : {{param.tips[t]}}
+                                 <br />
+                            </template>
+                        </div>
+                        <div v-on:mouseover="showMore=true" v-on:mouseout="showMore=false"
+                             class="device-button" :class="theme.mainClass"
+                            :style="{left:param.position.left,top:param.position.top}">
+                            <span>{{param.name}}</span>
+                            <el-button :type="theme.warnType" round class="device-status">{{theme.text}}</el-button>
+                            <el-collapse-transition>
+                                <div v-show="showMore">
+                                    <hr :style="{color:theme.color}" />
+                                    <template v-for="(d,i) in param.detail">
+                                        {{i}} : {{d}}
+                                         <br />
+                                    </template>
+                                </div>
+                            </el-collapse-transition>
+                        </div>
+                    </el-tooltip>`,
+        data: function () {
+            return {
+                showMore: false,
+                theme: theme
+            }
+        }
+    })
+    var img = $("#imgFrame img").find("img")[0]
+    var deviceButtoCss = {}
+    var deviceStatusCss = {}
+    var imgWidth = 900
+    var imgHeight = 430
 
-    new Vue({
+    var index = new Vue({
         el: "#partPage",
         mixins: [mixin],
         data: function () {
             return {
-                tableData: tableData,
-                currentPage4: 1,
-                superSearch: false,
-                formInline: {
-                    user: '',
-                    region: '',
-                    startDate: '',
-                    endDate: '',
-                    state:0
-                }
+                activeNames: ['1'],
+                deviceBtns: _cloneArr(DEVICES),
+                showMask: false
             }
         },
         methods: {
-            //表格相關事件
 
-            //翻頁相關事件
-            handleSizeChange(val) {
-                console.log(`每页 ${val} 条`);
-            },
-            handleCurrentChange(val) {
-                console.log(`当前页: ${val}`);
-            },
-            //查詢相關頁面
-            onFilter() {
-                console.log(this.formInline)
-            },
-            //切换高级搜索
-            changeSuperSearch() {
-                this.superSearch = !this.superSearch;
-            }
         },
         created: function () {
+            var that = this;
+            var ws;
+            ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/api/dt/Get");
+            ws.onopen = function () {
+                // $("#messageSpan").text("Connected!");
+                if (ws.readyState == WebSocket.OPEN) {
+                    window.setInterval(function () {
+                        ws.send("GetAllTable");
+                    }, 2000)
+
+                } else {
+
+                }
+            };
+
+
+
             loadHtml("mainPage", "partPage")
         }
+
     })
 
-    function formatQueryStr(object) {
-        var obj = _cloneObj(object)
-        var queryStr = ''
-        for (var o in obj) {
-            if (o == 'date') {
-
-            }
-        }
-    }
-
 </script>
+
+
+

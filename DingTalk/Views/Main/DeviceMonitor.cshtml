@@ -10,7 +10,11 @@
     
     <el-collapse v-model="activeNames">
         <el-collapse-item title="宝发硫化鞋生产线01" name="1">
-            <div id="imgFrame" style="margin-bottom:30px;position:relative;width:900px;height:430px;">
+            <div v-loading="loading"
+                 element-loading-text="数据加载中"
+                 element-loading-spinner="el-icon-loading"
+                 element-loading-background="rgba(0, 0, 0, 0.8)"
+                 id="imgFrame" style="margin-bottom:30px;position:relative;width:900px;height:430px;">
                 <img src="~/Content/images/deviceMonitor.png" style="width:900px;height:430px;"/>
                 <!--设备状态按钮-->
                 <template v-for="(btn,index) of deviceBtns">
@@ -123,7 +127,8 @@
             return {
                 activeNames: ['1'],
                 deviceBtns: _cloneArr(DEVICES),
-                showMask: false
+                showMask: false,
+                loading: true
             }
         },
         methods: {
@@ -184,6 +189,7 @@
             ws.onopen = function () {
                // $("#messageSpan").text("Connected!");
                 if (ws.readyState == WebSocket.OPEN) {
+
                     window.setInterval(function () {
                         ws.send("GetAllTable");
                     },2000)
@@ -196,6 +202,7 @@
             ws.onmessage = function (result) {
                 // $("#messageSpan").text(result.data);
                 //alert(result.data)
+                that.loading = false
                 let devData = JSON.parse(JSON.parse(result.data))
                 that.deviceBtns = _cloneArr(DEVICES)
                 console.log(that.deviceBtns)
