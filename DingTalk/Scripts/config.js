@@ -1,4 +1,6 @@
-﻿var SPRAY = {
+﻿
+//监控界面配置参数
+var SPRAY = {
     '雾化压': 'AtomizationPressure',
     '物料压': 'MaterialPressure',
     '胶重': 'GlueWeight',
@@ -248,3 +250,17 @@ var DEVICES = [
         }
     }
 ]
+
+//批次质量配置参数
+let QUALITY_RADAR = {
+    'AppearanceQualified': '硫化前外观合格率',
+    'AppearanceAfterQualified': '硫化前后观合格率',
+    'VampPullQualified': '鞋面拉力合格点占比',
+    'DaDiPullQualified': '大底拉力合格点占比',
+    'ZheWangQualified': '折弯疲劳合格率'
+}
+let QUALITY_PIE = {
+    'Goods': 'A等',
+    'Bads': 'B等',
+    'Inferior': 'C等'
+}
