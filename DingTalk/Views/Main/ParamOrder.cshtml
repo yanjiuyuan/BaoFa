@@ -176,7 +176,6 @@
                     url: "/order/GetOrderByPara"+ _formatQueryStr(obj),
                     //dataType: 'json',
                     success: function (data) {
-                        console.log(data)
                         data=JSON.parse(data)
                         
                         if (data && data.Rows) {

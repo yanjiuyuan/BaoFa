@@ -184,8 +184,7 @@
         },
         created: function () {
             var that = this;
-            var ws;
-            ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/api/dt/Get");
+            
             ws.onopen = function () {
                // $("#messageSpan").text("Connected!");
                 if (ws.readyState == WebSocket.OPEN) {

@@ -27,6 +27,8 @@
 
             }
         })
+        var ws;
+        ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/api/dt/Get");
         $("#tempPage").load('/Main/DeviceMonitor')
 
         
