@@ -16,12 +16,18 @@
     <script src="~/Scripts/vue.js"></script>
     <script src="~/Scripts/element.js"></script>
     <script>
-        var userObj = getLocalObj('user')
-        if (!userObj) {
+        //var userObj = getLocalObj('user')
+        if (!_getCookie('UserName')) {
             location.href="/login"
         }
-        mixin.data.user = userObj
-        
+        var userInfo = {
+            username: _getCookie('UserName'),
+            companyId: _getCookie('CompanyId'),
+            role: _getCookie('Role')
+        }
+        mixin.data.user = userInfo
+        //console.log(_getCookie('UserName'))
+        //console.log(userInfo)
     </script>
 </head>
 <body>

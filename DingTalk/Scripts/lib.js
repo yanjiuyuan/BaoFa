@@ -9,6 +9,7 @@ function setLocalObj(name, obj) {
 
 function logout() {
     localStorage.clear()
+    _delCookie('UserName')
     location.reload()
 }
 
@@ -46,6 +47,22 @@ function _formatQueryStr(obj) {
         queryStr = queryStr+o+'='+obj[o]+'&'
     }
     return queryStr.substring(0, queryStr.length-1)
+}
+
+//cookie 操作
+function _getCookie(name) {
+    var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+    if (arr = document.cookie.match(reg))
+        return unescape(arr[2]);
+    else
+        return null;
+}
+function _delCookie(name) {
+    var exp = new Date();
+    exp.setTime(exp.getTime() - 1);
+    var cval = _getCookie(name);
+    if (cval != null)
+        document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
 
 function _dateToString(date,split) {
