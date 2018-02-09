@@ -185,18 +185,8 @@
         created: function () {
             var that = this;
             
-            ws.onopen = function () {
-               // $("#messageSpan").text("Connected!");
-                if (ws.readyState == WebSocket.OPEN) {
-
-                    window.setInterval(function () {
-                        ws.send("GetAllTable");
-                    },2000)
-                    
-                } else {
-
-                }
-            };
+            
+            
            
             ws.onmessage = function (result) {
                 // $("#messageSpan").text(result.data);
@@ -237,10 +227,10 @@
                 }
             };
             ws.onerror = function (error) {
-              //  $("#messageSpan").text(error.data);
+              console.log(error);
             };
-            ws.onclose = function () {
-              //  $("#messageSpan").text("Disconnected!");
+            ws.onclose = function (error) {
+                console.log(error);
             };
             loadHtml("mainPage", "partPage")
         }
