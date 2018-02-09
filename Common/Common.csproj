@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Code\ValidateCode.cs" />
     <Compile Include="Code\YzmClass.cs" />
+    <Compile Include="Cookie\CookieHelper.cs" />
     <Compile Include="DbHelper\MySqlHelper.cs" />
     <Compile Include="Encrypt\DesEncrypt.cs" />
     <Compile Include="Encrypt\MD5Encrypt.cs" />
