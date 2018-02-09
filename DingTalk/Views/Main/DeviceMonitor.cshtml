@@ -10,9 +10,9 @@
     
     <el-collapse v-model="activeNames">
         <el-collapse-item title="宝发硫化鞋生产线01" name="1">
-            <div v-loading="loading"
+            <div @*v-loading="loading"
                  element-loading-text="数据加载中"
-                 element-loading-spinner="el-icon-loading"
+                 element-loading-spinner="el-icon-loading"*@
                  element-loading-background="rgba(0, 0, 0, 0.8)"
                  id="imgFrame" style="margin-bottom:30px;position:relative;width:900px;height:430px;">
                 <img src="~/Content/images/deviceMonitor.png" style="width:900px;height:430px;"/>
@@ -186,8 +186,6 @@
             var that = this;
             
             
-            
-           
             ws.onmessage = function (result) {
                 // $("#messageSpan").text(result.data);
                 //alert(result.data)
@@ -200,21 +198,9 @@
                     if (dev.detail) {
                         for (let d in devData) {
                             let dObj = devData[d][0]
-                            //console.error(d)
-                            //console.error(dObj)
-                            //console.log(dev.SprayID)
                             if (dObj.SprayID == dev.SprayID && dObj.SprayID != null) {
                                 for (let det in dev.detail) {
-                                    //console.log('1111111111111')
-                                    //console.log(det)
-                                    //console.log(dev.detail[det])
-                                    //console.log(dObj)
-                                    //console.log(dObj[dev.detail[det]])
-                                    //console.log('2222222222222')
                                     if (dObj[dev.detail[det]] !=null) {
-                                        //console.log('1111111111111')
-                                        //console.log(dObj[dev.detail[det]])
-                                        //console.log('2222222222222')
                                         dev.detail[det] = dObj[dev.detail[det]]
                                     }
                                     else {
@@ -234,7 +220,6 @@
             };
             loadHtml("mainPage", "partPage")
         }
-
     })
 
 </script>
