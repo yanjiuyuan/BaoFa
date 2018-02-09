@@ -25,6 +25,7 @@ namespace WebZhongZhi.Controllers
         /// <param name="strUserName">用户名</param>
         /// <param name="strPassword">密码</param>
         /// <returns></returns>
+        /// 测试数据： Login/CheckLogin?strUserName=123&strPassword=123
         public bool CheckLogin(string strUserName, string strPassword)
         {
             LoginServer loginServer = new LoginServer();
