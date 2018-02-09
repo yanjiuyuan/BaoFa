@@ -170,6 +170,7 @@
     <Compile Include="Controllers\ProductionLinesController.cs" />
     <Compile Include="Controllers\QualityController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\ShoesInfoController.cs" />
     <Compile Include="Controllers\ShowDetailController.cs" />
     <Compile Include="Controllers\SprayDataController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
@@ -272,6 +273,7 @@
     <Folder Include="Views\Code\" />
     <Folder Include="Views\Company\" />
     <Folder Include="Views\ProductionLines\" />
+    <Folder Include="Views\ShoesInfo\" />
     <Folder Include="Views\SprayData\" />
     <Folder Include="Views\Statistics\" />
     <Folder Include="Views\ValidateCode\" />

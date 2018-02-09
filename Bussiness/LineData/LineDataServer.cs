@@ -15,6 +15,7 @@ namespace Bussiness.LineData
     {
         public  string GetSprayMessage()
         {
+
             string strSql = "SELECT * FROM huabao.`spray` WHERE orderid=(SELECT orderid  FROM huabao.`usage` ORDER BY CT DESC LIMIT 0,1);";
             
             DataTable newTb=  MySqlHelper.ExecuteQuery(strSql);

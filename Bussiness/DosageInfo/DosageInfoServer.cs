@@ -31,7 +31,6 @@ namespace Bussiness.DosageInfo
             string strJsonString = JsonConvert.SerializeObject(db);
             //string strJsonString = JsonHelper.DataTableToJson(db);
             
-
             return strJsonString;
         }
 
