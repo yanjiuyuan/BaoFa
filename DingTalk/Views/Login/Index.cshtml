@@ -5,20 +5,16 @@
 }
 
 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-    <el-form-item label="账号" prop="username">
-        <el-input v-model="ruleForm.username"></el-input>
+    <el-form-item label="账号" prop="strUserName">
+        <el-input v-model="ruleForm.strUserName"></el-input>
     </el-form-item>
-    <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="ruleForm.password"></el-input>
+    <el-form-item label="密码" prop="strPassword">
+        <el-input type="strPassword" v-model="ruleForm.strPassword"></el-input>
     </el-form-item>
 
-    <el-form-item label="保持登录" prop="remenber">
+    @*<el-form-item label="保持登录" prop="remenber">
         <el-switch v-model="ruleForm.remenber"></el-switch>
-    </el-form-item>
-
-    <el-form-item label="验证码" prop="remenber">
-        <img id="code" v-on:click="refreshCode" src="/Code?id=" />
-    </el-form-item>
+    </el-form-item>*@
 
     <el-form-item>
         <el-button type="primary" v-on:click="submitForm('ruleForm')">登录</el-button>
@@ -34,16 +30,15 @@
                 return {
                     activeIndex:'0',
                     ruleForm: {
-                        username: '',
-                        password:'',
-                        remenber:true
+                        strUserName: '',
+                        strPassword:''
                     },
                     rules: {
-                        username: [
+                        strUserName: [
                             { required: true, message: '请输入账号', trigger: 'blur' },
                             { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
                         ],
-                        password: [
+                        strPassword: [
                             { required: true, message: '请输入密码', trigger: 'blur' },
                             { min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }
                         ]
@@ -52,10 +47,19 @@
             },
             methods: {
                 submitForm(formName) {
+                    let that = this
                     this.$refs[formName].validate((valid) => {
                         if (valid) {
-                            setLocalObj('user', this.ruleForm)
-                            location.href='/'
+                            $.ajax({
+                                url: '/Login/CheckLogin' + _formatQueryStr(that.ruleForm),
+                                success: function (data) {
+                                    console.log(data)
+                                    var username = '<%= session["UserName"]%>';
+                                    console.log("username:::" + UserName);
+                                }
+                            })
+                            //setLocalObj('user', this.ruleForm)
+                            //location.href='/'
                         } else {
                             console.log('error submit!!');
                             return false;
@@ -64,11 +68,6 @@
                 },
                 resetForm(formName) {
                     this.$refs[formName].resetFields();
-                },
-                refreshCode() {
-                    alert('refreshed')
-                    var code = document.getElementById("code")
-                    code.src = code.src+'1'
                 }
             },
             created: function () {
