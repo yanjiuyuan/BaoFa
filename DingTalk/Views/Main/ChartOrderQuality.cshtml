@@ -10,14 +10,11 @@
              size="medium">
 
         <el-form-item label="总订单">
-            <el-select v-model="formInline.region">
-                <el-option label="订单1" value="1"></el-option>
-                <el-option label="订单2" value="2"></el-option>
-                <el-option label="订单3" value="3"></el-option>
-            </el-select>
+            <el-input v-model="formInline.OrderId">
+            </el-input>
         </el-form-item>
         <el-form-item label="子订单时间">
-            <el-date-picker v-model="formInline.startDate"
+            <el-date-picker v-model="formInline.OrderTime"
                             type="daterange"
                             :picker-options="pickerOptions"
                             range-separator="至"
@@ -25,32 +22,119 @@
                             end-placeholder="结束日期">
             </el-date-picker>
         </el-form-item>
+
+        <el-form-item>
+            <el-button type="primary" v-on:click="getData">搜索</el-button>
+        </el-form-item>
         
     </el-form>
     <div id="chart" style="height:500px;"></div>
 </el-main>
 
 <script>
+    var myChart = {}
     var demo = new Vue({
         el: "#partPage",
         mixins: [mixin],
         data: function () {
             return {
                 formInline: {
-                    region: '',
-                    startDate: '',
-                    endDate: ''
+                    OrderId: '',
+                    OrderTime: ''
                 }
             }
         },
         methods: {
-
+            //获取数据
+            getData() {
+                let that = this
+                let searchParam = {}
+                let formInline = this.formInline
+                var date = new Date()
+                for (let p in formInline) {
+                    if (formInline[p] == '' || formInline[p] == null) continue
+                    if (p == 'OrderTime') {
+                        searchParam['StartTime'] = _dateToString(formInline[p][0], '-')
+                        searchParam['EndTime'] = _dateToString(formInline[p][1], '-')
+                    } else {
+                        searchParam[p] = formInline[p]
+                    }
+                }
+                console.log(_formatQueryStr(searchParam))
+                $.ajax({
+                    url: "/Quality/GetBatchQuality" + _formatQueryStr(searchParam),
+                    dataType: 'json',
+                    success: function (data) {
+                        that.loadRadarData(data)
+                    },
+                    error: function (err) {
+                        console.error(err)
+                    }
+                })
+                $.ajax({
+                    url: "/Quality/GetQualityCounts" + _formatQueryStr(searchParam),
+                    dataType: 'json',
+                    success: function (data) {
+                        that.loadPieData(data)
+                    },
+                    error: function (err) {
+                        console.error(err)
+                    }
+                })
+            },
+            loadRadarData(data) {
+                if (data.Rows instanceof Array) {
+                    var radarValue = []
+                    for (let q in QUALITY_RADAR) {
+                        radarValue.push(parseFloat(data.Rows[data.Rows.length - 1][q]))
+                    }
+                    myChart.addData([
+                        [
+                            1,        // 系列索引
+                            {         // 新增数据
+                                name: '质量参数',
+                                value: radarValue
+                            },
+                            false,     // 新增数据是否从队列头部插入
+                            false      // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+                        ]
+                    ]);
+                }
+            },
+            loadPieData(data) {
+                var value = []
+                for (let q in QUALITY_PIE) {
+                     myChart.addData([
+                        [
+                            0,        // 系列索引
+                            {         // 新增数据
+                                name: QUALITY_PIE[q],
+                                value: parseInt(data[q])
+                            },
+                            false,     // 新增数据是否从队列头部插入
+                            false      // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+                        ]
+                    ]);
+                }
+            }
         },
         created: function () {
+            this.getData()
             loadHtml("mainPage", "partPage")
         }
     })
-    var myChart = echarts.init(document.getElementById('chart'));
+    //图表参数
+    myChart = echarts.init(document.getElementById('chart'));
+    var radarName = []
+    var pieName = []
+    for (let r in QUALITY_RADAR) {
+        radarName.push({
+            text: QUALITY_RADAR[r]
+        })
+    }
+    for (let p in QUALITY_PIE) {
+        pieName.push(QUALITY_PIE[p])
+    }
     option = {
         title: {
             text: '质量分析'
@@ -59,7 +143,7 @@
             trigger: 'item'
         },
         legend: {
-            data: ['合格', '次品', '废品']
+            data: pieName
         },
         toolbox: {
             show: true,
@@ -70,13 +154,7 @@
         },
         polar: [
             {
-                indicator: [
-                    { text: '硫化前外观' },
-                    { text: '鞋面拉力' },
-                    { text: '大底拉力' },
-                    { text: '折弯疲劳' },
-                    { text: '硫化后外观' }
-                ],
+                indicator: radarName,
                 center: [document.getElementById('chart').offsetWidth - 250, 225],
                 radius: 120
             }
@@ -90,15 +168,15 @@
                 center: [250, 225],
                 data: [
                     {
-                        name: '合格',
+                        name: 'A等',
                         value: Math.round(Math.random() * 10)
                     },
                     {
-                        name: '次品',
+                        name: 'B等',
                         value: Math.round(Math.random() * 10)
                     },
                     {
-                        name: '废品',
+                        name: 'C等',
                         value: Math.round(Math.random() * 10)
                     }]
             },
