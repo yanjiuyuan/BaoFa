@@ -11,6 +11,7 @@ namespace Bussiness
 {
     public class LoginServer
     {
+
         public  bool ChekLogin(string strUserName, string strPassword)
         {
             strPassword = MD5Encrypt.Encrypt(strPassword);

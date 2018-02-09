@@ -335,6 +335,10 @@
       <Project>{1033f685-0ba7-4ba2-b8ed-2309a13c134c}</Project>
       <Name>Bussiness</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{5dce917e-8af8-48b1-9e3f-f549951c9e49}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

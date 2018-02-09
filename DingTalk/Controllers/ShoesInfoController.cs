@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,10 +16,9 @@ namespace DingTalk.Controllers
         }
 
 
-        public string GetShoesInfo(string RFID)
-        {
+      
 
-            return "";
-        }
+
+        
     }
 }
