@@ -13,6 +13,10 @@
             <el-input v-model="formInline.OrderId">
             </el-input>
         </el-form-item>
+        <el-form-item label="子订单">
+            <el-input v-model="formInline.ChildId">
+            </el-input>
+        </el-form-item>
         <el-form-item label="子订单时间">
             <el-date-picker v-model="formInline.OrderTime"
                             type="daterange"
@@ -40,6 +44,7 @@
             return {
                 formInline: {
                     OrderId: '',
+                    ChildId: '',
                     OrderTime: ''
                 }
             }
@@ -165,7 +170,7 @@
                 name: '品质分析',
                 type: 'pie',
                 radius: [0, 110],
-                center: [250, 225],
+                center: [170, 225],
                 data: [
                     {
                         name: 'A等',
@@ -183,7 +188,25 @@
             {
                 name: 'radar',
                 type: 'radar',
-                itemStyle: { normal: { areaStyle: { type: 'default' } } },
+                itemStyle: {
+                    normal: {
+                        color: function (params) {
+                            var dataIndex = params.dataIndex
+                            switch (dataIndex) {
+                                case 0: return 'rgb(0,184,0)'; break;
+                                case 1: return 'pink'; break;
+                                case 2: return 'rgb(230,200,0)'; break;
+                                case 3: return 'rgb(0,156,213)'; break;
+                                default: return 'rgb(213,35,33)';
+                            }
+                        },
+                        areaStyle: {
+                            color:'rgba(151,229,151,0.7)',
+                            type: 'default'
+                        }
+                        
+                    }
+                },
                 data: [{
                     name: '质量参数',
                     value: [

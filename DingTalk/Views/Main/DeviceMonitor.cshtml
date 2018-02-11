@@ -14,8 +14,8 @@
                  element-loading-text="数据加载中"
                  element-loading-spinner="el-icon-loading"*@
                  element-loading-background="rgba(0, 0, 0, 0.8)"
-                 id="imgFrame" style="margin-bottom:30px;position:relative;width:900px;height:430px;">
-                <img src="~/Content/images/deviceMonitor.png" style="width:900px;height:430px;"/>
+                 id="imgFrame" style="margin-bottom:30px;position:relative;">
+                <img src="~/Content/images/deviceMonitor.png" style="max-width:100%"/>
                 <!--设备状态按钮-->
                 <template v-for="(btn,index) of deviceBtns">
                     <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
@@ -134,50 +134,32 @@
         methods: {
             //监控界面全屏
             changeFullScreen: function () {
-                var screenHeight = window.screen.height;
-                var screenWidth = window.screen.width;
-                var scale = screenWidth / screenHeight > 900 / 430 ? screenHeight / 430 : screenWidth / 900;
+                imgWidth = parseInt($("#imgFrame").css("width"))
+                imgHeight = parseInt($("#imgFrame").css("height"))
+                console.log("imgWidth,imgHeight = " + imgWidth + " , " + imgHeight)
+                console.log("screenWidth,screenHeight = " + screenWidth + " , " + screenHeight)
+                //var scale = screenWidth / screenHeight > 900 / 430 ? screenHeight / imgHeight : screenWidth / imgWidth;
+                screenWidth / screenHeight > 900 / 430 ? $("#imgFrame").css({ "height": screenHeight }) : $("#imgFrame").css({ "width": screenWidth })
+                $("#imgFrame").css({ "position": "absolute", "top": "0", "left": "0" })
                 this.showMask = true;
-                deviceButtoCss = {
-                    "width": parseInt($(".device-button").css("width")),
-                    "font-size": parseInt($(".device-button").css("font-size")),
-                    "border-radius": parseInt($(".device-button").css("border-radius")),
-                    "padding-left": parseInt($(".device-button").css("padding-left"))
-                }
-                deviceStatusCss = {
-                    "padding": parseInt($(".device-status").css("padding")),
-                    "font-size": parseInt($(".device-status").css("font-size")),
-                    "line-height": parseInt($(".device-status").css("line-height"))
-                }
-                console.log('padding = ' + $(".device-button").css("padding"));
-                $("#imgFrame").css({ "width": imgWidth * scale + 'px', "height": imgHeight * scale + 'px', "position": "absolute", "top": "0", "left": "0" })
-                $("#imgFrame").find("img").css({ "width": imgWidth * scale + 'px', "height": imgHeight * scale + 'px' })
                 $("body").css({ "overflow": "hidden" })
                 for (let param of DEVICES) {
-                    param.tooltip.font_size = "21px"
+                    param.tooltip.font_size = "1.5em"
                 }
-                for (let css in deviceButtoCss) {
-                    $(".device-button").css(css, deviceButtoCss[css] * scale + 'px')
-                }
-                for (let css in deviceStatusCss) {
-                    css == "padding" ? $(".device-status").css("cssText", css + ":" + Math.ceil(deviceStatusCss[css] * scale) + 'px !important;') : $(".device-status").css(css, deviceStatusCss[css] * scale + 'px')
-                }
+                $(".device-button").css("font-size", "1.5em")
 
             },
             //监控界面恢复
             restoreScreen: function () {
-                $("#imgFrame").css({ "width": imgWidth + 'px', "height": imgHeight + 'px', "position": "relative", "top": "0", "left": "0" })
-                $("#imgFrame").find("img").css({ "width": imgWidth + 'px', "height": imgHeight + 'px' })
+                $("#imgFrame").css({ "width": '100%', "height": 'auto', "position": "relative", "top": "0", "left": "0" })
+                $("#imgFrame").find("img").css({ "width": '100%'})
                 $("body").css({ "overflow": "scroll" })
                 for (let param of DEVICES) {
-                    param.tooltip.font_size = "12px"
+                    param.tooltip.font_size = "1em"
                 }
-                for (let css in deviceButtoCss) {
-                    $(".device-button").css(css, deviceButtoCss[css] + 'px')
-                }
+                $(".device-button").css("font-size", "0.5em")
                 for (let css in deviceStatusCss) {
                     css == "padding" ? $(".device-status").css("cssText", css + ":" + deviceStatusCss[css] + 'px !important;') : $(".device-status").css(css, deviceStatusCss[css] + 'px')
-                    console.log(css + ' = ' + $(".device-status").css(css))
                 }
                 this.showMask = false;
             }

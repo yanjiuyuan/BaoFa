@@ -5,7 +5,7 @@ var SPRAY = {
     '物料压': 'MaterialPressure',
     '胶重': 'GlueWeight',
     '流量计': 'FlowMeter',
-    '烤箱实时温度': 'OvenTemperatureNow',
+    //'烤箱实时温度': 'OvenTemperatureNow',
     '机器人状态号': 'StateN',
     '机器人报警号': 'ErrorN'
 }
@@ -203,7 +203,7 @@ var DEVICES = [
         }
     }, {
         num: 15,
-        name: '围条贴附1号站',
+        name: '围条贴附1站',
         tooltip: {
             disabled: true,
             placement: 'left'
@@ -214,7 +214,7 @@ var DEVICES = [
         }
     }, {
         num: 16,
-        name: '围条贴附2号站',
+        name: '围条贴附2站',
         tooltip: {
             disabled: true,
             placement: 'left'
@@ -253,8 +253,8 @@ var DEVICES = [
 
 //批次质量配置参数
 let QUALITY_RADAR = {
-    'AppearanceQualified': '硫化前外观合格率',
-    'AppearanceAfterQualified': '硫化前后观合格率',
+    'AppearanceQualified': '硫化外观合格率',
+    'AppearanceAfterQualified': '硫化后外观合格率',
     'VampPullQualified': '鞋面拉力合格点占比',
     'DaDiPullQualified': '大底拉力合格点占比',
     'ZheWangQualified': '折弯疲劳合格率'

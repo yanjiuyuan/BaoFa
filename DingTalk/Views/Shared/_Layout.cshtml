@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8" />
-    
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <title>@ViewBag.Title</title>
     @Scripts.Render("~/bundles/modernizr")
     <title>泉州华中科技大学智能制造研究院</title>
@@ -16,6 +16,7 @@
     <script src="~/Scripts/vue.js"></script>
     <script src="~/Scripts/element.js"></script>
     <script>
+        //check login
         //var userObj = getLocalObj('user')
         if (!_getCookie('UserName')) {
             location.href="/login"
@@ -26,11 +27,10 @@
             role: _getCookie('Role')
         }
         mixin.data.user = userInfo
-        //console.log(_getCookie('UserName'))
-        //console.log(userInfo)
+
     </script>
 </head>
-<body>
+<body id="body">
     <div id="app">
         <el-header>
             @RenderPage("~/Views/Shared/Head_login.cshtml")
@@ -48,12 +48,52 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
-<script>
-     
-
-</script>
 
 <script>
     var needLogin = '@ViewBag.needLogin'
+    //transform page size when in mobile screen
+    var screenHeight = window.screen.height;
+    var screenWidth = window.screen.width;
+    var innerHeight = window.innerHeight
+    var innerWidth = window.innerWidth
+    var scale = screenWidth / 1280
+    var mobileScale = innerWidth / 1280
+    console.log("innerWidth = " + innerWidth)
+    console.log("innerHeight = " + innerHeight)
+    //if (screenWidth <= 768) {
+    //    transFormSize(innerWidth / 1280)
+    //}
+    //add listen on screen rotate
+
+    // 添加onorientationchange事件监听
+    //var evt = "onorientationchange" in window ? "orientationchange" : "resize";
     
+    window.addEventListener("orientationchange", resize, false);
+    function resize() {
+        if (screenWidth > 768 && screenHeight > 768) return;
+        if (window.orientation == 0 || window.orientation == 180) {
+            screenHeight >= screenWidth ? transFormSize(screenWidth / 1280) : transFormSize(screenHeight / 1280)
+            
+        } else {
+            alert("screenWidth = " + screenWidth)
+            alert("screenHeight = " + screenHeight)
+            screenHeight < screenWidth ? transFormSize(screenWidth / 1280) : transFormSize(screenHeight / 1280)
+        }
+    }
+    resize();
+
+    function transFormSize(_scale) {
+        var transformCss = {
+            "transform": "scale(" + _scale + ")",
+            "-ms-transform": "scale(" + _scale + ")",
+            "-ms-transform-origin": "0 0",
+            "-webkit-transform": "scale(" + _scale + ")",
+            "-webkit-transform-origin": "0 0",
+            "-moz-transform": "scale(" + _scale + ")",
+            "-moz-transform-origin": "0 0",
+            "-o-transform": "scale(" + _scale + ")",
+            "-o-transform-origin": "0 0"
+        }
+        $("#body").css(transformCss)
+    }
 </script>
