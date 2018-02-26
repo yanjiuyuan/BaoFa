@@ -143,6 +143,22 @@ a{
     background: -moz-linear-gradient(left, rgb(255, 245, 245) 20%, rgb(191, 191, 191) 73%);
     background: -webkit-linear-gradient(left, rgb(255, 245, 245) 20%, rgb(191, 191, 191) 73%);
 }
+.device-count {
+    position: absolute;
+    width: 14%;
+    color:red;
+    font-size:1.2em;
+    
+}
+.device-worker {
+    position: absolute;
+    width: 8%;
+    color: red;
+    text-align:center;
+}
+.device-worker img{
+    width:100%;
+}
 .device-button:hover{
     z-index:2;
 }

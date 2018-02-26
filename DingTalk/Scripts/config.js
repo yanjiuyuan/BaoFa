@@ -19,7 +19,6 @@ var PRESS = {
     '左右脚': 'LRFoot',
     '鞋长': 'ShoeL'
 }
-
 var DEVICES = [
     {
         num: 1,
@@ -264,3 +263,88 @@ let QUALITY_PIE = {
     'Bads': 'B等',
     'Inferior': 'C等'
 }
+
+//工艺人员界面配置参数
+var WORKERS = [
+    {
+        num: 1,
+        name: '套楦',
+        position: {
+            top: '74%',
+            left: '4%'
+        },
+        url: '../../Content/images/worker/1.jpg'
+    },
+    {
+        num: 2,
+        name: '帖大底',
+        position: {
+            top: '0%',
+            left: '22%'
+        },
+        url: '../../Content/images/worker/2.jpg'
+    },
+    {
+        num: 3,
+        name: '敲平',
+        position: {
+            top: '0%',
+            left: '42%'
+        },
+        url: '../../Content/images/worker/3.jpg'
+    },
+    {
+        num: 4,
+        name: '贴围条',
+        position: {
+            top: '20%',
+            left: '92%'
+        },
+        url: '../../Content/images/worker/4.jpg'
+    },
+    {
+        num: 5,
+        name: '滚压',
+        position: {
+            top: '74%',
+            left: '60%'
+        },
+        url: '../../Content/images/worker/5.jpg'
+    },
+    {
+        num: 6,
+        name: '帖护齿、贴标',
+        position: {
+            top: '74%',
+            left: '40%'
+        },
+        url: '../../Content/images/worker/6.jpg'
+    },
+    {
+        num: 7,
+        name: '品检',
+        position: {
+            top: '74%',
+            left: '22%'
+        },
+        url: '../../Content/images/worker/7.jpg'
+    },
+    {
+        num: 8,
+        name: '工艺组组长',
+        position: {
+            top: '30%',
+            left: '36%'
+        },
+        url: '../../Content/images/worker/8.jpg'
+    },
+    {
+        num: 9,
+        name: '喷胶调试员',
+        position: {
+            top: '30%',
+            left: '50%'
+        },
+        url: '../../Content/images/worker/9.jpg'
+    }
+]

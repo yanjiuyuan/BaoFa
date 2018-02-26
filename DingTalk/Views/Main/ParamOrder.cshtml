@@ -11,7 +11,7 @@
         <el-input v-model="formInline.keyword" style="width:500px;"
                   placeholder="请输入搜索关键字"></el-input>
     </el-form-item>
-        
+        <!--高级检索-时间-->
         <template v-if="superSearch">
             <el-form-item label="开始日期">
                 <el-date-picker v-model="formInline.OrderTime"
@@ -31,6 +31,14 @@
                                 end-placeholder="结束日期">
                 </el-date-picker>
             </el-form-item>
+            <!--高级检索-表单选项-->
+            <el-form-item>
+                <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" v-on:change="handleCheckAllChange">全选</el-checkbox>
+                <div style="margin: 15px 0;"></div>
+                <el-checkbox-group v-model="choosedOptions" v-on:change="handleCheckedOptionsChange">
+                    <el-checkbox v-for="(value,key) in tableOptions" :label="key" :key="key">{{value}}</el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
         </template>
         
         <el-form-item label="客户">
@@ -46,54 +54,17 @@
             </el-select>
         </el-form-item>
 
+        
+
         <el-form-item>
             <el-button type="primary" v-on:click="onFilter">搜索</el-button>
             <span v-if="superSearch" v-on:click="changeSuperSearch" class="clickable-text">关闭高级搜索</span>
             <span v-else v-on:click="changeSuperSearch" class="clickable-text">高级搜索</span>
         </el-form-item>
-
-        @*<el-form-item>
-            <el-radio-group v-model="formInline.state">
-                <el-radio :label="0">全部</el-radio>
-                <el-radio :label="1">运动鞋</el-radio>
-                <el-radio :label="2">休闲鞋</el-radio>
-                <el-radio :label="3">皮鞋</el-radio>
-            </el-radio-group>
-        </el-form-item>*@
-    </el-form>
+</el-form>
     <!--表格實體-->
     <el-table :data="tableData" stripe border>
-        <el-table-column type="expand">
-            <template slot-scope="props">
-                <el-form label-position="left" inline class="table-expand">
-                    <el-form-item label="面料">
-                        <span>{{ props.row.Material }}</span>
-                    </el-form-item>
-                    <el-form-item label="包头长度">
-                        <span>{{ props.row.BaoTouL }}</span>
-                    </el-form-item>
-                    <el-form-item label="围条宽度">
-                        <span>{{ props.row.WeiTiaoW }}</span>
-                    </el-form-item>
-                    <el-form-item label="护齿宽度">
-                        <span>{{ props.row.HuChiW }}</span>
-                    </el-form-item>
-                    <el-form-item label="型体号">
-                        <span>{{ props.row.XingTiN }}</span>
-                    </el-form-item>
-                    <el-form-item label="颜色代号">
-                        <span>{{ props.row.Color }}</span>
-                    </el-form-item>
-                </el-form>
-            </template>
-        </el-table-column>
-        <el-table-column prop="OrderID" label="总订单编号" width="120"></el-table-column>
-        <el-table-column prop="OrderN" label="总订单量" width="120"></el-table-column>
-        <el-table-column prop="Customer" label="客户" width="120"></el-table-column>
-        <el-table-column prop="ExpCountries" label="出口国家" width="120"></el-table-column>
-        <el-table-column prop="Size" label="尺码" width="120"></el-table-column>
-        <el-table-column prop="OrdTime" label="下单时间" width="140"></el-table-column>
-        <el-table-column prop="DeliveryTime" label="交货时间"></el-table-column>
+        <el-table-column v-for="opt in choosedOptions" :prop="opt" :label="tableOptions[opt]"></el-table-column>
     </el-table>
     <!--底部翻頁-->
     <div style="text-align:right">
@@ -110,6 +81,25 @@
 
 
 <script>
+    var tableOptions = {
+        OrderID: "总订单编号",
+        OrderN: "总订单量",
+        Customer: "客户",
+        ExpCountries: "出口国家",
+        Size: "尺码",
+        OrdTime: "下单时间",
+        DeliveryTime: "交货时间",
+        Material: "面料",
+        BaoTouL: "包头长度",
+        HuChiW: "护齿宽度",
+        XingTiN: "型体号",
+        Color: "颜色代号"
+    }
+
+    var allOptions = []
+    for (let c in tableOptions) {
+        if (typeof (c) == 'string') allOptions.push(c)
+    }
     new Vue({
         el: "#partPage",
         mixins: [mixin],
@@ -128,7 +118,11 @@
                     ExpCountries: '',
                     OrderTime: '',
                     DeliveryTime: ''
-                }
+                },
+                checkAll: true,
+                choosedOptions: allOptions,
+                tableOptions: tableOptions,
+                isIndeterminate: true
             }
         },
         methods: {
@@ -197,6 +191,16 @@
                         console.error(err)
                     }
                 })
+            },
+            //筛选表单项
+            handleCheckAllChange(val) {
+                this.choosedOptions = val ? allOptions : [];
+                this.isIndeterminate = false;
+            },
+            handleCheckedOptionsChange(value) {
+                let checkedCount = value.length;
+                this.checkAll = checkedCount === allOptions.length;
+                this.isIndeterminate = checkedCount > 0 && checkedCount < allOptions.length;
             }
         },
         created: function () {

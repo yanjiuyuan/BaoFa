@@ -4,18 +4,22 @@
 
 <!--右侧实体内容-->
 <el-main id="partPage">
-    <div v-show="showMask">
-        <div class="mask"></div>
-    </div>
 
     <el-collapse v-model="activeNames">
         <el-collapse-item title="宝发硫化鞋生产线01" name="1">
             <div id="imgFrame" style="margin-bottom:30px;position:relative;width:900px;height:430px;">
-                <img src="~/Content/images/deviceMonitor.png" style="width:900px;height:430px;" />
-                <!--设备状态按钮-->
-                @*<template v-for="(btn,index) of deviceBtns">
-                    <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
-                </template>*@
+                <img src="~/Content/images/lineVerticalView.png" style="width:900px;height:430px;" />
+                <!--工艺人员组件-->
+                <template v-for="w of workers">
+                    <div class="device-worker" :style="{top: w.position.top,left:w.position.left}">
+                        <img :src="w.url" />
+                        <span>{{w.name}}</span>
+                    </div>
+                </template>
+                @*<div class="device-worker" style="top: 12.02%;left: 0.56%">
+                    <img src="~/Content/images/worker/7.jpg"/>
+                    <span>套楦</span>
+                </div>*@
             </div>
         </el-collapse-item>
         <el-collapse-item title="宝发硫化鞋生产线02" name="2">
@@ -29,43 +33,7 @@
 
 <script>
     //vue组件-设备按钮显示
-    Vue.component('sam-devicebtn', {
-        props: ['param', 'index'],
-        template: `<el-tooltip :placement="param.tooltip.placement" :disabled="param.tooltip.disabled" effect="light" class="tips">
-                        <div slot="content" :style="{fontSize:param.tooltip.font_size}">
-                            <template v-for="t in param.tips">
-                                {{t}} : {{param.tips[t]}}
-                                 <br />
-                            </template>
-                        </div>
-                        <div v-on:mouseover="showMore=true" v-on:mouseout="showMore=false"
-                             class="device-button" :class="theme.mainClass"
-                            :style="{left:param.position.left,top:param.position.top}">
-                            <span>{{param.name}}</span>
-                            <el-button :type="theme.warnType" round class="device-status">{{theme.text}}</el-button>
-                            <el-collapse-transition>
-                                <div v-show="showMore">
-                                    <hr :style="{color:theme.color}" />
-                                    <template v-for="(d,i) in param.detail">
-                                        {{i}} : {{d}}
-                                         <br />
-                                    </template>
-                                </div>
-                            </el-collapse-transition>
-                        </div>
-                    </el-tooltip>`,
-        data: function () {
-            return {
-                showMore: false,
-                theme: theme
-            }
-        }
-    })
     var img = $("#imgFrame img").find("img")[0]
-    var deviceButtoCss = {}
-    var deviceStatusCss = {}
-    var imgWidth = 900
-    var imgHeight = 430
 
     var index = new Vue({
         el: "#partPage",
@@ -73,30 +41,13 @@
         data: function () {
             return {
                 activeNames: ['1'],
-                deviceBtns: _cloneArr(DEVICES),
-                showMask: false
+                workers: _cloneArr(WORKERS),
             }
         },
         methods: {
 
         },
         created: function () {
-            var that = this;
-            var ws;
-            ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/api/dt/Get");
-            ws.onopen = function () {
-                // $("#messageSpan").text("Connected!");
-                if (ws.readyState == WebSocket.OPEN) {
-                    window.setInterval(function () {
-                        ws.send("GetAllTable");
-                    }, 2000)
-
-                } else {
-
-                }
-            };
-
-
 
             loadHtml("mainPage", "partPage")
         }
