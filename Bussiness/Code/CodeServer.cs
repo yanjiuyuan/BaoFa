@@ -17,6 +17,7 @@ namespace Bussiness.Code
             return CreateImage;
         }
 
+
         public string GetStrCode(int? Length = 4)
         {
            return  yzm.CreateRandomCode(Length);
