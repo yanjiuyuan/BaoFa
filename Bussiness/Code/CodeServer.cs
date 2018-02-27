@@ -8,6 +8,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Bussiness.Code
 {
+
     public class CodeServer
     {
         YzmClass yzm = new YzmClass();
