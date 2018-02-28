@@ -11,10 +11,17 @@
                 <img src="~/Content/images/lineVerticalView.png" style="width:900px;height:430px;" />
                 <!--工艺人员组件-->
                 <template v-for="w of workers">
-                    <div class="device-worker" :style="{top: w.position.top,left:w.position.left}">
-                        <img :src="w.url" />
-                        <span>{{w.name}}</span>
-                    </div>
+                    <el-tooltip placement="right" effect="light" class="tips">
+                        <div slot="content">
+                            {{w.num}}
+                            <br />
+                            {{w.station}}
+                        </div>
+                        <div class="device-worker" :style="{top: w.position.top,left:w.position.left}">
+                            <img :src="w.url" />
+                            <span>{{w.station}}</span>
+                        </div>
+                    </el-tooltip>
                 </template>
                 @*<div class="device-worker" style="top: 12.02%;left: 0.56%">
                     <img src="~/Content/images/worker/7.jpg"/>

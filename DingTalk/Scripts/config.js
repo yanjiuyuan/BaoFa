@@ -268,7 +268,7 @@ let QUALITY_PIE = {
 var WORKERS = [
     {
         num: 1,
-        name: '套楦',
+        station: '套楦',
         position: {
             top: '74%',
             left: '4%'
@@ -277,7 +277,7 @@ var WORKERS = [
     },
     {
         num: 2,
-        name: '帖大底',
+        station: '帖大底',
         position: {
             top: '0%',
             left: '22%'
@@ -286,7 +286,7 @@ var WORKERS = [
     },
     {
         num: 3,
-        name: '敲平',
+        station: '敲平',
         position: {
             top: '0%',
             left: '42%'
@@ -295,7 +295,7 @@ var WORKERS = [
     },
     {
         num: 4,
-        name: '贴围条',
+        station: '贴围条',
         position: {
             top: '20%',
             left: '92%'
@@ -304,7 +304,7 @@ var WORKERS = [
     },
     {
         num: 5,
-        name: '滚压',
+        station: '滚压',
         position: {
             top: '74%',
             left: '60%'
@@ -313,7 +313,7 @@ var WORKERS = [
     },
     {
         num: 6,
-        name: '帖护齿、贴标',
+        station: '帖护齿、贴标',
         position: {
             top: '74%',
             left: '40%'
@@ -322,7 +322,7 @@ var WORKERS = [
     },
     {
         num: 7,
-        name: '品检',
+        station: '品检',
         position: {
             top: '74%',
             left: '22%'
@@ -331,7 +331,7 @@ var WORKERS = [
     },
     {
         num: 8,
-        name: '工艺组组长',
+        station: '工艺组组长',
         position: {
             top: '30%',
             left: '36%'
@@ -340,7 +340,7 @@ var WORKERS = [
     },
     {
         num: 9,
-        name: '喷胶调试员',
+        station: '喷胶调试员',
         position: {
             top: '30%',
             left: '50%'
