@@ -8,6 +8,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace Bussiness.Code
 {
+
     public class CodeServer
     {
         YzmClass yzm = new YzmClass();
@@ -16,6 +17,7 @@ namespace Bussiness.Code
             byte[] CreateImage = yzm.CreateImage(strCode);
             return CreateImage;
         }
+
 
         public string GetStrCode(int? Length = 4)
         {
