@@ -1,32 +1,9 @@
-2018-02-09 09:38:40,302 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 09:42:00,912 [10] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 09:57:10,215 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 10:02:06,142 [37] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-02-09 10:02:44,029 [36] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-02-09 10:02:59,079 [37] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-02-09 10:03:34,208 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 10:03:49,305 [7] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-02-09 10:05:15,245 [7] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-02-09 10:06:13,399 [7] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-02-09 10:07:45,185 [8] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-02-09 10:09:10,116 [7] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-02-09 10:33:27,802 [5] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 11:21:50,609 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 11:27:44,324 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 11:30:12,119 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 11:33:21,073 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 11:37:30,932 [5] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 11:39:12,250 [10] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 11:46:05,079 [8] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 11:49:29,252 [10] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 11:50:45,652 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 11:53:09,375 [10] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 14:09:29,901 [8] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 14:12:16,375 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 14:14:31,027 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 14:18:50,360 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 14:24:33,991 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 14:42:28,532 [5] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 14:49:15,829 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 14:51:18,862 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-09 14:58:05,803 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-03-02 08:52:12,323 [12] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-03-02 09:07:32,011 [10] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-03-02 09:13:04,672 [5] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-03-02 09:14:44,632 [5] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-03-02 09:17:22,857 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-03-02 09:20:57,658 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-03-02 09:24:59,649 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-03-02 09:34:24,273 [6] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-03-02 09:59:02,588 [10] INFO  Common.LogHelper.Logger - 系统初始化Logger模块

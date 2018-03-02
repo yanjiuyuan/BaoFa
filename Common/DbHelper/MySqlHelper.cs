@@ -12,9 +12,7 @@ namespace Common.DbHelper
     public class MySqlHelper
     {
         private static Logger logger = Logger.CreateLogger(typeof(MySqlHelper));
-        //private static string connstr = @"Host=rm-bp1n55m700al7r0g8o.mysql.rds.aliyuncs.com;UserName=meiyang;Password=My123654;Database=QMYSQL;Port=3306;CharSet=utf8;Allow Zero Datetime=true";
         private static string connstr = @"Host=47.96.172.122;UserName=huabao;Password=huabao2025;Database=huabao;Port=3306;CharSet=utf8;Allow Zero Datetime=true";
-        //private static string connstr = System.Configuration.ConfigurationManager.AppSettings["connstr"].ToString();
 
         #region 执行查询语句，返回MySqlDataReader
         /// <summary>
@@ -419,6 +417,30 @@ namespace Common.DbHelper
         }
         #endregion
 
+        #region 返回DataTable对象
+        public static DataTable ExecuteDataTable(string SQLString, params MySqlParameter[] cmdParms)
+        {
+            using (MySqlConnection connection = new MySqlConnection(connstr))
+            {
+                MySqlCommand cmd = new MySqlCommand();
+                PrepareCommand(cmd, connection, null, SQLString, null);
+                using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
+                {
+                    DataSet ds = new DataSet();
+                    try
+                    {
+                        da.Fill(ds, "ds");
+                        cmd.Parameters.Clear();
+                    }
+                    catch (MySql.Data.MySqlClient.MySqlException ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+                    return ds.Tables[0];
+                }
+            }
+        }
+        #endregion
 
     }
 }

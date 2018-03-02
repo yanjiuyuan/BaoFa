@@ -29,7 +29,8 @@ namespace Common.Code
             int rand; char code;
             string randomCode = String.Empty;
             //生成一定长度的验证码 
-            System.Random random = new Random(); for (int i = 0; i < length; i++)
+            System.Random random = new Random();
+            for (int i = 0; i < length; i++)
             {
                 rand = random.Next();
                 if (rand % 3 == 0)
@@ -59,9 +60,11 @@ namespace Common.Code
                 graph.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;//指定模式  
                 Random rand = new Random();
                 //背景噪点生成 
-                Pen blackPen = new Pen(Color.LightGray, 0); for (int i = 0; i < 20; i++)
+                Pen blackPen = new Pen(Color.LightGray, 0);
+                for (int i = 0; i < 20; i++)
                 {
-                    int x = rand.Next(0, map.Width); int y = rand.Next(0, map.Height);
+                    int x = rand.Next(0, map.Width);
+                    int y = rand.Next(0, map.Height);
                     graph.DrawRectangle(blackPen, x, y, 1, 1);
                 }
                 //验证码旋转，防止机器识别 

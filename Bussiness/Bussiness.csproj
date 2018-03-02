@@ -66,6 +66,8 @@
     <Compile Include="Register\RegisterServer.cs" />
     <Compile Include="Shoes\ShoesInfo.cs" />
     <Compile Include="SprayData\SprayServer.cs" />
+    <Compile Include="Time\TimeHelper.cs" />
+    <Compile Include="Usage\UsageInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">

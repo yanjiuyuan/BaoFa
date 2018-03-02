@@ -1,6 +1,10 @@
 ﻿using Bussiness.DosageInfo;
+using Bussiness.Time;
+using Common.JsonHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,6 +32,37 @@ namespace DingTalk.Controllers
         {
             DosageInfoServer dServer = new DosageInfoServer();
             return dServer.GetDosageInfo(OrderId, ChildId);
+        }
+
+
+        /// <summary>
+        /// 时时产量读取接口
+        /// </summary>
+        /// <param name="DataTime">查询日期(格式为yyyy-MM-dd)</param>
+        /// <returns>返回头尾以及整点数据</returns>
+        /// 测试数据 Statistics/GetCurrentProduction
+        /// 测试数据 Statistics/GetCurrentProduction?DataTime=2018-03-01
+        public string GetCurrentProduction(string DataTime)
+        {
+            string strResult = string.Empty;
+            if (DataTime != null)
+            {
+                strResult = ChangeTime(DataTime);
+            }
+            else
+            {
+                strResult = ChangeTime(DateTime.Now.ToString("yyyy-MM-dd"));
+            }
+            return strResult;
+        }
+
+        public string ChangeTime(string DataTime)
+        {
+            DateTime time = Convert.ToDateTime(DataTime);
+            long lTime = TimeHelper.ConvertDateTimeToInt(time);
+            DosageInfoServer dServer = new DosageInfoServer();
+            DataTable tb = dServer.GetCurrentProduction(lTime);
+            return JsonHelper.DataTableToJson(tb);
         }
 
     }

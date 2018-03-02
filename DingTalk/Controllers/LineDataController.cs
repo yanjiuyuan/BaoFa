@@ -125,6 +125,8 @@ namespace DingTalk.Controllers
         /// 所有表 GetAllTable   单独表 GetTable:Vamp,Waio,WaiT... 
         /// <returns></returns>
         /// 测试数据 /api/dt/GetAllTable?strMessage=GetAllTable
+        /// 测试数据 /api/dt/GetAllTable?strMessage=GetTable:Vamp,Waio
+        /// 测试数据 /api/dt/GetAllTable?strMessage=GetTable:Usage
         [Route("GetAllTable")]
         public string GetAllTable(string strMessage)
         {
@@ -167,7 +169,6 @@ namespace DingTalk.Controllers
             var result = lineDataServer.GetTableMessage(strTableName);
             return result;
         }
-
 
         /// <summary>
         /// 多线程同时查N张表

@@ -27,12 +27,17 @@ namespace Bussiness.LineData
 
         public DataTable GetTableMessage(string strTableName)
         {
-            string strSql = string.Format("SELECT  * FROM huabao.`{0}` ORDER  BY {1}id DESC LIMIT 0,1;", strTableName,strTableName);
-
+           string strSql = string.Empty;
+            //if (strTableName == "Usage")
+            //{
+            //    //strsql = string.format("select  * from huabao.`{0}` order  by  ct desc limit 0,1;", strtablename);
+            //    strSql = "select  *  from  `usage`  ";
+            //}
+            //else
+            //{
+                strSql = string.Format("SELECT  * FROM `{0}` ORDER  BY {1}id DESC LIMIT 0,1;", strTableName, strTableName);
+            //}
             DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
-            //string strJsonString = string.Empty;
-            //strJsonString = JsonHelper.DataTableToJson(newTb);
-            //strJsonString = JsonConvert.SerializeObject(newTb, new DataTableConverter());
             return newTb;
         }
     }
