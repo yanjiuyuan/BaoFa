@@ -4,82 +4,183 @@
 
 <!--右侧实体内容-->
 <script src="~/Scripts/echarts-all.js"></script>
-<el-main id="partPage" style="height:500px;">
-    <h3>欢迎访问</h3>
-    <h1>Home2</h1>
+<el-main id="partPage">
+    <el-form :inline="true" :model="formInline" class="demo-form-inline"
+             size="medium">
+        <el-form-item label="年份">
+            <el-select v-model="formInline.year">
+                <el-option v-for="y of [curYear,curYear-1,curYear-2]" :label="y" :value="y" key="y"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="月份">
+            <el-select v-if="formInline.year < curYear && formInline.year != ''" v-model="formInline.month">
+                <el-option v-for="n in 12" :label="n" :value="n" key="n"></el-option>
+            </el-select>
+            <el-select v-else v-model="formInline.month">
+                <el-option v-for="m in curMonth" :label="m" :value="m" key="m"></el-option>
+            </el-select>
+        </el-form-item>
+
+        <el-form-item>
+            <el-button type="primary" v-on:click="onSearch">搜索</el-button>
+        </el-form-item>
+    </el-form>
+    <div id="lineChart" style="height:300px;"></div>
+    <div id="barChart" style="height:300px;"></div>
 </el-main>
 
 <script>
+    var date = new Date('2018/03/0')
+    console.log(date.getDate())
+
     var demo = new Vue({
         el: "#partPage",
         mixins: [mixin],
         data: function () {
             return {
-
+                formInline: {
+                    year: '',
+                    month: ''
+                }
             }
         },
         methods: {
+            onSearch: function () {
 
+            }
         },
         created: function () {
             loadHtml("mainPage", "partPage")
         }
     })
-    var myChart = echarts.init(document.getElementById('partPage'));
-    option = {
+
+    //折线图
+    var lineChart = echarts.init(document.getElementById('lineChart'));
+    lineOption = {
         title: {
-            text: '某站点用户访问来源',
-            subtext: '纯属虚构',
+            text: '',
             x: 'center'
         },
-        tooltip: {
-            trigger: 'item',
-            formatter: "{a} <br/>{b} : {c} ({d}%)"
-        },
         legend: {
-            orient: 'vertical',
-            x: 'left',
-            data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+            data: ['硫化外观合格率', '折弯疲劳合格率','鞋面拉力合格点占比','大底拉力合格点占比'],
+            x: 'left'
         },
         toolbox: {
             show: true,
             feature: {
                 mark: { show: true },
-                dataView: { show: true, readOnly: false },
                 magicType: {
                     show: true,
-                    type: ['pie', 'funnel'],
-                    option: {
-                        funnel: {
-                            x: '25%',
-                            width: '50%',
-                            funnelAlign: 'left',
-                            max: 1548
-                        }
-                    }
+                    type: ['line', 'bar']
                 },
                 restore: { show: true },
                 saveAsImage: { show: true }
             }
         },
         calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                boundaryGap: false,
+                data: ['8', '9', '10', '11', '12', '13', '14']
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} %'
+                }
+            }
+        ],
         series: [
             {
-                name: '访问来源',
-                type: 'pie',
-                radius: '55%',
-                center: ['50%', '60%'],
-                data: [
-                    { value: 335, name: '直接访问' },
-                    { value: 310, name: '邮件营销' },
-                    { value: 234, name: '联盟广告' },
-                    { value: 135, name: '视频广告' },
-                    { value: 1548, name: '搜索引擎' }
-                ]
+                name: '硫化外观合格率',
+                type: 'line',
+                data: [0, 11, 25, 33, 52, 63, 70],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '硫化外观合格率' }
+                    ]
+                },
+            },
+            {
+                name: '折弯疲劳合格率',
+                type: 'line',
+                data: [100, 100, 100, 100, 100, 100, 100],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '折弯疲劳合格率' }
+                    ]
+                },
+            },{
+                name: '鞋面拉力合格点占比',
+                type: 'line',
+                data: [50, 51, 55, 53, 52, 53, 50],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '鞋面拉力合格点占比' }
+                    ]
+                },
+            }, {
+                name: '大底拉力合格点占比',
+                type: 'line',
+                data: [20, 21, 25, 23, 22, 23, 20],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '大底拉力合格点占比' }
+                    ]
+                },
             }
         ]
     };
-    myChart.setOption(option);
+    lineChart.setOption(lineOption);
+    //柱状图
+    var barChart = echarts.init(document.getElementById('barChart'));
+    barOption = {
+        title: {
+            text: '用料统计图',
+            x: 'center'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        calculable: true,
+     
+        xAxis: [
+            {
+                type: 'category',
+                data: ['8', '9', '10', '11', '12',13,14]
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+            }
+        ],
+        series: [
+            {
+                name: '产量增长图',
+                type: 'bar',
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{c}'
+                        }
+                    }
+                },
+                data: [70, 71, 75, 83, 87, 99, 111]
+            }
+        ]
+    };
+    barChart.setOption(barOption);
 </script>
 
 

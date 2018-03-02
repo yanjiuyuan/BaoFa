@@ -10,7 +10,7 @@
         <el-form-item label="关键字">
         <el-input v-model="formInline.keyword" style="width:500px;"
                   placeholder="请输入搜索关键字"></el-input>
-    </el-form-item>
+        </el-form-item>
         <!--高级检索-时间-->
         <template v-if="superSearch">
             <el-form-item label="开始日期">
@@ -61,7 +61,7 @@
             <span v-if="superSearch" v-on:click="changeSuperSearch" class="clickable-text">关闭高级搜索</span>
             <span v-else v-on:click="changeSuperSearch" class="clickable-text">高级搜索</span>
         </el-form-item>
-</el-form>
+    </el-form>
     <!--表格實體-->
     <el-table :data="tableData" stripe border>
         <el-table-column v-for="opt in choosedOptions" :prop="opt" :label="tableOptions[opt]"></el-table-column>
