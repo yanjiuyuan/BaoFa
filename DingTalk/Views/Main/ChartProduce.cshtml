@@ -12,6 +12,13 @@
 </el-main>
 
 <script>
+    var lineChart, barChart, lineOption, barOption
+    var barTableConfig = {
+        BiaoQianConsumption: "标签用量",
+        DaDiConsumption: "大底用量",
+        HuChiConsumption: "护齿用量",
+        WeiTiaoConsumption: "围条用量"
+    }
     var demo = new Vue({
         el: "#partPage",
         mixins: [mixin],
@@ -25,10 +32,11 @@
         },
         created: function () {
             loadHtml("mainPage", "partPage")
+            getBarData({ OrderId: "18-35-12-1", ChildId:"362-0102-1"})
         }
     })
     //折线图
-    var lineChart = echarts.init(document.getElementById('lineChart'));
+    lineChart = echarts.init(document.getElementById('lineChart'));
     lineOption = {
         title: {
             text: '产量增长图',
@@ -91,7 +99,7 @@
     };
     lineChart.setOption(lineOption);
     //柱状图
-    var barChart = echarts.init(document.getElementById('barChart'));
+    barChart = echarts.init(document.getElementById('barChart'));
     barOption = {
         title: {
             text: '用料统计图',
@@ -115,7 +123,7 @@
             {
                 type: 'category',
                 show: false,
-                data: ['围条用量', '护齿用量', '标签用量', '大底用量','鞋带用量']
+                data: ['围条用量', '护齿用量', '标签用量', '大底用量']
             }
         ],
         yAxis: [
@@ -146,11 +154,29 @@
                         }
                     }
                 },
-                data: [70, 71, 75, 83, 87]
+                data: [70, 71, 75, 83]
             }
         ]
     };
     barChart.setOption(barOption);
+    //获取用量图数据
+    function getBarData(param) {
+        $.ajax({
+            url: "/Statistics/GetDosageInfo"+_formatQueryStr(param),
+            success: function (data) {
+                console.log(JSON.parse(data)[0])
+                data = JSON.parse(data)[0]
+                var xArr = [], yArr = []
+                for (let d in data) {
+                    xArr.push(barTableConfig[d])
+                    yArr.push(data[d])
+                }
+                barOption.xAxis[0].data = xArr
+                barOption.series[0].data = yArr
+                barChart.setOption(barOption)
+            }
+        })
+    }
 </script>
 
 
