@@ -63,6 +63,7 @@
     <Compile Include="ProductionLines\ProductionLinesServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quality\QualityServer.cs" />
+    <Compile Include="Quality\SingleQualityServer.cs" />
     <Compile Include="Register\RegisterServer.cs" />
     <Compile Include="Shoes\ShoesInfo.cs" />
     <Compile Include="SprayData\SprayServer.cs" />
