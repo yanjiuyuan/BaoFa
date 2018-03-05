@@ -85,7 +85,7 @@ namespace Bussiness.DosageInfo
                 //转换时间格式
                 tbOld.Rows[i][0] = TimeHelper.ConvertStringToDateTime(tbOld.Rows[i][0].ToString());
                 //截取时间
-                tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring(11, 5);
+                tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length-8,5);
                 //tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring();
             }
             return tbOld;
