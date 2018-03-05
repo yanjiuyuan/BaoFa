@@ -1,1 +1,1 @@
-2018-03-04 21:08:42,097 [8] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-03-05 09:36:07,854 [5] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
