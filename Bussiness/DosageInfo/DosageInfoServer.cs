@@ -52,12 +52,21 @@ namespace Bussiness.DosageInfo
         {
             DataTable tbOld = new DataTable();
             tbOld = tbNew.Clone();
+            tbOld.PrimaryKey = null;
             foreach (DataColumn col in tbOld.Columns)
             {
-                if (col.ColumnName == "ID_RealTimeUsage")
+                if (col.ColumnName == "ID_RealTimeUsage" ||
+                    col.ColumnName == "VampID" ||
+                    col.ColumnName == "WaiOID" ||
+                        col.ColumnName == "WaiTID" ||
+                    col.ColumnName == "WaiSID" ||
+                    col.ColumnName == "OutsoleID" ||
+                     col.ColumnName == "MouthguardsID" ||
+                      col.ColumnName == "LineUsageID")
                 {
                     col.DataType = typeof(string); //改变第一列属性值
                 }
+                
             }
             string strBeginTime = tbNew.Rows[0][0].ToString();
             string strEndTime = tbNew.Rows[tbNew.Rows.Count - 1][0].ToString();
@@ -73,20 +82,37 @@ namespace Bussiness.DosageInfo
                 }
                 else
                 {
-                    if (i % z == 0)
+                    if (z != 0)
                     {
-                        tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                        if (i % z == 0)
+                        {
+                            tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                        }
                     }
+
                 }
             }
 
+            //string strCompareTime = string.Empty;
             for (int i = 0; i < tbOld.Rows.Count; i++)
             {
                 //转换时间格式
                 tbOld.Rows[i][0] = TimeHelper.ConvertStringToDateTime(tbOld.Rows[i][0].ToString());
                 //截取时间
-                tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length-8,5);
+                //if (i == 0)
+                //{
+                //    strCompareTime = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length - 8, 5);
+                //    //插入数据
+                //    tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length - 8, 5);
+                //}
+                //else
+                //{
+                //    //两次数据相同不插入
+                //    strCompareTime = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length - 8, 5);
+                //}
+
                 //tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring();
+                tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length - 8, 5);
             }
             return tbOld;
         }

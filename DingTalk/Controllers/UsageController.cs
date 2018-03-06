@@ -19,7 +19,7 @@ namespace DingTalk.Controllers
 
 
         /// <summary>
-        /// usage时时读取
+        /// usage时时数据读取
         /// </summary>
         /// <returns></returns>
         /// 测试数据 usage/getusage
