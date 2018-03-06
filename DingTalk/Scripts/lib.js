@@ -108,6 +108,7 @@ var pickerOptions = {
 }
 
 //实例总参数
+var intervalId = 0
 var CURDATE = new Date()
 var mixin = {
     data: {
@@ -118,6 +119,9 @@ var mixin = {
     },
     methods: {
         
+    },
+    created: function () {
+        window.clearInterval(intervalId)
     }
 }
 

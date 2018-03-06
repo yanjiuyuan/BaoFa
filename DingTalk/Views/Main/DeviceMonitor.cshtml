@@ -18,15 +18,15 @@
                 <img src="~/Content/images/deviceMonitor.png" style="max-width:100%"/>
                 <!--生产数量统计-->
                 <div class="device-count" style="top:1%;left:0.56%;">当班产量</div>
-                <div class="device-count" style="top:6%;left:0.56%;font-weight:bold;">123</div>
+                <div class="device-count" style="top:6%;left:0.56%;font-weight:bold;">{{useage.NowN}}</div>
                 <div class="device-count" style="top:11%;left:0.56%;">生产节拍</div>
-                <div class="device-count" style="top:16%;left:0.56%;font-weight:bold;">12</div>
+                <div class="device-count" style="top:16%;left:0.56%;font-weight:bold;">{{useage.ProductionBeat}}</div>
                 <div class="device-count" style="top:21%;left:0.56%;">总产量</div>
-                <div class="device-count" style="top:26%;left:0.56%;font-weight:bold;">321</div>
+                <div class="device-count" style="top:26%;left:0.56%;font-weight:bold;">{{useage.AllN}}</div>
                 <div class="device-count" style="top:1%;left:10%;">总订单号</div>
-                <div class="device-count" style="top:1%;left:17%;font-weight:bold;">666666</div>
+                <div class="device-count" style="top:1%;left:17%;font-weight:bold;">{{useage.OrderID}}</div>
                 <div class="device-count" style="top:6%;left:10%;">子订单号</div>
-                <div class="device-count" style="top:6%;left:17%;font-weight:bold;">888888</div>
+                <div class="device-count" style="top:6%;left:17%;font-weight:bold;">{{useage.ChildID}}</div>
                 <!--设备状态按钮-->
                 <template v-for="(btn,index) of deviceBtns">
                     <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
@@ -139,7 +139,8 @@
                 activeNames: ['1'],
                 deviceBtns: _cloneArr(DEVICES),
                 showMask: false,
-                loading: true
+                loading: true,
+                useage:{}
             }
         },
         methods: {
@@ -174,12 +175,22 @@
                     css == "padding" ? $(".device-status").css("cssText", css + ":" + deviceStatusCss[css] + 'px !important;') : $(".device-status").css(css, deviceStatusCss[css] + 'px')
                 }
                 this.showMask = false;
+            },
+            //获取实时数量参数
+            getUseage: function () {
+                var that = this
+                $.ajax({
+                    url: "usage/getusage",
+                    success: function (data) {
+                        data = JSON.parse(data).Rows[0]
+                        console.log(data)
+                        that.useage = data
+                    }
+                })
             }
         },
         created: function () {
             var that = this;
-            
-            
             ws.onmessage = function (result) {
                 // $("#messageSpan").text(result.data);
                 //alert(result.data)
@@ -212,6 +223,8 @@
             ws.onclose = function (error) {
                 console.log(error);
             };
+            //获取useage参数
+            this.getUseage()
             loadHtml("mainPage", "partPage")
         }
     })

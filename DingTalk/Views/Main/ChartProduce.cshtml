@@ -32,6 +32,11 @@
         },
         created: function () {
             loadHtml("mainPage", "partPage")
+            intervalId = window.setInterval(function () {
+                getLineData({ DataTime: "2018-03-01" })
+                getBarData({ OrderId: "18-35-12-1", ChildId: "362-0102-1" })
+            }, 5000)
+            getLineData({ DataTime:"2018-03-01"})
             getBarData({ OrderId: "18-35-12-1", ChildId:"362-0102-1"})
         }
     })
@@ -159,12 +164,31 @@
         ]
     };
     barChart.setOption(barOption);
+    //获取产量图数据
+    function getLineData(param) {
+        $.ajax({
+            url: "/Statistics/GetCurrentProduction" + _formatQueryStr(param),
+            success: function (data) {
+                var xArr = [], y1Arr = [], y2Arr = []
+                console.log(JSON.parse(data))
+                data = JSON.parse(data).Rows
+                for (let d of data) {
+                    xArr.push(d.ID_RealTimeUsage)
+                    y1Arr.push(d.AllN)
+                    y2Arr.push(d.NowN)
+                }
+                lineOption.xAxis[0].data = xArr
+                lineOption.series[0].data = y1Arr
+                lineOption.series[1].data = y2Arr
+                lineChart.setOption(lineOption)
+            }
+        })
+    }
     //获取用量图数据
     function getBarData(param) {
         $.ajax({
             url: "/Statistics/GetDosageInfo"+_formatQueryStr(param),
             success: function (data) {
-                console.log(JSON.parse(data)[0])
                 data = JSON.parse(data)[0]
                 var xArr = [], yArr = []
                 for (let d in data) {
