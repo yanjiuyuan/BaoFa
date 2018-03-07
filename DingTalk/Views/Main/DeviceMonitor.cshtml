@@ -224,6 +224,9 @@
                 console.log(error);
             };
             //获取useage参数
+            window.setInterval(function () {
+                that.getUseage()
+            },5000)
             this.getUseage()
             loadHtml("mainPage", "partPage")
         }
