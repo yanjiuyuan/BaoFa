@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bussiness.WorkSataions;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -14,12 +16,17 @@ namespace DingTalk.Controllers
             return View();
         }
 
+        
 
-
+        /// <summary>
+        /// 工位读取接口
+        /// </summary>
+        /// <returns></returns>
+        /// 测试数据  WorkStations/GetWorkSataionsInfo
         public string GetWorkSataionsInfo()
         {
-
-            return "";
+            WorkSataionsServer wServer = new WorkSataionsServer();
+            return JsonConvert.SerializeObject(wServer.GetWorkStationInfo());
         }
     }
 }
