@@ -36,7 +36,15 @@ namespace Bussiness.Time
         public static DateTime ConvertStringToDateTime(string timeStamp)
         {
             DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-            long lTime = long.Parse(timeStamp + "0000");
+            long lTime;
+            if (timeStamp.Length == 13)
+            {
+                lTime = long.Parse(timeStamp);
+            }
+            else
+            {
+                lTime = long.Parse(timeStamp + "0000");
+            }
             TimeSpan toNow = new TimeSpan(lTime);
             return dtStart.Add(toNow);
         }

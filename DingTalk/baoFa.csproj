@@ -177,6 +177,7 @@
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\UsageController.cs" />
     <Compile Include="Controllers\ValidateCodeController.cs" />
+    <Compile Include="Controllers\WorkStationsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -281,6 +282,7 @@
     <Folder Include="Views\Statistics\" />
     <Folder Include="Views\Usage\" />
     <Folder Include="Views\ValidateCode\" />
+    <Folder Include="Views\WorkStations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
