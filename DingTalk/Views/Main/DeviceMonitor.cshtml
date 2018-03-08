@@ -194,13 +194,7 @@
                 })
             },
             createReport: function () {
-                var that = this
-                $.ajax({
-                    url: "Reports/GetDailyReport",
-                    success: function (data) {
-                        console.log(data)
-                    }
-                })
+                window.open("Reports/GetDailyReport");   
             }
         },
         created: function () {
