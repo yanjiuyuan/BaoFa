@@ -35,6 +35,7 @@
                 <i v-else class="el-icon-rank" v-on:click="changeFullScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
             </div>
         </el-collapse-item>
+        <button v-on:click="createReport">生成日报表</button>
         <el-collapse-item title="宝发硫化鞋生产线02" name="2">
             <div class="device-box">
                 <div class="device-box-img"></div>
@@ -189,6 +190,15 @@
                         data = JSON.parse(data).Rows[0]
                         console.log(data)
                         that.useage = data
+                    }
+                })
+            },
+            createReport: function () {
+                var that = this
+                $.ajax({
+                    url: "Reports/GetDailyReport",
+                    success: function (data) {
+                        console.log(data)
                     }
                 })
             }
