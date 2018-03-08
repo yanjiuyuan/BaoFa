@@ -92,36 +92,40 @@
                         </div>
                     </el-tooltip>`,
         data: function () {
-            let theme
-            switch (this.param.status) {
-                case 0: theme = {
-                    mainClass: 'device-button-info',
-                    warnType: 'info',
-                    text: '离线',
-                    color: '#909399'
-                }; break;
-                case 2: theme = {
-                    mainClass: 'device-button-warning',
-                    warnType: 'warning',
-                    text: '警告',
-                    color: '#E6A23C'
-                }; break;
-                case 3: theme = {
-                    mainClass: 'device-button-danger',
-                    warnType: 'danger',
-                    text: '危险',
-                    color: '#F56C6C'
-                }; break;
-                default: theme = {
-                    mainClass: 'device-button-success',
-                    warnType: 'success',
-                    text: '正常',
-                    color: '#67C23A'
-                };
-            }
             return {
-                showMore: false,
-                theme: theme
+                showMore: false
+            }
+        },
+        computed: {
+            theme: function () {
+                let theme
+                switch (this.param.status) {
+                    case 0: theme = {
+                        mainClass: 'device-button-info',
+                        warnType: 'info',
+                        text: '离线',
+                        color: '#909399'
+                    }; break;
+                    case 2: theme = {
+                        mainClass: 'device-button-warning',
+                        warnType: 'warning',
+                        text: '警告',
+                        color: '#E6A23C'
+                    }; break;
+                    case 3: theme = {
+                        mainClass: 'device-button-danger',
+                        warnType: 'danger',
+                        text: '危险',
+                        color: '#F56C6C'
+                    }; break;
+                    default: theme = {
+                        mainClass: 'device-button-success',
+                        warnType: 'success',
+                        text: '正常',
+                        color: '#67C23A'
+                    };
+                }
+                return theme
             }
         }
     })
@@ -209,10 +213,13 @@
                             if (dObj[ele] != null) {
                                 dev.detail[det] = dObj[ele]
                                 //根据参数设定设备状态
+                                
                                 if (DETAILRANGE[ele] && (dObj[ele] < DETAILRANGE[ele].min || dObj[ele] > DETAILRANGE[ele].max)) {
                                     dev.status = 3
                                     dev.tooltip.disabled = false
-                                    dev.tips[det] = dObj[ele]
+                                    
+                                    dev.tips[det] = det+":"+dObj[ele]
+                                    console.log(dev.tips[det])
                                 }
                                 if (dev.status != 3) dev.status = 1
                             }

@@ -58,6 +58,7 @@ var DEVICES = [
             disabled: true,
             placement: 'top'
         },
+        tips:{},
         position: {
             top: '82.02%',
             left: '0.56%'
@@ -71,6 +72,13 @@ var DEVICES = [
         tooltip: {
             disabled: true,
             placement: 'right'
+        },
+        //tips: {
+        //    '1234': '4321',
+        //    '666':'888'
+        //},
+        tips: {
+            
         },
         position: {
             top: '63.95%',
@@ -86,6 +94,7 @@ var DEVICES = [
             disabled: true,
             placement: 'top'
         },
+        tips: {},
         position: {
             top: '58.14%',
             left: '0.56%'
@@ -100,6 +109,7 @@ var DEVICES = [
             disabled: true,
             placement: 'right'
         },
+        tips: {},
         position: {
             top: '49.55%',
             left: '0.56%'
@@ -112,6 +122,7 @@ var DEVICES = [
             disabled: true,
             placement: 'right'
         },
+        tips: {},
         position: {
             top: '43.27%',
             left: '0.56%'
@@ -124,6 +135,7 @@ var DEVICES = [
             disabled: true,
             placement: 'right'
         },
+        tips: {},
         position: {
             top: '36.67%',
             left: '0.56%'
@@ -136,6 +148,7 @@ var DEVICES = [
             disabled: true,
             placement: 'left'
         },
+        tips: {},
         position: {
             top: '31.16%',
             left: '15.56%'
@@ -150,6 +163,7 @@ var DEVICES = [
             disabled: true,
             placement: 'left'
         },
+        tips: {},
         position: {
             top: '24.42%',
             left: '15.56%'
@@ -164,6 +178,7 @@ var DEVICES = [
             disabled: true,
             placement: 'left'
         },
+        tips: {},
         position: {
             top: '14.80%',
             left: '30.56%'
@@ -178,6 +193,7 @@ var DEVICES = [
             disabled: true,
             placement: 'left'
         },
+        tips: {},
         position: {
             top: '17.67%',
             left: '15.56%'
@@ -192,6 +208,7 @@ var DEVICES = [
             disabled: true,
             placement: 'left'
         },
+        tips: {},
         position: {
             top: '8.84%',
             left: '30.56%'
@@ -206,6 +223,7 @@ var DEVICES = [
             disabled: true,
             placement: 'left'
         },
+        tips: {},
         position: {
             top: '9.30%',
             left: '84.88%'
@@ -220,6 +238,7 @@ var DEVICES = [
             disabled: true,
             placement: 'left'
         },
+        tips: {},
         position: {
             top: '2.79%',
             left: '84.88%'
@@ -232,6 +251,7 @@ var DEVICES = [
             disabled: true,
             placement: 'left'
         },
+        tips: {},
         position: {
             top: '23.30%',
             left: '84.88%'
@@ -244,6 +264,7 @@ var DEVICES = [
             disabled: true,
             placement: 'left'
         },
+        tips: {},
         position: {
             top: '46.51%',
             left: '84.88%'
@@ -256,6 +277,7 @@ var DEVICES = [
             disabled: true,
             placement: 'left'
         },
+        tips: {},
         position: {
             top: '53.49%',
             left: '84.88%'
@@ -270,6 +292,7 @@ var DEVICES = [
             disabled: true,
             placement: 'left'
         },
+        tips: {},
         position: {
             top: '62.79%',
             left: '70%'
@@ -283,6 +306,7 @@ var DEVICES = [
             disabled: true,
             placement: 'left'
         },
+        tips: {},
         position: {
             top: '73.49%',
             left: '70%'
