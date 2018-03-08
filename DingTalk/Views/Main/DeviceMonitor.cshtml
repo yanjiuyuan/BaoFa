@@ -200,21 +200,28 @@
                 console.log(that.deviceBtns)
                 console.log(devData)
                 for (let dev of that.deviceBtns) {
-                    if (dev.detail) {
-                        for (let d in devData) {
-                            let dObj = devData[d][0]
-                            if (dObj.SprayID == dev.SprayID && dObj.SprayID != null) {
-                                for (let det in dev.detail) {
-                                    if (dObj[dev.detail[det]] !=null) {
-                                        dev.detail[det] = dObj[dev.detail[det]]
-                                    }
-                                    else {
-                                        delete dev.detail[det]
-                                    }
+                    if (!dev.detail) continue
+                    for (let d in devData) {
+                        let dObj = devData[d][0]
+                        if (dObj.SprayID != dev.SprayID || dObj.SprayID == null) continue
+                        for (let det in dev.detail) {
+                            var ele = dev.detail[det]
+                            if (dObj[ele] != null) {
+                                dev.detail[det] = dObj[ele]
+                                //根据参数设定设备状态
+                                if (DETAILRANGE[ele] && (dObj[ele] < DETAILRANGE[ele].min || dObj[ele] > DETAILRANGE[ele].max)) {
+                                    dev.status = 3
+                                    dev.tooltip.disabled = false
+                                    dev.tips[det] = dObj[ele]
                                 }
+                                if (dev.status != 3) dev.status = 1
+                            }
+                            else {
+                                delete dev.detail[det]
                             }
                         }
                     }
+                    
                 }
             };
             ws.onerror = function (error) {
@@ -224,6 +231,9 @@
                 console.log(error);
             };
             //获取useage参数
+            window.setInterval(function () {
+                that.getUseage()
+            },5000)
             this.getUseage()
             loadHtml("mainPage", "partPage")
         }
