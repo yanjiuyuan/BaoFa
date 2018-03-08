@@ -8,6 +8,7 @@
     <div>
         <div id="lineChart" style="height:300px;"></div>
         <div id="barChart" style="height:300px;"></div>
+        <img :src="imgSrc"/>
     </div>
 </el-main>
 
@@ -24,20 +25,34 @@
         mixins: [mixin],
         data: function () {
             return {
-                
+                imgSrc:""
             }
         },
         methods: {
 
         },
         created: function () {
+            var that = this
             loadHtml("mainPage", "partPage")
             intervalId = window.setInterval(function () {
                 getLineData({ DataTime: "2018-03-01" })
                 getBarData({ OrderId: "18-35-12-1", ChildId: "362-0102-1" })
-            }, 5000)
+            }, 50000)
             getLineData({ DataTime:"2018-03-01"})
-            getBarData({ OrderId: "18-35-12-1", ChildId:"362-0102-1"})
+            getBarData({ OrderId: "18-35-12-1", ChildId: "362-0102-1" })
+            window.setTimeout(function () {
+                var oCanvas = $(".zr-element")[1]
+                var strDataURI = oCanvas.toDataURL("image/png");
+                console.log(strDataURI)
+                that.imgSrc = strDataURI
+            }, 2000)
+            //$.ajax({
+            //    url: "WorkStations/GetWorkSataionsInfo",
+            //    success: function (data) {
+            //        console.log(JSON.parse(data)[0].img)
+            //        that.imgSrc = JSON.parse(data)[0].img
+            //    }
+            //})
         }
     })
     //折线图
@@ -181,6 +196,8 @@
                 lineOption.series[0].data = y1Arr
                 lineOption.series[1].data = y2Arr
                 lineChart.setOption(lineOption)
+                
+                
             }
         })
     }

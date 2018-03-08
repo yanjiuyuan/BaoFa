@@ -19,10 +19,41 @@ var PRESS = {
     '左右脚': 'LRFoot',
     '鞋长': 'ShoeL'
 }
+var DETAILRANGE = {
+    AtomizationPressure: {
+        min: 0.1,
+        max: 2.0
+    },
+    MaterialPressure: {
+        min: 0.1,
+        max: 2.0
+    },
+    GlueWeight: {
+        min: 15,
+        max: 40
+    },
+    FlowMeter: {
+        min: 0.1,
+        max: 3.0
+    },
+    StateN: {
+        min: 1,
+        max: 1
+    },
+    ErrorN: {
+        min: 0,
+        max: 0
+    },
+    OvenTemperatureNow: {
+        min: 0,
+        max: 150
+    }
+}
 var DEVICES = [
     {
         num: 1,
         name: '视觉1号站',
+        status: 0,
         tooltip: {
             disabled: true,
             placement: 'top'
@@ -35,14 +66,11 @@ var DEVICES = [
         num: 2,
         name: '鞋面喷胶站',
         SprayID: 1,
+        status: 0,
         detail: _cloneObj(SPRAY),
         tooltip: {
             disabled: true,
             placement: 'right'
-        },
-        tips: {
-            '参数1': '参数1',
-            '参数2': '参数2'
         },
         position: {
             top: '63.95%',
@@ -52,6 +80,7 @@ var DEVICES = [
         num: 3,
         name: '鞋面烤箱',
         SprayID: 1,
+        status: 0,
         detail: _cloneObj(ROSTER),
         tooltip: {
             disabled: true,
@@ -65,6 +94,7 @@ var DEVICES = [
         num: 4,
         name: '大底烤箱',
         SprayID: 6,
+        status: 0,
         detail: _cloneObj(ROSTER),
         tooltip: {
             disabled: true,
@@ -101,7 +131,7 @@ var DEVICES = [
     }, {
         num: 7,
         name: '视觉2号站',
-        status: 2,
+        status: 0,
         tooltip: {
             disabled: true,
             placement: 'left'
@@ -113,7 +143,7 @@ var DEVICES = [
     }, {
         num: 8,
         name: '围条一胶站',
-        status: 3,
+        status: 0,
         SprayID: 2,
         detail: _cloneObj(SPRAY),
         tooltip: {
@@ -128,6 +158,7 @@ var DEVICES = [
         num: 9,
         name: '围条二胶站',
         SprayID: 3,
+        status: 0,
         detail: _cloneObj(SPRAY),
         tooltip: {
             disabled: true,
@@ -141,6 +172,7 @@ var DEVICES = [
         num: 10,
         name: '围一烤箱',
         SprayID: 2,
+        status: 0,
         detail: _cloneObj(ROSTER),
         tooltip: {
             disabled: true,
@@ -154,6 +186,7 @@ var DEVICES = [
         num: 11,
         name: '围二烤箱',
         SprayID: 3,
+        status: 0,
         detail: _cloneObj(ROSTER),
         tooltip: {
             disabled: true,
@@ -167,6 +200,7 @@ var DEVICES = [
         num: 12,
         name: '围条三胶站',
         SprayID: 4,
+        status: 0,
         detail: _cloneObj(SPRAY),
         tooltip: {
             disabled: true,
@@ -180,6 +214,7 @@ var DEVICES = [
         num: 13,
         name: '围三烤箱',
         SprayID: 4,
+        status: 0,
         detail: _cloneObj(ROSTER),
         tooltip: {
             disabled: true,
@@ -192,6 +227,7 @@ var DEVICES = [
     }, {
         num: 14,
         name: '视觉3号站',
+        status: 0,
         tooltip: {
             disabled: true,
             placement: 'left'
@@ -203,6 +239,7 @@ var DEVICES = [
     }, {
         num: 15,
         name: '围条贴附1站',
+        status: 0,
         tooltip: {
             disabled: true,
             placement: 'left'
@@ -214,6 +251,7 @@ var DEVICES = [
     }, {
         num: 16,
         name: '围条贴附2站',
+        status: 0,
         tooltip: {
             disabled: true,
             placement: 'left'
@@ -226,6 +264,7 @@ var DEVICES = [
         num: 17,
         name: '护齿喷胶站',
         SprayID: 5,
+        status: 0,
         detail: _cloneObj(SPRAY),
         tooltip: {
             disabled: true,
@@ -238,6 +277,7 @@ var DEVICES = [
     }, {
         num: 18,
         name: '十字压站',
+        status: 0,
         detail: _cloneObj(PRESS),
         tooltip: {
             disabled: true,
