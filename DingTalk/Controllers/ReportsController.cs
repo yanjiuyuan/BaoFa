@@ -27,10 +27,10 @@ namespace DingTalk.Controllers
                 "ExcelFiles\\华宝硫化鞋生产线日报表模板.xls");
             //服务器生成路径
             string strServerPath= Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                "ExcelFiles\\日报表\\"+ "华宝硫化鞋生产线日报表" + DateTime.Now.ToShortDateString())+ ".xls";
+                "ExcelFiles\\日报表\\"+ "华宝硫化鞋生产线日报表" + DateTime.Now.ToString("yyyy-mm-dd"))+ ".xls";
             ReportServer reportServer = new ReportServer();
             reportServer.GetDailyReport(strPath, strServerPath);
-            return File(new FileStream(strServerPath, FileMode.Open), "application/octet-stream", Server.UrlEncode("华宝硫化鞋生产线日报表"+DateTime.Now.ToShortDateString()+".xls"));
+            return File(new FileStream(strServerPath, FileMode.Open), "application/octet-stream", Server.UrlEncode("华宝硫化鞋生产线日报表"+DateTime.Now.ToString("yyyy-mm-dd")+ ".xls"));
         }
     }
 }
