@@ -65,6 +65,7 @@
     <Compile Include="Quality\QualityServer.cs" />
     <Compile Include="Quality\SingleQualityServer.cs" />
     <Compile Include="Register\RegisterServer.cs" />
+    <Compile Include="Report\ReportServer.cs" />
     <Compile Include="Shoes\ShoesInfo.cs" />
     <Compile Include="SprayData\SprayServer.cs" />
     <Compile Include="Time\TimeHelper.cs" />
