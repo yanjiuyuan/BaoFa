@@ -27,6 +27,7 @@
 
             }
         })
+        //webSocket 连接
         var ws;
         ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/api/dt/Get");
         ws.onopen = function () {

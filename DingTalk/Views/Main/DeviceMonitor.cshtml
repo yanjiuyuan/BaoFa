@@ -7,91 +7,61 @@
     <div v-show="showMask">
         <div class="mask"></div>
     </div>
-    
-    <el-collapse v-model="activeNames">
-        <el-collapse-item title="宝发硫化鞋生产线01" name="1">
-            <div @*v-loading="loading"
+    <h3>宝发硫化鞋生产线01</h3>
+    <div @*v-loading="loading"
                  element-loading-text="数据加载中"
                  element-loading-spinner="el-icon-loading"*@
-                 element-loading-background="rgba(0, 0, 0, 0.8)"
-                 id="imgFrame" style="margin-bottom:30px;position:relative;">
-                <img src="~/Content/images/deviceMonitor.png" style="max-width:100%"/>
-                <!--生产数量统计-->
-                <div class="device-count" style="top:1%;left:0.56%;">当班产量</div>
-                <div class="device-count" style="top:6%;left:0.56%;font-weight:bold;">{{useage.NowN}}</div>
-                <div class="device-count" style="top:11%;left:0.56%;">生产节拍</div>
-                <div class="device-count" style="top:16%;left:0.56%;font-weight:bold;">{{useage.ProductionBeat}}</div>
-                <div class="device-count" style="top:21%;left:0.56%;">总产量</div>
-                <div class="device-count" style="top:26%;left:0.56%;font-weight:bold;">{{useage.AllN}}</div>
-                <div class="device-count" style="top:1%;left:10%;">总订单号</div>
-                <div class="device-count" style="top:1%;left:17%;font-weight:bold;">{{useage.OrderID}}</div>
-                <div class="device-count" style="top:6%;left:10%;">子订单号</div>
-                <div class="device-count" style="top:6%;left:17%;font-weight:bold;">{{useage.ChildID}}</div>
-                <!--设备状态按钮-->
-                <template v-for="(btn,index) of deviceBtns">
-                    <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
-                </template>
-                <i v-if="showMask" class="el-icon-error" v-on:click="restoreScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
-                <i v-else class="el-icon-rank" v-on:click="changeFullScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
-            </div>
-        </el-collapse-item>
-        <button v-on:click="createReport">生成日报表</button>
-        <el-collapse-item title="宝发硫化鞋生产线02" name="2">
-            <div class="device-box">
-                <div class="device-box-img"></div>
-                <p>视觉站1</p>
-                <div><span>状态</span>&nbsp;<el-tag type="success">正常</el-tag></div>
-                <div><span>状态号</span>&nbsp;<el-tag type="success">0</el-tag></div>
-                <div><span>报警号</span>&nbsp;<el-tag type="success">0</el-tag></div>
-            </div>
-            <div class="device-box">
-                <div class="device-box-img"></div>
-                <p>视觉站2</p>
-                <div><span>状态</span>&nbsp;<el-tag type="danger">异常</el-tag></div>
-                <div><span>状态号</span>&nbsp;<el-tag type="danger">1</el-tag></div>
-                <div><span>报警号</span>&nbsp;<el-tag type="danger">1</el-tag></div>
-            </div>
-            <div class="device-box">
-                <div class="device-box-img"></div>
-                <p>视觉站3</p>
-                <div><span>状态</span>&nbsp;<el-tag type="info">离线</el-tag></div>
-                <div><span>状态号</span>&nbsp;<el-tag type="info">0</el-tag></div>
-                <div><span>报警号</span>&nbsp;<el-tag type="info">0</el-tag></div>
-            </div>
-        </el-collapse-item>
-        <el-collapse-item title="华宝硫化鞋生产线03" name="3">
-            <div>暂无数据</div>
-        </el-collapse-item>
-    </el-collapse>
+         element-loading-background="rgba(0, 0, 0, 0.8)"
+         id="imgFrame" style="margin-bottom:30px;position:relative;">
+        <img src="~/Content/images/deviceMonitor.png" style="max-width:100%" />
+        <!--生产数量统计-->
+        <div class="device-count" style="top:1%;left:0.56%;">当班产量</div>
+        <div class="device-count" style="top:6%;left:0.56%;font-weight:bold;">{{useage.NowN}}</div>
+        <div class="device-count" style="top:11%;left:0.56%;">生产节拍</div>
+        <div class="device-count" style="top:16%;left:0.56%;font-weight:bold;">{{useage.ProductionBeat}}</div>
+        <div class="device-count" style="top:21%;left:0.56%;">总产量</div>
+        <div class="device-count" style="top:26%;left:0.56%;font-weight:bold;">{{useage.AllN}}</div>
+        <div class="device-count" style="top:1%;left:10%;">总订单号</div>
+        <div class="device-count" style="top:1%;left:17%;font-weight:bold;">{{useage.OrderID}}</div>
+        <div class="device-count" style="top:6%;left:10%;">子订单号</div>
+        <div class="device-count" style="top:6%;left:17%;font-weight:bold;">{{useage.ChildID}}</div>
+        <!--设备状态按钮-->
+        <template v-for="(btn,index) of deviceBtns">
+            <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
+        </template>
+        <i v-if="showMask" class="el-icon-error" v-on:click="restoreScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
+        <i v-else class="el-icon-rank" v-on:click="changeFullScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
+    </div>
+    <el-button v-on:click="createReport" type="primary">生成日报表</el-button>
 </el-main>
 
 <script>
     //vue组件-设备按钮显示
     Vue.component('sam-devicebtn', {
         props: ['param', 'index'],
-        template: `<el-tooltip :placement="param.tooltip.placement" :disabled="param.tooltip.disabled" effect="light" class="tips">
-                        <div slot="content" :style="{fontSize:param.tooltip.font_size}">
-                            <template v-for="t in param.tips">
-                                {{t}} : {{param.tips[t]}}
-                                 <br />
-                            </template>
-                        </div>
-                        <div v-on:mouseover="showMore=true" v-on:mouseout="showMore=false"
-                             class="device-button" :class="theme.mainClass"
-                            :style="{left:param.position.left,top:param.position.top}">
-                            <span>{{param.name}}</span>
-                            <el-button :type="theme.warnType" round class="device-status">{{theme.text}}</el-button>
-                            <el-collapse-transition>
-                                <div v-show="showMore">
-                                    <hr :style="{color:theme.color}" />
-                                    <template v-for="(d,i) in param.detail">
-                                        {{i}} : {{d}}
-                                         <br />
-                                    </template>
-                                </div>
-                            </el-collapse-transition>
-                        </div>
-                    </el-tooltip>`,
+        template: '<el-tooltip :placement="param.tooltip.placement" :disabled="param.tooltip.disabled" effect="light" class="tips">'+
+                        '<div slot="content" :style="{fontSize:param.tooltip.font_size}">' +
+                            '<template v-for="t in param.tips">' +
+                                '{{t}} : {{param.tips[t]}}' +
+                                '<br />' +
+                            '</template>' +
+                        '</div>' +
+                         '<div v-on:mouseover="showMore=true" v-on:mouseout="showMore=false"' +
+                        'class="device-button" :class="theme.mainClass"' +
+                        ':style="{left:param.position.left,top:param.position.top}">' +
+                        '<span>{{param.name}}</span>' +
+                        '<el-button :type="theme.warnType" round class="device-status">{{theme.text}}</el-button>' +
+                            '<el-collapse-transition>' +
+                                '<div v-show="showMore">' +
+                                '<hr :style="{color:theme.color}" />' +
+                                    '<template v-for="(d,i) in param.detail">' +
+                                    '{{i}} : {{d}}' +
+                                    '<br />' +
+                                    '</template>' +
+                                '</div>' +
+                            '</el-collapse-transition>' +
+                        '</div>' +
+                    '</el-tooltip>',
         data: function () {
             return {
                 showMore: false
@@ -135,8 +105,7 @@
     var deviceStatusCss = {}
     var imgWidth = 900
     var imgHeight = 430
-
-    var index = new Vue({
+    new Vue({
         el: "#partPage",
         mixins: [mixin],
         data: function () {
@@ -155,13 +124,12 @@
                 imgHeight = parseInt($("#imgFrame").css("height"))
                 console.log("imgWidth,imgHeight = " + imgWidth + " , " + imgHeight)
                 console.log("screenWidth,screenHeight = " + screenWidth + " , " + screenHeight)
-                //var scale = screenWidth / screenHeight > 900 / 430 ? screenHeight / imgHeight : screenWidth / imgWidth;
                 screenWidth / screenHeight > 900 / 430 ? $("#imgFrame").css({ "height": screenHeight }) : $("#imgFrame").css({ "width": screenWidth })
                 $("#imgFrame").css({ "position": "absolute", "top": "0", "left": "0" })
                 this.showMask = true;
                 $("body").css({ "overflow": "hidden" })
-                for (let param of DEVICES) {
-                    param.tooltip.font_size = "1.5em"
+                for (var p = 0; p < DEVICES.length;p++) {
+                    DEVICES[p].tooltip.font_size = "1.5em"
                 }
                 $(".device-button").css("font-size", "1.5em")
                 $(".device-count").css("font-size", "2em")
@@ -171,8 +139,8 @@
                 $("#imgFrame").css({ "width": '100%', "height": 'auto', "position": "relative", "top": "0", "left": "0" })
                 $("#imgFrame").find("img").css({ "width": '100%'})
                 $("body").css({ "overflow": "scroll" })
-                for (let param of DEVICES) {
-                    param.tooltip.font_size = "1em"
+                for (var p = 0; p < DEVICES.length; p++) {
+                    DEVICES[p].tooltip.font_size = "1em"
                 }
                 $(".device-button").css("font-size", "0.5em")
                 $(".device-count").css("font-size", "1.2em")
@@ -188,7 +156,6 @@
                     url: "usage/getusage",
                     success: function (data) {
                         data = JSON.parse(data).Rows[0]
-                        console.log(data)
                         that.useage = data
                     }
                 })
@@ -199,15 +166,14 @@
         },
         created: function () {
             var that = this;
+            //webSocket 获取数据
             ws.onmessage = function (result) {
-                // $("#messageSpan").text(result.data);
-                //alert(result.data)
                 that.loading = false
                 let devData = JSON.parse(JSON.parse(result.data))
                 that.deviceBtns = _cloneArr(DEVICES)
-                console.log(that.deviceBtns)
                 console.log(devData)
-                for (let dev of that.deviceBtns) {
+                for (var d = 0; d < that.deviceBtns.length;d++) {
+                    var dev = that.deviceBtns[d]
                     if (!dev.detail) continue
                     for (let d in devData) {
                         let dObj = devData[d][0]
@@ -217,13 +183,10 @@
                             if (dObj[ele] != null) {
                                 dev.detail[det] = dObj[ele]
                                 //根据参数设定设备状态
-                                
                                 if (DETAILRANGE[ele] && (dObj[ele] < DETAILRANGE[ele].min || dObj[ele] > DETAILRANGE[ele].max)) {
                                     dev.status = 3
                                     dev.tooltip.disabled = false
-                                    
                                     dev.tips[det] = det+":"+dObj[ele]
-                                    console.log(dev.tips[det])
                                 }
                                 if (dev.status != 3) dev.status = 1
                             }
@@ -232,7 +195,6 @@
                             }
                         }
                     }
-                    
                 }
             };
             ws.onerror = function (error) {
@@ -249,7 +211,6 @@
             loadHtml("mainPage", "partPage")
         }
     })
-
 </script>
 
 

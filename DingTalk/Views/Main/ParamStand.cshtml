@@ -91,22 +91,21 @@
         },
         methods: {
             //翻頁相關事件
-            handleSizeChange(val) {
+            handleSizeChange:function(val) {
                 this.currentPage = 1
                 this.pageSize = val
                 this.getOrderData({})
             },
-            handleCurrentChange(val) {
+            handleCurrentChange:function(val) {
                 this.currentPage = val
                 this.getOrderData({})
             },
             //查詢相關頁面
-            onFilter() {
+            onFilter:function() {
                 this.currentPage = 1
                 let searchParam = {}
                 let formInline = this.formInline
                 var date = new Date()
-
                 for (let p in formInline) {
                     if (formInline[p] == '' || formInline[p] == null) continue
                     if (p == 'OrderTime' || p == 'DeliveryTime') {
@@ -116,32 +115,29 @@
                         searchParam[p] = formInline[p]
                     }
                 }
-
                 this.getOrderData(searchParam)
-                console.log(searchParam)
             },
             //切换高级搜索
-            changeSuperSearch() {
+            changeSuperSearch:function() {
                 this.superSearch = !this.superSearch;
             },
             //获取订单数据
-            getOrderData(obj) {
+            getOrderData:function(obj) {
                 let that = this
                 obj.PageIndex = this.currentPage - 1
                 obj.PageSize = this.pageSize
-                console.log(_formatQueryStr(obj))
                 $.ajax({
                     url: "/SprayData/GetSprayData" + _formatQueryStr(obj),
                     //dataType: 'json',
                     success: function (data) {
                         data = JSON.parse(data)
-                        console.log(data)
                         if (data && data.Rows) {
                             that.tableData = data.Rows
                             that.totalRows = parseInt(data.Counts)
                             that.OrderID = []
                             that.ProductLineId = []
-                            for (let r of that.tableData) {
+                            for (var i = 0; i < that.tableData.length; i++) {
+                                var r = that.tableData[i]
                                 if (that.OrderID.indexOf(r.OrderID)) {
                                     that.OrderID.push(r.OrderID)
                                 }

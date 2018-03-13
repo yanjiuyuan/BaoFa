@@ -1,11 +1,9 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
-    <title>@ViewBag.Title</title>
-    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8" />
+    @*@Scripts.Render("~/bundles/modernizr")*@
     <title>泉州华中科技大学智能制造研究院</title>
     <link rel="stylesheet" href="~/Content/element.css"/>
     <link rel="stylesheet" href="~/Content/display.css" />
@@ -16,8 +14,6 @@
     <script src="~/Scripts/vue.js"></script>
     <script src="~/Scripts/element.js"></script>
     <script>
-        //check login
-        //var userObj = getLocalObj('user')
         if (!_getCookie('UserName')) {
             location.href="/login"
         }
@@ -27,7 +23,6 @@
             role: _getCookie('Role')
         }
         mixin.data.user = userInfo
-
     </script>
 </head>
 <body id="body">
@@ -39,10 +34,10 @@
             <el-main>
                 @RenderBody()
             </el-main>
-            <el-footer>
-                @RenderPage("~/Views/Shared/Footer.cshtml")
-            </el-footer>
         </el-container>
+        <div class="el-footer">
+            @RenderPage("~/Views/Shared/Footer.cshtml")
+        </div>
     </div>
     <div id="tempPage"></div>
     @RenderSection("scripts", required: false)
@@ -50,7 +45,6 @@
 </html>
 
 <script>
-    var needLogin = '@ViewBag.needLogin'
     //transform page size when in mobile screen
     var screenHeight = window.screen.height;
     var screenWidth = window.screen.width;
@@ -73,7 +67,6 @@
         if (screenWidth > 768 && screenHeight > 768) return;
         if (window.orientation == 0 || window.orientation == 180) {
             screenHeight >= screenWidth ? transFormSize(screenWidth / 1280) : transFormSize(screenHeight / 1280)
-            
         } else {
             alert("screenWidth = " + screenWidth)
             alert("screenHeight = " + screenHeight)

@@ -32,11 +32,11 @@ function _cloneObj(obj) {
 
 function _cloneArr(arr) {
     var newArr = []
-    for (var a of arr) {
-        if (typeof (a) == 'object') {
-            newArr.push($.extend(true, {}, a))
+    for (var a = 0; a < arr.length;a++) {
+        if (typeof (arr[a]) == 'object') {
+            newArr.push($.extend(true, {}, arr[a]))
         }
-        else newArr.push(a)
+        else newArr.push(arr[a])
     }
     return newArr
 }
@@ -80,9 +80,10 @@ function isArray(o) {
 }
 //时间选择器插件参数
 var pickerOptions = {
-    shortcuts: [{
+    shortcuts: [
+        {
         text: '最近一周',
-        onClick(picker) {
+        onClick:function(picker) {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
@@ -90,7 +91,7 @@ var pickerOptions = {
         }
     }, {
         text: '最近一个月',
-        onClick(picker) {
+        onClick: function(picker) {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
@@ -98,13 +99,14 @@ var pickerOptions = {
         }
     }, {
         text: '最近三个月',
-        onClick(picker) {
+        onClick: function(picker) {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
             picker.$emit('pick', [start, end]);
         }
-    }]
+    }
+    ]
 }
 
 //实例总参数

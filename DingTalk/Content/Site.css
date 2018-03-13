@@ -215,3 +215,7 @@ a{
     padding-left: 20% !important;
 }
 
+/*兼容IE样式*/
+.el-main{
+    overflow:visible;
+}

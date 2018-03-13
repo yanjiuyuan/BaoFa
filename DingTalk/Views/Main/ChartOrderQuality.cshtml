@@ -51,7 +51,7 @@
         },
         methods: {
             //获取数据
-            getData() {
+            getData:function() {
                 let that = this
                 let searchParam = {}
                 let formInline = this.formInline
@@ -65,7 +65,6 @@
                         searchParam[p] = formInline[p]
                     }
                 }
-                console.log(_formatQueryStr(searchParam))
                 $.ajax({
                     url: "/Quality/GetBatchQuality" + _formatQueryStr(searchParam),
                     dataType: 'json',
@@ -80,6 +79,7 @@
                     url: "/Quality/GetQualityCounts" + _formatQueryStr(searchParam),
                     dataType: 'json',
                     success: function (data) {
+                        console.log(data)
                         that.loadPieData(data)
                     },
                     error: function (err) {
@@ -87,7 +87,7 @@
                     }
                 })
             },
-            loadRadarData(data) {
+            loadRadarData:function(data) {
                 if (data.Rows instanceof Array) {
                     var radarValue = []
                     for (let q in QUALITY_RADAR) {
@@ -106,7 +106,7 @@
                     ]);
                 }
             },
-            loadPieData(data) {
+            loadPieData:function(data) {
                 var value = []
                 for (let q in QUALITY_PIE) {
                      myChart.addData([
