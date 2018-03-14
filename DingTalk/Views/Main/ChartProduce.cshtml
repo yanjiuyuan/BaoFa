@@ -191,8 +191,8 @@
                 data = JSON.parse(data).Rows
                 for (let d = 0; d < data.length;d++) {
                     xArr.push(data[d].ID_RealTimeUsage)
-                    y1Arr.push(data[d].AllN)
-                    y2Arr.push(data[d].NowN)
+                    y1Arr.push(data[d].NowN)
+                    y2Arr.push(data[d].ChildN)
                 }
                 lineOption.xAxis[0].data = xArr
                 lineOption.series[0].data = y1Arr
