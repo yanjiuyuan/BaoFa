@@ -50,7 +50,7 @@ namespace Bussiness.Quality
             {
                 string strBeginTime = tbNew.Rows[0][0].ToString();
                 string strEndTime = tbNew.Rows[tbNew.Rows.Count - 1][0].ToString();
-                float x = (float.Parse(strEndTime) - float.Parse(strBeginTime)) / tbNew.Rows.Count;
+                float x = (float.Parse(strEndTime) - float.Parse(strBeginTime));
                 int z = (int)(x / 1000); //一秒约有z个点
                 for (int i = 0; i < tbNew.Rows.Count; i++)
                 {

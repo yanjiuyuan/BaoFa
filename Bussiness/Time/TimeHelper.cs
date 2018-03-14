@@ -99,5 +99,17 @@ namespace Bussiness.Time
                 return false;
             }
         }
+
+        public static string GetStringToDateTime(string unixTimeStamp)
+        {
+            //unixTimeStamp = 1478162177;
+            if (unixTimeStamp.Length == 13)
+            {
+                unixTimeStamp = unixTimeStamp.Substring(0, 10);
+            }
+            System.DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)); // 当地时区
+            DateTime dt = startTime.AddSeconds(long.Parse( unixTimeStamp));
+            return dt.ToString("HH:mm");
+        }
     }
 }

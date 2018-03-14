@@ -70,8 +70,11 @@ namespace Bussiness.DosageInfo
             }
             string strBeginTime = tbNew.Rows[0][0].ToString();
             string strEndTime = tbNew.Rows[tbNew.Rows.Count - 1][0].ToString();
-            float x = (float.Parse(strEndTime) - float.Parse(strBeginTime)) / tbNew.Rows.Count;
-            int z = (int)(360 * (10000 / x)); //一小时约有z个点
+            //float x = (float.Parse(strEndTime) - float.Parse(strBeginTime)) / tbNew.Rows.Count;
+            //int z = (int)(360 * (10000 / x)); //一小时约有z个点
+            float x = float.Parse(strEndTime) - float.Parse(strBeginTime);
+            int z = (int)(x / (60 * 1000));
+            int k = (int)(tbNew.Rows.Count / z);
             for (int i = 0; i < tbNew.Rows.Count; i++)
             {
                 //取收尾两
@@ -82,9 +85,9 @@ namespace Bussiness.DosageInfo
                 }
                 else
                 {
-                    if (z != 0)
+                    if (k != 0)
                     {
-                        if (i % z == 0)
+                        if (i % k == 0)
                         {
                             tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
                         }
@@ -97,7 +100,11 @@ namespace Bussiness.DosageInfo
             for (int i = 0; i < tbOld.Rows.Count; i++)
             {
                 //转换时间格式
-                tbOld.Rows[i][0] = TimeHelper.ConvertStringToDateTime(tbOld.Rows[i][0].ToString());
+                //tbOld.Rows[i][0] = TimeHelper.ConvertStringToDateTime(tbOld.Rows[i][0].ToString());
+
+                tbOld.Rows[i][0] = TimeHelper.GetStringToDateTime((tbOld.Rows[i][0].ToString()));
+
+                //TimeHelper.ConvertStringToDateTime
                 //截取时间
                 //if (i == 0)
                 //{
@@ -112,7 +119,7 @@ namespace Bussiness.DosageInfo
                 //}
 
                 //tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring();
-                tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length - 8, 5);
+                //tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length - 8, 5);
             }
             return tbOld;
         }
