@@ -35,15 +35,17 @@
             var that = this
             loadHtml("mainPage", "partPage")
             var lineData = getLocalObj("lineData")
-            console.log(lineData)
+            var date = new Date()
+            var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+            console.log(dateStr)
             intervalId = window.setInterval(function () {
-                getLineData({ DataTime: "2018-03-01" })
+                getLineData({ DataTime: dateStr })
                 getBarData({
                     OrderId: getLocalObj("lineData").OrderID,
                     ChildId: getLocalObj("lineData").ChildID
                 })
             }, 50000)
-            getLineData({ DataTime:"2018-03-01"})
+            getLineData({ DataTime: dateStr})
             getBarData({ OrderId: getLocalObj("lineData").OrderID, ChildId: getLocalObj("lineData").ChildID })
             //echart canvas生成图片
             //window.setTimeout(function () {
@@ -187,7 +189,7 @@
                 var xArr = [], y1Arr = [], y2Arr = []
                 console.log(JSON.parse(data))
                 data = JSON.parse(data).Rows
-                for (var d = 0; d < data.length;d++) {
+                for (let d = 0; d < data.length;d++) {
                     xArr.push(data[d].ID_RealTimeUsage)
                     y1Arr.push(data[d].AllN)
                     y2Arr.push(data[d].NowN)
