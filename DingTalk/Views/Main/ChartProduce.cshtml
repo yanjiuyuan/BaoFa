@@ -34,12 +34,17 @@
         created: function () {
             var that = this
             loadHtml("mainPage", "partPage")
+            var lineData = getLocalObj("lineData")
+            console.log(lineData)
             intervalId = window.setInterval(function () {
                 getLineData({ DataTime: "2018-03-01" })
-                getBarData({ OrderId: "18-35-12-1", ChildId: "362-0102-1" })
+                getBarData({
+                    OrderId: getLocalObj("lineData").OrderID,
+                    ChildId: getLocalObj("lineData").ChildID
+                })
             }, 50000)
             getLineData({ DataTime:"2018-03-01"})
-            getBarData({ OrderId: "18-35-12-1", ChildId: "362-0102-1" })
+            getBarData({ OrderId: getLocalObj("lineData").OrderID, ChildId: getLocalObj("lineData").ChildID })
             //echart canvas生成图片
             //window.setTimeout(function () {
             //    var oCanvas = $(".zr-element")[1]
@@ -191,8 +196,6 @@
                 lineOption.series[0].data = y1Arr
                 lineOption.series[1].data = y2Arr
                 lineChart.setOption(lineOption)
-                
-                
             }
         })
     }
@@ -203,7 +206,7 @@
             success: function (data) {
                 data = JSON.parse(data)[0]
                 var xArr = [], yArr = []
-                for (let d in data) {
+                for (var d in data) {
                     xArr.push(barTableConfig[d])
                     yArr.push(data[d])
                 }

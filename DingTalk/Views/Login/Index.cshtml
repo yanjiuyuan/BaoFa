@@ -43,7 +43,7 @@
             methods: {
                 submitForm:function(formName) {
 
-                    let that = this
+                    var that = this
                     this.$refs[formName].validate(function(valid){
                         if (valid) {
                             $.ajax({
@@ -52,7 +52,7 @@
                                 data: that.ruleForm,
                                 success: function (data) {
                                     if (data == true || data == 'True') {
-                                        let userInfo = {
+                                        var userInfo = {
                                             username: _getCookie('UserName'),
                                             companyId: _getCookie('CompanyId'),
                                             role: _getCookie('Role')

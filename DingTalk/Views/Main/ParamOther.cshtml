@@ -13,13 +13,15 @@
                 <template v-for="w of workers">
                     <el-tooltip placement="right" effect="light" class="tips">
                         <div slot="content">
-                            {{w.num}}
+                            {{w.ArtificialConfig_ID}}
                             <br />
-                            {{w.station}}
+                            {{w.Name}}
+                            <br />
+                            {{w.Phone}}
                         </div>
                         <div class="device-worker" :style="{top: w.position.top,left:w.position.left}">
-                            <img :src="w.url" />
-                            <span>{{w.station}}</span>
+                            <img :src="'data:image/png;base64,'+w.img" />
+                            <span>{{w.Jobs}}</span>
                         </div>
                     </el-tooltip>
                 </template>
@@ -41,7 +43,6 @@
 <script>
     //vue组件-设备按钮显示
     var img = $("#imgFrame img").find("img")[0]
-
     var index = new Vue({
         el: "#partPage",
         mixins: [mixin],
@@ -52,13 +53,31 @@
             }
         },
         methods: {
-
+            getWorkersMessage: function () {
+                var that = this
+                $.ajax({
+                    url: '/WorkStations/GetWorkSataionsInfo',
+                    success: function (data) {
+                        data = JSON.parse(data)
+                        for (var i = 0; i < data.length; i++) {
+                            for (var j = 0; j < WORKERS.length; j++) {
+                                if (data[i].ArtificialConfig_ID == WORKERS[j].ArtificialConfig_ID) {
+                                    WORKERS[j].img = data[i].img
+                                    WORKERS[j].Name = data[i].Name
+                                    WORKERS[j].Phone = data[i].Phone
+                                    WORKERS[j].Jobs = data[i].Jobs
+                                }
+                            }
+                        }
+                        that.workers = WORKERS
+                    }
+                })
+            }
         },
         created: function () {
-
+            this.getWorkersMessage();
             loadHtml("mainPage", "partPage")
         }
-
     })
 
 </script>

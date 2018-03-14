@@ -23,31 +23,31 @@ var DETAILRANGE = {
     AtomizationPressure: {
         min: 0.1,
         max: 2.0
-    },
+    },//雾化压力
     MaterialPressure: {
         min: 0.1,
         max: 2.0
-    },
+    },//物料压力
     GlueWeight: {
         min: 15,
         max: 40
-    },
+    },//胶重
     FlowMeter: {
         min: 0.1,
         max: 3.0
-    },
+    },//流量计
     StateN: {
-        min: 1,
+        min: 0,
         max: 1
-    },
+    },//机器人状态号
     ErrorN: {
         min: 0,
         max: 0
-    },
+    },//机器人报警号
     OvenTemperatureNow: {
         min: 0,
         max: 150
-    }
+    }//OvenTemperatureNow
 }
 var DEVICES = [
     {
@@ -315,14 +315,14 @@ var DEVICES = [
 ]
 
 //批次质量配置参数
-let QUALITY_RADAR = {
+var QUALITY_RADAR = {
     'AppearanceQualified': '硫化外观合格率',
     'AppearanceAfterQualified': '硫化后外观合格率',
     'VampPullQualified': '鞋面拉力合格点占比',
     'DaDiPullQualified': '大底拉力合格点占比',
     'ZheWangQualified': '折弯疲劳合格率'
 }
-let QUALITY_PIE = {
+var QUALITY_PIE = {
     'Goods': 'A等',
     'Bads': 'B等',
     'Inferior': 'C等'
@@ -331,84 +331,84 @@ let QUALITY_PIE = {
 //工艺人员界面配置参数
 var WORKERS = [
     {
-        num: 1,
-        station: '套楦',
+        ArtificialConfig_ID: 1,
+        Jobs: '套楦',
         position: {
             top: '74%',
             left: '4%'
         },
-        url: '../../Content/images/worker/1.jpg'
+        img: ''
     },
     {
-        num: 2,
-        station: '帖大底',
+        ArtificialConfig_ID: 4,
+        Jobs: '帖大底',
         position: {
             top: '0%',
             left: '22%'
         },
-        url: '../../Content/images/worker/2.jpg'
+        img: ''
     },
     {
-        num: 3,
-        station: '敲平',
+        ArtificialConfig_ID:5,
+        Jobs: '敲平',
         position: {
             top: '0%',
             left: '42%'
         },
-        url: '../../Content/images/worker/3.jpg'
+        img: ''
     },
     {
-        num: 4,
-        station: '贴围条',
+        ArtificialConfig_ID: 8,
+        Jobs: '贴围条',
         position: {
             top: '20%',
             left: '92%'
         },
-        url: '../../Content/images/worker/4.jpg'
+        img: ''
     },
     {
-        num: 5,
-        station: '滚压',
+        ArtificialConfig_ID: 9,
+        Jobs: '滚压',
         position: {
             top: '74%',
             left: '60%'
         },
-        url: '../../Content/images/worker/5.jpg'
+        img: ''
     },
     {
-        num: 6,
-        station: '帖护齿、贴标',
+        ArtificialConfig_ID: 11,
+        Jobs: '帖护齿',
         position: {
             top: '74%',
             left: '40%'
         },
-        url: '../../Content/images/worker/6.jpg'
+        img: ''
     },
     {
-        num: 7,
-        station: '品检',
+        ArtificialConfig_ID: 13,
+        Jobs: '品检',
         position: {
             top: '74%',
             left: '22%'
         },
-        url: '../../Content/images/worker/7.jpg'
+        img: ''
     },
     {
-        num: 8,
-        station: '工艺组组长',
+        ArtificialConfig_ID: 14,
+        Jobs: '工艺组组长',
         position: {
             top: '30%',
             left: '36%'
         },
-        url: '../../Content/images/worker/8.jpg'
+        img: ''
     },
     {
-        num: 9,
-        station: '喷胶调试员',
+        ArtificialConfig_ID: 15,
+        Jobs: '喷胶调试员',
         position: {
             top: '30%',
             left: '50%'
         },
-        url: '../../Content/images/worker/9.jpg'
+        img: ''
     }
 ]

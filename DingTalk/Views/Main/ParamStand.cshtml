@@ -103,10 +103,10 @@
             //查詢相關頁面
             onFilter:function() {
                 this.currentPage = 1
-                let searchParam = {}
-                let formInline = this.formInline
+                var searchParam = {}
+                var formInline = this.formInline
                 var date = new Date()
-                for (let p in formInline) {
+                for (var p in formInline) {
                     if (formInline[p] == '' || formInline[p] == null) continue
                     if (p == 'OrderTime' || p == 'DeliveryTime') {
                         searchParam['strStart' + p] = _dateToString(formInline[p][0], '-')
@@ -123,7 +123,7 @@
             },
             //获取订单数据
             getOrderData:function(obj) {
-                let that = this
+                var that = this
                 obj.PageIndex = this.currentPage - 1
                 obj.PageSize = this.pageSize
                 $.ajax({

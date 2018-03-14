@@ -42,8 +42,8 @@ function _cloneArr(arr) {
 }
 
 function _formatQueryStr(obj) {
-    let queryStr = '?'
-    for (let o in obj) {
+    var queryStr = '?'
+    for (var o in obj) {
         queryStr = queryStr+o+'='+obj[o]+'&'
     }
     return queryStr.substring(0, queryStr.length-1)
@@ -66,10 +66,10 @@ function _delCookie(name) {
 }
 
 function _dateToString(date,split) {
-    let d = new Date(date)
-    let year = d.getFullYear()
-    let month = d.getMonth()+1
-    let day = d.getDate()
+    var d = new Date(date)
+    var year = d.getFullYear()
+    var month = d.getMonth()+1
+    var day = d.getDate()
     if (month < 10) month = '0' + month
     if (day < 10) day = '0' + day
     return year+split+month+split+day
@@ -84,24 +84,24 @@ var pickerOptions = {
         {
         text: '最近一周',
         onClick:function(picker) {
-            const end = new Date();
-            const start = new Date();
+            var end = new Date();
+            var start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
             picker.$emit('pick', [start, end]);
         }
     }, {
         text: '最近一个月',
         onClick: function(picker) {
-            const end = new Date();
-            const start = new Date();
+            var end = new Date();
+            var start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
             picker.$emit('pick', [start, end]);
         }
     }, {
         text: '最近三个月',
         onClick: function(picker) {
-            const end = new Date();
-            const start = new Date();
+            var end = new Date();
+            var start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
             picker.$emit('pick', [start, end]);
         }
