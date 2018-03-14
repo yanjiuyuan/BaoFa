@@ -52,11 +52,11 @@
         methods: {
             //获取数据
             getData:function() {
-                let that = this
-                let searchParam = {}
-                let formInline = this.formInline
+                var that = this
+                var searchParam = {}
+                var formInline = this.formInline
                 var date = new Date()
-                for (let p in formInline) {
+                for (var p in formInline) {
                     if (formInline[p] == '' || formInline[p] == null) continue
                     if (p == 'OrderTime') {
                         searchParam['StartTime'] = _dateToString(formInline[p][0], '-')
@@ -90,7 +90,7 @@
             loadRadarData:function(data) {
                 if (data.Rows instanceof Array) {
                     var radarValue = []
-                    for (let q in QUALITY_RADAR) {
+                    for (var q in QUALITY_RADAR) {
                         radarValue.push(parseFloat(data.Rows[data.Rows.length - 1][q]))
                     }
                     myChart.addData([
@@ -108,7 +108,7 @@
             },
             loadPieData:function(data) {
                 var value = []
-                for (let q in QUALITY_PIE) {
+                for (var q in QUALITY_PIE) {
                      myChart.addData([
                         [
                             0,        // 系列索引
@@ -132,12 +132,12 @@
     myChart = echarts.init(document.getElementById('chart'));
     var radarName = []
     var pieName = []
-    for (let r in QUALITY_RADAR) {
+    for (var r in QUALITY_RADAR) {
         radarName.push({
             text: QUALITY_RADAR[r]
         })
     }
-    for (let p in QUALITY_PIE) {
+    for (var p in QUALITY_PIE) {
         pieName.push(QUALITY_PIE[p])
     }
     option = {

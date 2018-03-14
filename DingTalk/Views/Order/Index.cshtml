@@ -145,11 +145,11 @@
             //查詢相關頁面
             onFilter() {
                 this.currentPage = 1
-                let searchParam = {}
-                let formInline = this.formInline
+                var searchParam = {}
+                var formInline = this.formInline
                 var date = new Date()
 
-                for (let p in formInline) {
+                for (var p in formInline) {
                     if (formInline[p] == ''|| formInline[p] == null) continue
                     if (p == 'OrderTime' || p == 'DeliveryTime') {
                         searchParam['strStart' + p] = _dateToString(formInline[p][0],'-')
@@ -168,7 +168,7 @@
             },
             //获取订单数据
             getOrderData(obj) {
-                let that = this
+                var that = this
                 obj.PageIndex = this.currentPage - 1
                 obj.PageSize = this.pageSize
                 console.log(_formatQueryStr(obj))
@@ -183,7 +183,7 @@
                             that.totalRows = parseInt(data.Counts)
                             that.Customer = []
                             that.ExpCountries = []
-                            for (let r of that.tableData) {
+                            for (var r of that.tableData) {
                                 if (that.Customer.indexOf(r.Customer)) {
                                     that.Customer.push(r.Customer)
                                 }

@@ -69,7 +69,7 @@
         },
         computed: {
             theme: function () {
-                let theme
+                var theme
                 switch (this.param.status) {
                     case 0: theme = {
                         mainClass: 'device-button-info',
@@ -144,7 +144,7 @@
                 }
                 $(".device-button").css("font-size", "0.5em")
                 $(".device-count").css("font-size", "1.2em")
-                for (let css in deviceStatusCss) {
+                for (var css in deviceStatusCss) {
                     css == "padding" ? $(".device-status").css("cssText", css + ":" + deviceStatusCss[css] + 'px !important;') : $(".device-status").css(css, deviceStatusCss[css] + 'px')
                 }
                 this.showMask = false;
@@ -157,6 +157,7 @@
                     success: function (data) {
                         data = JSON.parse(data).Rows[0]
                         that.useage = data
+                        setLocalObj('lineData',data)
                     }
                 })
             },
@@ -169,16 +170,16 @@
             //webSocket 获取数据
             ws.onmessage = function (result) {
                 that.loading = false
-                let devData = JSON.parse(JSON.parse(result.data))
+                var devData = JSON.parse(JSON.parse(result.data))
                 that.deviceBtns = _cloneArr(DEVICES)
                 console.log(devData)
                 for (var d = 0; d < that.deviceBtns.length;d++) {
                     var dev = that.deviceBtns[d]
                     if (!dev.detail) continue
-                    for (let d in devData) {
-                        let dObj = devData[d][0]
+                    for (var d in devData) {
+                        var dObj = devData[d][0]
                         if (dObj.SprayID != dev.SprayID || dObj.SprayID == null) continue
-                        for (let det in dev.detail) {
+                        for (var det in dev.detail) {
                             var ele = dev.detail[det]
                             if (dObj[ele] != null) {
                                 dev.detail[det] = dObj[ele]
