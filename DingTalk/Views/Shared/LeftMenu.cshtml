@@ -6,9 +6,9 @@
     @*<el-tabs type="border-card">*@
         <!--主分页-->
         @*<el-tab-pane label="在线办公">*@
-            <el-container style="border: 1px solid #eee">
+            <div class="el-container" style="border: 1px solid #eee">
                 <!--左侧导航栏-->
-                <el-aside width="20%" style="background-color: rgb(238, 241, 246)">
+                <div class="el-aside" width="20%" style="background-color: rgb(238, 241, 246)">
                     <el-menu :default-openeds="['2','3']"
                              :default-active="'1'">
                         <el-menu-item index="1" onclick="loadPage('/Main/DeviceMonitor')">
@@ -20,13 +20,9 @@
                             </template>
                             <el-menu-item-group>
                                 <el-menu-item index="2-1" onclick="loadPage('/Main/ParamOrder')">订单参数</el-menu-item>
-                                <el-menu-item index="2-2" onclick="loadPage('/Main/ParamStand')">
-                                    胶站参数<el-badge class="mark" :value="12" />
-                                </el-menu-item>
+                                <el-menu-item index="2-2" onclick="loadPage('/Main/ParamStand')">胶站参数</el-menu-item>
                                 <el-menu-item index="2-3" onclick="loadPage('/Main/ParamLine')">生产线参数</el-menu-item>
-                                <el-menu-item index="2-4" onclick="loadPage('/Main/ParamOther')">
-                                    工艺人员状态图<el-badge class="item" />
-                                </el-menu-item>
+                                <el-menu-item index="2-4" onclick="loadPage('/Main/ParamOther')">工艺人员状态图</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
                         <el-submenu index="3">
@@ -40,14 +36,5 @@
                                 <el-menu-item index="3-4" onclick="loadPage('/Main/ChartMultiply')">月统计报表</el-menu-item>
                             </el-menu-item-group>
                         </el-submenu>
-                        @*<el-menu-item index="4">
-                            <template slot="title">
-                                <i class="el-icon-phone"></i>数据统计
-                            </template>
-                            <el-menu-item-group>
-                                <el-menu-item index="4-1" onclick="loadPage('/Main/TableQuality')">订单质量表</el-menu-item>
-                                <el-menu-item index="4-2" onclick="loadPage('/Main/TableCount')">产量统计表</el-menu-item>
-                            </el-menu-item-group>
-                        </el-menu-item>*@
                     </el-menu>
-                </el-aside>
+                </div>

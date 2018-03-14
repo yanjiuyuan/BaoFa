@@ -39,7 +39,6 @@
     </el-form>
     <!--表格實體-->
     <el-table :data="tableData" stripe border>
-        
         <el-table-column prop="ProductLineId" label="产线编号" width="120"></el-table-column>
         <el-table-column prop="ProductLineName" label="产线名称" width="120"></el-table-column>
         <el-table-column prop="CompanyName" label="所属公司名称" width="120"></el-table-column>
@@ -85,22 +84,21 @@
         },
         methods: {
             //翻頁相關事件
-            handleSizeChange(val) {
+            handleSizeChange:function(val) {
                 this.currentPage = 1
                 this.pageSize = val
                 this.getOrderData({})
             },
-            handleCurrentChange(val) {
+            handleCurrentChange:function(val) {
                 this.currentPage = val
                 this.getOrderData({})
             },
             //查詢相關頁面
-            onFilter() {
+            onFilter:function() {
                 this.currentPage = 1
                 let searchParam = {}
                 let formInline = this.formInline
                 var date = new Date()
-
                 for (let p in formInline) {
                     if (formInline[p] == '' || formInline[p] == null) continue
                     if (p == 'OrderTime' || p == 'DeliveryTime') {
@@ -110,32 +108,30 @@
                         searchParam[p] = formInline[p]
                     }
                 }
-
                 this.getOrderData(searchParam)
                 console.log(searchParam)
             },
             //切换高级搜索
-            changeSuperSearch() {
+            changeSuperSearch:function() {
                 this.superSearch = !this.superSearch;
             },
             //获取订单数据
-            getOrderData(obj) {
+            getOrderData:function(obj) {
                 let that = this
                 obj.PageIndex = this.currentPage - 1
                 obj.PageSize = this.pageSize
-                console.log(_formatQueryStr(obj))
                 $.ajax({
                     url: "/ProductionLines/ProductionLinesData" + _formatQueryStr(obj),
                     //dataType: 'json',
                     success: function (data) {
                         data = JSON.parse(data)
-                        console.log(data)
                         if (data && data.Rows) {
                             that.tableData = data.Rows
                             that.totalRows = parseInt(data.Counts)
                             that.ProductLineName = []
                             that.CompanyName = []
-                            for (let r of that.tableData) {
+                            for (var i = 0; i < that.tableData.length; i++) {
+                                var r = that.tableData[i]
                                 if (that.ProductLineName.indexOf(r.ProductLineName)) {
                                     that.ProductLineName.push(r.ProductLineName)
                                 }
@@ -156,8 +152,4 @@
             loadHtml("mainPage", "partPage")
         }
     })
-
-
-
-
 </script>
