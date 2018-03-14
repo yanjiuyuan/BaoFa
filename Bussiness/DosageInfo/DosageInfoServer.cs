@@ -38,7 +38,7 @@ namespace Bussiness.DosageInfo
 
         public DataTable GetCurrentProduction(long strDataTime)
         {
-            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} order by ID_RealTimeUsage", strDataTime);
+            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} order by ID_RealTimeUsage", strDataTime);
             DataTable tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
             return ChangeTable(tb);
         }
