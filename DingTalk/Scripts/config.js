@@ -33,7 +33,7 @@ var DETAILRANGE = {
         max: 40
     },//胶重
     FlowMeter: {
-        min: 0.1,
+        min: 0,
         max: 3.0
     },//流量计
     StateN: {

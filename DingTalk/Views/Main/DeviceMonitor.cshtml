@@ -15,16 +15,16 @@
          id="imgFrame" style="margin-bottom:30px;position:relative;">
         <img src="~/Content/images/deviceMonitor.png" style="max-width:100%" />
         <!--生产数量统计-->
-        <div class="device-count" style="top:1%;left:0.56%;">当班产量</div>
-        <div class="device-count" style="top:6%;left:0.56%;font-weight:bold;">{{useage.NowN}}</div>
-        <div class="device-count" style="top:11%;left:0.56%;">生产节拍</div>
-        <div class="device-count" style="top:16%;left:0.56%;font-weight:bold;">{{useage.ProductionBeat}}</div>
-        <div class="device-count" style="top:21%;left:0.56%;">总产量</div>
-        <div class="device-count" style="top:26%;left:0.56%;font-weight:bold;">{{useage.AllN}}</div>
-        <div class="device-count" style="top:1%;left:10%;">总订单号</div>
-        <div class="device-count" style="top:1%;left:17%;font-weight:bold;">{{useage.OrderID}}</div>
-        <div class="device-count" style="top:6%;left:10%;">子订单号</div>
-        <div class="device-count" style="top:6%;left:17%;font-weight:bold;">{{useage.ChildID}}</div>
+        <el-button plain type="danger" class="device-count" style="top:1%;left:0.56%;">当班产量</el-button>
+        <el-button type="danger" class="device-count" style="top:1%;left:8.56%;font-weight:bold;">{{useage.NowN}}</el-button>
+        <el-button plain type="danger" class="device-count" style="top:8%;left:0.56%;">总产量</el-button>
+        <el-button type="danger" class="device-count" style="top:8%;left:8.56%;font-weight:bold;">{{useage.AllN}}</el-button>
+        <el-button plain type="danger" class="device-count" style="top:15%;left:0.56%;">生产节拍</el-button>
+        <el-button type="danger" class="device-count" style="top:15%;left:8.56%;font-weight:bold;">{{useage.ProductionBeat}}</el-button>
+        <el-button plain type="danger" class="device-count" style="top:78%;left:45%;">总订单号</el-button>
+        <el-button type="danger" class="device-count" style="top:78%;left:53%;font-weight:bold;">{{useage.OrderID}}</el-button>
+        <el-button plain type="danger" class="device-count" style="top:85%;left:45%;">子订单号</el-button>
+        <el-button type="danger" class="device-count" style="top:85%;left:53%;font-weight:bold;">{{useage.ChildID}}</el-button>
         <!--设备状态按钮-->
         <template v-for="(btn,index) of deviceBtns">
             <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
@@ -74,7 +74,7 @@
                     case 0: theme = {
                         mainClass: 'device-button-info',
                         warnType: 'info',
-                        text: '离线',
+                        text: '空闲',
                         color: '#909399'
                     }; break;
                     case 2: theme = {
@@ -132,7 +132,7 @@
                     DEVICES[p].tooltip.font_size = "1.5em"
                 }
                 $(".device-button").css("font-size", "1.5em")
-                $(".device-count").css("font-size", "2em")
+                $(".device-count").css("font-size", "1.8em")
             },
             //监控界面恢复
             restoreScreen: function () {
@@ -142,8 +142,8 @@
                 for (var p = 0; p < DEVICES.length; p++) {
                     DEVICES[p].tooltip.font_size = "1em"
                 }
-                $(".device-button").css("font-size", "0.5em")
-                $(".device-count").css("font-size", "1.2em")
+                $(".device-button").css("font-size", "1em")
+                $(".device-count").css("font-size", "1em")
                 for (var css in deviceStatusCss) {
                     css == "padding" ? $(".device-status").css("cssText", css + ":" + deviceStatusCss[css] + 'px !important;') : $(".device-status").css(css, deviceStatusCss[css] + 'px')
                 }
@@ -157,6 +157,7 @@
                     success: function (data) {
                         data = JSON.parse(data).Rows[0]
                         that.useage = data
+                        console.log(data)
                         setLocalObj('lineData',data)
                     }
                 })

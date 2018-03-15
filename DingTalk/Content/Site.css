@@ -146,10 +146,8 @@ a{
 }
 .device-count {
     position: absolute;
-    width: 14%;
-    color:red;
-    font-size:1.2em;
-    
+    padding: 6px 10px;
+    font-size:1em;
 }
 .device-worker {
     position: absolute;
@@ -215,8 +213,10 @@ a{
 .el-submenu .el-menu-item {
     padding-left: 20% !important;
 }
-
+.el-button + .el-button{
+    margin-left:0px;
+}
 /*兼容IE样式*/
-.el-main{
-    overflow:visible;
+.el-main {
+    overflow: visible !important;
 }
