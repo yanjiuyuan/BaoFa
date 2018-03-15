@@ -12,9 +12,7 @@ namespace Bussiness.UsageInfo
     {
         public DataTable GetUsage()
         {
-            //string strSql = "SELECT  *  FROM huabao.`Usage` ORDER BY  ct DESC LIMIT 0,1";
-            //string strSql = "SELECT  *  FROM huabao.`quality";
-            string strSql = "SELECT  *  FROM huabao.`usage`   ORDER BY  ct DESC LIMIT 0,1";
+            string strSql = "SELECT  *  FROM  `usage` a  LEFT JOIN  `line` b ON a.id_usage=b.id_usage   ORDER BY  ct DESC LIMIT 0,1";
             DataTable tb = MySqlHelper.ExecuteQuery(strSql);
             return tb;
         }
