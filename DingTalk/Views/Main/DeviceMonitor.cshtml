@@ -25,6 +25,8 @@
         <el-button type="danger" class="device-count" style="top:78%;left:53%;font-weight:bold;">{{useage.OrderID}}</el-button>
         <el-button plain type="danger" class="device-count" style="top:85%;left:45%;">子订单号</el-button>
         <el-button type="danger" class="device-count" style="top:85%;left:53%;font-weight:bold;">{{useage.ChildID}}</el-button>
+        <el-button plain type="danger" class="device-count" style="top:92%;left:45%;">运行状态</el-button>
+        <el-button type="danger" class="device-count" style="top:92%;left:53%;font-weight:bold;">{{useage.Linestatus}}</el-button>
         <!--设备状态按钮-->
         <template v-for="(btn,index) of deviceBtns">
             <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
@@ -157,7 +159,6 @@
                     success: function (data) {
                         data = JSON.parse(data).Rows[0]
                         that.useage = data
-                        console.log(data)
                         setLocalObj('lineData',data)
                     }
                 })
@@ -174,13 +175,13 @@
                 var devData = JSON.parse(JSON.parse(result.data))
                 that.deviceBtns = _cloneArr(DEVICES)
                 console.log(devData)
-                for (var d = 0; d < that.deviceBtns.length;d++) {
-                    var dev = that.deviceBtns[d]
+                for (let i = 0; i < that.deviceBtns.length;i++) {
+                    var dev = that.deviceBtns[i]
                     if (!dev.detail) continue
-                    for (var d in devData) {
+                    for (let d in devData) {
                         var dObj = devData[d][0]
                         if (dObj.SprayID != dev.SprayID || dObj.SprayID == null) continue
-                        for (var det in dev.detail) {
+                        for (let det in dev.detail) {
                             var ele = dev.detail[det]
                             if (dObj[ele] != null) {
                                 dev.detail[det] = dObj[ele]
