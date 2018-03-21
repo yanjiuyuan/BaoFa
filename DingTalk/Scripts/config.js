@@ -40,10 +40,6 @@ var DETAILRANGE = {
         min: 0,
         max: 1
     },//机器人状态号
-    ErrorN: {
-        min: 0,
-        max: 0
-    },//机器人报警号
     OvenTemperatureNow: {
         min: 0,
         max: 150
