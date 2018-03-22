@@ -185,6 +185,11 @@ a{
     font-size: 1em;
 }
 
+/*视频监控播放器*/
+#myPlayer {
+    max-width: 1200px;
+    width: 100%;
+}
 
 /*底部样式*/
 .footer {

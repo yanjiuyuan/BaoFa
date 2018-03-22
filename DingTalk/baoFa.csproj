@@ -212,6 +212,7 @@
     <Content Include="Content\images\worker\7.jpg" />
     <Content Include="Content\images\worker\8.jpg" />
     <Content Include="Content\images\worker\9.jpg" />
+    <Content Include="demo.html" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />
@@ -237,6 +238,9 @@
     <Content Include="Scripts\config.js" />
     <Content Include="Scripts\echarts-all.js" />
     <Content Include="Scripts\element.js" />
+    <Content Include="Scripts\ezuikit.js" />
+    <Content Include="Scripts\hls.js" />
+    <Content Include="Scripts\hls.min.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
     <Content Include="Scripts\lib.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
@@ -338,6 +342,8 @@
     <Content Include="Views\Main\ChartMultiply.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Quality\Index.cshtml" />
+    <Content Include="Views\Main\VideoMonitor.cshtml" />
+    <Content Include="Scripts\hls.js.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bussiness\Bussiness.csproj">

@@ -1,0 +1,22 @@
+﻿
+@{
+    Layout = null;
+}
+<div id="partPage">
+    <video id="myPlayer" poster="./content/images/title.png" controls playsInline webkit-playsinline autoplay>
+        <source src="rtmp://rtmp.open.ys7.com/openlive/e5e156c750104f2f8374588bbe53c26f.hd" type="rtmp/flv" />
+        <source src="http://hls.open.ys7.com/openlive/e5e156c750104f2f8374588bbe53c26f.hd.m3u8" type="application/x-mpegURL" />
+    </video>
+</div>
+
+<script>
+    var player = new EZUIPlayer('myPlayer');
+    loadHtml("mainPage", "partPage")
+    //new Vue({
+    //    el: "#partPage",
+    //    mixins: [mixin],
+    //    data: function () {
+            
+    //    }
+    //})
+</script>

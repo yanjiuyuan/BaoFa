@@ -62,6 +62,9 @@ namespace WebZhongZhi.Controllers
         {
             return View();
         }
-
+        public ActionResult VideoMonitor()
+        {
+            return View();
+        }
     }
 }

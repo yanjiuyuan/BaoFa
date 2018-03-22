@@ -3,6 +3,8 @@
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
     <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
     @*@Scripts.Render("~/bundles/modernizr")*@
     <title>泉州华中科技大学智能制造研究院</title>
     <link rel="stylesheet" href="~/Content/element.css"/>
@@ -13,6 +15,7 @@
     <script src="~/Scripts/config.js"></script>
     <script src="~/Scripts/vue.js"></script>
     <script src="~/Scripts/element.js"></script>
+    <script src="~/Scripts/ezuikit.js"></script>
     <script>
         if (!_getCookie('UserName')) {
             location.href="/login"
@@ -52,6 +55,7 @@
     var innerWidth = window.innerWidth
     var scale = screenWidth / 1280
     var mobileScale = innerWidth / 1280
+    var player
     console.log("innerWidth = " + innerWidth)
     console.log("innerHeight = " + innerHeight)
     //if (screenWidth <= 768) {
