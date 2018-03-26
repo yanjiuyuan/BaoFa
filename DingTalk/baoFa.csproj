@@ -197,6 +197,9 @@
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\icon900-540.png" />
     <Content Include="Content\images\lineVerticalView.png" />
+    <Content Include="Content\images\login\1.jpg" />
+    <Content Include="Content\images\login\2.jpg" />
+    <Content Include="Content\images\login\3.jpg" />
     <Content Include="Content\images\miaov.png" />
     <Content Include="Content\images\QualityImages\1.png" />
     <Content Include="Content\images\QualityImages\2.png" />
@@ -212,7 +215,7 @@
     <Content Include="Content\images\worker\7.jpg" />
     <Content Include="Content\images\worker\8.jpg" />
     <Content Include="Content\images\worker\9.jpg" />
-    <Content Include="demo.html" />
+    <Content Include="Content\login.css" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />
@@ -242,10 +245,15 @@
     <Content Include="Scripts\hls.js" />
     <Content Include="Scripts\hls.min.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\lib.js" />
+    <Content Include="Scripts\login_common.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\supersized-init.js" />
+    <Content Include="Scripts\supersized.3.2.7.min.js" />
     <Content Include="Scripts\vue.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

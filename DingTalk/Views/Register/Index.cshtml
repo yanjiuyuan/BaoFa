@@ -1,10 +1,140 @@
 ﻿
 @{
+    ViewBag.Title = "register";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>云平台登录</title>
+    <link rel="stylesheet" href="~/Content/login.css" />
+    <style>
+        form {
+            width: 460px;
+            margin: 0px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="app">
+        <h1>硫化鞋云平台登录</h1>
+        <div class="connect">
+            <p>泉州华科大研究院</p>
+        </div>
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form-item  prop="username">
+                <el-input v-model="ruleForm.username" placeholder="用户名"></el-input>
+            </el-form-item>
+            <el-form-item label="" prop="strPassword">
+                <el-input type="strPassword" v-model="ruleForm.strPassword" placeholder="密码" auto-complete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="" prop="checkPassword">
+                <el-input type="strPassword" v-model="ruleForm.checkPassword" placeholder="确认密码" auto-complete="off"></el-input>
+            </el-form-item>
+
+            <el-form-item label="" prop="strCompanyId">
+                <el-select v-model="ruleForm.strCompanyId">
+                    <el-option v-for="e of companys" :label="e.CompanyName" placeholder="公司名称" :value="e.CompanyId" key="e.CompanyId"></el-option>
+                </el-select>
+            </el-form-item>
+
+            <el-form-item label="" prop="strCode">
+                <el-input v-model="ruleForm.strCode" placeholder="验证码" ></el-input>
+            </el-form-item>
+            <img id="code" v-on:click="refreshCode" src="/Code?id=" />
+
+            <el-form-item>
+                <el-button type="primary" v-on:click="submitForm('ruleForm')">注册</el-button>
+                @*<el-button v-on:click="resetForm('ruleForm')">重置</el-button>*@
+                <a href="/login"><el-button>前往登录</el-button></a>
+            </el-form-item>
+        </el-form>
+    </div>
+    <script src="~/Scripts/jquery.min.js"></script>
+    <script src="~/Scripts/login_common.js"></script>
+    <script src="~/Scripts/lib.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script src="~/Scripts/element.js"></script>
+    <script src="~/Scripts/supersized.3.2.7.min.js"></script>
+    <script src="~/Scripts/supersized-init.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js?var1.14.0"></script>
+</body>
+</html>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                activeIndex: '0',
+                companys: [],
+                ruleForm: {
+                    username: '',
+                    strPassword: '',
+                    checkPassword: '',
+                    strCompanyId: '',
+                    strCode: ''
+                },
+                rules: {
+                    username: [
+                        { required: true, message: '请输入账号', trigger: 'blur' },
+                        { min: 2, max: 8, message: '长度在 2 到 8 个字符', trigger: 'blur' }
+                    ],
+                    strPassword: [
+                        { required: true, message: '请输入密码', trigger: 'blur' },
+                        { min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }
+                    ],
+                    checkPassword: [
+                        { required: true, message: '请输入密码', trigger: 'blur' },
+                        { min: 3, max: 8, message: '长度在 3 到 8 个字符', trigger: 'blur' }
+                    ],
+                    strCompanyId: [
+                        { required: true, message: '请选择公司名称', trigger: 'blur' }
+                    ],
+                    strCode: [
+                        { required: true, message: '请输入验证码', trigger: 'blur' },
+                        { min: 4, max: 4, message: '请输入4位验证码', trigger: 'blur' }
+                    ]
+                }
+            }
+        },
+        methods: {
+            submitForm(formName) {
+                
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
+            },
+            refreshCode() {
+                var code = document.getElementById("code")
+                code.src = code.src + '1'
+            }
+        },
+        created: function () {
+            var that = this
+            $.ajax({
+                url: '/Company/GetCompanyInfo',
+                success: function (data) {
+                    data = JSON.parse(data)
+                    if (data && data.length) {
+                        that.companys = data
+                        console.log(data)
+                    }
+                }
+            })
+        }
+    })
+</script>
+
+
+@*@{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_Layout-noLogin.cshtml";
-}
+}*@
 
-<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+@*<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
     <el-form-item label="账号" prop="username">
         <el-input v-model="ruleForm.username"></el-input>
     </el-form-item>
@@ -125,11 +255,6 @@
             }
         })
     </script>
-    <style>
-        form {
-            width: 460px;
-            margin: 80px auto;
-        }
-    </style>
-}
+    
+}*@
 
