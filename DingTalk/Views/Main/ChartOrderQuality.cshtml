@@ -80,7 +80,14 @@
                     dataType: 'json',
                     success: function (data) {
                         console.log(data)
-                        that.loadPieData(data)
+                        if (!data) return;
+                        for (var d in data) {
+                            if (data[d] > 0) {
+                                that.loadPieData(data)
+                                break
+                            }
+                        }
+                        alert('无有效数据，图表为随机数')
                     },
                     error: function (err) {
                         console.error(err)

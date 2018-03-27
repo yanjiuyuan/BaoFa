@@ -13,7 +13,7 @@ var ROSTER = {
     '烤箱温度':'OvenTemperatureNow'
 }
 var PRESS = {
-    '十字压': 'BOilPressure',
+    '压底': 'BOilPressure',
     '左十字压': 'LOilPressure',
     '右十字压': 'ROilPressure',
     '左右脚': 'LRFoot',
@@ -139,6 +139,7 @@ var DEVICES = [
     }, {
         num: 7,
         name: '视觉2号站',
+        SprayID: 8,
         status: 0,
         tooltip: {
             disabled: true,
@@ -296,6 +297,7 @@ var DEVICES = [
     }, {
         num: 18,
         name: '十字压站',
+        SprayID: 7,
         status: 0,
         detail: _cloneObj(PRESS),
         tooltip: {

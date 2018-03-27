@@ -127,7 +127,7 @@
                 console.log("imgWidth,imgHeight = " + imgWidth + " , " + imgHeight)
                 console.log("screenWidth,screenHeight = " + screenWidth + " , " + screenHeight)
                 screenWidth / screenHeight > 900 / 430 ? $("#imgFrame").css({ "height": screenHeight }) : $("#imgFrame").css({ "width": screenWidth })
-                $("#imgFrame").css({ "position": "absolute", "top": "0", "left": "0" })
+                $("#imgFrame").css({ "position": "fixed", "top": "0", "left": "0" })
                 this.showMask = true;
                 $("body").css({ "overflow": "hidden" })
                 for (var p = 0; p < DEVICES.length;p++) {
