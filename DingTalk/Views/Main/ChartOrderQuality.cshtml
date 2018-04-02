@@ -8,7 +8,6 @@
     <!--查詢表單-->
     <el-form :inline="true" :model="formInline" class="demo-form-inline"
              size="medium">
-
         <el-form-item label="总订单">
             <el-input v-model="formInline.OrderId">
             </el-input>
@@ -29,6 +28,7 @@
 
         <el-form-item>
             <el-button type="primary" v-on:click="getData">搜索</el-button>
+            <span class="alert">{{alert}}</span>
         </el-form-item>
         
     </el-form>
@@ -46,7 +46,8 @@
                     OrderId: '',
                     ChildId: '',
                     OrderTime: ''
-                }
+                },
+                alert: ''
             }
         },
         methods: {
@@ -84,10 +85,11 @@
                         for (var d in data) {
                             if (data[d] > 0) {
                                 that.loadPieData(data)
+                                that.alert = ''
                                 break
                             }
                         }
-                        alert('无有效数据，图表为随机数')
+                        that.alert = '无有效数据，图表为随机数'
                     },
                     error: function (err) {
                         console.error(err)

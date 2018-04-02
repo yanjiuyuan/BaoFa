@@ -15,6 +15,10 @@ hr {
 .hint{
     color:#808080;
 }
+.alert{
+    color:red;
+    margin-left:10px;
+}
 .clickable-text {
     color: #409EFF;
     cursor: pointer;

@@ -122,19 +122,21 @@
         methods: {
             //监控界面全屏
             changeFullScreen: function () {
+                var frameWidth = screenWidth
+                //screenWidth / screenHeight > 900 / 430 ? $("#imgFrame").css({ "height": screenHeight }) : $("#imgFrame").css({ "width": screenWidth })
+                if (screenWidth < 1400) frameWidth = screenWidth -90
+                $("#imgFrame").css({ "width": frameWidth })
+                $("#imgFrame").css({ "position": "fixed", "top": "0", "left": "0" })
                 imgWidth = parseInt($("#imgFrame").css("width"))
                 imgHeight = parseInt($("#imgFrame").css("height"))
                 console.log("imgWidth,imgHeight = " + imgWidth + " , " + imgHeight)
-                console.log("screenWidth,screenHeight = " + screenWidth + " , " + screenHeight)
-                screenWidth / screenHeight > 900 / 430 ? $("#imgFrame").css({ "height": screenHeight }) : $("#imgFrame").css({ "width": screenWidth })
-                $("#imgFrame").css({ "position": "fixed", "top": "0", "left": "0" })
                 this.showMask = true;
                 $("body").css({ "overflow": "hidden" })
                 for (var p = 0; p < DEVICES.length;p++) {
-                    DEVICES[p].tooltip.font_size = "1.5em"
+                    DEVICES[p].tooltip.font_size = "1.2em"
                 }
-                $(".device-button").css("font-size", "1.5em")
-                $(".device-count").css("font-size", "1.8em")
+                $(".device-button").css("font-size", "1.4em")
+                $(".device-count").css("font-size", "1.4em")
             },
             //监控界面恢复
             restoreScreen: function () {

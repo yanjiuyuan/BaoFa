@@ -19,19 +19,21 @@
 </head>
 <body>
     <div class="login-container" id="app">
-        <h1>硫化鞋云平台登录</h1>
-        <div class="connect">
-            <p>泉州华科大研究院</p>
+        <div style="margin-left:100px;">
+            <h1>硫化鞋云平台登录</h1>
+            <div class="connect">
+                <p>泉州华中科技大学智能制造研究院</p>
+            </div>
         </div>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item  prop="username">
                 <el-input v-model="ruleForm.username" placeholder="用户名"></el-input>
             </el-form-item>
             <el-form-item label="" prop="strPassword">
-                <el-input type="strPassword" v-model="ruleForm.strPassword" placeholder="密码" auto-complete="off"></el-input>
+                <el-input type="password" v-model="ruleForm.strPassword" placeholder="密码" auto-complete="off"></el-input>
             </el-form-item>
             <el-form-item label="" prop="checkPassword">
-                <el-input type="strPassword" v-model="ruleForm.checkPassword" placeholder="确认密码" auto-complete="off"></el-input>
+                <el-input type="password" v-model="ruleForm.checkPassword" placeholder="确认密码"></el-input>
             </el-form-item>
 
             <el-form-item label="" prop="strCompanyId">
@@ -42,8 +44,9 @@
 
             <el-form-item label="" prop="strCode">
                 <el-input v-model="ruleForm.strCode" placeholder="验证码" ></el-input>
+                <img id="code" v-on:click="refreshCode" src="/Code?id=" />
             </el-form-item>
-            <img id="code" v-on:click="refreshCode" src="/Code?id=" />
+            
 
             <el-form-item>
                 <el-button type="primary" v-on:click="submitForm('ruleForm')">注册</el-button>

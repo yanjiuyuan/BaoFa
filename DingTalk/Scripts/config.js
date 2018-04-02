@@ -19,6 +19,18 @@ var PRESS = {
     '左右脚': 'LRFoot',
     '鞋长': 'ShoeL'
 }
+var VIEWONE = {
+    '状态号': 'VisualOneState',
+    '报警号': 'VisualOneError'
+}
+var VIEWTWO = {
+    '状态号': 'VisualTwoState',
+    '报警号': 'VisualTwoError'
+}
+var VIEWTHREE = {
+    '状态号': 'VisualThreeState',
+    '报警号': 'VisualThreeError'
+}
 var DETAILRANGE = {
     AtomizationPressure: {
         min: 0.1,
@@ -141,6 +153,7 @@ var DEVICES = [
         name: '视觉2号站',
         SprayID: 8,
         status: 0,
+        detail: _cloneObj(VIEWTWO),
         tooltip: {
             disabled: true,
             placement: 'left'
