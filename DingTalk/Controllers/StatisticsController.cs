@@ -42,27 +42,27 @@ namespace DingTalk.Controllers
         /// <param name="DataTime">查询日期(格式为yyyy-MM-dd)</param>
         /// <returns>返回头尾以及整点数据</returns>
         /// 测试数据 Statistics/GetCurrentProduction
-        /// 测试数据 Statistics/GetCurrentProduction?DataTime=2018-03-01
-        public string GetCurrentProduction(string DataTime)
+        /// 测试数据 /Statistics/GetCurrentProduction?DataTime=2018-03-01&Count=100
+        public string GetCurrentProduction(string DataTime,int Count)
         {
             string strResult = string.Empty;
             if (DataTime != null)
             {
-                strResult = ChangeTime(DataTime);
+                strResult = ChangeTime(DataTime,Count);
             }
             else
             {
-                strResult = ChangeTime(DateTime.Now.ToString("yyyy-MM-dd"));
+                strResult = ChangeTime(DateTime.Now.ToString("yyyy-MM-dd"), Count);
             }
             return strResult;
         }
 
-        public string ChangeTime(string DataTime)
+        public string ChangeTime(string DataTime,int Count)
         {
             DateTime time = Convert.ToDateTime(DataTime);
             long lTime = TimeHelper.ConvertDateTimeToInt(time);
             DosageInfoServer dServer = new DosageInfoServer();
-            DataTable tb = dServer.GetCurrentProduction(lTime);
+            DataTable tb = dServer.GetCurrentProduction(lTime, Count);
             return JsonHelper.DataTableToJson(tb);
         }
 

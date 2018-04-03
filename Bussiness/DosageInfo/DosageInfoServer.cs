@@ -36,11 +36,11 @@ namespace Bussiness.DosageInfo
         }
 
 
-        public DataTable GetCurrentProduction(long strDataTime)
+        public DataTable GetCurrentProduction(long strDataTime, int Count)
         {
             string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} order by ID_RealTimeUsage", strDataTime);
             DataTable tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
-            return ChangeTable(tb);
+            return ChangeTable(tb, Count);
         }
 
         /// <summary>
@@ -48,78 +48,71 @@ namespace Bussiness.DosageInfo
         /// </summary>
         /// <param name="tbNew"></param>
         /// <returns></returns>
-        public DataTable ChangeTable(DataTable tbNew)
+        public DataTable ChangeTable(DataTable tbNew, int Count)
         {
             DataTable tbOld = new DataTable();
             tbOld = tbNew.Clone();
             tbOld.PrimaryKey = null;
-            foreach (DataColumn col in tbOld.Columns)
+            tbOld.Columns["ID_RealTimeUsage"].DataType = typeof(string);//指定Age为Int类型
+            
+            if (tbNew.Rows.Count > 0)
             {
-                if (col.ColumnName == "ID_RealTimeUsage" ||
-                    col.ColumnName == "VampID" ||
-                    col.ColumnName == "WaiOID" ||
-                        col.ColumnName == "WaiTID" ||
-                    col.ColumnName == "WaiSID" ||
-                    col.ColumnName == "OutsoleID" ||
-                     col.ColumnName == "MouthguardsID" ||
-                      col.ColumnName == "LineUsageID")
+                if (tbNew.Rows.Count > Count)
                 {
-                    col.DataType = typeof(string); //改变第一列属性值
-                }
-                
-            }
-            string strBeginTime = tbNew.Rows[0][0].ToString();
-            string strEndTime = tbNew.Rows[tbNew.Rows.Count - 1][0].ToString();
-            //float x = (float.Parse(strEndTime) - float.Parse(strBeginTime)) / tbNew.Rows.Count;
-            //int z = (int)(360 * (10000 / x)); //一小时约有z个点
-            float x = float.Parse(strEndTime) - float.Parse(strBeginTime);
-            int z = (int)(x / (60 * 1000));
-            int k = (int)(tbNew.Rows.Count / z);
-            for (int i = 0; i < tbNew.Rows.Count; i++)
-            {
-                //取收尾两
-                if (i == 0 || i == tbNew.Rows.Count - 1)
-                {
-                    //加入首尾两行
-                    tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                    int j = tbNew.Rows.Count / Count + 1;
+                    for (int i = 0; i < tbNew.Rows.Count; i++)
+                    {
+                        //取收尾两
+                        if (i == 0 || i == tbNew.Rows.Count - 1)
+                        {
+                            //加入首尾两行
+                            tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                        }
+                        else
+                        {
+                            if (i * j < tbNew.Rows.Count)
+                            {
+                                tbOld.Rows.Add(tbNew.Rows[i * j].ItemArray);
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    if (k != 0)
+                    string strBeginTime = tbNew.Rows[0][0].ToString();
+                    string strEndTime = tbNew.Rows[tbNew.Rows.Count - 1][0].ToString();
+                    //float x = (float.Parse(strEndTime) - float.Parse(strBeginTime)) / tbNew.Rows.Count;
+                    //int z = (int)(360 * (10000 / x)); //一小时约有z个点
+                    float x = float.Parse(strEndTime) - float.Parse(strBeginTime);
+                    int z = (int)(x / (60 * 1000));
+                    int k = (int)(tbNew.Rows.Count / z);
+                    for (int i = 0; i < tbNew.Rows.Count; i++)
                     {
-                        if (i % k == 0)
+                        //取收尾两
+                        if (i == 0 || i == tbNew.Rows.Count - 1)
                         {
+                            //加入首尾两行
                             tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
                         }
+                        else
+                        {
+                            if (k != 0)
+                            {
+                                if (i % k == 0)
+                                {
+                                    tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                                }
+                            }
+                        }
                     }
-
                 }
             }
-
-            //string strCompareTime = string.Empty;
+            
             for (int i = 0; i < tbOld.Rows.Count; i++)
             {
                 //转换时间格式
-                //tbOld.Rows[i][0] = TimeHelper.ConvertStringToDateTime(tbOld.Rows[i][0].ToString());
-
                 tbOld.Rows[i][0] = TimeHelper.GetStringToDateTime((tbOld.Rows[i][0].ToString()));
 
-                //TimeHelper.ConvertStringToDateTime
-                //截取时间
-                //if (i == 0)
-                //{
-                //    strCompareTime = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length - 8, 5);
-                //    //插入数据
-                //    tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length - 8, 5);
-                //}
-                //else
-                //{
-                //    //两次数据相同不插入
-                //    strCompareTime = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length - 8, 5);
-                //}
-
-                //tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring();
-                //tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length - 8, 5);
             }
             return tbOld;
         }

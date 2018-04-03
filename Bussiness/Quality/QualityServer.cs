@@ -63,7 +63,7 @@ namespace Bussiness.Quality
 
         public string GetBatchQuality(string OrderId, string ChildId, string StartTime, string EndTime)
         {
-            string strSql = "SELECT a.`OrderID`,a.`ChildID`,b.`AppearanceQualified`,b.`AppearanceAfterQualified`,b.`VampPullQualified`,b.`DaDiPullQualified`,b.`ZheWangQualified`,b.`ImageUrl`,ct FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage`  ";
+            string strSql = "SELECT a.`OrderID`,a.`ChildID`,b.`AppearanceQualified`,b.`AppearanceAfterQualified`,b.`VampPullQualified`,b.`DaDiPullQualified`,b.`ZheWangQualified`,ct FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage`  ";
             StringBuilder sb = new StringBuilder();
             sb.Append(strSql);
             if (OrderId != null)
