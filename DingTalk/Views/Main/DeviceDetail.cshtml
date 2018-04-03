@@ -1,0 +1,67 @@
+﻿@{
+    Layout = null;
+}
+
+<!--右侧实体内容-->
+<div id="partPage">
+    <el-container>
+        <el-aside width="300px">
+            <img src="~/Content/images/device/视觉站.png" style="width:300px;"/>
+        </el-aside>
+        <el-main>
+            <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                    <span>卡片名称</span>
+                </div>
+                <div v-for="o in 4" :key="o" class="text item">
+                    {{'列表内容 ' + o }}
+                </div>
+            </el-card>
+
+        </el-main>
+    </el-container>
+</div>
+
+
+<script>
+    new Vue({
+        el: "#partPage",
+        mixins: [mixin],
+        data: function () {
+            return {
+                
+            }
+        },
+        methods: {
+            
+        },
+        created: function () {
+            loadHtml("mainPage", "partPage")
+        }
+    })
+</script>
+
+<style>
+    .text {
+        font-size: 14px;
+    }
+
+    .item {
+        margin-bottom: 18px;
+    }
+
+    .clearfix:before,
+    .clearfix:after {
+        display: table;
+        content: "";
+    }
+
+    .clearfix:after {
+        clear: both
+    }
+
+    .box-card {
+        width: 480px;
+        margin-left:20px;
+    }
+</style>

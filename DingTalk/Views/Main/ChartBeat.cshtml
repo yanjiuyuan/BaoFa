@@ -1,0 +1,70 @@
+﻿@{
+    Layout = null;
+}
+
+<!--右侧实体内容-->
+<script src="~/Scripts/echarts-all.js"></script>
+<el-main id="partPage">
+    <div id="barChart" style="height:400px;"></div>
+</el-main>
+
+<script>
+    var date = new Date('2018/03/0')
+    console.log(date.getDate())
+    var demo = new Vue({
+        el: "#partPage",
+        mixins: [mixin],
+        data: function () {
+            return {
+                formInline: {
+                    year: '',
+                    month: ''
+                }
+            }
+        },
+        methods: {
+           
+        },
+        created: function () {
+            loadHtml("mainPage", "partPage")
+        }
+    })
+
+    //柱状图
+    var barChart = echarts.init(document.getElementById('barChart'));
+    barOption = {
+        title: {
+            text: '生产节拍统计图',
+            x: 'center'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'value',
+                boundaryGap: [0, 0.01]
+            }
+        ],
+        yAxis: [
+            {
+                type: 'category',
+                data: ['视觉', '烤箱', '胶站', '人工', '十字压', '压底']
+            }
+        ],
+        series: [
+            {
+                name: '生产节拍统计图',
+                type: 'bar',
+                data: [70, 71, 75, 83, 87, 99, 111]
+            }
+        ]
+    };
+    barChart.setOption(barOption);
+</script>

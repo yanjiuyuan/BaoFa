@@ -1,0 +1,27 @@
+﻿@{
+    Layout = null;
+}
+
+<!--右侧实体内容-->
+<div id="partPage">
+ 
+</div>
+
+
+<script>
+    new Vue({
+        el: "#partPage",
+        mixins: [mixin],
+        data: function () {
+            return {
+                
+            }
+        },
+        methods: {
+            
+        },
+        created: function () {
+            loadHtml("mainPage", "partPage")
+        }
+    })
+</script>

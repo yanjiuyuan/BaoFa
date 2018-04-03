@@ -193,6 +193,12 @@
     <Content Include="Content\gif\more.gif" />
     <Content Include="Content\images\buttonBg.png" />
     <Content Include="Content\images\deviceMonitor.png" />
+    <Content Include="Content\images\device\人工工位.jpg" />
+    <Content Include="Content\images\device\十字压.png" />
+    <Content Include="Content\images\device\压底机.png" />
+    <Content Include="Content\images\device\机器人喷胶站.jpg" />
+    <Content Include="Content\images\device\烤箱.jpg" />
+    <Content Include="Content\images\device\视觉站.png" />
     <Content Include="Content\images\flowLine.jpg" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\icon900-540.png" />
@@ -352,6 +358,9 @@
     <Content Include="Views\Quality\Index.cshtml" />
     <Content Include="Views\Main\VideoMonitor.cshtml" />
     <Content Include="Scripts\hls.js.map" />
+    <Content Include="Views\Main\_.cshtml" />
+    <Content Include="Views\Main\DeviceDetail.cshtml" />
+    <Content Include="Views\Main\ChartBeat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bussiness\Bussiness.csproj">

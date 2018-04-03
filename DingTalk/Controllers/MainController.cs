@@ -17,6 +17,10 @@ namespace WebZhongZhi.Controllers
         {
             return View();
         }
+        public ActionResult DeviceDetail()
+        {
+            return View();
+        }
 
         public ActionResult ParamOrder()
         {
@@ -37,7 +41,10 @@ namespace WebZhongZhi.Controllers
         {
             return View();
         }
-
+        public ActionResult ChartBeat()
+        {
+            return View();
+        }
         public ActionResult ChartProduce()
         {
             return View();

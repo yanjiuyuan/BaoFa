@@ -48,7 +48,7 @@
                                 '<br />' +
                             '</template>' +
                         '</div>' +
-                         '<div v-on:mouseover="showMore=true" v-on:mouseout="showMore=false"' +
+                         '<div v-on:mouseover="showMore=true" v-on:mouseout="showMore=false" v-on:click="showDetail(param.num)"' +
                         'class="device-button" :class="theme.mainClass"' +
                         ':style="{left:param.position.left,top:param.position.top}">' +
                         '<span>{{param.name}}</span>' +
@@ -67,6 +67,13 @@
         data: function () {
             return {
                 showMore: false
+            }
+        },
+        methods: {
+            //显示胶站详细信息页面
+            showDetail: function (id) {
+                //console.log(id)
+                loadPage('/Main/DeviceDetail')
             }
         },
         computed: {
