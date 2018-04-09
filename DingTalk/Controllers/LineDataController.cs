@@ -67,7 +67,7 @@ namespace DingTalk.Controllers
                     //dString.Add("WaiS", returnWaiS);
                     //dString.Add("Outsole", returnOutsole);
                     string strJsonString = string.Empty;
-                    
+
                     if (strMessage == "GetAllTable")
                     {
                         string[] strList = new string[7] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
@@ -180,7 +180,7 @@ namespace DingTalk.Controllers
             int iCount = strTableNames.Length;
             string strJsonString = string.Empty;
             Dictionary<string, DataTable> dString = new Dictionary<string, DataTable>();
-   
+
             try
             {
                 if (iCount >= 1)
@@ -211,6 +211,19 @@ namespace DingTalk.Controllers
             }
 
             return strJsonString;
+        }
+
+
+        /// <summary>
+        /// 读取最新产线工位状态接口
+        /// </summary>
+        /// <returns></returns>
+        /// 测试数据  /api/dt/GetLocationState
+        [Route("GetLocationState")]
+        public string GetLocationState()
+        {
+            LineDataServer lineDataServer = new LineDataServer();
+            return JsonConvert.SerializeObject(lineDataServer.GetLocationState());
         }
 
     }

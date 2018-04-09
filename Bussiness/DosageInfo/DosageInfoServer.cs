@@ -64,7 +64,7 @@ namespace Bussiness.DosageInfo
                     {
                         //取收尾两
                         if (i == 0 || i == tbNew.Rows.Count - 1)
-                        {
+                        { 
                             //加入首尾两行
                             tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
                         }
