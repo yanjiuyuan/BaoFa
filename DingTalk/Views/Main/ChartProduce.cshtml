@@ -39,13 +39,13 @@
             var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
             console.log(dateStr)
             intervalId = window.setInterval(function () {
-                getLineData({ DataTime: dateStr })
+                getLineData({ DataTime: dateStr,Count:100 })
                 getBarData({
                     OrderId: getLocalObj("lineData").OrderID,
                     ChildId: getLocalObj("lineData").ChildID
                 })
             }, 50000)
-            getLineData({ DataTime: dateStr})
+            getLineData({ DataTime: dateStr, Count: 100})
             getBarData({ OrderId: getLocalObj("lineData").OrderID, ChildId: getLocalObj("lineData").ChildID })
             //echart canvas生成图片
             //window.setTimeout(function () {
@@ -194,8 +194,8 @@
                 data = JSON.parse(data).Rows
                 for (let d = 0; d < data.length;d++) {
                     xArr.push(data[d].ID_RealTimeUsage)
-                    y1Arr.push(data[d].NowN)
-                    y2Arr.push(data[d].ChildN)
+                    y1Arr.push(parseInt(data[d].NowN))
+                    y2Arr.push(parseInt(data[d].ChildN))
                 }
                 lineOption.xAxis[0].data = xArr
                 lineOption.series[0].data = y1Arr
