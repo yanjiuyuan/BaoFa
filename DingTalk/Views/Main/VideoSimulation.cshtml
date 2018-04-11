@@ -1,0 +1,21 @@
+﻿
+@{
+    Layout = null;
+}
+<div id="partPage">
+    <video id="myPlayer" src="~/Content/宝发0222.mp4"
+           poster="./content/images/title.png" controls playsInline webkit-playsinline autoplay>
+    </video>
+</div>
+
+<script>
+    var player = new EZUIPlayer('myPlayer');
+    loadHtml("mainPage", "partPage")
+    //new Vue({
+    //    el: "#partPage",
+    //    mixins: [mixin],
+    //    data: function () {
+            
+    //    }
+    //})
+</script>

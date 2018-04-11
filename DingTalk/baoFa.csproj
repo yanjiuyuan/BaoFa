@@ -222,6 +222,7 @@
     <Content Include="Content\images\worker\8.jpg" />
     <Content Include="Content\images\worker\9.jpg" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\宝发0222.mp4" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />
@@ -361,6 +362,7 @@
     <Content Include="Views\Main\_.cshtml" />
     <Content Include="Views\Main\DeviceDetail.cshtml" />
     <Content Include="Views\Main\ChartBeat.cshtml" />
+    <Content Include="Views\Main\VideoSimulation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bussiness\Bussiness.csproj">

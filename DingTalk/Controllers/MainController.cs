@@ -73,5 +73,9 @@ namespace WebZhongZhi.Controllers
         {
             return View();
         }
+        public ActionResult VideoSimulation()
+        {
+            return View();
+        }
     }
 }
