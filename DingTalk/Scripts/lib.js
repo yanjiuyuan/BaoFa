@@ -75,6 +75,19 @@ function _dateToString(date,split) {
     return year+split+month+split+day
 }
 
+function _getTime() {
+    var split = "-"
+    var d = new Date()
+    var year = d.getFullYear()
+    var month = d.getMonth() + 1
+    var day = d.getDate()
+    var hour = d.getHours()
+    var minute = d.getMinutes()
+    if (month < 10) month = '0' + month
+    if (day < 10) day = '0' + day
+    return year + split + month + split + day + ' ' + hour + ':' + minute
+}
+
 function isArray(o) {
     return Object.prototype.toString.call(o) == '[object Array]';
 }
