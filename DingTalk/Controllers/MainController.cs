@@ -77,5 +77,9 @@ namespace WebZhongZhi.Controllers
         {
             return View();
         }
+        public ActionResult NewPage()
+        {
+            return View();
+        }
     }
 }

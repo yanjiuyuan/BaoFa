@@ -363,6 +363,7 @@
     <Content Include="Views\Main\DeviceDetail.cshtml" />
     <Content Include="Views\Main\ChartBeat.cshtml" />
     <Content Include="Views\Main\VideoSimulation.cshtml" />
+    <Content Include="Views\Main\NewPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bussiness\Bussiness.csproj">

@@ -8,7 +8,7 @@
     <div>
         <div id="lineChart" style="height:300px;"></div>
         <div id="barChart" style="height:300px;"></div>
-        <img :src="imgSrc"/>
+        <img id="hideImg" :src="imgSrc"/>
     </div>
 </el-main>
 
@@ -48,12 +48,12 @@
             getLineData({ DataTime: dateStr, Count: 100})
             getBarData({ OrderId: getLocalObj("lineData").OrderID, ChildId: getLocalObj("lineData").ChildID })
             //echart canvas生成图片
-            //window.setTimeout(function () {
-            //    var oCanvas = $(".zr-element")[1]
-            //    var strDataURI = oCanvas.toDataURL("image/png");
-            //    console.log(strDataURI)
-            //    that.imgSrc = strDataURI
-            //}, 2000)
+            window.setTimeout(function () {
+                var oCanvas = $(".zr-element")[1]
+                var strDataURI = oCanvas.toDataURL("image/png");
+                console.log(strDataURI)
+                that.imgSrc = strDataURI
+            }, 2000)
             
         }
     })
