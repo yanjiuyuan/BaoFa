@@ -1,10 +1,5 @@
-2018-05-21 10:56:18,502 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-05-21 11:19:37,895 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-05-21 11:27:44,105 [15] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-05-21 11:29:58,866 [11] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-05-21 11:35:44,852 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-05-21 11:37:23,906 [8] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-05-21 11:43:06,337 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-05-21 11:43:43,416 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-05-21 11:46:24,593 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-05-21 13:36:44,498 [16] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-05-29 08:41:33,028 [8] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-05-29 09:34:48,598 [8] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-05-29 15:08:55,494 [11] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-05-29 15:09:16,692 [8] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-05-29 15:09:18,519 [8] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束

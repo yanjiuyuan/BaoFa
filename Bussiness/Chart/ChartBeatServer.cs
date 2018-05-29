@@ -1,4 +1,5 @@
-﻿using Common.Code;
+﻿using Bussiness.Time;
+using Common.Code;
 using Common.DbHelper;
 using Common.JsonHelper;
 using Common.LogHelper;
@@ -18,12 +19,31 @@ namespace Bussiness.Chart
 
         private static Logger logger = Logger.CreateLogger(typeof(ChartBeatServer));
         //获取各工位的末次生产时间
-        public string ChartBeatQuery()
+        public string ChartBeatQuery(int mins=60)
         {
+
+
+
+
             logger.Info("查询生产节拍");
-            string strSql = "select t.* from ( " +
-                   " select max(endtime) -max(startTime) as duratm,stationNAME from huabao.LocationState where stationstate  = '运行' " +
-               " group by stationNAME ) as    t order by t.stationNAME";
+            int qmins = mins * -1;
+            
+            //获取前一个小时时间点
+            long begintime = TimeHelper.ConvertDateTimeToInt(DateTime.Now.AddMinutes(qmins));
+
+         
+            //string dt = TimeHelper.GetDateTimeFrom1970Ticks(1527044472080/1000).ToString();
+            string strSql = "    select  IF (t2.Jobs is null,'机器','人工') as JobType,stationNAME, round(run_t /if (run_c > 0,run_c,1))as run,round(free_t /if (free_c > 0,free_c,1)) as free," +
+            "round(warn_t /if (warn_c > 0,warn_c,1))as warn from(" +
+           " select   sum( if (stationstate = '运行', endtime - startTime, 0)) AS run_t," +
+           "sum( if (stationstate = '运行',1, 0))  AS run_c," +
+            " sum( if (stationstate = '空闲', endtime - startTime, 0)) AS free_t," +
+              " sum( if (stationstate = '空闲',1, 0))  AS free_c," +
+             " sum( if (stationstate = '报警', endtime - startTime, 0)) AS warn_t," +
+              "  sum( if (stationstate = '报警',1, 0))  AS warn_c , stationNAME" +
+             " from huabao.LocationState where   starttime > " + begintime + " group by stationNAME ) as t1 left join" +
+             "(select distinct Jobs from  huabao.ArtificialConfig ) as t2 on t1.stationNAME=t2.Jobs  order by JobType, stationNAME";
+          
             string strJsonString = string.Empty;
             try
             {

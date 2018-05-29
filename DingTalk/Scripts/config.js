@@ -253,20 +253,22 @@ var DEVICES = [
             top: '2.79%',
             left: '84.88%'
         }
-    }, {
-        num: 14,
-        name: '视觉3号站',
-        status: 0,
-        tooltip: {
-            disabled: true,
-            placement: 'left'
-        },
-        tips: {},
-        position: {
-            top: '23.30%',
-            left: '84.88%'
-        }
-    }, {
+    },
+    //{
+    //    num: 14,
+    //    name: '视觉3号站',
+    //    status: 0,
+    //    tooltip: {
+    //        disabled: true,
+    //        placement: 'left'
+    //    },
+    //    tips: {},
+    //    position: {
+    //        top: '23.30%',
+    //        left: '84.88%'
+    //    }
+    //},
+    {
         num: 15,
         name: '围条贴附1站',
         status: 0,

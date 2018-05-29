@@ -7,33 +7,42 @@
     <div v-show="showMask">
         <div class="mask"></div>
     </div>
-    <h3>宝发硫化鞋生产线01</h3>
-    <div @*v-loading="loading"
+    <el-collapse v-model="activeNames" accordion>
+        <el-collapse-item title="硫化鞋生产线01" name="1">
+            @*<h3>华宝硫化鞋生产线01</h3>*@
+            <div @*v-loading="loading"
                  element-loading-text="数据加载中"
                  element-loading-spinner="el-icon-loading"*@
-         element-loading-background="rgba(0, 0, 0, 0.8)"
-         id="imgFrame" style="margin-bottom:30px;position:relative;">
-        <img src="~/Content/images/deviceMonitor.png" style="max-width:100%" />
-        <!--生产数量统计-->
-        <el-button plain type="danger" class="device-count" style="top:1%;left:0.56%;">当班产量</el-button>
-        <el-button type="danger" class="device-count" style="top:1%;left:8.56%;font-weight:bold;">{{useage.NowN}}</el-button>
-        <el-button plain type="danger" class="device-count" style="top:8%;left:0.56%;">总产量</el-button>
-        <el-button type="danger" class="device-count" style="top:8%;left:8.56%;font-weight:bold;">{{useage.AllN}}</el-button>
-        <el-button plain type="danger" class="device-count" style="top:15%;left:0.56%;">生产节拍</el-button>
-        <el-button type="danger" class="device-count" style="top:15%;left:8.56%;font-weight:bold;">{{useage.ProductionBeat}}</el-button>
-        <el-button plain type="danger" class="device-count" style="top:78%;left:45%;">总订单号</el-button>
-        <el-button type="danger" class="device-count" style="top:78%;left:53%;font-weight:bold;">{{useage.OrderID}}</el-button>
-        <el-button plain type="danger" class="device-count" style="top:85%;left:45%;">子订单号</el-button>
-        <el-button type="danger" class="device-count" style="top:85%;left:53%;font-weight:bold;">{{useage.ChildID}}</el-button>
-        <el-button plain type="danger" class="device-count" style="top:92%;left:45%;">运行状态</el-button>
-        <el-button type="danger" class="device-count" style="top:92%;left:53%;font-weight:bold;">{{useage.Linestatus}}</el-button>
-        <!--设备状态按钮-->
-        <template v-for="(btn,index) of deviceBtns">
-            <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
-        </template>
-        <i v-if="showMask" class="el-icon-error" v-on:click="restoreScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
-        <i v-else class="el-icon-rank" v-on:click="changeFullScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
-    </div>
+                 element-loading-background="rgba(0, 0, 0, 0.8)"
+                 id="imgFrame" style="margin-bottom:30px;position:relative;">
+                <img src="~/Content/images/deviceMonitor.png" style="max-width:100%" />
+                <!--生产数量统计-->
+                <el-button plain type="danger" class="device-count" style="top:1%;left:0.56%;">当班产量</el-button>
+                <el-button type="danger" class="device-count" style="top:1%;left:8.56%;font-weight:bold;">{{useage.NowN}}</el-button>
+                <el-button plain type="danger" class="device-count" style="top:8%;left:0.56%;">总产量</el-button>
+                <el-button type="danger" class="device-count" style="top:8%;left:8.56%;font-weight:bold;">{{useage.AllN}}</el-button>
+                <el-button plain type="danger" class="device-count" style="top:15%;left:0.56%;">生产节拍</el-button>
+                <el-button type="danger" class="device-count" style="top:15%;left:8.56%;font-weight:bold;">{{useage.ProductionBeat}}</el-button>
+                <el-button plain type="danger" class="device-count" style="top:78%;left:45%;">总订单号</el-button>
+                <el-button type="danger" class="device-count" style="top:78%;left:53%;font-weight:bold;">{{useage.OrderID}}</el-button>
+                <el-button plain type="danger" class="device-count" style="top:85%;left:45%;">子订单号</el-button>
+                <el-button type="danger" class="device-count" style="top:85%;left:53%;font-weight:bold;">{{useage.ChildID}}</el-button>
+                <el-button plain type="danger" class="device-count" style="top:92%;left:45%;">运行状态</el-button>
+                <el-button type="danger" class="device-count" style="top:92%;left:53%;font-weight:bold;">{{useage.Linestatus}}</el-button>
+                <!--设备状态按钮-->
+                <template v-for="(btn,index) of deviceBtns">
+                    <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
+                </template>
+                <i v-if="showMask" class="el-icon-error" v-on:click="restoreScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
+                <i v-else class="el-icon-rank" v-on:click="changeFullScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
+            </div>
+        </el-collapse-item>
+        <el-collapse-item title="硫化鞋生产线02" name="2">
+            <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
+            <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
+        </el-collapse-item>
+    </el-collapse>
+
     <el-button v-on:click="createReport" type="primary">生成日报表</el-button>
 </el-main>
 
@@ -95,13 +104,13 @@
                     case 3: theme = {
                         mainClass: 'device-button-danger',
                         warnType: 'danger',
-                        text: '危险',
+                        text: '报警',
                         color: '#F56C6C'
                     }; break;
                     default: theme = {
                         mainClass: 'device-button-success',
                         warnType: 'success',
-                        text: '正常',
+                        text: '运行',
                         color: '#67C23A'
                     };
                 }

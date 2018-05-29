@@ -4,16 +4,10 @@
 
 <!--右侧实体内容-->
 <script src="~/Scripts/echarts-all.js"></script>
-<el-main id="partPage">
-    <div>
-        <div id="lineChart" style="height:300px;"></div>
-        <div id="barChart" style="height:300px;"></div>
-        <img id="hideImg" :src="imgSrc"/>
-    </div>
-</el-main>
+
 
 <script>
-    var lineChart, barChart, lineOption, barOption
+    var lineChart, areaChart, barChart, lineOption, areaOption, barOption
     var barTableConfig = {
         BiaoQianConsumption: "标签用量",
         DaDiConsumption: "大底用量",
@@ -49,10 +43,10 @@
             getBarData({ OrderId: getLocalObj("lineData").OrderID, ChildId: getLocalObj("lineData").ChildID })
             //echart canvas生成图片
             window.setTimeout(function () {
-                var oCanvas = $(".zr-element")[1]
-                var strDataURI = oCanvas.toDataURL("image/png");
-                console.log(strDataURI)
-                that.imgSrc = strDataURI
+                //var oCanvas = $(".zr-element")[1]
+                //var strDataURI = oCanvas.toDataURL("image/png");
+                //console.log(strDataURI)
+                //that.imgSrc = strDataURI
             }, 2000)
             
         }
@@ -123,6 +117,58 @@
         ]
     };
     lineChart.setOption(lineOption);
+
+    //面积图
+    areaChart = echarts.init(document.getElementById('areaChart'));
+    areaOption = {
+        title: {
+            text: '产量统计图',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['硫化鞋'],
+            x: 'left'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar', 'stack', 'tiled'] },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                boundaryGap: false,
+                data: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00']
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} 只/小时'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '硫化鞋',
+                type: 'line',
+                smooth: true,
+                itemStyle: { normal: { areaStyle: { type: 'default' } } },
+                data: [21, 54, 260, 830, 710, 10, 12]
+            }
+        ]
+    }
+    areaChart.setOption(areaOption)
     //柱状图
     barChart = echarts.init(document.getElementById('barChart'));
     barOption = {
@@ -190,17 +236,18 @@
             url: "/Statistics/GetCurrentProduction" + _formatQueryStr(param),
             success: function (data) {
                 var xArr = [], y1Arr = [], y2Arr = []
-                console.log(JSON.parse(data))
-                data = JSON.parse(data).Rows
-                for (let d = 0; d < data.length;d++) {
-                    xArr.push(data[d].ID_RealTimeUsage)
-                    y1Arr.push(parseInt(data[d].NowN))
-                    y2Arr.push(parseInt(data[d].ChildN))
-                }
-                lineOption.xAxis[0].data = xArr
-                lineOption.series[0].data = y1Arr
-                lineOption.series[1].data = y2Arr
-                lineChart.setOption(lineOption)
+                console.log("获取产量图数据")
+                console.log(data)
+                //data = JSON.parse(data).Rows
+                //for (let d = 0; d < data.length;d++) {
+                //    xArr.push(data[d].ID_RealTimeUsage)
+                //    y1Arr.push(parseInt(data[d].NowN))
+                //    y2Arr.push(parseInt(data[d].ChildN))
+                //}
+                //lineOption.xAxis[0].data = xArr
+                //lineOption.series[0].data = y1Arr
+                //lineOption.series[1].data = y2Arr
+                //lineChart.setOption(lineOption)
             }
         })
     }
@@ -224,4 +271,11 @@
 </script>
 
 
-
+<el-main id="partPage">
+    <div>
+        <div id="lineChart" style="height:300px;"></div>
+        <div id="areaChart" style="height:300px;"></div>
+        <div id="barChart" style="height:300px;"></div>
+        <img id="hideImg" src="" />
+    </div>
+</el-main>
