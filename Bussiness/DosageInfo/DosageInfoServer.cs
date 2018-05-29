@@ -116,6 +116,63 @@ namespace Bussiness.DosageInfo
             }
             return tbOld;
         }
+
+
+
+        public DataTable GetYieldFluctuation(long strDataTime, int dura_min)
+        {
+            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN, AllN as CurrN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} order by ID_RealTimeUsage", strDataTime);
+            DataTable tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
+            return ChangeData(tb, dura_min);
+        }
+
+        /// <summary>
+        /// 取整点及头尾有效数据
+        /// </summary>
+        /// <param name="tbNew"></param>
+        /// <returns></returns>
+        public DataTable ChangeData(DataTable tbNew, int dura_min)
+        {
+            DataTable tbOld = new DataTable();
+            tbOld = tbNew.Clone();
+            tbOld.PrimaryKey = null;
+            tbOld.Columns["ID_RealTimeUsage"].DataType = typeof(string);//指定Age为Int类型
+
+            if (tbNew.Rows.Count > 0)
+            {
+                 
+                for (int i = 0; i < tbNew.Rows.Count; i++)
+                {
+                    if (i == 0)
+                        tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                    if (i == tbNew.Rows.Count - 1 && tbNew.Rows.Count > 2)
+                    {
+                        tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                        int count = tbOld.Rows.Count-1;
+                       
+                        tbOld.Rows[count][2] = Convert.ToInt32(tbOld.Rows[count][1]) - Convert.ToInt32(tbOld.Rows[count - 1][1]);
+                        continue;
+                    }
+
+                    if (Convert.ToInt64(tbNew.Rows[i][0]) >= Convert.ToInt64(tbOld.Rows[tbOld.Rows.Count - 1][0]) + (long)dura_min * 60 * 1000)
+                    {
+                        tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                        int count = tbOld.Rows.Count-1;
+                        tbOld.Rows[count][2] = Convert.ToInt32(tbOld.Rows[count][1]) - Convert.ToInt32(tbOld.Rows[count - 1][1]);
+                        
+                        continue;
+                    }
+                }
+            }
+
+            for (int i = 0; i < tbOld.Rows.Count; i++)
+            {
+                //转换时间格式
+                tbOld.Rows[i][0] = TimeHelper.GetStringToDateTime((tbOld.Rows[i][0].ToString()));
+
+            }
+            return tbOld;
+        }
     }
 
 }
