@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chart\ChartBeatServer.cs" />
     <Compile Include="Code\CodeServer.cs" />
     <Compile Include="Company\CompanyServer.cs" />
     <Compile Include="DosageInfo\DosageInfoServer.cs" />
