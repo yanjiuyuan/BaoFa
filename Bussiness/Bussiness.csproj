@@ -54,7 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chart\ChartBeatServer.cs" />
     <Compile Include="Code\CodeServer.cs" />
     <Compile Include="Company\CompanyServer.cs" />
     <Compile Include="DosageInfo\DosageInfoServer.cs" />
@@ -86,6 +85,5 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
