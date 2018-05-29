@@ -37,6 +37,10 @@
             text: '生产节拍统计图',
             x: 'center'
         },
+        legend: {
+            data: ['运行', '空闲', '报警'],
+            x: 'left'
+        },
         toolbox: {
             show: true,
             feature: {
@@ -60,9 +64,26 @@
         ],
         series: [
             {
-                name: '生产节拍统计图',
+                name: '运行',
                 type: 'bar',
-                data: [70, 71, 75, 83, 87, 99, 111]
+                stack: '总量',
+                itemStyle: { normal: { color: '#67C23A', label: { show: true, position: 'insideRight' } } },
+                data: [320, 302, 301, 334, 390, 330, 320],
+                color: '#222'
+            },
+            {
+                name: '空闲',
+                type: 'bar',
+                stack: '总量',
+                itemStyle: { normal: { color: '#E6A23C', label: { show: true, position: 'insideRight' } } },
+                data: [120, 132, 101, 134, 90, 230, 210]
+            },
+            {
+                name: '报警',
+                type: 'bar',
+                stack: '总量',
+                itemStyle: { normal: { color: '#F56C6C', label: { show: true, position: 'insideRight' } } },
+                data: [220, 182, 191, 234, 290, 330, 310]
             }
         ]
     };

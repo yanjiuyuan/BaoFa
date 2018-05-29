@@ -26,6 +26,7 @@ Thumbs.db
 [Dd]ebug*/
 *.lib
 *.sbr
+*log.txt
 obj/
 [Rr]elease*/
 _ReSharper*/
