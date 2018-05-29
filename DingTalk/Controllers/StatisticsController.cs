@@ -1,4 +1,5 @@
-﻿using Bussiness.DosageInfo;
+﻿using Bussiness.Chart;
+using Bussiness.DosageInfo;
 using Bussiness.Time;
 using Common.JsonHelper;
 using Newtonsoft.Json;
@@ -64,6 +65,43 @@ namespace DingTalk.Controllers
             DosageInfoServer dServer = new DosageInfoServer();
             DataTable tb = dServer.GetCurrentProduction(lTime, Count);
             return JsonHelper.DataTableToJson(tb);
+        }
+
+        /// <summary>
+        /// 时时生产速度读取接口
+        /// </summary>
+        /// <param name="DataTime">查询日期(格式为yyyy-MM-dd)</param>
+        /// <returns>返回头尾以及整点数据</returns>
+        /// 测试数据 Statistics/GetYieldFluct
+        /// 测试数据 /Statistics/GetYieldFluct?DataTime=2018-05-13&dura=30
+        public string GetYieldFluct(string DataTime, int dura=30)
+        {
+            string strResult = string.Empty;
+            if (DataTime != null)
+            {
+                strResult = FluctChangeTime(DataTime, dura);
+            }
+            else
+            {
+                strResult = FluctChangeTime(DateTime.Now.ToString("yyyy-MM-dd"), dura);
+            }
+            return strResult;
+        }
+
+        public string FluctChangeTime(string DataTime, int dura)
+        {
+            DateTime time = Convert.ToDateTime(DataTime);
+            long lTime = TimeHelper.ConvertDateTimeToInt(time);
+            DosageInfoServer dServer = new DosageInfoServer();
+            DataTable tb = dServer.GetYieldFluctuation(lTime, dura);
+            return JsonHelper.DataTableToJson(tb);
+        }
+
+        /// 测试数据 /Statistics/ChartBeatQuery?mins=60
+        public string ChartBeatQuery(int mins= 30)
+        {
+             ChartBeatServer chartBeatServer = new  ChartBeatServer();
+             return chartBeatServer.ChartBeatQuery(mins);
         }
 
     }
