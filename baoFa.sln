@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bussiness", "Bussiness\Buss
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{5DCE917E-8AF8-48B1-9E3F-F549951C9E49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UNITTEST", "ConsoleApp1\UNITTEST.csproj", "{9493E650-F5E1-4FF9-A734-A3964237B058}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{5DCE917E-8AF8-48B1-9E3F-F549951C9E49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DCE917E-8AF8-48B1-9E3F-F549951C9E49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DCE917E-8AF8-48B1-9E3F-F549951C9E49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9493E650-F5E1-4FF9-A734-A3964237B058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9493E650-F5E1-4FF9-A734-A3964237B058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9493E650-F5E1-4FF9-A734-A3964237B058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9493E650-F5E1-4FF9-A734-A3964237B058}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
