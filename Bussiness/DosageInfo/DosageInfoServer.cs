@@ -38,7 +38,7 @@ namespace Bussiness.DosageInfo
 
         public DataTable GetCurrentProduction(long strDataTime, int Count)
         {
-            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} order by ID_RealTimeUsage", strDataTime);
+            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} order by ID_RealTimeUsage", 1527044398957);
             DataTable tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
             return ChangeTable(tb, Count);
         }
@@ -79,32 +79,28 @@ namespace Bussiness.DosageInfo
                 }
                 else
                 {
-                    string strBeginTime = tbNew.Rows[0][0].ToString();
-                    string strEndTime = tbNew.Rows[tbNew.Rows.Count - 1][0].ToString();
-                    //float x = (float.Parse(strEndTime) - float.Parse(strBeginTime)) / tbNew.Rows.Count;
-                    //int z = (int)(360 * (10000 / x)); //一小时约有z个点
-                    float x = float.Parse(strEndTime) - float.Parse(strBeginTime);
-                    int z = (int)(x / (60 * 1000));
-                    int k = (int)(tbNew.Rows.Count / z);
+
+                    //数据条数低于Count ，则去除间隔低于1分钟的数据
                     for (int i = 0; i < tbNew.Rows.Count; i++)
                     {
-                        //取收尾两
-                        if (i == 0 || i == tbNew.Rows.Count - 1)
-                        {
-                            //加入首尾两行
+                        if (i == 0)
                             tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
-                        }
-                        else
+                        else if (i == tbNew.Rows.Count - 1 && tbNew.Rows.Count > 2)
                         {
-                            if (k != 0)
-                            {
-                                if (i % k == 0)
-                                {
-                                    tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
-                                }
-                            }
+                            tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+
+                            continue;
+                        }
+
+                        else if (Convert.ToInt64(tbNew.Rows[i][0]) >= Convert.ToInt64(tbNew.Rows[i - 1][0]) + (long)60*1000)
+                        {
+                            tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+
+                            continue;
                         }
                     }
+
+                   
                 }
             }
             
@@ -145,7 +141,7 @@ namespace Bussiness.DosageInfo
                 {
                     if (i == 0)
                         tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
-                    if (i == tbNew.Rows.Count - 1 && tbNew.Rows.Count > 2)
+                   else if (i == tbNew.Rows.Count - 1 && tbNew.Rows.Count > 2)
                     {
                         tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
                         int count = tbOld.Rows.Count-1;
@@ -154,7 +150,7 @@ namespace Bussiness.DosageInfo
                         continue;
                     }
 
-                    if (Convert.ToInt64(tbNew.Rows[i][0]) >= Convert.ToInt64(tbOld.Rows[tbOld.Rows.Count - 1][0]) + (long)dura_min * 60 * 1000)
+                  else  if (Convert.ToInt64(tbNew.Rows[i][0]) >= Convert.ToInt64(tbOld.Rows[tbOld.Rows.Count - 1][0]) + (long)dura_min * 60 * 1000)
                     {
                         tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
                         int count = tbOld.Rows.Count-1;

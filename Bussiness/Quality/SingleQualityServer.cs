@@ -14,7 +14,7 @@ namespace Bussiness.Quality
     {
         public DataTable GetSingQuality(string RFID, string strTableName)
         {
-            string strSql = string.Format(" SELECT * FROM `{0}`  WHERE rfidn='{1}'  ORDER BY {2}id", strTableName, RFID, strTableName);
+            string strSql = string.Format(" SELECT * FROM `{0}`  WHERE  rfidn='{1}' and    id_usage=(select max( id_usage ) from   `{2}`  WHERE  rfidn='{3}' )   ORDER BY {4}id", strTableName, RFID, strTableName,RFID, strTableName);
             DataTable tb = MySqlHelper.ExecuteQuery(strSql);
             DataTable OldTb = ChangeTableBySecond(tb);
             //OldTb = CalculateTable(OldTb);
@@ -48,30 +48,53 @@ namespace Bussiness.Quality
             }
             if (tbNew.Rows.Count > 0)
             {
-                string strBeginTime = tbNew.Rows[0][0].ToString();
-                string strEndTime = tbNew.Rows[tbNew.Rows.Count - 1][0].ToString();
-                float x = (float.Parse(strEndTime) - float.Parse(strBeginTime));
-                int z = (int)(x / 1000); //一秒约有z个点
-                for (int i = 0; i < tbNew.Rows.Count; i++)
+              
+                if (tbNew.Rows.Count > 20)
                 {
-                    //取收尾两
-                    if (i == 0 || i == tbNew.Rows.Count - 1)
+                    int j = tbNew.Rows.Count / 20 + 1;
+                    for (int i = 0; i < tbNew.Rows.Count; i++)
                     {
-                        //加入首尾两行
-                        tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
-                    }
-                    else
-                    {
-                        if (z != 0)
+                        //取收尾两
+                        if (i == 0 || i == tbNew.Rows.Count - 1)
                         {
-                            if (i % z == 0)
+                            //加入首尾两行
+                            tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                        }
+                        else
+                        {
+                            if (i * j < tbNew.Rows.Count)
                             {
-                                tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                                tbOld.Rows.Add(tbNew.Rows[i * j].ItemArray);
                             }
                         }
-
                     }
                 }
+                else   
+                {
+                     
+
+                    //数据条数低于20 ，则去除间隔低于1秒的数据
+                    for (int i = 0; i < tbNew.Rows.Count; i++)
+                    {
+                        if (i == 0)
+                            tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                       else if (i == tbNew.Rows.Count - 1 && tbNew.Rows.Count > 2)
+                        {
+                            tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                            
+                            continue;
+                        }
+
+                      else  if (Convert.ToInt64(tbNew.Rows[i][0]) >= Convert.ToInt64(tbNew.Rows[i-1][0]) + (long) 1000)
+                        {
+                            tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+                         
+                            continue;
+                        }
+                    }
+                
+                }
+
             }
            
 
@@ -81,6 +104,7 @@ namespace Bussiness.Quality
                 //转换时间格式
                 //tbOld.Rows[i][0] = TimeHelper.ConvertStringToDateTime(tbOld.Rows[i][0].ToString());
                 //tbOld.Rows[i][0] = tbOld.Rows[i][0].ToString().Substring(tbOld.Rows[i][0].ToString().Length - 8, 5);
+                tbOld.Rows[i][0] = TimeHelper.GetStringToDateTime((tbOld.Rows[i][0].ToString()));
             }
             return tbOld;
         }
