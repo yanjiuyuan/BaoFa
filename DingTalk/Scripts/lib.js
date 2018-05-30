@@ -130,7 +130,16 @@ var mixin = {
         user: {},
         pickerOptions: pickerOptions,
         curYear: CURDATE.getFullYear(),
-        curMonth: CURDATE.getMonth()+1
+        curMonth: CURDATE.getMonth() + 1,
+        rules: {
+            qrCode: [
+                { required: true, message: '二维码不能为空', trigger: 'blur' },
+                { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' }
+            ],
+            stationId: [
+                { required: true, message: '工位不能为空', trigger: 'blur' }
+            ]
+        }
     },
     methods: {
         

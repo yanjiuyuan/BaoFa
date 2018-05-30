@@ -31,7 +31,7 @@
             var lineData = getLocalObj("lineData")
             var date = new Date()
             var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-            dateStr = '2018-05-13'
+            dateStr = '2018-05-11'
             console.log(dateStr)
             intervalId = window.setInterval(function () {
                 getLineData({ DataTime: dateStr, Count: 100 })
@@ -262,7 +262,6 @@
                 console.log("获取生产速度数据")
                 console.log(data)
                 data = JSON.parse(data).Rows
-                console.log(data)
                 var xArr = [], yArr = []
                 for (var d in data) {
                     xArr.push(data[d].ID_RealTimeUsage)

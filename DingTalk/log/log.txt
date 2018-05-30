@@ -8,3 +8,10 @@
 2018-05-30 09:09:37,765 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
 2018-05-30 09:09:38,020 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
 2018-05-30 10:22:49,674 [17] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-05-30 11:27:22,967 [9] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-05-30 11:57:54,013 [38] ERROR Common.DbHelper.MySqlHelper - Incorrect table name ''
+2018-05-30 11:57:55,015 [39] ERROR Common.DbHelper.MySqlHelper - Incorrect table name ''
+2018-05-30 11:58:08,011 [19] ERROR Common.DbHelper.MySqlHelper - Incorrect table name ''
+2018-05-30 11:58:44,010 [28] ERROR Common.DbHelper.MySqlHelper - Incorrect table name ''
+2018-05-30 11:58:44,992 [19] ERROR Common.DbHelper.MySqlHelper - Incorrect table name ''
+2018-05-30 14:32:30,273 [15] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
