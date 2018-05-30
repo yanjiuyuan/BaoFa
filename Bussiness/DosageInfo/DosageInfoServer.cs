@@ -115,9 +115,9 @@ namespace Bussiness.DosageInfo
 
 
 
-        public DataTable GetYieldFluctuation(long strDataTime, int dura_min)
+        public DataTable GetYieldFluctuation(long strDataTime, long strDataTimeend, int dura_min)
         {
-            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN, AllN as CurrN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} order by ID_RealTimeUsage", strDataTime);
+            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN, AllN as CurrN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ID_RealTimeUsage<{1} order by ID_RealTimeUsage", strDataTime, strDataTimeend);
             DataTable tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
             return ChangeData(tb, dura_min);
         }
@@ -165,7 +165,7 @@ namespace Bussiness.DosageInfo
             {
                 //转换时间格式
                 tbOld.Rows[i][0] = TimeHelper.GetStringToDateTime((tbOld.Rows[i][0].ToString()));
-
+                tbOld.Rows[i][2] = Convert.ToInt32(tbOld.Rows[i][2]) < 0 ? 0 : Convert.ToInt32(tbOld.Rows[i][2]);
             }
             return tbOld;
         }
