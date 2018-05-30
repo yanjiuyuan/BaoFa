@@ -31,15 +31,18 @@
             var lineData = getLocalObj("lineData")
             var date = new Date()
             var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+            dateStr = '2018-05-13'
             console.log(dateStr)
             intervalId = window.setInterval(function () {
-                getLineData({ DataTime: dateStr,Count:100 })
+                getLineData({ DataTime: dateStr, Count: 100 })
+                getAreaData({ DataTime: dateStr, dura: 30})
                 getBarData({
                     OrderId: getLocalObj("lineData").OrderID,
                     ChildId: getLocalObj("lineData").ChildID
                 })
             }, 50000)
-            getLineData({ DataTime: dateStr, Count: 100})
+            getLineData({ DataTime: dateStr, Count: 100 })
+            getAreaData({ DataTime: dateStr, dura: 30 })
             getBarData({ OrderId: getLocalObj("lineData").OrderID, ChildId: getLocalObj("lineData").ChildID })
             //echart canvas生成图片
             window.setTimeout(function () {
@@ -238,16 +241,36 @@
                 var xArr = [], y1Arr = [], y2Arr = []
                 console.log("获取产量图数据")
                 console.log(data)
-                //data = JSON.parse(data).Rows
-                //for (let d = 0; d < data.length;d++) {
-                //    xArr.push(data[d].ID_RealTimeUsage)
-                //    y1Arr.push(parseInt(data[d].NowN))
-                //    y2Arr.push(parseInt(data[d].ChildN))
-                //}
-                //lineOption.xAxis[0].data = xArr
-                //lineOption.series[0].data = y1Arr
-                //lineOption.series[1].data = y2Arr
-                //lineChart.setOption(lineOption)
+                data = JSON.parse(data).Rows
+                for (let d = 0; d < data.length;d++) {
+                    xArr.push(data[d].ID_RealTimeUsage)
+                    y1Arr.push(parseInt(data[d].NowN))
+                    y2Arr.push(parseInt(data[d].ChildN))
+                }
+                lineOption.xAxis[0].data = xArr
+                lineOption.series[0].data = y1Arr
+                lineOption.series[1].data = y2Arr
+                lineChart.setOption(lineOption)
+            }
+        })
+    }
+    //获取生产速度数据
+    function getAreaData(param) {
+        $.ajax({
+            url: "/Statistics/GetYieldFluct" + _formatQueryStr(param),
+            success: function (data) {
+                console.log("获取生产速度数据")
+                console.log(data)
+                data = JSON.parse(data).Rows
+                console.log(data)
+                var xArr = [], yArr = []
+                for (var d in data) {
+                    xArr.push(data[d].ID_RealTimeUsage)
+                    yArr.push(data[d].CurrN)
+                }
+                areaOption.xAxis[0].data = xArr
+                areaOption.series[0].data = yArr
+                areaChart.setOption(areaOption)
             }
         })
     }
