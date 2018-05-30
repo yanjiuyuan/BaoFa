@@ -49,7 +49,7 @@ namespace DingTalk.Controllers
 
 
             List<KeyValuePair<string, string>> list = new List<KeyValuePair<string, string>>();
-            string[] strList = new string[7] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
+            string[] strList = new string[7] { "Vamp", "WaiO", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
             string[] descList = new string[7] { "鞋面喷胶站", "围条一胶站", "围条二胶站", "围条三胶站", "护齿喷胶站", "大底喷胶站", "生产线参数" };
 
             for (int i = 0; i < strList.Length; i++)
@@ -64,7 +64,7 @@ namespace DingTalk.Controllers
 
 
         //根据工位获取追溯鞋子时时数据
-        /// 测试数据 SingleQuality/GetSingleQualityByRFID?RFID=5&Spray=Vamp
+        /// 测试数据 SingleQuality/GetSingleQualityByRFIDandSpray?RFID=5&Spray=Vamp
         public string GetSingleQualityByRFIDandSpray(string RFID,string Spray)
         {
             
