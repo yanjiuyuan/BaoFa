@@ -116,12 +116,8 @@ namespace Common.JsonHelper
                 }
                 jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
                 jsonBuilder.Append("},");
-                if(i == dt.Rows.Count-1)
-              jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
-
             }
-
-           
+            jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
             jsonBuilder.Append("]");
             jsonBuilder.Append("}");
             return jsonBuilder.ToString();
