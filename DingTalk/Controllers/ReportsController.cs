@@ -36,25 +36,32 @@ namespace DingTalk.Controllers
         }
 
         /// 测试数据：Reports/GetMonQuality?Year=2018&Month=5
-        public string GetMonQuality(string Year,string Month)
+        public string GetMonQuality(string startYear,string startMonth, string endYear, string endMonth)
         {
             QualityServer quaServer = new QualityServer();
-            string datestr = Year + "-" + Month + "-" + "01";
-            DateTime time = Convert.ToDateTime(datestr);
-           string StartDate = time.ToString("yyyy-MM-dd HH:mm:ss");
-            string EndDate=time.AddMonths(1).ToString("yyyy-MM-dd HH:mm:ss");
+            string startdatestr = startYear + "-" + startMonth + "-" + "01";
+            DateTime starttime = Convert.ToDateTime(startdatestr);
+           string StartDate = starttime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            string enddatestr = endYear + "-" + endMonth + "-" + "01";
+            DateTime endtime = Convert.ToDateTime(enddatestr);
+            string EndDate = endtime.ToString("yyyy-MM-dd HH:mm:ss");
+       
             return quaServer.GetMonQuality(  StartDate,   EndDate) ;
               
         }
 
         /// 测试数据：Reports/GetMonQuality?Year=2018&Month=5
-        public string GetMonUasge(string Year, string Month)
+        public string GetMonUsage(string startYear, string startMonth, string endYear, string endMonth)
         {
             UsageInfo usageServer = new UsageInfo();
-            string datestr = Year + "-" + Month + "-" + "01";
-            DateTime time = Convert.ToDateTime(datestr);
-            string StartDate = time.ToString("yyyy-MM-dd HH:mm:ss");
-            string EndDate = time.AddMonths(1).ToString("yyyy-MM-dd HH:mm:ss");
+            string startdatestr = startYear + "-" + startMonth + "-" + "01";
+            DateTime starttime = Convert.ToDateTime(startdatestr);
+            string StartDate = starttime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            string enddatestr = endYear + "-" + endMonth + "-" + "01";
+            DateTime endtime = Convert.ToDateTime(enddatestr);
+            string EndDate = endtime.ToString("yyyy-MM-dd HH:mm:ss");
             return usageServer.GetMonthUsage(StartDate, EndDate);
 
         }
