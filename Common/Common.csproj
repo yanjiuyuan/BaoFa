@@ -90,6 +90,9 @@
   <ItemGroup>
     <Content Include="OtherDLL\MySql.Data.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Chart\" />
+    <Folder Include="Time\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

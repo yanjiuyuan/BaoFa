@@ -92,8 +92,10 @@ namespace DingTalk.Controllers
         {
             DateTime time = Convert.ToDateTime(DataTime);
             long lTime = TimeHelper.ConvertDateTimeToInt(time);
+            DateTime timeend = Convert.ToDateTime(DataTime).AddDays(1);
+            long lTimeend = TimeHelper.ConvertDateTimeToInt(timeend);
             DosageInfoServer dServer = new DosageInfoServer();
-            DataTable tb = dServer.GetYieldFluctuation(lTime, dura);
+            DataTable tb = dServer.GetYieldFluctuation(lTime, lTimeend, dura);
             return JsonHelper.DataTableToJson(tb);
         }
 
