@@ -6,19 +6,19 @@
 <script src="~/Scripts/echarts-all.js"></script>
 <el-main id="partPage" style="height:500px;">
     <!--查詢表單-->
-    <el-form :inline="true" :model="formInline" class="demo-form-inline"
+    <el-form :inline="true" :model="formInline" ref="formInline" :rules="rules" class="demo-form-inline"
              size="medium">
-        <el-form-item label="二维码号">
+        <el-form-item label="二维码号" prop="qrCode">
             <el-input v-model="formInline.qrCode"
                       placeholder="请输入鞋子二维码"></el-input>
         </el-form-item>
-        <el-form-item label="工位">
+        <el-form-item label="工位" prop="stationId">
             <el-select v-model="formInline.stationId">
                 <el-option v-for="s of stations" :label="s.Value" :value="s.Key" key="s.Key"></el-option>
             </el-select>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" v-on:click="search">搜索</el-button>
+            <el-button type="primary" v-on:click="search('formInline')">搜索</el-button>
         </el-form-item>
     </el-form>
 
@@ -27,6 +27,7 @@
 
 <script>
     var paramOption = []
+    var lineChart, lineOption
     var demo = new Vue({
         el: "#partPage",
         mixins: [mixin],
@@ -40,8 +41,14 @@
             }
         },
         methods: {
-            search: function () {
-                this.getData()
+            search: function (formName) {
+                var that = this
+                this.$refs[formName].validate((valid) => {
+                    that.getData()
+                    intervalId = window.setInterval(function () {
+                        that.getData()
+                    }, 50000)
+                })
             },
             //获取单品质量分析工位列表
             getStations: function () {
@@ -61,15 +68,51 @@
                 var that = this
                 var param = {
                     RFID: this.formInline.qrCode,
-                    Spray: this.formInline / stationId
+                    Spray: this.formInline.stationId
                 }
+                console.log(param)
+                var url = '/SingleQuality/GetSingleQualityByRFIDandSpray' + _formatQueryStr(param)
                 $.ajax({
-                    url: '/SingleQuality/GetSingleQualityStation',
+                    url: url,
                     success: function (data) {
+                        var xArr = [], y1Arr = [], y2Arr = [], y3Arr = [], y4Arr = [], y5Arr = [], y6Arr = [], y7Arr = []
                         data = JSON.parse(data)
-                        console.log('获取单品质量分析工位列表')
+                        console.log('查询单品单工位实时数据')
+                        console.log(url)
                         console.log(data)
-                        that.stations = data
+                        for (var d in data) {
+                            console.log(111)
+                            console.log(param.Spray)
+                            xArr.push(data[d][param.Spray + 'ID'])
+                            y1Arr.push(data[d].AtomizationPressure)
+                            y2Arr.push(data[d].MaterialPressure)
+                            y3Arr.push(data[d].GlueWeight)
+                            y4Arr.push(data[d].FlowMeter)
+                            y5Arr.push(data[d].OvenTemperatureNow)
+                            y6Arr.push(data[d].StateN)
+                            y7Arr.push(data[d].ErrorN)
+                        }
+                        lineOption.xAxis[0].data = xArr
+                        lineOption.series[0].data = y1Arr
+                        lineOption.series[1].data = y2Arr
+                        lineOption.series[2].data = y3Arr
+                        lineOption.series[3].data = y4Arr
+                        lineOption.series[4].data = y5Arr
+                        lineOption.series[5].data = y6Arr
+                        lineOption.series[6].data = y7Arr
+
+                        console.log('//////////////////')
+                        console.log(xArr)
+                        console.log(y1Arr)
+                        console.log(y2Arr)
+                        console.log(y3Arr)
+                        console.log(y4Arr)
+                        console.log(y5Arr)
+                        console.log(y6Arr)
+                        console.log(y7Arr)
+                        console.log('//////////////////')
+
+                        lineChart.setOption(lineOption)
                     }
                 })
             }
@@ -87,7 +130,7 @@
 
         }
     }
-    var myChart = echarts.init(document.getElementById('lineChart'));
+    lineChart = echarts.init(document.getElementById('lineChart'));
     lineOption = {
         title: {
             text: realTimeData.name,
@@ -118,7 +161,7 @@
             {
                 name: '雾化压力',
                 type: 'line',
-                data: [100, 100, 101, 100, 100, 100, 100, 100, 100, 100, 100, 100, 99, 100],
+                data: [],
                 markPoint: {
                     data: [
                         { type: 'max', name: '最大压力' },
@@ -129,36 +172,36 @@
             {
                 name: '物料压力',
                 type: 'line',
-                data: [90, 90, 91, 90, 90, 90, 90, 90, 90, 90, 90, 90, 99, 90]
+                data: []
             },
             {
                 name: '胶重',
                 type: 'line',
-                data: [80, 80, 81, 80, 80, 80, 80, 80, 80, 80, 80, 80, 89, 80]
+                data: []
             },
             {
                 name: '流量计',
                 type: 'line',
-                data: [70, 70, 71, 70, 70, 70, 70, 70, 70, 70, 70, 70, 79, 70]
+                data: []
             },
             {
                 name: '烤箱实时温度',
                 type: 'line',
-                data: [60, 60, 61, 60, 60, 60, 60, 60, 100, 60, 60, 60, 69, 60]
+                data: []
             },
             {
                 name: '机器人状态号',
                 type: 'line',
-                data: [1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 9, 1]
+                data: []
             },
             {
                 name: '机器人报警号',
                 type: 'line',
-                data: [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0]
+                data: []
             }
         ]
     };
-    myChart.setOption(lineOption);
+    //lineChart.setOption(lineOption);
 </script>
 
 
