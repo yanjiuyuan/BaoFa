@@ -3,14 +3,29 @@
     Layout = null;
 }
 <div id="partPage">
-    <video id="myPlayer" poster="./content/images/title.png" controls playsInline webkit-playsinline autoplay>
-        <source src="rtmp://rtmp.open.ys7.com/openlive/e5e156c750104f2f8374588bbe53c26f.hd" type="rtmp/flv" />
+    <video id="myPlayer1" poster="./content/images/title.png" style="width:40%;" controls playsInline webkit-playsinline autoplay>
+        @*<source src="rtmp://rtmp.open.ys7.com/openlive/e5e156c750104f2f8374588bbe53c26f.hd" type="rtmp/flv" />*@
         <source src="http://hls.open.ys7.com/openlive/e5e156c750104f2f8374588bbe53c26f.hd.m3u8" type="application/x-mpegURL" />
     </video>
+    <video id="myPlayer2" poster="./content/images/title.png" style="width:40%;" controls playsInline webkit-playsinline autoplay>
+        @*<source src="rtmp://rtmp.open.ys7.com/openlive/fd4c226493d9435282db871ad6da6b04" type="rtmp/flv" />*@
+        <source src="http://hls.open.ys7.com/openlive/fd4c226493d9435282db871ad6da6b04.hd.m3u8" type="application/x-mpegURL" />
+    </video>
+    @*<video id="myPlayer3" poster="./content/images/title.png" controls playsInline webkit-playsinline autoplay>
+        <source src="rtmp://rtmp.open.ys7.com/openlive/45ce837b543e45ccbd56b7a4b4e209dc" type="rtmp/flv" />
+        <source src="http://hls.open.ys7.com/openlive/45ce837b543e45ccbd56b7a4b4e209dc.m3u8" type="application/x-mpegURL" />
+    </video>
+    <video id="myPlayer4" poster="./content/images/title.png" controls playsInline webkit-playsinline autoplay>
+        <source src="rtmp://rtmp.open.ys7.com/openlive/ab84f21a39c94b648a85d1ee184a7a65" type="rtmp/flv" />
+        <source src="http://hls.open.ys7.com/openlive/ab84f21a39c94b648a85d1ee184a7a65.m3u8" type="application/x-mpegURL" />
+    </video>*@
 </div>
 
 <script>
-    var player = new EZUIPlayer('myPlayer');
+    var player1 = new EZUIPlayer('myPlayer1');
+    var player2 = new EZUIPlayer('myPlayer2')
+    //var player3 = new EZUIPlayer('myPlayer3')
+    //var player4 = new EZUIPlayer('myPlayer4')
     loadHtml("mainPage", "partPage")
     //new Vue({
     //    el: "#partPage",

@@ -44,6 +44,7 @@
             search: function (formName) {
                 var that = this
                 this.$refs[formName].validate((valid) => {
+                    if(!valid) return
                     that.getData()
                     intervalId = window.setInterval(function () {
                         that.getData()
@@ -90,7 +91,7 @@
                             y4Arr.push(data[d].FlowMeter)
                             y5Arr.push(data[d].OvenTemperatureNow)
                             y6Arr.push(data[d].StateN)
-                            y7Arr.push(data[d].ErrorN)
+                            y7Arr.push(data[d].ErrorN/1000)
                         }
                         lineOption.xAxis[0].data = xArr
                         lineOption.series[0].data = y1Arr
@@ -161,13 +162,7 @@
             {
                 name: '雾化压力',
                 type: 'line',
-                data: [],
-                markPoint: {
-                    data: [
-                        { type: 'max', name: '最大压力' },
-                        { type: 'min', name: '最小压力' }
-                    ]
-                }
+                data: []
             },
             {
                 name: '物料压力',

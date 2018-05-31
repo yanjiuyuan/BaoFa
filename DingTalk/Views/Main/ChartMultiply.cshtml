@@ -5,24 +5,32 @@
 <!--右侧实体内容-->
 <script src="~/Scripts/echarts-all.js"></script>
 <el-main id="partPage">
-    <el-form :inline="true" :model="formInline" class="demo-form-inline"
+    <el-form :inline="true" :model="formInline" ref="formInline" :rules="rules" class="demo-form-inline"
              size="medium">
-        <el-form-item label="年份">
-            <el-select v-model="formInline.year">
-                <el-option v-for="y of [curYear,curYear-1,curYear-2]" :label="y" :value="y" key="y"></el-option>
-            </el-select>
+        <el-form-item label="开始时间" prop="startTime">
+            @*<el-select v-model="formInline.year">
+                    <el-option v-for="y of [curYear,curYear-1,curYear-2]" :label="y" :value="y" key="y"></el-option>
+                </el-select>*@
+            <el-date-picker v-model="formInline.startTime"
+                            type="month"
+                            placeholder="选择月">
+            </el-date-picker>
         </el-form-item>
-        <el-form-item label="月份">
-            <el-select v-if="formInline.year < curYear && formInline.year != ''" v-model="formInline.month">
-                <el-option v-for="n in 12" :label="n" :value="n" key="n"></el-option>
-            </el-select>
-            <el-select v-else v-model="formInline.month">
-                <el-option v-for="m in curMonth" :label="m" :value="m" key="m"></el-option>
-            </el-select>
+        <el-form-item label="结束时间" prop="endTime">
+            @*<el-select v-if="formInline.year < curYear && formInline.year != ''" v-model="formInline.month">
+                    <el-option v-for="n in 12" :label="n" :value="n" key="n"></el-option>
+                </el-select>
+                <el-select v-else v-model="formInline.month">
+                    <el-option v-for="m in curMonth" :label="m" :value="m" key="m"></el-option>
+                </el-select>*@
+            <el-date-picker v-model="formInline.endTime"
+                            type="month"
+                            placeholder="选择月">
+            </el-date-picker>
         </el-form-item>
 
         <el-form-item>
-            <el-button type="primary" v-on:click="onSearch">搜索</el-button>
+            <el-button type="primary" v-on:click="onSearch('formInline')">搜索</el-button>
         </el-form-item>
     </el-form>
     <div id="lineChart" style="height:300px;"></div>
@@ -32,20 +40,49 @@
 <script>
     var date = new Date('2018/03/0')
     console.log(date.getDate())
+    var lineChart, lineOption, barChart, barOption
     var demo = new Vue({
         el: "#partPage",
         mixins: [mixin],
         data: function () {
             return {
                 formInline: {
-                    year: '',
-                    month: ''
+                    startTime: '',
+                    endTime: ''
                 }
             }
         },
         methods: {
-            onSearch: function () {
-
+            //查询月报表
+            onSearch: function (formName) {
+                var that = this
+                this.$refs[formName].validate((valid) => {
+                    if (!valid) return
+                    var startTime = that.formInline.startTime
+                    var endTime = that.formInline.endTime
+                    var timeUrl = '?startYear=' + startTime.getFullYear() + '&startMonth=' + startTime.getMonth() + 1 + '&endYear=' + endTime.getFullYear() + '&endMonth=' + endTime.getMonth() + 1
+                    console.log(timeUrl)
+                    if (startTime > endTime) {
+                        alert('开始时间大于结束时间')
+                        return
+                    }
+                    $.ajax({
+                        url: '/reports/GetMonQuality' + timeUrl,
+                        success: function (data) {
+                            data = JSON.parse(data)
+                            console.log('月报质量查询')
+                            console.log(data)
+                        }
+                    })
+                    $.ajax({
+                        url: '/reports/GetMonUsage' + timeUrl,
+                        success: function (data) {
+                            data = JSON.parse(data)
+                            console.log('月报用量查询')
+                            console.log(data)
+                        }
+                    })
+                });
             }
         },
         created: function () {
@@ -54,7 +91,7 @@
     })
 
     //折线图
-    var lineChart = echarts.init(document.getElementById('lineChart'));
+    lineChart = echarts.init(document.getElementById('lineChart'));
     lineOption = {
         title: {
             text: '',
@@ -135,7 +172,7 @@
     };
     lineChart.setOption(lineOption);
     //柱状图
-    var barChart = echarts.init(document.getElementById('barChart'));
+    barChart = echarts.init(document.getElementById('barChart'));
     barOption = {
         title: {
             text: '用料统计图',

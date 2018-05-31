@@ -138,6 +138,12 @@ var mixin = {
             ],
             stationId: [
                 { required: true, message: '工位不能为空', trigger: 'blur' }
+            ],
+            startTime: [
+                { required: true, message: '开始时间不能为空', trigger: 'blur' }
+            ],
+            endTime: [
+                { required: true, message: '结束时间不能为空', trigger: 'blur' }
             ]
         }
     },
