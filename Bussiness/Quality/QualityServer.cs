@@ -167,5 +167,36 @@ namespace Bussiness.Quality
             }
         }
 
+
+
+        public string GetMonQuality(string StartDate, string EndDate)
+        {
+            string strSql = " SELECT  round(sum( b.`AppearanceQualified`) /sum(1) ) as AppearanceQualified,"+
+                            " round(sum(b.`AppearanceAfterQualified`) / sum(1)) as AppearanceAfterQualified," +
+                            " round(sum(b.`VampPullQualified`*100) / sum(1) ) as VampPullQualified," +
+                             " round(sum(b.`DaDiPullQualified`*100) / sum(1) )as DaDiPullQualified," +
+                             " round(sum(b.`ZheWangQualified`) / sum(1)) as ZheWangQualified" +
+                            "  FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage` ";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(strSql);
+            
+            if (StartDate != null || EndDate != null)
+            {
+                sb.Append(string.Format(" WHERE ct BETWEEN '{0}' AND  '{1}'", StartDate, EndDate));
+            }
+            DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
+            string strJsonString = string.Empty;
+            if(tb.Rows.Count>0)
+                strJsonString = JsonHelper.DataTableToJson(tb);
+             
+            else
+            {
+                strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"暂无数据!\"}";
+            }
+            return strJsonString;
+        }
+
+
+
     }
 }
