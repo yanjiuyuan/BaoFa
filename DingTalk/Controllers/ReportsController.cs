@@ -35,7 +35,7 @@ namespace DingTalk.Controllers
             return File(new FileStream(strServerPath, FileMode.Open), "application/octet-stream", Server.UrlEncode("华宝硫化鞋生产线日报表"+DateTime.Now.ToString("yyyy-MM-dd") + ".xls"));
         }
 
-        /// 测试数据：Reports/GetMonQuality?Year=2018&Month=5
+        /// 测试数据：Reports/GetMonQuality?startYear=2018&startMonth=5&endYear=2018&endMonth=5
         public string GetMonQuality(string startYear,string startMonth, string endYear, string endMonth)
         {
             QualityServer quaServer = new QualityServer();
@@ -45,13 +45,14 @@ namespace DingTalk.Controllers
 
             string enddatestr = endYear + "-" + endMonth + "-" + "01";
             DateTime endtime = Convert.ToDateTime(enddatestr);
-            string EndDate = endtime.ToString("yyyy-MM-dd HH:mm:ss");
-       
+            string EndDate = endtime.AddMonths(1).ToString("yyyy-MM-dd HH:mm:ss");
+            if(!startMonth.Equals(endMonth))
             return quaServer.GetMonQuality(  StartDate,   EndDate) ;
-              
+            else
+            return quaServer.GetMonQuality(StartDate, EndDate,false);
         }
 
-        /// 测试数据：Reports/GetMonQuality?Year=2018&Month=5
+        /// 测试数据：Reports/GetMonQuality?startYear=2018&startMonth=5&endYear=2018&endMonth=5
         public string GetMonUsage(string startYear, string startMonth, string endYear, string endMonth)
         {
             UsageInfo usageServer = new UsageInfo();
@@ -61,7 +62,7 @@ namespace DingTalk.Controllers
 
             string enddatestr = endYear + "-" + endMonth + "-" + "01";
             DateTime endtime = Convert.ToDateTime(enddatestr);
-            string EndDate = endtime.ToString("yyyy-MM-dd HH:mm:ss");
+            string EndDate = endtime.AddMonths(1).ToString("yyyy-MM-dd HH:mm:ss");
             return usageServer.GetMonthUsage(StartDate, EndDate);
 
         }

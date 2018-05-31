@@ -169,31 +169,79 @@ namespace Bussiness.Quality
 
 
 
-        public string GetMonQuality(string StartDate, string EndDate)
+        public string GetMonQuality(string StartDate, string EndDate, bool MultiMon=true)
         {
-            string strSql = " SELECT  round(sum( b.`AppearanceQualified`) /sum(1) ) as AppearanceQualified,"+
-                            " round(sum(b.`AppearanceAfterQualified`) / sum(1)) as AppearanceAfterQualified," +
-                            " round(sum(b.`VampPullQualified`*100) / sum(1) ) as VampPullQualified," +
-                             " round(sum(b.`DaDiPullQualified`*100) / sum(1) )as DaDiPullQualified," +
-                             " round(sum(b.`ZheWangQualified`) / sum(1)) as ZheWangQualified" +
-                            "  FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage` ";
-            StringBuilder sb = new StringBuilder();
-            sb.Append(strSql);
-            
-            if (StartDate != null || EndDate != null)
+
+
+            //同一个月
+            if (!MultiMon)
             {
-                sb.Append(string.Format(" WHERE ct BETWEEN '{0}' AND  '{1}'", StartDate, EndDate));
+
+
+                string strSql = " SELECT datestr, round(sum( b.`AppearanceQualified`) /sum(1) ) as AppearanceQualified," +
+                                " round(sum(b.`AppearanceAfterQualified`) / sum(1)) as AppearanceAfterQualified," +
+                                " round(sum(b.`VampPullQualified`*100) / sum(1) ) as VampPullQualified," +
+                                 " round(sum(b.`DaDiPullQualified`*100) / sum(1) )as DaDiPullQualified," +
+                                 " round(sum(b.`ZheWangQualified`) / sum(1)) as ZheWangQualified" +
+                                "  FROM   ( select left(a.CT, 10) as datestr,t.* from `usage` a INNER JOIN `Quality` t ON a.`ID_Usage`= t.`ID_Usage` ";
+
+
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append(strSql); 
+
+                if (StartDate != null || EndDate != null)
+                {
+                    sb.Append(string.Format(" WHERE ct BETWEEN '{0}' AND  '{1}'     ", StartDate, EndDate));
+                }
+
+                sb.Append(" )b group by datestr order by datestr ");
+                DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
+                string strJsonString = string.Empty;
+                if (tb.Rows.Count > 0)
+                    strJsonString = JsonHelper.DataTableToJson(tb);
+
+                else
+                {
+                    strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"暂无数据!\"}";
+                }
+                return strJsonString;
             }
-            DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
-            string strJsonString = string.Empty;
-            if(tb.Rows.Count>0)
-                strJsonString = JsonHelper.DataTableToJson(tb);
-             
             else
             {
-                strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"暂无数据!\"}";
+
+                string strSql = " SELECT datestr, round(sum( b.`AppearanceQualified`) /sum(1) ) as AppearanceQualified," +
+                                " round(sum(b.`AppearanceAfterQualified`) / sum(1)) as AppearanceAfterQualified," +
+                                " round(sum(b.`VampPullQualified`*100) / sum(1) ) as VampPullQualified," +
+                                 " round(sum(b.`DaDiPullQualified`*100) / sum(1) )as DaDiPullQualified," +
+                                 " round(sum(b.`ZheWangQualified`) / sum(1)) as ZheWangQualified" +
+                                "  FROM   ( select left(a.CT, 7) as datestr,t.* from `usage` a INNER JOIN `Quality` t ON a.`ID_Usage`= t.`ID_Usage` ";
+
+
+
+                StringBuilder sb = new StringBuilder();
+                sb.Append(strSql);
+
+                if (StartDate != null || EndDate != null)
+                {
+                    sb.Append(string.Format(" WHERE ct BETWEEN '{0}' AND  '{1}'     ", StartDate, EndDate));
+                }
+
+                sb.Append(" ) b group by datestr  order by datestr ");
+                DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
+                string strJsonString = string.Empty;
+                if (tb.Rows.Count > 0)
+                    strJsonString = JsonHelper.DataTableToJson(tb);
+
+                else
+                {
+                    strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"暂无数据!\"}";
+                }
+                return strJsonString;
+
+
+
             }
-            return strJsonString;
         }
 
 
