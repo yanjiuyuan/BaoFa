@@ -60,7 +60,7 @@
                     if (!valid) return
                     var startTime = that.formInline.startTime
                     var endTime = that.formInline.endTime
-                    var timeUrl = '?startYear=' + startTime.getFullYear() + '&startMonth=' + startTime.getMonth() + 1 + '&endYear=' + endTime.getFullYear() + '&endMonth=' + endTime.getMonth() + 1
+                    var timeUrl = '?startYear=' + startTime.getFullYear() + '&startMonth=' + parseInt(startTime.getMonth()) + 1 + '&endYear=' + endTime.getFullYear() + '&endMonth=' + parseInt(endTime.getMonth()) + 1
                     console.log(timeUrl)
                     if (startTime > endTime) {
                         alert('开始时间大于结束时间')
@@ -71,7 +71,7 @@
                         success: function (data) {
                             data = JSON.parse(data)
                             console.log('月报质量查询')
-                            console.log(data)
+                            console.log(data.Rows)
                         }
                     })
                     $.ajax({
@@ -79,7 +79,7 @@
                         success: function (data) {
                             data = JSON.parse(data)
                             console.log('月报用量查询')
-                            console.log(data)
+                            console.log(data.Rows)
                         }
                     })
                 });

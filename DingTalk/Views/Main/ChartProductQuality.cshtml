@@ -6,28 +6,41 @@
 <script src="~/Scripts/echarts-all.js"></script>
 <el-main id="partPage" style="height:500px;">
     <!--查詢表單-->
-    <el-form :inline="true" :model="formInline" ref="formInline" :rules="rules" class="demo-form-inline"
+    <el-form :inline="false" :model="formInline" ref="formInline" :rules="rules" class="demo-form-inline"
              size="medium">
         <el-form-item label="二维码号" prop="qrCode">
             <el-input v-model="formInline.qrCode"
                       placeholder="请输入鞋子二维码"></el-input>
         </el-form-item>
         <el-form-item label="工位" prop="stationId">
-            <el-select v-model="formInline.stationId">
-                <el-option v-for="s of stations" :label="s.Value" :value="s.Key" key="s.Key"></el-option>
-            </el-select>
+            @*<el-select v-model="formInline.stationId">
+                    <el-option v-for="s of stations" :label="s.Value" :value="s.Key" key="s.Key"></el-option>
+                </el-select>*@
+            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" v-on:change="handleCheckAllChange">全选</el-checkbox>
+            <div style="margin: 15px 0;"></div>
+            <el-checkbox-group v-model="formInline.stationId" v-on:change="handleCheckedCitiesChange">
+                <el-checkbox v-for="s in stations" :label="s.Key" :key="s.Key">{{s.Value}}</el-checkbox>
+            </el-checkbox-group>
         </el-form-item>
         <el-form-item>
             <el-button type="primary" v-on:click="search('formInline')">搜索</el-button>
         </el-form-item>
     </el-form>
 
-    <div id="lineChart" style="height:300px;"></div>
+    <div id="lineChart1" style="height:300px;"></div>
+    <div id="lineChart2" style="height:300px;"></div>
+    <div id="lineChart3" style="height:300px;"></div>
+    <div id="lineChart4" style="height:300px;"></div>
+    <div id="lineChart5" style="height:300px;"></div>
+    <div id="lineChart6" style="height:300px;"></div>
+    <div id="lineChart7" style="height:300px;"></div>
 </el-main>
 
 <script>
     var paramOption = []
-    var lineChart, lineOption
+    var lineChart1, lineOption1, lineChart2, lineOption2, lineChart3, lineOption3, lineChart4, lineOption4, lineChart5, lineOption5, lineChart6, lineOption6, lineChart7, lineOption7
+    var lineElement1, lineElement2, lineElement3, lineElement4, lineElement5, lineElement6, lineElement7
+    var lineElements = [] , lineCharts = [], lineOptions = []
     var demo = new Vue({
         el: "#partPage",
         mixins: [mixin],
@@ -35,9 +48,11 @@
             return {
                 formInline: {
                     qrCode: '',
-                    stationId :''
+                    stationId: ["Vamp", "WaiO"]
                 },
-                stations: []
+                stations: [],
+                checkAll: false,
+                isIndeterminate: true
             }
         },
         methods: {
@@ -46,9 +61,9 @@
                 this.$refs[formName].validate((valid) => {
                     if(!valid) return
                     that.getData()
-                    intervalId = window.setInterval(function () {
-                        that.getData()
-                    }, 50000)
+                    //intervalId = window.setInterval(function () {
+                    //    that.getData()
+                    //}, 50000)
                 })
             },
             //获取单品质量分析工位列表
@@ -67,11 +82,22 @@
             //查询单品单工位实时数据
             getData: function () {
                 var that = this
-                var param = {
-                    RFID: this.formInline.qrCode,
-                    Spray: this.formInline.stationId
+                hideOptions()
+                for (let s of this.formInline.stationId) {
+                    let index = 0
+                    for (let i = 0; i < this.stations.length; i++) {
+                        if (s == this.stations[i].Key) {
+                            index = i
+                        }
+                    }
+                    let param = {
+                        RFID: this.formInline.qrCode,
+                        Spray: s
+                    }
+                    this.GetSingleQuality(index, param, this.stations[index].Value)
                 }
-                console.log(param)
+            },
+            GetSingleQuality(index, param, title) {
                 var url = '/SingleQuality/GetSingleQualityByRFIDandSpray' + _formatQueryStr(param)
                 $.ajax({
                     url: url,
@@ -82,8 +108,6 @@
                         console.log(url)
                         console.log(data)
                         for (var d in data) {
-                            console.log(111)
-                            console.log(param.Spray)
                             xArr.push(data[d][param.Spray + 'ID'])
                             y1Arr.push(data[d].AtomizationPressure)
                             y2Arr.push(data[d].MaterialPressure)
@@ -91,31 +115,39 @@
                             y4Arr.push(data[d].FlowMeter)
                             y5Arr.push(data[d].OvenTemperatureNow)
                             y6Arr.push(data[d].StateN)
-                            y7Arr.push(data[d].ErrorN/1000)
+                            y7Arr.push(data[d].ErrorN / 1000)
                         }
-                        lineOption.xAxis[0].data = xArr
-                        lineOption.series[0].data = y1Arr
-                        lineOption.series[1].data = y2Arr
-                        lineOption.series[2].data = y3Arr
-                        lineOption.series[3].data = y4Arr
-                        lineOption.series[4].data = y5Arr
-                        lineOption.series[5].data = y6Arr
-                        lineOption.series[6].data = y7Arr
-
-                        console.log('//////////////////')
-                        console.log(xArr)
-                        console.log(y1Arr)
-                        console.log(y2Arr)
-                        console.log(y3Arr)
-                        console.log(y4Arr)
-                        console.log(y5Arr)
-                        console.log(y6Arr)
-                        console.log(y7Arr)
-                        console.log('//////////////////')
-
-                        lineChart.setOption(lineOption)
+                        lineOptions[index].xAxis[0].data = xArr
+                        lineOptions[index].series[0].data = y1Arr
+                        lineOptions[index].series[1].data = y2Arr
+                        lineOptions[index].series[2].data = y3Arr
+                        lineOptions[index].series[3].data = y4Arr
+                        lineOptions[index].series[4].data = y5Arr
+                        lineOptions[index].series[5].data = y6Arr
+                        lineOptions[index].series[6].data = y7Arr
+                        lineOptions[index].title.text = title
+                        lineCharts[index].setOption(lineOptions[index])
+                        $('#lineChart' + (index + 1)).show()
+                        console.log(lineOptions[index])
+                        console.log(lineCharts[index])
                     }
                 })
+            },
+            //多选控件方法
+            handleCheckAllChange(val) {
+                if (this.formInline.stationId.length < this.stations.length) {
+                    this.formInline.stationId = []
+                    for (let s of this.stations) {
+                        this.formInline.stationId.push(s.Key)
+                    }
+                } else {
+                    this.formInline.stationId = []
+                }
+            },
+            handleCheckedCitiesChange(value) {
+                let checkedCount = value.length;
+                this.checkAll = checkedCount === this.stations.length;
+                this.isIndeterminate = checkedCount > 0 && checkedCount < this.stations.length;
             }
         },
         created: function () {
@@ -124,14 +156,13 @@
         }
     })
     var realTimeData = {
-        name: '鞋面喷胶站信息实时数据表',
+        name: '信息实时数据表',
         params: ['雾化压力', '物料压力', '胶重', '流量计', '烤箱实时温度', '机器人状态号', '机器人报警号'],
-        time: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '18:00', '19:00', '20:00', '121:00', '22:00', '23:00', '24:00'],
+        time: ['8:00'],
         dada: {
 
         }
     }
-    lineChart = echarts.init(document.getElementById('lineChart'));
     lineOption = {
         title: {
             text: realTimeData.name,
@@ -158,11 +189,15 @@
                 }
             }
         ],
+        grid: {
+            backgroundColor: 'white',
+        },
+        backgroundColor:'white',
         series: [
             {
                 name: '雾化压力',
                 type: 'line',
-                data: []
+                data: [1]
             },
             {
                 name: '物料压力',
@@ -196,7 +231,25 @@
             }
         ]
     };
+    for (let i = 0; i < 7; i++) {
+        let element = document.getElementById('lineChart' + (i + 1))
+        //let id = '#lineChart' + (i + 1)
+        //let element = $(id)
+        lineElements.push(element)
+        lineCharts.push(echarts.init(element))
+        lineOptions.push(_cloneObj(lineOption))
+        lineCharts[i].setOption(lineOptions[i])
+    }
+    console.log(11111)
+    console.log(lineOptions)
+    hideOptions()
     //lineChart.setOption(lineOption);
+
+    function hideOptions() {
+        for (let i = 0; i < 7; i++) {
+            $('#lineChart' + (i + 1)).hide()
+        }
+    }
 </script>
 
 
