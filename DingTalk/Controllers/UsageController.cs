@@ -26,7 +26,7 @@ namespace DingTalk.Controllers
         public string GetUsage()
         {
            UsageInfo usageInfo = new UsageInfo();
-           return JsonHelper.DataTableToJson(usageInfo.GetUsage());
+           return  usageInfo.GetUsage();
         }
     }
 }

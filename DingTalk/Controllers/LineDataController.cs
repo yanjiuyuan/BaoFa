@@ -1,6 +1,8 @@
 ﻿using Bussiness.LineData;
+using Bussiness.ProductionLines;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -70,30 +72,47 @@ namespace DingTalk.Controllers
 
                     if (strMessage == "GetAllTable")
                     {
-                        string[] strList = new string[7] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
-                        strJsonString = RunAllTask(strList);
+
+                        //获取所有生产线
+                        ProductionLinesServer pServer = new ProductionLinesServer();
+
+                         DataTable  linedt=  pServer.GetLinesList();
+                     
+                        if(linedt.Rows.Count>0)
+                        { 
+                            string[] strList = new string[7] { "Vamp", "WaiO", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
+                            strJsonString = RunAllTask(strList, linedt);
+                             
+                        }
+
+
+                  
                     }
                     if (strMessage.Contains("GetTable"))   //GetTable:Vamp,Waio,WaiT...  
                     {
+
+
+
+
                         string[] strList = strMessage.Split(':');
-                        if (strList.Length > 1)
+                        if (strList.Length >1)
                         {
                             Dictionary<string, DataTable> dString = new Dictionary<string, DataTable>();
                             string strTable = strList[1].ToString();
                             string[] strTablesList = strTable.Split(',');
                             foreach (var item in strTablesList)
                             {
-                                dString.Add(item, GetTableByTableName(item));
+                                dString.Add(item, GetTableByTableName(item,1));
                             }
                             strJsonString = JsonConvert.SerializeObject(dString);
                         }
                         else
                         {
-                            strJsonString = "未输入表名!";
+                            strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"参数有误!\"}";
                         }
 
                     }
-                    string returnMessage = JsonConvert.SerializeObject(strJsonString);
+                    string returnMessage = strJsonString;
                     buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(returnMessage));
                     await socket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
                 }
@@ -133,8 +152,11 @@ namespace DingTalk.Controllers
             string strJsonString = string.Empty;
             if (strMessage == "GetAllTable")
             {
-                string[] strList = new string[7] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
-                strJsonString = RunAllTask(strList);
+                ProductionLinesServer pServer = new ProductionLinesServer();
+
+                DataTable linedt = pServer.GetLinesList();
+                string[] strList = new string[7] { "Vamp", "WaiO", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
+                strJsonString = RunAllTask(strList,linedt);
             }
             if (strMessage.Contains("GetTable"))   //GetTable:Vamp,Waio,WaiT...  
             {
@@ -146,27 +168,27 @@ namespace DingTalk.Controllers
                     string[] strTablesList = strTable.Split(',');
                     foreach (var item in strTablesList)
                     {
-                        dString.Add(item, GetTableByTableName(item));
+                        dString.Add(item, GetTableByTableName(item,1));
                     }
                     strJsonString = JsonConvert.SerializeObject(dString);
                 }
                 else
                 {
-                    strJsonString = "未输入表名!";
+                    strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"未输入表名!\"}";  
                 }
 
             }
-            string returnMessage = JsonConvert.SerializeObject(strJsonString);
+            string returnMessage = strJsonString;
             return returnMessage;
         }
 
 
         [Route("GetTable")]
 
-        public static DataTable GetTableByTableName(string strTableName)
+        public static DataTable GetTableByTableName(string strTableName,int lineid)
         {
             LineDataServer lineDataServer = new LineDataServer();
-            var result = lineDataServer.GetTableMessage(strTableName);
+            var result = lineDataServer.GetTableMessage(strTableName,lineid);
             return result;
         }
 
@@ -175,17 +197,31 @@ namespace DingTalk.Controllers
         /// </summary>
         /// <param name="strTableNames">表名数组</param>
         /// <returns>返回Json格式数组</returns>
-        public static string RunAllTask(string[] strTableNames)
+        public static string RunAllTask(string[] strTableNames,DataTable  linedt)
         {
             int iCount = strTableNames.Length;
             string strJsonString = string.Empty;
-            Dictionary<string, DataTable> dString = new Dictionary<string, DataTable>();
-
+           List<Hashtable> list = new List<Hashtable>();
             try
             {
-                if (iCount >= 1)
-                {
-                    Task[] tasks = new Task[iCount];
+            
+            if(linedt.Rows.Count<1)
+            return strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"生产线数量为0!\"}";
+
+            for(int x=0;x< linedt.Rows.Count-1;x++)
+            {
+                    Hashtable dic = new Hashtable();
+                    int lineid = 0;
+                    string linename= string.Empty; ;
+                    int.TryParse(linedt.Rows[x][0].ToString(), out lineid);
+                    linename = linedt.Rows[x][1].ToString();
+
+                dic.Add("ProductLineId", lineid.ToString());
+                dic.Add("ProductLineName", linename);
+                Dictionary<string, DataTable> dString = new Dictionary<string, DataTable>();
+
+            
+                Task[] tasks = new Task[iCount];
                     for (int i = 0; i < strTableNames.Length; i++)
                     {
                         lock (_oLock)
@@ -193,24 +229,22 @@ namespace DingTalk.Controllers
                             tasks[i] = Task.Factory.StartNew(() =>
                         {
                         });
-                            dString.Add(strTableNames[i], GetTableByTableName(strTableNames[i]));
+                            dString.Add(strTableNames[i], GetTableByTableName(strTableNames[i],lineid));
                         }
                     }
                     Task.WaitAll(tasks);
-                    strJsonString = JsonConvert.SerializeObject(dString);
-                }
-                else
-                {
-                    strJsonString = "strTableNames数组为空";
-                }
+                   dic.Add("Data", dString);
+                    list.Add(dic);
+                 }
+                
             }
             catch (Exception ex)
             {
-                strJsonString = ex.Message;
+                return strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"交易处理异常\"}";
                 throw;
             }
 
-            return strJsonString;
+            return JsonConvert.SerializeObject(list);
         }
 
 

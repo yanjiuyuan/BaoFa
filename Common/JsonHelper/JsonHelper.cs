@@ -126,7 +126,25 @@ namespace Common.JsonHelper
             jsonBuilder.Append("}");
             return jsonBuilder.ToString();
         }
-
+        /// <summary>  
+        /// tablerow转json  
+        /// </summary>  
+        /// <param name="dt"></param>  
+        /// <returns></returns>  
+        public static Dictionary<string, string> DataRowToDic(DataColumnCollection cols, DataRow dt)
+        {
+            Dictionary <string ,string >  dic = new Dictionary<string, string>();
+            if (dt != null)
+            {
+                for (int j = 0; j < cols.Count; j++)
+                {
+                    dic.Add(cols[j].ColumnName, dt[j].ToString());
+                    
+                }
+            }
+              
+            return dic;
+        }
 
         /// <summary>  
         /// table转json  

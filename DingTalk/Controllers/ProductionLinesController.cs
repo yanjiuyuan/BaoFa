@@ -1,6 +1,7 @@
 ﻿using Bussiness.ProductionLines;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -47,7 +48,23 @@ namespace DingTalk.Controllers
 
             return pServer.GetProductionLinesData(ProductLineId, OrderID
             , CompanyId, telephone, registertime, role,
-            status, IsEnable, KeyWord, PageIndex, PageSize); 
+            status, IsEnable, KeyWord, PageIndex, PageSize);
         }
+
+        //ProductionLines/LinesList
+        public DataTable LinesList()
+        {
+            //if (Session["Role"].ToString() != "1")
+            //{
+            //    return "没有权限访问！";
+            //}
+            ProductionLinesServer pServer = new ProductionLinesServer();
+
+            return pServer.GetLinesList();
+        }
+
+
+
+
     }
 }

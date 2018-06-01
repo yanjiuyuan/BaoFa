@@ -25,7 +25,7 @@ namespace Bussiness.LineData
             return strJsonString;
         }
 
-        public DataTable GetTableMessage(string strTableName)
+        public DataTable GetTableMessage(string strTableName ,int lineid)
         {
             string strSql = string.Empty;
             //if (strTableName == "Usage")
@@ -35,7 +35,7 @@ namespace Bussiness.LineData
             //}
             //else
             //{
-            strSql = string.Format("SELECT  * FROM `{0}` ORDER  BY {1}id DESC LIMIT 0,1;", strTableName, strTableName);
+            strSql = string.Format("  select a.* from   `{0}` a  left join `usage` b on  a.ID_Usage =b.ID_Usage where a.ProductLineId={1}  ORDER  BY {2}id  DESC LIMIT 0,1 ", strTableName, lineid, strTableName);
             //}
             DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
             return newTb;

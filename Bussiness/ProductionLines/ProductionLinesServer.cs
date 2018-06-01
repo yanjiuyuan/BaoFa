@@ -61,5 +61,19 @@ namespace Bussiness.ProductionLines
             string strJsonString = JsonHelper.DataTableToJson(db, iRows);
             return strJsonString;
         }
+
+
+
+        public DataTable GetLinesList()
+        {
+
+            string strsql = "select a.ProductLineId ,a.ProductLineName,b.CompanyId,b.CompanyName from productlineinfo a left join  companyinfo b on a.CompanyId =b.CompanyId  where a.status =1";
+
+
+            DataTable dt = MySqlHelper.ExecuteQuery(strsql);
+       
+            return dt;
+
+        }
     }
 }
