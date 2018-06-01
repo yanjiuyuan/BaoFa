@@ -60,7 +60,7 @@
                     if (!valid) return
                     var startTime = that.formInline.startTime
                     var endTime = that.formInline.endTime
-                    var timeUrl = '?startYear=' + startTime.getFullYear() + '&startMonth=' + parseInt(startTime.getMonth()) + 1 + '&endYear=' + endTime.getFullYear() + '&endMonth=' + parseInt(endTime.getMonth()) + 1
+                    var timeUrl = '?startYear=' + startTime.getFullYear() + '&startMonth=' + (parseInt(startTime.getMonth()) + 1) + '&endYear=' + endTime.getFullYear() + '&endMonth=' + (parseInt(endTime.getMonth()) + 1)
                     console.log(timeUrl)
                     if (startTime > endTime) {
                         alert('开始时间大于结束时间')
@@ -72,6 +72,24 @@
                             data = JSON.parse(data)
                             console.log('月报质量查询')
                             console.log(data.Rows)
+                            data = data.Rows
+                            var xArr = [], y1Arr = [], y2Arr = [], y3Arr = [], y4Arr = [], y5Arr = []
+                            for (var d in data) {
+                                xArr.push(data[d].datestr)
+                                y1Arr.push(data[d].AppearanceAfterQualified)
+                                y2Arr.push(data[d].AppearanceQualified)
+                                y3Arr.push(data[d].DaDiPullQualified)
+                                y4Arr.push(data[d].VampPullQualified)
+                                y5Arr.push(data[d].ZheWangQualified)
+                            }
+                            lineOption.xAxis[0].data = xArr
+                            lineOption.series[0].data = y1Arr
+                            lineOption.series[1].data = y2Arr
+                            lineOption.series[2].data = y3Arr
+                            lineOption.series[3].data = y4Arr
+                            lineOption.series[4].data = y5Arr
+                            console.log(lineOption.series)
+                            lineChart.setOption(lineOption)
                         }
                     })
                     $.ajax({
@@ -80,6 +98,9 @@
                             data = JSON.parse(data)
                             console.log('月报用量查询')
                             console.log(data.Rows)
+                            data = data.Rows[0]
+                            barOption.series[0].data = [data.BiaoQianConsumption, data.DaDiConsumption, data.HuChiConsumption, data.WeiTiaoConsumption]
+                            barChart.setOption(barOption)
                         }
                     })
                 });
@@ -98,7 +119,7 @@
             x: 'center'
         },
         legend: {
-            data: ['硫化外观合格率', '折弯疲劳合格率','鞋面拉力合格点占比','大底拉力合格点占比'],
+            data: ['硫化后外观合格率', '硫化前外观合格率','大底拉力合格点占比','鞋面拉力合格点占比','折弯疲劳合格率'],
             x: 'left'
         },
         toolbox: {
@@ -118,7 +139,7 @@
             {
                 type: 'category',
                 boundaryGap: false,
-                data: ['8', '9', '10', '11', '12', '13', '14']
+                data: []
             }
         ],
         yAxis: [
@@ -131,46 +152,55 @@
         ],
         series: [
             {
-                name: '硫化外观合格率',
+                name: '硫化后外观合格率',
                 type: 'line',
-                data: [0, 11, 25, 33, 52, 63, 70],
+                data: [0],
                 markPoint: {
                     data: [
-                        { type: 'max', name: '硫化外观合格率' }
+                        { type: 'max', name: '硫化后外观合格率' }
                     ]
                 },
             },
             {
-                name: '折弯疲劳合格率',
+                name: '硫化前外观合格率',
                 type: 'line',
-                data: [100, 100, 100, 100, 100, 100, 100],
+                data: [0],
                 markPoint: {
                     data: [
-                        { type: 'max', name: '折弯疲劳合格率' }
+                        { type: 'max', name: '硫化前外观合格率' }
+                    ]
+                },
+            }, {
+                name: '大底拉力合格点占比',
+                type: 'line',
+                data: [0],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '大底拉力合格点占比' }
                     ]
                 },
             },{
                 name: '鞋面拉力合格点占比',
                 type: 'line',
-                data: [50, 51, 55, 53, 52, 53, 50],
+                data: [0],
                 markPoint: {
                     data: [
                         { type: 'max', name: '鞋面拉力合格点占比' }
                     ]
                 },
             }, {
-                name: '大底拉力合格点占比',
+                name: '折弯疲劳合格率',
                 type: 'line',
-                data: [20, 21, 25, 23, 22, 23, 20],
+                data: [0],
                 markPoint: {
                     data: [
-                        { type: 'max', name: '大底拉力合格点占比' }
+                        { type: 'max', name: '折弯疲劳合格率' }
                     ]
                 },
             }
         ]
     };
-    lineChart.setOption(lineOption);
+    //lineChart.setOption(lineOption);
     //柱状图
     barChart = echarts.init(document.getElementById('barChart'));
     barOption = {
@@ -190,7 +220,7 @@
         xAxis: [
             {
                 type: 'category',
-                data: ['8', '9', '10', '11', '12',13,14]
+                data: ['标签','大底','护齿','围条']
             }
         ],
         yAxis: [
@@ -211,11 +241,11 @@
                         }
                     }
                 },
-                data: [70, 71, 75, 83, 87, 99, 111]
+                data: [0]
             }
         ]
     };
-    barChart.setOption(barOption);
+    //barChart.setOption(barOption);
 </script>
 
 
