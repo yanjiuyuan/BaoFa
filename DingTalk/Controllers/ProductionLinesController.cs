@@ -1,4 +1,5 @@
 ﻿using Bussiness.ProductionLines;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -51,19 +52,16 @@ namespace DingTalk.Controllers
             status, IsEnable, KeyWord, PageIndex, PageSize);
         }
 
-        //ProductionLines/LinesList
-        public DataTable LinesList()
+
+
+        //获取生产线列表
+
+        /// 测试数据 /ProductionLines/GetLineList
+        public string GetLineList()
         {
-            //if (Session["Role"].ToString() != "1")
-            //{
-            //    return "没有权限访问！";
-            //}
-            ProductionLinesServer pServer = new ProductionLinesServer();
-
-            return pServer.GetLinesList();
+            ProductionLinesServer pLinesServer = new ProductionLinesServer();
+            return JsonConvert.SerializeObject(pLinesServer.GetLinesList());
         }
-
-
 
 
     }

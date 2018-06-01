@@ -100,10 +100,10 @@ namespace DingTalk.Controllers
         }
 
         /// 测试数据 /Statistics/ChartBeatQuery?mins=60
-        public string ChartBeatQuery(int mins= 30)
+        public string ChartBeatQuery(int lineid = 1,int mins= 30)
         {
              ChartBeatServer chartBeatServer = new  ChartBeatServer();
-             return chartBeatServer.ChartBeatQuery(mins);
+             return chartBeatServer.ChartBeatQuery(1,mins);
         }
 
     }
