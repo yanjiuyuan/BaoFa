@@ -28,11 +28,16 @@ namespace DingTalk.Controllers
         /// <param name="OrderId">总订单编号</param>
         /// <param name="ChildId">子订单编号</param>
         /// <returns>返回围条用量 护齿用量 标签用量 大底用量</returns>
-        /// 测试数据：/Statistics/GetDosageInfo?OrderId=18-35-12-1&ChildId=362-0102-1
-        public string GetDosageInfo(string OrderId, string ChildId)
+        /// 测试数据：/Statistics/GetDosageInfo?DataTime=2018-03-01&lineid=1
+        public string GetDosageInfo(string DataTime, int lineid = 1)
         {
             DosageInfoServer dServer = new DosageInfoServer();
-            return dServer.GetDosageInfo(OrderId, ChildId);
+
+            DateTime starttm = Convert.ToDateTime(DataTime);
+            DateTime endtm = Convert.ToDateTime(DataTime).AddDays(1);
+            string StartDate = starttm .ToString("yyyy-MM-dd HH:mm:ss");
+            string EndDate = endtm.ToString("yyyy-MM-dd HH:mm:ss");
+            return dServer.GetDosageInfo(StartDate, EndDate, lineid);
         }
 
 
@@ -44,26 +49,26 @@ namespace DingTalk.Controllers
         /// <returns>返回头尾以及整点数据</returns>
         /// 测试数据 Statistics/GetCurrentProduction
         /// 测试数据 /Statistics/GetCurrentProduction?DataTime=2018-03-01&Count=100
-        public string GetCurrentProduction(string DataTime,int Count)
+        public string GetCurrentProduction(string DataTime,int Count,int lineid=1)
         {
             string strResult = string.Empty;
             if (DataTime != null)
             {
-                strResult = ChangeTime(DataTime,Count);
+                strResult = ChangeTime(DataTime,Count, lineid);
             }
             else
             {
-                strResult = ChangeTime(DateTime.Now.ToString("yyyy-MM-dd"), Count);
+                strResult = ChangeTime(DateTime.Now.ToString("yyyy-MM-dd"), Count, lineid);
             }
             return strResult;
         }
 
-        public string ChangeTime(string DataTime,int Count)
+        public string ChangeTime(string DataTime,int Count,int lineid=1)
         {
             DateTime time = Convert.ToDateTime(DataTime);
             long lTime = TimeHelper.ConvertDateTimeToInt(time);
             DosageInfoServer dServer = new DosageInfoServer();
-            DataTable tb = dServer.GetCurrentProduction(lTime, Count);
+            DataTable tb = dServer.GetCurrentProduction(lTime, Count, lineid);
             return JsonHelper.DataTableToJson(tb);
         }
 
@@ -74,28 +79,28 @@ namespace DingTalk.Controllers
         /// <returns>返回头尾以及整点数据</returns>
         /// 测试数据 Statistics/GetYieldFluct
         /// 测试数据 /Statistics/GetYieldFluct?DataTime=2018-05-13&dura=30
-        public string GetYieldFluct(string DataTime, int dura=30)
+        public string GetYieldFluct(string DataTime, int dura=30, int lineid = 1)
         {
             string strResult = string.Empty;
             if (DataTime != null)
             {
-                strResult = FluctChangeTime(DataTime, dura);
+                strResult = FluctChangeTime(DataTime, dura, lineid);
             }
             else
             {
-                strResult = FluctChangeTime(DateTime.Now.ToString("yyyy-MM-dd"), dura);
+                strResult = FluctChangeTime(DateTime.Now.ToString("yyyy-MM-dd"), dura, lineid);
             }
             return strResult;
         }
 
-        public string FluctChangeTime(string DataTime, int dura)
+        public string FluctChangeTime(string DataTime, int dura,int lineid=1)
         {
             DateTime time = Convert.ToDateTime(DataTime);
             long lTime = TimeHelper.ConvertDateTimeToInt(time);
             DateTime timeend = Convert.ToDateTime(DataTime).AddDays(1);
             long lTimeend = TimeHelper.ConvertDateTimeToInt(timeend);
             DosageInfoServer dServer = new DosageInfoServer();
-            DataTable tb = dServer.GetYieldFluctuation(lTime, lTimeend, dura);
+            DataTable tb = dServer.GetYieldFluctuation(lTime, lTimeend, dura, lineid);
             return JsonHelper.DataTableToJson(tb);
         }
 
