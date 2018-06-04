@@ -28,7 +28,7 @@ namespace DingTalk.Controllers
         /// <param name="OrderId">总订单编号</param>
         /// <param name="ChildId">子订单编号</param>
         /// <returns>返回围条用量 护齿用量 标签用量 大底用量</returns>
-        /// 测试数据：/Statistics/GetDosageInfo?DataTime=2018-03-01&lineid=1
+        /// 测试数据：/Statistics/GetDosageInfo?DataTime=2018-05-11&lineid=1
         public string GetDosageInfo(string DataTime, int lineid = 1)
         {
             DosageInfoServer dServer = new DosageInfoServer();
@@ -48,7 +48,7 @@ namespace DingTalk.Controllers
         /// <param name="DataTime">查询日期(格式为yyyy-MM-dd)</param>
         /// <returns>返回头尾以及整点数据</returns>
         /// 测试数据 Statistics/GetCurrentProduction
-        /// 测试数据 /Statistics/GetCurrentProduction?DataTime=2018-03-01&Count=100
+        /// 测试数据 /Statistics/GetCurrentProduction?DataTime=2018-03-01&Count=100&lineid=1
         public string GetCurrentProduction(string DataTime,int Count,int lineid=1)
         {
             string strResult = string.Empty;
@@ -78,7 +78,7 @@ namespace DingTalk.Controllers
         /// <param name="DataTime">查询日期(格式为yyyy-MM-dd)</param>
         /// <returns>返回头尾以及整点数据</returns>
         /// 测试数据 Statistics/GetYieldFluct
-        /// 测试数据 /Statistics/GetYieldFluct?DataTime=2018-05-13&dura=30
+        /// 测试数据 /Statistics/GetYieldFluct?DataTime=2018-05-13&dura=30&lineid=1
         public string GetYieldFluct(string DataTime, int dura=30, int lineid = 1)
         {
             string strResult = string.Empty;

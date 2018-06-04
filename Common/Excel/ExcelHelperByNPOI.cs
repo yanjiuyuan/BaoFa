@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Common.Excel
 {
-   public class ExcelHelperByNPOI
+    public class ExcelHelperByNPOI
     {
         #region 从datatable中将数据导出到excel
         /// <summary>
@@ -840,7 +840,7 @@ namespace Common.Excel
         /// <param name="coluid">需更新的列号</param>
         /// <param name="rowid">需更新的开始行号</param>
         /// <param name="IsTrue">true：以横向输出; false：以横向输出</param>
-        public static void UpdateExcel(string outputFile, string sheetname, string[] updateData, int coluid, int rowid,bool IsTrue)
+        public static void UpdateExcel(string outputFile, string sheetname, string[] updateData, int coluid, int rowid, bool IsTrue)
         {
             FileStream readfile = new FileStream(outputFile, FileMode.Open, FileAccess.Read);
 
@@ -858,7 +858,7 @@ namespace Common.Excel
                     {
                         sheet1.GetRow(i + rowid).CreateCell(coluid);
                     }
-                    
+
                     if (IsTrue)
                     {
                         sheet1.GetRow(rowid).GetCell(coluid + i).SetCellValue(updateData[i]);
@@ -867,7 +867,7 @@ namespace Common.Excel
                     {
                         sheet1.GetRow(i + rowid).GetCell(coluid).SetCellValue(updateData[i]);
                     }
-                   
+
                 }
                 catch (Exception ex)
                 {
@@ -888,6 +888,125 @@ namespace Common.Excel
             }
 
         }
+        /// <summary>
+        /// 更新Excel表格
+        /// </summary>
+        /// <param name="outputFile">需更新的excel表格路径</param>
+        /// <param name="sheetname">sheet名</param>
+        /// <param name="updateData">需更新的img数据</param>
+        /// <param name="coluid">需更新的列号</param>
+        /// <param name="rowid">需更新的开始行号</param>
+        /// <param name="IsTrue">true：以横向输出; false：以横向输出</param>
+        public static void UpdateImgToExcel(string outputFile, string sheetname, byte[] updateData, int beginCol, int beginRow, int endCol, int endRow)
+        {
+            try
+            {
+                FileStream readfile = new FileStream(outputFile, FileMode.Open, FileAccess.Read);
+
+                HSSFWorkbook hssfworkbook = new HSSFWorkbook(readfile);
+                ISheet sheet1 = hssfworkbook.GetSheet(sheetname);
+
+                int pictureIdx = hssfworkbook.AddPicture(updateData, PictureType.JPEG);
+
+                HSSFPatriarch patriarch = (HSSFPatriarch)sheet1.CreateDrawingPatriarch();
+                // 插图片的位置  HSSFClientAnchor（dx1,dy1,dx2,dy2,col1,row1,col2,row2) 后面再作解释
+                HSSFClientAnchor anchor = new HSSFClientAnchor(3, 3, 3, 3, beginCol, beginRow, endCol, endRow);
+                //把图片插到相应的位置
+                HSSFPicture pict = (HSSFPicture)patriarch.CreatePicture(anchor, pictureIdx);
+
+                readfile.Close();
+                FileStream writefile = new FileStream(outputFile, FileMode.Create, FileAccess.Write);
+                hssfworkbook.Write(writefile);
+                writefile.Close();
+            }
+            catch (Exception ex)
+            {
+                //wl.WriteLogs(ex.ToString());
+            }
+
+        }
+
+
+
+        public static void InsertRow(string outputFile, string sheetname, int InsertRowIndex, int count)
+        {
+
+
+            FileStream readfile = new FileStream(outputFile, FileMode.Open, FileAccess.Read);
+          
+                HSSFWorkbook hssfworkbook = new HSSFWorkbook(readfile);
+            try
+            {
+                ISheet sheet1 = hssfworkbook.GetSheet(sheetname);
+                HSSFRow mySourceStyleRow = (HSSFRow)sheet1.GetRow(InsertRowIndex - 1);
+
+                sheet1.ShiftRows(InsertRowIndex+1, InsertRowIndex+1 + count, count);
+
+
+                for (int i = InsertRowIndex; i <= InsertRowIndex + count; i++)
+                {
+                    HSSFRow targetRow = null;
+                    HSSFCell sourceCell = null;
+                    HSSFCell targetCell = null;
+
+                    targetRow = (HSSFRow)sheet1.CreateRow(i + 1);
+
+                    for (int m = sheet1.GetRow(InsertRowIndex - 1).FirstCellNum; m < sheet1.GetRow(InsertRowIndex - 1).LastCellNum; m++)
+                    {
+                        sourceCell = (HSSFCell)sheet1.GetRow(InsertRowIndex - 1).GetCell(m);
+                        if (sourceCell == null)
+                            continue;
+                        targetCell = (HSSFCell)targetRow.CreateCell(m);
+
+
+                        targetCell.CellStyle = sourceCell.CellStyle;
+                        targetCell.SetCellType(sourceCell.CellType);
+
+                      
+
+                    }
+                    CellRangeAddress cellRangeAddress = new CellRangeAddress(i, i, 1, 6);
+                    sheet1.AddMergedRegion(cellRangeAddress);
+                    CellRangeAddress cellRangeAddress1 = new CellRangeAddress(i, i,7, 8);
+                    sheet1.AddMergedRegion(cellRangeAddress1);
+                    CellRangeAddress cellRangeAddress2 = new CellRangeAddress(i, i,9,12);
+                    sheet1.AddMergedRegion(cellRangeAddress2);
+                    CellRangeAddress cellRangeAddress3 = new CellRangeAddress(i, i, 13, 14);
+                    sheet1.AddMergedRegion(cellRangeAddress3);
+                    CellRangeAddress cellRangeAddress4 = new CellRangeAddress(i, i, 15,16);
+                    sheet1.AddMergedRegion(cellRangeAddress4);
+                    CellRangeAddress cellRangeAddress5 = new CellRangeAddress(i, i, 17, 20);
+                    sheet1.AddMergedRegion(cellRangeAddress5);
+                    //CopyRow(sourceRow, targetRow);
+
+                    //Util.CopyRow(sheet, sourceRow, targetRow);
+                }
+
+                for (int i = 0; i <=  count/5; i++)
+                {
+
+                    CellRangeAddress cellRangeAddress = new CellRangeAddress(18 +i*5, 18+(i+1)*5-1,0,0);
+                    sheet1.AddMergedRegion(cellRangeAddress);
+                     
+                }
+                }
+            catch (Exception ex)
+            {
+                //wl.WriteLogs(ex.ToString());
+            }
+            try
+            {
+                FileStream writefile = new FileStream(outputFile, FileMode.Create);
+                hssfworkbook.Write(writefile);
+                writefile.Close();
+            }
+            catch (Exception ex)
+            {
+                //wl.WriteLogs(ex.ToString());
+            }
+
+        }  
+
 
         /// <summary>
         /// 更新Excel表格

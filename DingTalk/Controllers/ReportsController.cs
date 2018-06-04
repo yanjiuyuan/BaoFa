@@ -68,5 +68,104 @@ namespace DingTalk.Controllers
         }
 
 
+
+
+        /// </summary>
+        /// 测试数据： Reports/GetProductDailyReport?DateTime=2018-05-11&lineid=1
+        public FileStreamResult GetProductDailyReport(string DataTime, int lineid=1)
+        {
+            //模板路径
+            string strPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "ExcelFiles\\华宝硫化鞋生产线产量日报表模板.xls");
+            //服务器生成路径
+            string strServerPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "ExcelFiles\\日报表\\" + "华宝硫化鞋生产线产量日报表" + DataTime) + ".xls";
+            ReportServer reportServer = new ReportServer();
+            DateTime starttime = Convert.ToDateTime(DataTime);
+            string StartDate = starttime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            DateTime endtime = Convert.ToDateTime(DataTime).AddDays(1);
+            string EndDate = endtime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            reportServer.GetProductDailyReport(strPath, strServerPath, StartDate, EndDate, lineid);
+            return File(new FileStream(strServerPath, FileMode.Open), "application/octet-stream", Server.UrlEncode("华宝硫化鞋生产线产量日报表" + "ExcelFiles\\日报表\\" + "华宝硫化鞋生产线产量日报表" + DataTime) + ".xls");
+    
+        }
+
+        public string GetProductDailyData(string DataTime, int lineid = 1)
+        {
+             
+            ReportServer reportServer = new ReportServer();
+            DateTime starttime = Convert.ToDateTime(DataTime);
+            string StartDate = starttime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            DateTime endtime = Convert.ToDateTime(DataTime).AddDays(1);
+            string EndDate = endtime.ToString("yyyy-MM-dd HH:mm:ss");
+
+           return reportServer.GetProductDailyData( StartDate, EndDate, lineid);
+           
+        }
+
+
+        /// </summary>
+        /// 测试数据： Reports/GetQualityDailyReport?DateTime=2018-05-11&lineid=1
+        public FileStreamResult GetQualityDailyReport(string DataTime, int lineid = 1)
+        {
+            //模板路径
+            string strPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "ExcelFiles\\华宝硫化鞋生产线质量日报表模板.xls");
+            //服务器生成路径
+            string strServerPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "ExcelFiles\\日报表\\" + "华宝硫化鞋生产线质量日报表" + DataTime) + ".xls";
+            ReportServer reportServer = new ReportServer();
+            DateTime starttime = Convert.ToDateTime(DataTime);
+            string StartDate = starttime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            DateTime endtime = Convert.ToDateTime(DataTime).AddDays(1);
+            string EndDate = endtime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            reportServer.GetQualityDailyReport(strPath, strServerPath, StartDate, EndDate, lineid);
+            return File(new FileStream(strServerPath, FileMode.Open), "application/octet-stream", Server.UrlEncode("华宝硫化鞋生产线质量日报表" + "ExcelFiles\\日报表\\" + "华宝硫化鞋生产线质量日报表" + DataTime) + ".xls");
+
+        }
+
+
+        public string GetQualityDailyData(string DataTime, int lineid = 1)
+        {
+
+            ReportServer reportServer = new ReportServer();
+            DateTime starttime = Convert.ToDateTime(DataTime);
+            string StartDate = starttime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            DateTime endtime = Convert.ToDateTime(DataTime).AddDays(1);
+            string EndDate = endtime.ToString("yyyy-MM-dd HH:mm:ss");
+
+             return   reportServer.GetQualityDailyData(StartDate, EndDate, lineid);
+         
+        }
+
+
+
+
+
+        public string GetQualityDailyDetail(string DataTime, int lineid = 1)
+        {
+
+            ReportServer reportServer = new ReportServer();
+            DateTime starttime = Convert.ToDateTime(DataTime);
+            string StartDate = starttime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            DateTime endtime = Convert.ToDateTime(DataTime).AddDays(1);
+            string EndDate = endtime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            return reportServer.GetQualityDailyDetail(StartDate, EndDate, lineid);
+
+        }
+
+
+
+
+
+
     }
 }
