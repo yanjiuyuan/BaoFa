@@ -28,13 +28,12 @@
         HuChiConsumption: "护齿用量",
         WeiTiaoConsumption: "围条用量"
     }
-    var lineData = getLocalObj("lineData")
     var demo = new Vue({
         el: "#partPage",
         mixins: [mixin],
         data: function () {
             return {
-                lineData: lineData,
+                lineData: getLocalObj("lineData"),
                 activeNames: ['1'],
                 imgSrc: ""
             }
@@ -89,6 +88,7 @@
             show: true,
             feature: {
                 mark: { show: true },
+                dataView: { show: true, readOnly: false },
                 magicType: {
                     show: true,
                     type: ['line', 'bar']
@@ -200,6 +200,7 @@
             show: true,
             feature: {
                 mark: { show: true },
+                dataView: { show: true, readOnly: false },
                 restore: { show: true },
                 saveAsImage: { show: true }
             }
