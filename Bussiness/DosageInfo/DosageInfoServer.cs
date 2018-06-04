@@ -14,7 +14,7 @@ namespace Bussiness.DosageInfo
 {
     public class DosageInfoServer
     {
-        public string GetDosageInfo(string OrderId, string ChildId)
+        public string GetDosageInfo(string  startdate,string enddate, int lineid)
         {
             //string strSearchSql = "SELECT WeiTiaoConsumption,HuChiConsumption,BiaoQianConsumption,DaDiConsumption FROM huabao.`Usage` " +
             //    " WHERE orderid =@Orderid AND childid =@Childid  ORDER BY CT DESC   LIMIT 0,1";
@@ -26,7 +26,7 @@ namespace Bussiness.DosageInfo
             //    new MySqlParameter ("@OldN",MySqlDbType.String),
             //};
 
-            string strSearchSql = string.Format("SELECT WeiTiaoConsumption,HuChiConsumption,BiaoQianConsumption,DaDiConsumption FROM huabao.`Usage` WHERE orderid ='{0}' AND childid ='{1}'  ORDER BY CT DESC   LIMIT 0,1", OrderId, ChildId);
+            string strSearchSql = string.Format("SELECT   WeiTiaoConsumption,  HuChiConsumption, BiaoQianConsumption,  DaDiConsumption FROM huabao.`Usage` WHERE CT >='{0}' AND CT <='{1}' and ProductLineId={2}  ORDER BY CT DESC   LIMIT 0,1", startdate, enddate,lineid);
             //string strSearchSql = "SELECT * FROM huabao.`Usage`";
             DataTable db = Common.DbHelper.MySqlHelper.ExecuteQuery(strSearchSql);
             string strJsonString = JsonConvert.SerializeObject(db);
@@ -36,9 +36,9 @@ namespace Bussiness.DosageInfo
         }
 
 
-        public DataTable GetCurrentProduction(long strDataTime, int Count)
+        public DataTable GetCurrentProduction(long strDataTime, int Count,int lineid)
         {
-            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} order by ID_RealTimeUsage", 1527044398957);
+            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ProductLineId ={1} order by ID_RealTimeUsage", strDataTime ,lineid);
             DataTable tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
             return ChangeTable(tb, Count);
         }
@@ -115,9 +115,9 @@ namespace Bussiness.DosageInfo
 
 
 
-        public DataTable GetYieldFluctuation(long strDataTime, long strDataTimeend, int dura_min)
+        public DataTable GetYieldFluctuation(long strDataTime, long strDataTimeend, int dura_min,int lineid)
         {
-            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN, AllN as CurrN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ID_RealTimeUsage<{1} order by ID_RealTimeUsage", strDataTime, strDataTimeend);
+            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN, AllN as CurrN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ID_RealTimeUsage<{1} and ProductLineId={2} order by ID_RealTimeUsage", strDataTime, strDataTimeend, lineid);
             DataTable tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
             return ChangeData(tb, dura_min);
         }

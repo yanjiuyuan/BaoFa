@@ -28,11 +28,15 @@ namespace Bussiness.Chart
             logger.Info("查询生产节拍");
             int qmins = mins * -1;
             
-            //获取前一个小时时间点
+            //获取指定时间点
             long begintime = TimeHelper.ConvertDateTimeToInt(DateTime.Now.AddMinutes(qmins));
-
-         
-            //string dt = TimeHelper.GetDateTimeFrom1970Ticks(1527044472080/1000).ToString();
+            //获取生产线的最新id_usage
+            string strSql1 = " select  max(id_usage) from `usage` where ProductLineId = " + lineid + " limit 1";
+            int usage_id = 0;
+            object obj= MySqlHelper.GetSingle(strSql1);
+            if (obj != null)
+                usage_id = Convert.ToInt32(obj);
+           //string dt = TimeHelper.GetDateTimeFrom1970Ticks(1527044472080/1000).ToString();
             string strSql = "    select  IF (t2.Jobs is null,'机器','人工') as JobType,stationNAME, round(run_t /if (run_c > 0,run_c,1))as run,round(free_t /if (free_c > 0,free_c,1)) as free," +
             "round(warn_t /if (warn_c > 0,warn_c,1))as warn from(" +
            " select   sum( if (stationstate = '运行', endtime - startTime, 0))/1000 AS run_t," +
@@ -41,7 +45,7 @@ namespace Bussiness.Chart
               " sum( if (stationstate = '空闲',1, 0))  AS free_c," +
              " sum( if (stationstate = '报警', endtime - startTime, 0))/1000 AS warn_t," +
               "  sum( if (stationstate = '报警',1, 0))  AS warn_c , stationNAME" +
-             " from huabao.LocationState where   starttime > " + begintime + " and ProductLineId = "+lineid+" group by stationNAME ) as t1 left join" +
+             " from huabao.LocationState where   starttime > " + begintime + " and id_usage = "+ usage_id + " group by stationNAME ) as t1 left join" +
              "(select distinct Jobs from  huabao.ArtificialConfig ) as t2 on t1.stationNAME=t2.Jobs  order by JobType, stationNAME";
           
             string strJsonString = string.Empty;
