@@ -71,7 +71,7 @@ namespace DingTalk.Controllers
 
 
         /// </summary>
-        /// 测试数据： Reports/GetProductDailyReport?DateTime=2018-05-11&lineid=1
+        /// 测试数据： Reports/GetProductDailyReport?DataTime=2018-05-11&lineid=1
         public FileStreamResult GetProductDailyReport(string DataTime, int lineid=1)
         {
             //模板路径
@@ -91,7 +91,8 @@ namespace DingTalk.Controllers
             return File(new FileStream(strServerPath, FileMode.Open), "application/octet-stream", Server.UrlEncode("华宝硫化鞋生产线产量日报表" + "ExcelFiles\\日报表\\" + "华宝硫化鞋生产线产量日报表" + DataTime) + ".xls");
     
         }
-
+        /// </summary>
+        /// 测试数据： Reports/GetProductDailyData?DataTime=2018-05-11&lineid=1
         public string GetProductDailyData(string DataTime, int lineid = 1)
         {
              
@@ -108,7 +109,7 @@ namespace DingTalk.Controllers
 
 
         /// </summary>
-        /// 测试数据： Reports/GetQualityDailyReport?DateTime=2018-05-11&lineid=1
+        /// 测试数据： Reports/GetQualityDailyReport?DataTime=2018-05-11&lineid=1
         public FileStreamResult GetQualityDailyReport(string DataTime, int lineid = 1)
         {
             //模板路径
@@ -129,7 +130,8 @@ namespace DingTalk.Controllers
 
         }
 
-
+        /// </summary>
+        /// 测试数据： Reports/GetQualityDailyData?DataTime=2018-05-11&lineid=1
         public string GetQualityDailyData(string DataTime, int lineid = 1)
         {
 
@@ -146,7 +148,8 @@ namespace DingTalk.Controllers
 
 
 
-
+        /// </summary>
+        /// 测试数据： Reports/GetQualityDailyDetail?DataTime=2018-05-11&lineid=1
 
         public string GetQualityDailyDetail(string DataTime, int lineid = 1)
         {
