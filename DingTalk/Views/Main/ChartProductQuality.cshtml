@@ -166,14 +166,24 @@
     lineOption = {
         title: {
             text: realTimeData.name,
-            x: 'left'
+            x: 'center'
         },
         legend: {
             data: realTimeData.params,
-            //orient: 'vertical',
-            x: 'right'
+            orient: 'vertical',
+            x: 'left'
         },
         calculable: true,
+        toolbox: {
+            show: true,
+            x: 'right',
+            feature: {
+                dataView: { show: true, readOnly: false },
+                magicType: { show: true, type: ['line', 'bar', 'stack', 'tiled'] },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
         xAxis: [
             {
                 type: 'category',
@@ -192,6 +202,8 @@
             }
         ],
         grid: {
+            x: '14%',
+            containLabel: true,
             backgroundColor: 'white',
         },
         backgroundColor:'white',
