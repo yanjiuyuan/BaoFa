@@ -70,11 +70,13 @@
 
 
 <script>
+    var lineData = getLocalObj("lineData")
     new Vue({
         el: "#partPage",
         mixins: [mixin],
         data: function () {
             return {
+                lineData: lineData,
                 tableData: [],
                 currentPage: 1,
                 pageSize: 5,

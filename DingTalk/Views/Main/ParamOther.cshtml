@@ -6,7 +6,7 @@
 <el-main id="partPage">
 
     <el-collapse v-model="activeNames">
-        <el-collapse-item title="硫化鞋生产线01" name="1">
+        <el-collapse-item :title="lineData[0].ProductLineName" name="1">
             <div id="imgFrame" style="margin-bottom:30px;position:relative;width:900px;height:430px;">
                 <img src="~/Content/images/lineVerticalView.png" style="width:900px;height:430px;" />
                 <!--工艺人员组件-->
@@ -31,10 +31,7 @@
                 </div>*@
             </div>
         </el-collapse-item>
-        <el-collapse-item title="硫化鞋生产线02" name="2">
-            <div>暂无数据</div>
-        </el-collapse-item>
-        <el-collapse-item title="硫化鞋生产线03" name="3">
+        <el-collapse-item :title="lineData[1].ProductLineName" name="2">
             <div>暂无数据</div>
         </el-collapse-item>
     </el-collapse>
@@ -43,11 +40,13 @@
 <script>
     //vue组件-设备按钮显示
     var img = $("#imgFrame img").find("img")[0]
+    var lineData = getLocalObj("lineData")
     var index = new Vue({
         el: "#partPage",
         mixins: [mixin],
         data: function () {
             return {
+                lineData: lineData,
                 activeNames: ['1'],
                 workers: _cloneArr(WORKERS),
             }

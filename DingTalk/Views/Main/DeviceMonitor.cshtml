@@ -8,8 +8,7 @@
         <div class="mask"></div>
     </div>
     <el-collapse v-model="activeNames" accordion>
-        <el-collapse-item title="硫化鞋生产线01" name="1">
-            @*<h3>华宝硫化鞋生产线01</h3>*@
+        <el-collapse-item :title="useages[0].ProductLineName" name="1">
             <div @*v-loading="loading"
                  element-loading-text="数据加载中"
                  element-loading-spinner="el-icon-loading"*@
@@ -18,17 +17,17 @@
                 <img src="~/Content/images/deviceMonitor.png" style="max-width:100%" />
                 <!--生产数量统计-->
                 <el-button plain type="danger" class="device-count" style="top:1%;left:0.56%;">当班产量</el-button>
-                <el-button type="danger" class="device-count" style="top:1%;left:8.56%;font-weight:bold;">{{useage.NowN}}</el-button>
+                <el-button type="danger" class="device-count" style="top:1%;left:8.56%;font-weight:bold;">{{useages[0].Data.NowN}}</el-button>
                 <el-button plain type="danger" class="device-count" style="top:8%;left:0.56%;">总产量</el-button>
-                <el-button type="danger" class="device-count" style="top:8%;left:8.56%;font-weight:bold;">{{useage.AllN}}</el-button>
+                <el-button type="danger" class="device-count" style="top:8%;left:8.56%;font-weight:bold;">{{useages[0].Data.AllN}}</el-button>
                 <el-button plain type="danger" class="device-count" style="top:15%;left:0.56%;">生产节拍</el-button>
-                <el-button type="danger" class="device-count" style="top:15%;left:8.56%;font-weight:bold;">{{useage.ProductionBeat}}</el-button>
+                <el-button type="danger" class="device-count" style="top:15%;left:8.56%;font-weight:bold;">{{useages[0].Data.ProductionBeat}}</el-button>
                 <el-button plain type="danger" class="device-count" style="top:78%;left:45%;">总订单号</el-button>
-                <el-button type="danger" class="device-count" style="top:78%;left:53%;font-weight:bold;">{{useage.OrderID}}</el-button>
+                <el-button type="danger" class="device-count" style="top:78%;left:53%;font-weight:bold;">{{useages[0].Data.OrderID}}</el-button>
                 <el-button plain type="danger" class="device-count" style="top:85%;left:45%;">子订单号</el-button>
-                <el-button type="danger" class="device-count" style="top:85%;left:53%;font-weight:bold;">{{useage.ChildID}}</el-button>
+                <el-button type="danger" class="device-count" style="top:85%;left:53%;font-weight:bold;">{{useages[0].Data.ChildID}}</el-button>
                 <el-button plain type="danger" class="device-count" style="top:92%;left:45%;">运行状态</el-button>
-                <el-button type="danger" class="device-count" style="top:92%;left:53%;font-weight:bold;">{{useage.Linestatus}}</el-button>
+                <el-button type="danger" class="device-count" style="top:92%;left:53%;font-weight:bold;">{{useages[0].Data.Linestatus}}</el-button>
                 <!--设备状态按钮-->
                 <template v-for="(btn,index) of deviceBtns">
                     <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
@@ -37,7 +36,7 @@
                 <i v-else class="el-icon-rank" v-on:click="changeFullScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
             </div>
         </el-collapse-item>
-        <el-collapse-item title="硫化鞋生产线02" name="2">
+        <el-collapse-item :title="useages[1].ProductLineName" name="2">
             <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
             <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
         </el-collapse-item>
@@ -132,7 +131,16 @@
                 deviceBtns: _cloneArr(DEVICES),
                 showMask: false,
                 loading: true,
-                useage:{}
+                useages: [
+                    {
+                        ProductLineName: '',
+                        Data: {},
+                        ProductLineId: ''
+                    }, {
+                        ProductLineName: '',
+                        Data: {},
+                        ProductLineId: ''
+                    }]
             }
         },
         methods: {
@@ -175,9 +183,8 @@
                 $.ajax({
                     url: "usage/getusage",
                     success: function (data) {
-                        data = JSON.parse(data).Rows[0]
-                        that.useage = data
-                        setLocalObj('lineData',data)
+                        that.useages = JSON.parse(data)
+                        setLocalObj('lineData', that.useages)
                     }
                 })
             },
