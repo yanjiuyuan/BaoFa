@@ -6,11 +6,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Common.LogHelper;
 namespace Bussiness.Register
 {
     public class RegisterServer
     {
+        private static Logger logger = Logger.CreateLogger(typeof(RegisterServer));
         /// <summary>
         /// 判断用户名是否存在
         /// </summary>
@@ -18,10 +19,17 @@ namespace Bussiness.Register
         /// <returns></returns>
         public static bool CheckUserName(string strUserName)
         {
-
+            int iResult = 0;
+            try { 
             string strSql=string.Format("select * from  huabao.userinfo where username='{0}'", strUserName);
             DataSet dataset = MySqlHelper.GetDataSet(strSql);
-            int iResult = dataset.Tables[0].Rows.Count;
+              iResult = dataset.Tables[0].Rows.Count;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+
+            }
             if (iResult > 0) 
             {
                 return false;  //用户名存在
@@ -30,6 +38,8 @@ namespace Bussiness.Register
             {
                 return true;
             }
+            
+         
         }
 
 
@@ -59,20 +69,30 @@ namespace Bussiness.Register
             string strTelephone, string strOtherContact, string strFax,
             string strLastLoginIp, string strEmail, string strCompanyId, string strCompanyName, int? iStatus=1, int? iRole=1,int? IsActive=1)
         {
-            strRegisterTime = DateTime.Now.ToString();
-            //进行MD5 加密
-            strPassword = MD5Encrypt.Encrypt(strPassword);
-            string strSql = string.Format("insert into huabao.userinfo set " +
-                "userName='{0}',realName='{1}',phoneNumber='{2}',password='{3}'," +
-                "registertime='{4}',lastLoginTime='{5}',status='{6}',address='{7}'," +
-                "role='{8}',province='{9}',city='{10}',telephone='{11}',otherContact='{12}'," +
-                "fax='fax',isActive='{14}',lastLoginIp='{15}',email='{16}',CompanyId='{17}',CompanyName='{18}'",  strUserName,  strRealName,
-             strphoneNumber,  strPassword,  strRegisterTime, strLastLoginTime,
-             iStatus,  strAddress,  iRole,  strProvince,  strCity,
-             strTelephone,  strOtherContact,  strFax, IsActive,
-             strLastLoginIp,  strEmail,strCompanyId, strCompanyName);
-            bool bResult = MySqlHelper.ExecuteSql(strSql)==1?true:false;
+            bool bResult = false;
+            try
+            {
+                strRegisterTime = DateTime.Now.ToString();
+                //进行MD5 加密
+                strPassword = MD5Encrypt.Encrypt(strPassword);
+                string strSql = string.Format("insert into huabao.userinfo set " +
+                    "userName='{0}',realName='{1}',phoneNumber='{2}',password='{3}'," +
+                    "registertime='{4}',lastLoginTime='{5}',status='{6}',address='{7}'," +
+                    "role='{8}',province='{9}',city='{10}',telephone='{11}',otherContact='{12}'," +
+                    "fax='fax',isActive='{14}',lastLoginIp='{15}',email='{16}',CompanyId='{17}',CompanyName='{18}'", strUserName, strRealName,
+                 strphoneNumber, strPassword, strRegisterTime, strLastLoginTime,
+                 iStatus, strAddress, iRole, strProvince, strCity,
+                 strTelephone, strOtherContact, strFax, IsActive,
+                 strLastLoginIp, strEmail, strCompanyId, strCompanyName);
+                 bResult = MySqlHelper.ExecuteSql(strSql) == 1 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+
+            }
             return bResult;
-        }
+            
+}
     }
 }

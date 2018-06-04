@@ -21,11 +21,12 @@ namespace Bussiness.Chart
         //获取各工位的末次生产时间
         public string ChartBeatQuery(int lineid=1,int mins=30)
         {
+            string strJsonString = string.Empty;
 
+            try
+            {
 
-
-
-            logger.Info("查询生产节拍");
+                logger.Info("查询生产节拍");
             int qmins = mins * -1;
             
             //获取指定时间点
@@ -48,9 +49,8 @@ namespace Bussiness.Chart
              " from huabao.LocationState where   starttime > " + begintime + " and id_usage = "+ usage_id + " group by stationNAME ) as t1 left join" +
              "(select distinct Jobs from  huabao.ArtificialConfig ) as t2 on t1.stationNAME=t2.Jobs  order by JobType, stationNAME";
           
-            string strJsonString = string.Empty;
-            try
-            {
+          
+          
                 DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
                
                 strJsonString = JsonHelper.DataTableToJson(newTb);
@@ -59,7 +59,7 @@ namespace Bussiness.Chart
             catch (Exception ex)
             {
                 logger.Error("查询生产节拍失败" + ex.Message);
-                return strJsonString;
+                return Global.RETURN_ERROR(ex.Message);
             }
             logger.Info("查询生产节拍结束");
             return strJsonString;

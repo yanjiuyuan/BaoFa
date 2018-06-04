@@ -9,11 +9,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Common.LogHelper;
 namespace Bussiness.DosageInfo
 {
     public class DosageInfoServer
     {
+        private static Logger logger = Logger.CreateLogger(typeof(DosageInfoServer));
         public string GetDosageInfo(string  startdate,string enddate, int lineid)
         {
             //string strSearchSql = "SELECT WeiTiaoConsumption,HuChiConsumption,BiaoQianConsumption,DaDiConsumption FROM huabao.`Usage` " +
@@ -25,21 +26,39 @@ namespace Bussiness.DosageInfo
             //   // new MySqlParameter ("@Childid",MySqlDbType.VarChar
             //    new MySqlParameter ("@OldN",MySqlDbType.String),
             //};
-
-            string strSearchSql = string.Format("SELECT   WeiTiaoConsumption,  HuChiConsumption, BiaoQianConsumption,  DaDiConsumption FROM huabao.`Usage` WHERE CT >='{0}' AND CT <='{1}' and ProductLineId={2}  ORDER BY CT DESC   LIMIT 0,1", startdate, enddate,lineid);
-            //string strSearchSql = "SELECT * FROM huabao.`Usage`";
-            DataTable db = Common.DbHelper.MySqlHelper.ExecuteQuery(strSearchSql);
-            string strJsonString = JsonConvert.SerializeObject(db);
-            //string strJsonString = JsonHelper.DataTableToJson(db);
+            string strJsonString = string.Empty;
+            try
+            {
+                string strSearchSql = string.Format("SELECT   WeiTiaoConsumption,  HuChiConsumption, BiaoQianConsumption,  DaDiConsumption FROM huabao.`Usage` WHERE CT >='{0}' AND CT <='{1}' and ProductLineId={2}  ORDER BY CT DESC   LIMIT 0,1", startdate, enddate, lineid);
+                //string strSearchSql = "SELECT * FROM huabao.`Usage`";
+                DataTable db = Common.DbHelper.MySqlHelper.ExecuteQuery(strSearchSql);
+                strJsonString = JsonConvert.SerializeObject(db);
+                //string strJsonString = JsonHelper.DataTableToJson(db);
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex.Message);
+                return Global.RETURN_ERROR(ex.Message);
+            }
 
             return strJsonString;
+             
         }
 
 
         public DataTable GetCurrentProduction(long strDataTime, int Count,int lineid)
         {
+            DataTable tb = new DataTable();
+            try {
             string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ProductLineId ={1} order by ID_RealTimeUsage", strDataTime ,lineid);
-            DataTable tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
+             tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
+            
+            }
+            catch (Exception  ex)
+            {
+                logger.Error(ex.Message);
+                
+            }
             return ChangeTable(tb, Count);
         }
 
@@ -50,12 +69,14 @@ namespace Bussiness.DosageInfo
         /// <returns></returns>
         public DataTable ChangeTable(DataTable tbNew, int Count)
         {
+            
             DataTable tbOld = new DataTable();
             tbOld = tbNew.Clone();
             tbOld.PrimaryKey = null;
             tbOld.Columns["ID_RealTimeUsage"].DataType = typeof(string);//指定Age为Int类型
-            
-            if (tbNew.Rows.Count > 0)
+            try
+            {
+                if (tbNew.Rows.Count > 0)
             {
                 if (tbNew.Rows.Count > Count)
                 {
@@ -110,6 +131,12 @@ namespace Bussiness.DosageInfo
                 tbOld.Rows[i][0] = TimeHelper.GetStringToDateTime((tbOld.Rows[i][0].ToString()));
 
             }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+
+            }
             return tbOld;
         }
 
@@ -117,8 +144,17 @@ namespace Bussiness.DosageInfo
 
         public DataTable GetYieldFluctuation(long strDataTime, long strDataTimeend, int dura_min,int lineid)
         {
+            DataTable tb = new DataTable();
+            try { 
             string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN, AllN as CurrN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ID_RealTimeUsage<{1} and ProductLineId={2} order by ID_RealTimeUsage", strDataTime, strDataTimeend, lineid);
-            DataTable tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
+                tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
+            
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                
+            }
             return ChangeData(tb, dura_min);
         }
 
@@ -129,8 +165,11 @@ namespace Bussiness.DosageInfo
         /// <returns></returns>
         public DataTable ChangeData(DataTable tbNew, int dura_min)
         {
+        
             DataTable tbOld = new DataTable();
-            tbOld = tbNew.Clone();
+            try
+            {
+                tbOld = tbNew.Clone();
             tbOld.PrimaryKey = null;
             tbOld.Columns["ID_RealTimeUsage"].DataType = typeof(string);//指定Age为Int类型
 
@@ -166,6 +205,12 @@ namespace Bussiness.DosageInfo
                 //转换时间格式
                 tbOld.Rows[i][0] = TimeHelper.GetStringToDateTime((tbOld.Rows[i][0].ToString()));
                 tbOld.Rows[i][2] = Convert.ToInt32(tbOld.Rows[i][2]) < 0 ? 0 : Convert.ToInt32(tbOld.Rows[i][2]);
+            }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+
             }
             return tbOld;
         }

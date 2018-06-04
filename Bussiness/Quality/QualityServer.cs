@@ -16,6 +16,7 @@ namespace Bussiness.Quality
 {
     public class QualityServer
     {
+        private static Logger logger = Logger.CreateLogger(typeof(QualityServer));
         public string GetQualityCounts(string OrderId, string ChildId, string StartTime, string EndTime)
         {
             try
@@ -33,102 +34,119 @@ namespace Bussiness.Quality
             }
             catch (Exception ex)
             {
-                throw;
+                logger.Error(ex.Message);
+                return Global.RETURN_ERROR(ex.Message);
             }
         }
 
-        public int Search(string OrderId, string ChildId, string StartTime, string EndTime,int iValue)
+        public int Search(string OrderId, string ChildId, string StartTime, string EndTime, int iValue)
         {
-            string strSql = "SELECT  COUNT(b.`QualityType`) as Counts   FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage`  ";
-            StringBuilder sb = new StringBuilder();
-            sb.Append(strSql);
-            if (OrderId != null)
-            {
-                sb.Append(string.Format(" and a.`OrderID`='{0}'", OrderId));
+            int iResult= 0;
+            try {
+                string strSql = "SELECT  COUNT(b.`QualityType`) as Counts   FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage`  ";
+                StringBuilder sb = new StringBuilder();
+                sb.Append(strSql);
+                if (OrderId != null)
+                {
+                    sb.Append(string.Format(" and a.`OrderID`='{0}'", OrderId));
+                }
+                if (ChildId != null)
+                {
+                    sb.Append(string.Format(" and a.`ChildID`='{0}'", ChildId));
+                }
+                if (StartTime != null || EndTime != null)
+                {
+                    sb.Append(string.Format(" and ct BETWEEN '{0}' AND  '{1}'", StartTime, EndTime));
+                }
+                sb.Append(string.Format(" and QualityType = {0}", iValue));
+                DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
+               
+                iResult = Int32.TryParse(tb.Rows[0][0].ToString(), out iResult) ? iResult : 0;
             }
-            if (ChildId != null)
+            catch (Exception ex)
             {
-                sb.Append(string.Format(" and a.`ChildID`='{0}'", ChildId));
+                logger.Error(ex.Message);
+                 
             }
-            if (StartTime != null || EndTime != null)
-            {
-                sb.Append(string.Format(" and ct BETWEEN '{0}' AND  '{1}'", StartTime, EndTime));
-            }
-            sb.Append(string.Format(" and QualityType = {0}", iValue));
-            DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
-            int iResult;
-            iResult = Int32.TryParse(tb.Rows[0][0].ToString(),out iResult)?iResult:0;
             return iResult;
+           
         }
 
         public string GetBatchQuality(string OrderId, string ChildId, string StartTime, string EndTime)
         {
-            string strSql = "SELECT a.`OrderID`,a.`ChildID`,b.`AppearanceQualified`,b.`AppearanceAfterQualified`,b.`VampPullQualified`,b.`DaDiPullQualified`,b.`ZheWangQualified`,ct FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage`  ";
-            StringBuilder sb = new StringBuilder();
-            sb.Append(strSql);
-            if (OrderId != null)
-            {
-                sb.Append(string.Format(" and a.`OrderID`='{0}'", OrderId));
-            }
-            if (ChildId != null)
-            {
-                sb.Append(string.Format(" and a.`ChildID`='{0}'", ChildId));
-            }
-            if (StartTime != null || EndTime != null)
-            {
-                sb.Append(string.Format(" and ct BETWEEN '{0}' AND  '{1}'", StartTime, EndTime));
-            }
-            DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
-            string strJsonString = string.Empty;
-            if (tb.Rows.Count > 0)
-            {
-                int iCount = tb.Rows.Count;
-                float faveVampPullQualified = 0;
-                float faveDaDiPullQualified = 0;
-                float faveAppearanceQualified = 0;
-                float faveAppearanceAfterQualified = 0;
-                float faveZheWangQualified = 0;
-                foreach (DataRow Row in tb.Rows)
+            try {
+                string strSql = "SELECT a.`OrderID`,a.`ChildID`,b.`AppearanceQualified`,b.`AppearanceAfterQualified`,b.`VampPullQualified`,b.`DaDiPullQualified`,b.`ZheWangQualified`,ct FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage`  ";
+                StringBuilder sb = new StringBuilder();
+                sb.Append(strSql);
+                if (OrderId != null)
                 {
-                    float fVampPullQualified = 0; float fDaDiPullQualified = 0;
-                    Row["VampPullQualified"] = float.TryParse(Row["VampPullQualified"].ToString(), out fVampPullQualified) ? fVampPullQualified * 100 : 0;
-                    Row["DaDiPullQualified"] = float.TryParse(Row["DaDiPullQualified"].ToString(), out fDaDiPullQualified) ? fDaDiPullQualified * 100 : 0;
-                    faveVampPullQualified += (float)Row["VampPullQualified"];
-                    faveDaDiPullQualified += (float)Row["DaDiPullQualified"];
-                    faveAppearanceQualified += (float)Row["AppearanceQualified"];
-                    faveAppearanceAfterQualified += (float)Row["AppearanceAfterQualified"];
-                    faveZheWangQualified += (float)Row["ZheWangQualified"];
+                    sb.Append(string.Format(" and a.`OrderID`='{0}'", OrderId));
                 }
-                faveVampPullQualified = faveVampPullQualified / iCount;
-                faveDaDiPullQualified = faveDaDiPullQualified / iCount;
-                faveAppearanceQualified = faveAppearanceQualified / iCount;
-                faveAppearanceAfterQualified = faveAppearanceAfterQualified / iCount;
-                faveZheWangQualified = faveZheWangQualified / iCount;
+                if (ChildId != null)
+                {
+                    sb.Append(string.Format(" and a.`ChildID`='{0}'", ChildId));
+                }
+                if (StartTime != null || EndTime != null)
+                {
+                    sb.Append(string.Format(" and ct BETWEEN '{0}' AND  '{1}'", StartTime, EndTime));
+                }
+                DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
+                string strJsonString = string.Empty;
+                if (tb.Rows.Count > 0)
+                {
+                    int iCount = tb.Rows.Count;
+                    float faveVampPullQualified = 0;
+                    float faveDaDiPullQualified = 0;
+                    float faveAppearanceQualified = 0;
+                    float faveAppearanceAfterQualified = 0;
+                    float faveZheWangQualified = 0;
+                    foreach (DataRow Row in tb.Rows)
+                    {
+                        float fVampPullQualified = 0; float fDaDiPullQualified = 0;
+                        Row["VampPullQualified"] = float.TryParse(Row["VampPullQualified"].ToString(), out fVampPullQualified) ? fVampPullQualified * 100 : 0;
+                        Row["DaDiPullQualified"] = float.TryParse(Row["DaDiPullQualified"].ToString(), out fDaDiPullQualified) ? fDaDiPullQualified * 100 : 0;
+                        faveVampPullQualified += (float)Row["VampPullQualified"];
+                        faveDaDiPullQualified += (float)Row["DaDiPullQualified"];
+                        faveAppearanceQualified += (float)Row["AppearanceQualified"];
+                        faveAppearanceAfterQualified += (float)Row["AppearanceAfterQualified"];
+                        faveZheWangQualified += (float)Row["ZheWangQualified"];
+                    }
+                    faveVampPullQualified = faveVampPullQualified / iCount;
+                    faveDaDiPullQualified = faveDaDiPullQualified / iCount;
+                    faveAppearanceQualified = faveAppearanceQualified / iCount;
+                    faveAppearanceAfterQualified = faveAppearanceAfterQualified / iCount;
+                    faveZheWangQualified = faveZheWangQualified / iCount;
 
-                DataRow newRow; newRow = tb.NewRow();
-                newRow["VampPullQualified"] = faveVampPullQualified;
-                newRow["DaDiPullQualified"] = faveDaDiPullQualified;
-                newRow["AppearanceQualified"] = faveAppearanceQualified;
-                newRow["AppearanceAfterQualified"] = faveAppearanceAfterQualified;
-                newRow["ZheWangQualified"] = faveZheWangQualified;
-                tb.Rows.Add(newRow);
-                tb.TableName = "Quality";
-                strJsonString = JsonHelper.DataTableToJson(tb);
+                    DataRow newRow; newRow = tb.NewRow();
+                    newRow["VampPullQualified"] = faveVampPullQualified;
+                    newRow["DaDiPullQualified"] = faveDaDiPullQualified;
+                    newRow["AppearanceQualified"] = faveAppearanceQualified;
+                    newRow["AppearanceAfterQualified"] = faveAppearanceAfterQualified;
+                    newRow["ZheWangQualified"] = faveZheWangQualified;
+                    tb.Rows.Add(newRow);
+                    tb.TableName = "Quality";
+                    strJsonString = JsonHelper.DataTableToJson(tb);
 
-                //JObject jObject = (JObject)JsonConvert.SerializeObject(strJsonString);
-                //strJsonString= JsonConvert.SerializeObject(strJsonString);
+                    //JObject jObject = (JObject)JsonConvert.SerializeObject(strJsonString);
+                    //strJsonString= JsonConvert.SerializeObject(strJsonString);
 
-                //strJsonString = JsonConvert.SerializeObject(tb);
+                    //strJsonString = JsonConvert.SerializeObject(tb);
 
-                //var settings = new JsonSerializerSettings() { ContractResolver = new NullToEmptyStringResolver() };
-                //strJsonString = JsonConvert.SerializeObject(tb, settings);
+                    //var settings = new JsonSerializerSettings() { ContractResolver = new NullToEmptyStringResolver() };
+                    //strJsonString = JsonConvert.SerializeObject(tb, settings);
 
+                }
+                else
+                {
+                    return Global.RETURN_EMPTY;
+                }
+                return strJsonString;
             }
-            else
+            catch (Exception ex)
             {
-                strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"暂无数据!\"}";
+                logger.Error(ex.Message);
+                return Global.RETURN_ERROR(ex.Message);
             }
-            return strJsonString;
         }
 
         public class NullToEmptyStringResolver : Newtonsoft.Json.Serialization.DefaultContractResolver
@@ -169,80 +187,88 @@ namespace Bussiness.Quality
 
 
 
-        public string GetMonQuality(string StartDate, string EndDate, bool MultiMon=true)
+        public string GetMonQuality(string StartDate, string EndDate, bool MultiMon = true)
         {
 
-
-            //同一个月
-            if (!MultiMon)
+            try
             {
-
-
-                string strSql = " SELECT datestr, round(sum( b.`AppearanceQualified`) /sum(1) ) as AppearanceQualified," +
-                                " round(sum(b.`AppearanceAfterQualified`) / sum(1)) as AppearanceAfterQualified," +
-                                " round(sum(b.`VampPullQualified`*100) / sum(1) ) as VampPullQualified," +
-                                 " round(sum(b.`DaDiPullQualified`*100) / sum(1) )as DaDiPullQualified," +
-                                 " round(sum(b.`ZheWangQualified`) / sum(1)) as ZheWangQualified" +
-                                "  FROM   ( select left(a.CT, 10) as datestr,t.* from `usage` a INNER JOIN `Quality` t ON a.`ID_Usage`= t.`ID_Usage` ";
-
-
-
-                StringBuilder sb = new StringBuilder();
-                sb.Append(strSql); 
-
-                if (StartDate != null || EndDate != null)
+                //同一个月
+                if (!MultiMon)
                 {
-                    sb.Append(string.Format(" WHERE ct BETWEEN '{0}' AND  '{1}'     ", StartDate, EndDate));
+
+
+                    string strSql = " SELECT datestr, round(sum( b.`AppearanceQualified`) /sum(1) ) as AppearanceQualified," +
+                                    " round(sum(b.`AppearanceAfterQualified`) / sum(1)) as AppearanceAfterQualified," +
+                                    " round(sum(b.`VampPullQualified`*100) / sum(1) ) as VampPullQualified," +
+                                     " round(sum(b.`DaDiPullQualified`*100) / sum(1) )as DaDiPullQualified," +
+                                     " round(sum(b.`ZheWangQualified`) / sum(1)) as ZheWangQualified" +
+                                    "  FROM   ( select left(a.CT, 10) as datestr,t.* from `usage` a INNER JOIN `Quality` t ON a.`ID_Usage`= t.`ID_Usage` ";
+
+
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(strSql);
+
+                    if (StartDate != null || EndDate != null)
+                    {
+                        sb.Append(string.Format(" WHERE ct BETWEEN '{0}' AND  '{1}'     ", StartDate, EndDate));
+                    }
+
+                    sb.Append(" )b group by datestr order by datestr ");
+                    DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
+                    string strJsonString = string.Empty;
+                    if (tb.Rows.Count > 0)
+                        strJsonString = JsonHelper.DataTableToJson(tb);
+
+                    else
+                    {
+                        return Global.RETURN_EMPTY;
+                    }
+                    return strJsonString;
                 }
-
-                sb.Append(" )b group by datestr order by datestr ");
-                DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
-                string strJsonString = string.Empty;
-                if (tb.Rows.Count > 0)
-                    strJsonString = JsonHelper.DataTableToJson(tb);
-
                 else
                 {
-                    strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"暂无数据!\"}";
+
+                    string strSql = " SELECT datestr, round(sum( b.`AppearanceQualified`) /sum(1) ) as AppearanceQualified," +
+                                    " round(sum(b.`AppearanceAfterQualified`) / sum(1)) as AppearanceAfterQualified," +
+                                    " round(sum(b.`VampPullQualified`*100) / sum(1) ) as VampPullQualified," +
+                                     " round(sum(b.`DaDiPullQualified`*100) / sum(1) )as DaDiPullQualified," +
+                                     " round(sum(b.`ZheWangQualified`) / sum(1)) as ZheWangQualified" +
+                                    "  FROM   ( select left(a.CT, 7) as datestr,t.* from `usage` a INNER JOIN `Quality` t ON a.`ID_Usage`= t.`ID_Usage` ";
+
+
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(strSql);
+
+                    if (StartDate != null || EndDate != null)
+                    {
+                        sb.Append(string.Format(" WHERE ct BETWEEN '{0}' AND  '{1}'     ", StartDate, EndDate));
+                    }
+
+                    sb.Append(" ) b group by datestr  order by datestr ");
+                    DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
+                    string strJsonString = string.Empty;
+                    if (tb.Rows.Count > 0)
+                        strJsonString = JsonHelper.DataTableToJson(tb);
+
+                    else
+                    {
+                        return Global.RETURN_EMPTY;
+                    }
+                    return strJsonString;
+
+
+
                 }
-                return strJsonString;
             }
-            else
+            
+            catch (Exception ex)
             {
-
-                string strSql = " SELECT datestr, round(sum( b.`AppearanceQualified`) /sum(1) ) as AppearanceQualified," +
-                                " round(sum(b.`AppearanceAfterQualified`) / sum(1)) as AppearanceAfterQualified," +
-                                " round(sum(b.`VampPullQualified`*100) / sum(1) ) as VampPullQualified," +
-                                 " round(sum(b.`DaDiPullQualified`*100) / sum(1) )as DaDiPullQualified," +
-                                 " round(sum(b.`ZheWangQualified`) / sum(1)) as ZheWangQualified" +
-                                "  FROM   ( select left(a.CT, 7) as datestr,t.* from `usage` a INNER JOIN `Quality` t ON a.`ID_Usage`= t.`ID_Usage` ";
-
-
-
-                StringBuilder sb = new StringBuilder();
-                sb.Append(strSql);
-
-                if (StartDate != null || EndDate != null)
-                {
-                    sb.Append(string.Format(" WHERE ct BETWEEN '{0}' AND  '{1}'     ", StartDate, EndDate));
-                }
-
-                sb.Append(" ) b group by datestr  order by datestr ");
-                DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
-                string strJsonString = string.Empty;
-                if (tb.Rows.Count > 0)
-                    strJsonString = JsonHelper.DataTableToJson(tb);
-
-                else
-                {
-                    strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"暂无数据!\"}";
-                }
-                return strJsonString;
-
-
-
+                logger.Error(ex.Message);
+                return Global.RETURN_ERROR(ex.Message);
             }
-        }
+     }
 
 
 
