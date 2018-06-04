@@ -103,7 +103,7 @@ namespace DingTalk.Controllers
         public string ChartBeatQuery(int lineid = 1,int mins= 30)
         {
              ChartBeatServer chartBeatServer = new  ChartBeatServer();
-             return chartBeatServer.ChartBeatQuery(1,mins);
+             return chartBeatServer.ChartBeatQuery(lineid, mins);
         }
 
     }
