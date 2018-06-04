@@ -1,8 +1,1 @@
-2018-06-01 08:42:28,166 [31] ERROR Common.DbHelper.MySqlHelper - Table 'huabao.undefined' doesn't exist
-2018-06-01 08:42:29,097 [45] ERROR Common.DbHelper.MySqlHelper - Table 'huabao.undefined' doesn't exist
-2018-06-01 09:51:52,583 [63] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-06-01 10:48:39,644 [75] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-06-01 13:22:22,058 [71] ERROR Common.DbHelper.MySqlHelper - Connection unexpectedly terminated.
-2018-06-01 13:24:49,321 [21] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-06-01 14:14:02,386 [41] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-06-01 14:22:48,840 [9] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-04 08:52:51,792 [10] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
