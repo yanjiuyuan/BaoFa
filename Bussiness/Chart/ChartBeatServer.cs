@@ -19,7 +19,7 @@ namespace Bussiness.Chart
 
         private static Logger logger = Logger.CreateLogger(typeof(ChartBeatServer));
         //获取各工位的末次生产时间
-        public string ChartBeatQuery(int mins=60)
+        public string ChartBeatQuery(int lineid=1,int mins=30)
         {
 
 
@@ -41,15 +41,16 @@ namespace Bussiness.Chart
               " sum( if (stationstate = '空闲',1, 0))  AS free_c," +
              " sum( if (stationstate = '报警', endtime - startTime, 0))/1000 AS warn_t," +
               "  sum( if (stationstate = '报警',1, 0))  AS warn_c , stationNAME" +
-             " from huabao.LocationState where   starttime > " + begintime + " group by stationNAME ) as t1 left join" +
+             " from huabao.LocationState where   starttime > " + begintime + " and ProductLineId = "+lineid+" group by stationNAME ) as t1 left join" +
              "(select distinct Jobs from  huabao.ArtificialConfig ) as t2 on t1.stationNAME=t2.Jobs  order by JobType, stationNAME";
           
             string strJsonString = string.Empty;
             try
             {
                 DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
-
+               
                 strJsonString = JsonHelper.DataTableToJson(newTb);
+             
             }
             catch (Exception ex)
             {

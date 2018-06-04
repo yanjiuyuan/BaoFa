@@ -35,7 +35,8 @@ namespace Bussiness.LineData
             //}
             //else
             //{
-            strSql = string.Format("  select a.* from   `{0}` a  left join `usage` b on  a.ID_Usage =b.ID_Usage where a.ProductLineId={1}  ORDER  BY {2}id  DESC LIMIT 0,1 ", strTableName, lineid, strTableName);
+            strSql = string.Format(  "select * from  `{0}`    where  id_usage =(select max(id_usage ) from `usage` a where a.productlineid ={1}   )  order by {2}id  desc limit 1", strTableName, lineid, strTableName);
+                
             //}
             DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
             return newTb;
