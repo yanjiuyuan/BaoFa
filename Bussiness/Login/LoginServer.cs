@@ -1,5 +1,6 @@
 ﻿using Common.DbHelper;
 using Common.Encrypt;
+using Common.LogHelper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -11,20 +12,31 @@ namespace Bussiness
 {
     public class LoginServer
     {
-
+        private static Logger logger = Logger.CreateLogger(typeof(LoginServer));
         public  bool ChekLogin(string strUserName, string strPassword)
         {
-            strPassword = MD5Encrypt.Encrypt(strPassword);
-            string strSql = string.Format("select username,password from huabao.userInfo where username='{0}' and password = '{1}' and  status='1'",
-                strUserName, strPassword);
-            //int iResult= MySqlHelper.ExecuteSql(strSql);
-            DataSet dataset = MySqlHelper.GetDataSet(strSql);
-            int iResult = dataset.Tables[0].Rows.Count;
-            if (iResult == 1)
+            int iResult = 0;
+            try
             {
-                return true;
+                strPassword = MD5Encrypt.Encrypt(strPassword);
+                string strSql = string.Format("select username,password from huabao.userInfo where username='{0}' and password = '{1}' and  status='1'",
+                    strUserName, strPassword);
+                //int iResult= MySqlHelper.ExecuteSql(strSql);
+                DataSet dataset = MySqlHelper.GetDataSet(strSql);
+                iResult = dataset.Tables[0].Rows.Count;
             }
-            return false;
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+               
+            }
+            if (iResult == 1)
+                {
+                    return true;
+                }
+             return false;
+            
+           
         }
 
 
@@ -40,10 +52,20 @@ namespace Bussiness
         /// <returns></returns>
         public  int GetRole(string strUserName)
         {
+          
             int iRole = 0;
-            string strSql = string.Format("select role from huabao.userInfo where username='{0}'", strUserName);
+            try
+            {
+                string strSql = string.Format("select role from huabao.userInfo where username='{0}'", strUserName);
             DataSet dataset = MySqlHelper.GetDataSet(strSql);
             iRole= Int32.TryParse(dataset.Tables[0].Rows[0]["role"].ToString(),out iRole) ?iRole:0;
+         
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                
+            }
             return iRole;
         }
 
@@ -54,11 +76,18 @@ namespace Bussiness
         /// <returns></returns>
         public string GetCompanyId(string strUserName)
         {
+            try { 
             string GetCompanyId = string.Empty;
             string strSql = string.Format("select CompanyId from huabao.userInfo where username='{0}'", strUserName);
             DataSet dataset = MySqlHelper.GetDataSet(strSql);
             GetCompanyId = dataset.Tables[0].Rows[0]["CompanyId"].ToString();
             return GetCompanyId;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return Global.RETURN_ERROR(ex.Message);
+            }
         }
     }
 }

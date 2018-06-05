@@ -10,15 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Collections;
+using Common.LogHelper;
 
 namespace Bussiness.UsageInfo
 {
     public class UsageInfo
     {
+
+        private static Logger logger = Logger.CreateLogger(typeof(UsageInfo));
         public string GetUsage( )
         {
-            string strJsonString = string.Empty;
-            ProductionLinesServer pServer = new ProductionLinesServer();
+           
+                string strJsonString = string.Empty;
+            try
+            {
+                ProductionLinesServer pServer = new ProductionLinesServer();
 
             DataTable linedt = pServer.GetLinesList();
 
@@ -27,8 +33,7 @@ namespace Bussiness.UsageInfo
                 return strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"生产线数量为0!\"}";
             }
             List<Hashtable> list = new List<Hashtable> ();
-            try
-            {
+           
                 for (int x = 0; x < linedt.Rows.Count - 1; x++)
                 {
                     Hashtable dic = new Hashtable();
@@ -53,19 +58,23 @@ namespace Bussiness.UsageInfo
 
 
                     list.Add(dic);
+                  
                 }
+                return JsonConvert.SerializeObject(list);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"交易处理异常\"}";
+                return Global.RETURN_ERROR(ex.Message);
+                  
             }
-            return JsonConvert.SerializeObject(list);
+           
 
         }
 
 
             public String GetMonthUsage(string StartDate, string EndDate )
         {
+            try { 
             
               string strSql = " SELECT   sum(WeiTiaoConsumption) as WeiTiaoConsumption," +
                             " sum(HuChiConsumption) as HuChiConsumption," +
@@ -87,9 +96,14 @@ namespace Bussiness.UsageInfo
 
             else
             {
-                strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"暂无数据!\"}";
+                strJsonString = Global.RETURN_EMPTY;
             }
             return strJsonString;
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message) ;
+            }
         }
     }
 }

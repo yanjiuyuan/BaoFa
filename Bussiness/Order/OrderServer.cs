@@ -7,11 +7,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Common.LogHelper;
 namespace Bussiness.Order
 {
     public class OrderServer
     {
+        private static Logger logger = Logger.CreateLogger(typeof(OrderServer));
         public string GetAllOrderMessage(int PageIndex, int PageSize)
         {
             string strSql = string.Format("SELECT * FROM huabao.order LIMIT {0},{1}", PageIndex, PageSize);
@@ -42,65 +43,74 @@ namespace Bussiness.Order
 
 
             //return GetOrderMessage(strSql);
-            int startRow = PageIndex.Value * PageSize.Value;
-            StringBuilder sb = new StringBuilder();
-            sb.Append("SELECT * FROM huabao.`order` ");
-            if (Color!=null || Material != null || StartOrderTime != null || EndOrderTime != null || StartDeliveryTime != null 
-                || EndDeliveryTime != null || Customer != null || ExpCountries != null || KeyWord != null)
-            {
-                sb.Append(" where 1=1 ");
-            }
-            if (KeyWord != null)
-            {
-                string strWhereKeyWord = string.Format("and ( Color like '%{0}%'  " +
-                    "or Material like  '%{0}%' " +
-                    "or  ExpCountries  like  '%{0}%' " +
-                    " or Customer like  '%{0}%'  )",KeyWord);
-                sb.Append(strWhereKeyWord);
-            }
-            if (Material != null)
-            {
-                sb.Append(string.Format(" and Material='{0}'", Material));
-            }
-            if (Color != null)
-            {
-                sb.Append(string.Format(" and Color='{0}'", Color));
-            }
-            if (StartOrderTime != null || EndOrderTime != null)
-            {
-                sb.Append(string.Format(" and ordtime between '{0}' and '{1}' ", StartOrderTime, EndOrderTime));
-            }
-            if (StartDeliveryTime != null || EndDeliveryTime != null)
-            {
-                sb.Append(string.Format(" and DeliveryTime between '{0}' and '{1}' ", StartDeliveryTime, EndDeliveryTime));
-            }
-            if (Customer != null)
-            {
-                sb.Append(string.Format(" and Customer='{0}'", Customer));
-            }
-            if (ExpCountries != null)
-            {
-                sb.Append(string.Format(" and ExpCountries='{0}'", ExpCountries));
-            }
-            int iRows = MySqlHelper.ExecuteQuery(sb.ToString()).Rows.Count;
-            string strWhereLimit = string.Format(" LIMIT {0},{1}", startRow, PageSize.Value);
-            sb.Append(strWhereLimit);
-            Dictionary<string, DataTable> dic = new Dictionary<string, DataTable>();
-            DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
 
-            //DataTable dbCounts = new DataTable();
-            //dbCounts.Columns.Add("Counts", Type.GetType("System.String"));
-            //DataRow newRow = dbCounts.NewRow();
-            //newRow["Counts"] = iRows.ToString();
-            //dbCounts.Rows.Add(newRow);
+            try
+            {
+                int startRow = PageIndex.Value * PageSize.Value;
+                StringBuilder sb = new StringBuilder();
+                sb.Append("SELECT * FROM huabao.`order` ");
+                if (Color != null || Material != null || StartOrderTime != null || EndOrderTime != null || StartDeliveryTime != null
+                    || EndDeliveryTime != null || Customer != null || ExpCountries != null || KeyWord != null)
+                {
+                    sb.Append(" where 1=1 ");
+                }
+                if (KeyWord != null)
+                {
+                    string strWhereKeyWord = string.Format("and ( Color like '%{0}%'  " +
+                        "or Material like  '%{0}%' " +
+                        "or  ExpCountries  like  '%{0}%' " +
+                        " or Customer like  '%{0}%'  )", KeyWord);
+                    sb.Append(strWhereKeyWord);
+                }
+                if (Material != null)
+                {
+                    sb.Append(string.Format(" and Material='{0}'", Material));
+                }
+                if (Color != null)
+                {
+                    sb.Append(string.Format(" and Color='{0}'", Color));
+                }
+                if (StartOrderTime != null || EndOrderTime != null)
+                {
+                    sb.Append(string.Format(" and ordtime between '{0}' and '{1}' ", StartOrderTime, EndOrderTime));
+                }
+                if (StartDeliveryTime != null || EndDeliveryTime != null)
+                {
+                    sb.Append(string.Format(" and DeliveryTime between '{0}' and '{1}' ", StartDeliveryTime, EndDeliveryTime));
+                }
+                if (Customer != null)
+                {
+                    sb.Append(string.Format(" and Customer='{0}'", Customer));
+                }
+                if (ExpCountries != null)
+                {
+                    sb.Append(string.Format(" and ExpCountries='{0}'", ExpCountries));
+                }
+                int iRows = MySqlHelper.ExecuteQuery(sb.ToString()).Rows.Count;
+                string strWhereLimit = string.Format(" LIMIT {0},{1}", startRow, PageSize.Value);
+                sb.Append(strWhereLimit);
+                Dictionary<string, DataTable> dic = new Dictionary<string, DataTable>();
+                DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
 
-            //dic.Add("Counts", dbCounts);
-            dic.Add("OrderTable", tb);
+                //DataTable dbCounts = new DataTable();
+                //dbCounts.Columns.Add("Counts", Type.GetType("System.String"));
+                //DataRow newRow = dbCounts.NewRow();
+                //newRow["Counts"] = iRows.ToString();
+                //dbCounts.Rows.Add(newRow);
+
+                //dic.Add("Counts", dbCounts);
+                dic.Add("OrderTable", tb);
 
 
-            //string strJsonString = JsonConvert.SerializeObject(dic);
-            string strJsonString = JsonHelper.DataTableToJson(tb,iRows);
-            return strJsonString;
+                //string strJsonString = JsonConvert.SerializeObject(dic);
+                string strJsonString = JsonHelper.DataTableToJson(tb, iRows);
+                return strJsonString;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return Global.RETURN_ERROR(ex.Message);
+            }
         }
 
         /// <summary>
@@ -110,6 +120,8 @@ namespace Bussiness.Order
         /// <returns></returns>
         public string GetOrderMessage(string strSql)
         {
+
+            try { 
             DataSet dataSet = MySqlHelper.GetDataSet(strSql);
 
             DataSet newDataSet = new DataSet();
@@ -186,6 +198,12 @@ namespace Bussiness.Order
             string strJsonString = string.Empty;
             strJsonString = JsonHelper.DatasetToJson(newDataSet);
             return strJsonString;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return Global.RETURN_ERROR(ex.Message);
+            }
         }
 
         /// <summary>
@@ -197,8 +215,11 @@ namespace Bussiness.Order
         private DataTable UpdateDataTable(DataTable argDataTable)
         {
             //新表  
+     
             DataTable newDt = new DataTable();
-            List<string> listColums = new List<string>();
+            try
+            {
+                List<string> listColums = new List<string>();
             //复制表结够  
             newDt = argDataTable.Clone();
 
@@ -225,7 +246,14 @@ namespace Bussiness.Order
                 }
                 newDt.Rows.Add(newDtRow);
             }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+               
+            }
             return newDt;
+           
         }
     }
 }
