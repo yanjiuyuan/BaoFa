@@ -57,6 +57,18 @@
     <Reference Include="NPOI.OpenXmlFormats, Version=2.3.0.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
       <HintPath>..\packages\NPOI.2.3.0\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
     </Reference>
+    <Reference Include="ServiceStack.Common, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Common.5.1.0\lib\net45\ServiceStack.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Interfaces, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Interfaces.5.1.0\lib\net45\ServiceStack.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Redis, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Redis.5.1.0\lib\net45\ServiceStack.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Text.5.1.0\lib\net45\ServiceStack.Text.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -74,6 +86,14 @@
     <Compile Include="Code\YzmClass.cs" />
     <Compile Include="Cookie\CookieHelper.cs" />
     <Compile Include="DbHelper\MySqlHelper.cs" />
+    <Compile Include="DbHelper\RedisBase.cs" />
+    <Compile Include="DbHelper\RedisHash.cs" />
+    <Compile Include="DbHelper\RedisHelper.cs" />
+    <Compile Include="DbHelper\RedisList.cs" />
+    <Compile Include="DbHelper\RedisManager.cs" />
+    <Compile Include="DbHelper\RedisSet.cs" />
+    <Compile Include="DbHelper\RedisString.cs" />
+    <Compile Include="DbHelper\RedisZSet.cs" />
     <Compile Include="Encrypt\DesEncrypt.cs" />
     <Compile Include="Encrypt\MD5Encrypt.cs" />
     <Compile Include="Encrypt\RsaEncrypt.cs" />
@@ -90,9 +110,6 @@
   <ItemGroup>
     <Content Include="OtherDLL\MySql.Data.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Chart\" />
-    <Folder Include="Time\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
