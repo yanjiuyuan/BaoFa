@@ -47,7 +47,7 @@
             var lineData = getLocalObj("lineData")
             var date = new Date()
             var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-            dateStr = '2018-05-11'
+            //dateStr = '2018-05-11'
             console.log(dateStr)
             intervalId = window.setInterval(function () {
                 getLineData({ DataTime: dateStr, Count: 100 })
@@ -102,7 +102,7 @@
             {
                 type: 'category',
                 boundaryGap: false,
-                data: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00']
+                data: ['0']
             }
         ],
         yAxis: [
@@ -117,7 +117,7 @@
             {
                 name: '当班产量',
                 type: 'line',
-                data: [0, 11, 25, 33, 52, 63, 70],
+                data: [0],
                 markPoint: {
                     data: [
                         { type: 'max', name: '当班产量' }
@@ -127,7 +127,7 @@
             {
                 name: '预加工量',
                 type: 'line',
-                data: [100, 100, 100, 100, 100, 100, 100],
+                data: [0],
                 markPoint: {
                     data: [
                         { type: 'max', name: '预加工量' }
@@ -167,7 +167,7 @@
             {
                 type: 'category',
                 boundaryGap: false,
-                data: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00']
+                data: ['']
             }
         ],
         yAxis: [
@@ -184,7 +184,7 @@
                 type: 'line',
                 smooth: true,
                 itemStyle: { normal: { areaStyle: { type: 'default' } } },
-                data: [21, 54, 260, 830, 710, 10, 12]
+                data: [0]
             }
         ]
     }
@@ -246,7 +246,7 @@
                         }
                     }
                 },
-                data: [70, 71, 75, 83]
+                data: [0, 0, 0, 0]
             }
         ]
     };
