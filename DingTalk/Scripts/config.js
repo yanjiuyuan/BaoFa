@@ -58,6 +58,7 @@ var DETAILRANGE = {
     }//OvenTemperatureNow
 }
 var DEVICES = [
+    [
     {
         num: 1,
         name: '视觉1号站',
@@ -325,6 +326,7 @@ var DEVICES = [
             left: '70%'
         }
     }
+    ]
 ]
 
 //批次质量配置参数
