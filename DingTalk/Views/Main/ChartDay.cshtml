@@ -1,0 +1,129 @@
+﻿@{
+    Layout = null;
+}
+
+<!--右侧实体内容-->
+<div id="partPage">
+    <el-collapse v-model="activeNames">
+        <el-collapse-item :title="lineData[0].ProductLineName" name="1">
+            <!--表格實體-->
+            <h4>订单基本信息</h4>
+            <el-table :data="order" stripe border>
+                <el-table-column v-for="opt in choosedOptions" :key="opt" :prop="opt" :label="tableOptions[opt]"></el-table-column>
+            </el-table>
+            <h4>其他订单信息</h4>
+            <el-table :data="order" stripe border>
+                <el-table-column v-for="opt in choosedOptions2" :key="opt" :prop="opt" :label="tableOptions2[opt]"></el-table-column>
+            </el-table>
+            <h4>质量测试信息</h4>
+            <el-table :data="quality" stripe border>
+                <el-table-column v-for="opt in qualityOption" :key="opt" :prop="opt" :label="qualityObj[opt]"></el-table-column>
+            </el-table>
+            <el-button v-on:click="createReport(lineData[0].ProductLineId)" type="primary">生成日报表</el-button>
+        </el-collapse-item>
+        <el-collapse-item :title="lineData[1].ProductLineName" name="2">
+            <div>暂无数据</div>
+        </el-collapse-item>
+    </el-collapse>
+</div>
+
+
+<script>
+    var tableOptions = {
+        orderid: "总订单编号",
+        childid: "子订单编号",
+        ordern: "总订单量",
+        childn: "单班预加工",
+        //productlineid: '生产线代号',
+        ordtime: "下单日期",
+        DeliveryTime: "交货时间",
+        ProductionT: '生产日期',
+        Customer: "客户",
+        ExpCountries: "出口国家",
+        KRXTM: '客人型体名'
+    }
+    var tableOptions2 = {
+        factoryName: "加工厂名",
+        XTDH: '楦头代号',
+        Material: "面料",
+        color: '颜色',
+        XingTiN: "型体号",
+        BaoTouL: "包头长度",
+        WeiTiaoW: "围条宽度",
+        HuChiW: "护齿宽度"
+    }
+    var qualityObj = {
+        AppearanceQualified: "硫前外观合格率",
+        AppearanceAfterQualified: "硫后外观合格率",
+        VampPullQualified: "鞋面拉力合格率",
+        DaDiPullQualified: "大底拉力合格率",
+        ZheWangQualified: "弯曲疲劳值",
+        Qualified: "总合格率",
+        TestT: "测试时间",
+        tester: "测试人员"
+    }
+    var allOptions = [],allOptions2 = [],qualityOption = []
+    for (var c in tableOptions) {
+        if (typeof (c) == 'string') allOptions.push(c)
+    } 
+    for (var c in tableOptions2) {
+        if (typeof (c) == 'string') allOptions2.push(c)
+    } 
+    for (var c in qualityObj) {
+        if (typeof (c) == 'string') qualityOption.push(c)
+    } 
+    new Vue({
+        el: "#partPage",
+        mixins: [mixin],
+        data: function () {
+            return {
+                lineData: getLocalObj("lineData"),
+                activeNames: ['1'],
+                choosedOptions: allOptions,
+                choosedOptions2: allOptions2,
+                tableOptions: tableOptions,
+                tableOptions2: tableOptions2,
+                qualityObj: qualityObj,
+                qualityOption: qualityOption,
+                order: [],
+                quality: []
+            }
+        },
+        methods: {
+            //获取订单数据
+            getOrderData: function (lineId) {
+                var that = this
+                var date = new Date()
+                var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+                var url = "/Reports/GetQualityDailyData?DataTime=" + dateStr + "&lineid=" + lineId
+                $.ajax({
+                    url: url,
+                    success: function (data) {
+                        data = JSON.parse(data)
+                        console.log(url)
+                        console.log(data)
+                        that.order = [data.order]
+                        that.quality = [data.quality]
+                    },
+                    error: function (err) {
+                        console.error(err)
+                    }
+                })
+            },
+            //生成日报表
+            createReport: function (lineId) {
+                var date = new Date()
+                var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+                var url = "/Reports/GetQualityDailyReport?DataTime=" + dateStr + "&lineid=" + lineId
+                console.log(url)
+                window.open(url);
+            }
+        },
+        created: function () {
+            this.getOrderData(1)
+            loadHtml("mainPage", "partPage")
+        }
+    })
+
+
+</script>

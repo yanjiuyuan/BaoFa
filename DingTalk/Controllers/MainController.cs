@@ -37,7 +37,7 @@ namespace WebZhongZhi.Controllers
             return View();
         }
 
-        public ActionResult ParamOther()
+        public ActionResult ParamWorker()
         {
             return View();
         }
@@ -65,7 +65,7 @@ namespace WebZhongZhi.Controllers
         {
             return View();
         }
-        public ActionResult TableCount()
+        public ActionResult ChartDay()
         {
             return View();
         }

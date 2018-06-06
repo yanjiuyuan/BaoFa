@@ -348,12 +348,12 @@
     <Content Include="Views\Main\TableQuality.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Main\ParamOther.cshtml" />
+    <Content Include="Views\Main\ParamWorker.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="CfgFiles\DefaultWebSite.json" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
-    <Content Include="Views\Main\TableCount.cshtml" />
+    <Content Include="Views\Main\ChartDay.cshtml" />
     <Content Include="Views\Main\ChartMultiply.cshtml" />
     <Content Include="Views\Order\Index.cshtml" />
     <Content Include="Views\Quality\Index.cshtml" />
