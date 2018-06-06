@@ -45,21 +45,19 @@
             var that = this
             loadHtml("mainPage", "partPage")
             var lineData = getLocalObj("lineData")
+            console.log(lineData)
             var date = new Date()
             var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
             //dateStr = '2018-05-11'
             console.log(dateStr)
             intervalId = window.setInterval(function () {
                 getLineData({ DataTime: dateStr, Count: 100 })
-                getAreaData({ DataTime: dateStr, dura: 30 })
-                getBarData({
-                    OrderId: lineData[0].Data.OrderID,
-                    ChildId: lineData[0].Data.ChildID
-                })
+                getAreaData({ DataTime: dateStr, dura: 60 })
+                getBarData({DataTime: dateStr,lineid: lineData[0].ProductLineId})
             }, 50000)
             getLineData({ DataTime: dateStr, Count: 100 })
-            getAreaData({ DataTime: dateStr, dura: 30 })
-            getBarData({ OrderId: lineData[0].Data.OrderID, ChildId: lineData[0].Data.ChildID })
+            getAreaData({ DataTime: dateStr, dura: 60 })
+            getBarData({ DataTime: dateStr, lineid: lineData[0].ProductLineId })
             //echart canvas生成图片
             window.setTimeout(function () {
                 //var oCanvas = $(".zr-element")[1]
