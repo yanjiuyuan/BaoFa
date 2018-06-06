@@ -42,7 +42,7 @@ namespace Bussiness.LineData
                 string strSql = string.Empty;
                 string jzName = Global.jz[strTableName];
             strSql = "select a.* ,b.stationstate from "
-           +" (select*  , '"+jzName+"' as stationName from  `vamp`    where id_usage = (select max(id_usage) from `usage` a where a.productlineid = "+lineid+"   )  order by vampid desc limit 1) a"
+           +" (select*  , '"+jzName+ "' as stationName from  `" + strTableName + "`    where id_usage = (select max(id_usage) from `usage` a where a.productlineid = " + lineid+"   )  order by "+ strTableName+"id desc limit 1) a"
            + " left join(select  stationName, stationstate from LocationState  where id_usage = (select max(id_usage) from `usage` a where a.productlineid =  " + lineid + " ) "
            + "  and stationName = '" + jzName+"' order by starttime desc limit 1) b on a.stationName = b.stationName"
 
