@@ -87,29 +87,29 @@
             theme: function () {
                 var theme
                 switch (this.param.status) {
-                    case 0: theme = {
+                    case '空闲': theme = {
                         mainClass: 'device-button-info',
                         warnType: 'info',
                         text: '空闲',
                         color: '#909399'
                     }; break;
-                    case 2: theme = {
-                        mainClass: 'device-button-warning',
-                        warnType: 'warning',
-                        text: '警告',
-                        color: '#E6A23C'
+                    case '运行': theme = {
+                        mainClass: 'device-button-success',
+                        warnType: 'success',
+                        text: '运行',
+                        color: '#67C23A'
                     }; break;
-                    case 3: theme = {
+                    case '报警': theme = {
                         mainClass: 'device-button-danger',
                         warnType: 'danger',
                         text: '报警',
                         color: '#F56C6C'
                     }; break;
                     default: theme = {
-                        mainClass: 'device-button-success',
-                        warnType: 'success',
-                        text: '运行',
-                        color: '#67C23A'
+                        mainClass: 'device-button-info',
+                        warnType: 'info',
+                        text: '空闲',
+                        color: '#909399'
                     };
                 }
                 return theme
