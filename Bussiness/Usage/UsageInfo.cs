@@ -51,12 +51,30 @@ namespace Bussiness.UsageInfo
                     //string strSql = string.Format("SELECT  *  FROM  `usage` a  LEFT JOIN  `line` b ON a.id_usage=b.id_usage  WHERE UpData_Time>{0}  ORDER BY  ct DESC LIMIT 0,1", lTime);
                     string strSql = string.Format("SELECT  *  FROM  `usage` a  LEFT JOIN  `line` b ON a.id_usage=b.id_usage  where a.ProductLineId={0}    ORDER BY  ct DESC LIMIT 0,1", lineid);
                     DataTable tb = MySqlHelper.ExecuteQuery(strSql);
-                    if(tb.Rows.Count>0)
-                    dic.Add("Data", JsonHelper.DataRowToDic(tb.Columns,tb.Rows[0]));
+                    if (tb.Rows.Count > 0)
+                    {
+                        dic.Add("Data", JsonHelper.DataRowToDic(tb.Columns, tb.Rows[0]));
+                        string strSqlstate = "select a.stationName,a.stationstate from LocationState a inner join( "
+            + " select stationName, max(starttime) as starttime from LocationState  where "
+           + "ProductLineId = " + lineid + " and id_usage = (select max(id_usage) from `usage` where ProductLineId = " + lineid + ") and "
+            + " stationName like  '视觉%' group by stationName) t on  a.starttime = t.starttime and a.stationName = t.stationName   ";
+
+
+
+                        DataTable tb2 = MySqlHelper.ExecuteQuery(strSqlstate);
+                        if (tb2.Rows.Count > 0)
+                            dic.Add("V_STATE", tb2);
+                        else
+                        {
+                            dic.Add("V_STATE", "");
+                        }
+
+                    }
                     else
-                    dic.Add("Data", "");
+                    { dic.Add("Data", ""); dic.Add("V_STATE", "");
 
 
+                    }
                     list.Add(dic);
                   
                 }

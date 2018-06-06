@@ -40,8 +40,13 @@ namespace Bussiness.LineData
             try
             {
                 string strSql = string.Empty;
-            
-            strSql = string.Format(  "select * from  `{0}`    where  id_usage =(select max(id_usage ) from `usage` a where a.productlineid ={1}   )  order by {2}id  desc limit 1", strTableName, lineid, strTableName);
+                string jzName = Global.jz[strTableName];
+            strSql = "select a.* ,b.stationstate from "
+           +" (select*  , '"+jzName+"' as stationName from  `vamp`    where id_usage = (select max(id_usage) from `usage` a where a.productlineid = "+lineid+"   )  order by vampid desc limit 1) a"
+           + " left join(select  stationName, stationstate from LocationState  where id_usage = (select max(id_usage) from `usage` a where a.productlineid =  " + lineid + " ) "
+           + "  and stationName = '" + jzName+"' order by starttime desc limit 1) b on a.stationName = b.stationName"
+
+                     ;
 
                 //}
                 newTb = MySqlHelper.ExecuteQuery(strSql);
