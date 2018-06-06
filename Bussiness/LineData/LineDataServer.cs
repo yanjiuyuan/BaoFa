@@ -76,5 +76,26 @@ namespace Bussiness.LineData
             }
             return newTb;
         }
+
+        public  DataTable getVstate(int lineid)
+        {
+            DataTable tb2= new DataTable ();
+            try
+            {
+                string strSqlstate = "select a.stationName,a.stationstate from LocationState a inner join( "
+          + " select stationName, max(starttime) as starttime from LocationState  where "
+         + "ProductLineId = " + lineid + " and id_usage = (select max(id_usage) from `usage` where ProductLineId = " + lineid + ") and "
+          + " stationName like  '视觉%' group by stationName) t on  a.starttime = t.starttime and a.stationName = t.stationName   ";
+                tb2 = MySqlHelper.ExecuteQuery(strSqlstate);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+
+            }
+            return tb2;
+        }
+
+
     }
 }
