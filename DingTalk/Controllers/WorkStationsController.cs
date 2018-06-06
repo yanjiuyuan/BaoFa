@@ -28,5 +28,24 @@ namespace DingTalk.Controllers
             WorkSataionsServer wServer = new WorkSataionsServer();
             return JsonConvert.SerializeObject(wServer.GetWorkStationInfo());
         }
+
+        //test:  /WorkStations/GetWorkStationList?orderid=99-1-18-1&lineid=1
+
+        public string  GetWorkStationList(string orderid, int lineid = 1)
+        {
+            WorkSataionsServer wServer = new WorkSataionsServer();
+           return wServer.GetWorkStationList(orderid, lineid);
+
+
+        }
+
+
+        //test: /WorkStations/GetArtificialInfo?artificialid=24
+        public string GetArtificialInfo(int artificialid)
+        {
+            WorkSataionsServer wServer = new WorkSataionsServer();
+            return wServer.GetArtificialInfo(artificialid);
+
+        }
     }
 }
