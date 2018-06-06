@@ -145,7 +145,7 @@
         },
         methods: {
             //监控界面全屏
-            changeFullScreen: function () {
+            changeFullScreen: function (no) {
                 var frameWidth = screenWidth
                 //screenWidth / screenHeight > 900 / 430 ? $("#imgFrame").css({ "height": screenHeight }) : $("#imgFrame").css({ "width": screenWidth })
                 if (screenWidth < 1400) frameWidth = screenWidth -90
@@ -156,8 +156,8 @@
                 console.log("imgWidth,imgHeight = " + imgWidth + " , " + imgHeight)
                 this.showMask = true;
                 $("body").css({ "overflow": "hidden" })
-                for (var p = 0; p < DEVICES.length;p++) {
-                    DEVICES[p].tooltip.font_size = "1.2em"
+                for (var p = 0; p < DEVICES[no].length;p++) {
+                    DEVICES[no][p].tooltip.font_size = "1.2em"
                 }
                 $(".device-button").css("font-size", "1.4em")
                 $(".device-count").css("font-size", "1.4em")
@@ -167,8 +167,8 @@
                 $("#imgFrame").css({ "width": '100%', "height": 'auto', "position": "relative", "top": "0", "left": "0" })
                 $("#imgFrame").find("img").css({ "width": '100%'})
                 $("body").css({ "overflow": "scroll" })
-                for (var p = 0; p < DEVICES.length; p++) {
-                    DEVICES[p].tooltip.font_size = "1em"
+                for (var p = 0; p < DEVICES[no].length; p++) {
+                    DEVICES[no][p].tooltip.font_size = "1em"
                 }
                 $(".device-button").css("font-size", "1em")
                 $(".device-count").css("font-size", "1em")
@@ -194,11 +194,14 @@
             //webSocket 获取数据
             ws.onmessage = function (result) {
                 that.loading = false
+                console.log('webSocket 获取数据')
                 console.log(result)
                 var devDatas = JSON.parse(result)
                 var devData = devDatas[0].Data
                 that.deviceBtns = _cloneArr(DEVICES[0])
                 that.deviceBtns2 = _cloneArr(DEVICES[1])
+                console.log(deviceBtns)
+                return
                 for (let i = 0; i < that.deviceBtns.length;i++) {
                     var dev = that.deviceBtns[i]
                     if (!dev.detail) continue

@@ -53,13 +53,13 @@
                 getLineData({ DataTime: dateStr, Count: 100 })
                 getAreaData({ DataTime: dateStr, dura: 30 })
                 getBarData({
-                    OrderId: getLocalObj("lineData").OrderID,
-                    ChildId: getLocalObj("lineData").ChildID
+                    OrderId: lineData[0].Data.OrderID,
+                    ChildId: lineData[0].Data.ChildID
                 })
             }, 50000)
             getLineData({ DataTime: dateStr, Count: 100 })
             getAreaData({ DataTime: dateStr, dura: 30 })
-            getBarData({ OrderId: getLocalObj("lineData").OrderID, ChildId: getLocalObj("lineData").ChildID })
+            getBarData({ OrderId: lineData[0].Data.OrderID, ChildId: lineData[0].Data.ChildID })
             //echart canvas生成图片
             window.setTimeout(function () {
                 //var oCanvas = $(".zr-element")[1]
@@ -258,7 +258,7 @@
             success: function (data) {
                 var xArr = [], y1Arr = [], y2Arr = []
                 console.log("获取产量图数据")
-                console.log(data)
+                //console.log(data)
                 data = JSON.parse(data).Rows
                 for (let d = 0; d < data.length; d++) {
                     xArr.push(data[d].ID_RealTimeUsage)
@@ -278,7 +278,7 @@
             url: "/Statistics/GetYieldFluct" + _formatQueryStr(param),
             success: function (data) {
                 console.log("获取生产速度数据")
-                console.log(data)
+                //console.log(data)
                 data = JSON.parse(data).Rows
                 var xArr = [], yArr = []
                 for (var d in data) {
@@ -293,9 +293,13 @@
     }
     //获取用量图数据
     function getBarData(param) {
+        var url = "/Statistics/GetDosageInfo" + _formatQueryStr(param)
         $.ajax({
-            url: "/Statistics/GetDosageInfo" + _formatQueryStr(param),
+            url: url,
             success: function (data) {
+                console.log("获取用量图数据")
+                console.log(url)
+                console.log(data)
                 data = JSON.parse(data)[0]
                 var xArr = [], yArr = []
                 for (var d in data) {
