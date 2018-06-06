@@ -27,7 +27,7 @@ namespace Bussiness.WorkSataions
             try
             {
                 string strSql = " select  a.* , if ( b.stationstate is null,'',  b.stationstate) as stationstate ,if ( b.starttime is null,'',  b.starttime) as lsttime from artificialconfig a " 
-                +" left join(select* from (select* from LocationState order by starttime desc limit 50) t1 where endtime is null ) b on a.Jobs = b.StationName  WHERE a.OrderID ='"+ orderid + "' and a.ProductLineId="+lineid  ;
+                + " left join(select* from (select* from LocationState order by starttime desc limit 50) t1 where endtime is null ) b on a.Jobs = b.StationName and  a.ProductLineId=b.ProductLineId WHERE a.OrderID ='" + orderid + "' and a.ProductLineId="+lineid  ;
                 DataTable db = MySqlHelper.ExecuteQuery(strSql);
                 return  JsonConvert.SerializeObject(db);
             }
