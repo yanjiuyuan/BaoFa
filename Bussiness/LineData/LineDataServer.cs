@@ -40,8 +40,13 @@ namespace Bussiness.LineData
             try
             {
                 string strSql = string.Empty;
-            
-            strSql = string.Format(  "select * from  `{0}`    where  id_usage =(select max(id_usage ) from `usage` a where a.productlineid ={1}   )  order by {2}id  desc limit 1", strTableName, lineid, strTableName);
+                string jzName = Global.jz[strTableName];
+            strSql = "select a.* ,b.stationstate from "
+           +" (select*  , '"+jzName+ "' as stationName from  `" + strTableName + "`    where id_usage = (select max(id_usage) from `usage` a where a.productlineid = " + lineid+"   )  order by "+ strTableName+"id desc limit 1) a"
+           + " left join(select  stationName, stationstate from LocationState  where id_usage = (select max(id_usage) from `usage` a where a.productlineid =  " + lineid + " ) "
+           + "  and stationName = '" + jzName+"' order by starttime desc limit 1) b on a.stationName = b.stationName"
+
+                     ;
 
                 //}
                 newTb = MySqlHelper.ExecuteQuery(strSql);
@@ -71,5 +76,26 @@ namespace Bussiness.LineData
             }
             return newTb;
         }
+
+        public  DataTable getVstate(int lineid)
+        {
+            DataTable tb2= new DataTable ();
+            try
+            {
+                string strSqlstate = "select a.stationName,a.stationstate from LocationState a inner join( "
+          + " select stationName, max(starttime) as starttime from LocationState  where "
+         + "ProductLineId = " + lineid + " and id_usage = (select max(id_usage) from `usage` where ProductLineId = " + lineid + ") and "
+          + " stationName like  '视觉%' group by stationName) t on  a.starttime = t.starttime and a.stationName = t.stationName   ";
+                tb2 = MySqlHelper.ExecuteQuery(strSqlstate);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+
+            }
+            return tb2;
+        }
+
+
     }
 }
