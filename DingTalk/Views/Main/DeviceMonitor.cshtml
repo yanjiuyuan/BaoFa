@@ -195,33 +195,35 @@
             ws.onmessage = function (result) {
                 that.loading = false
                 console.log('webSocket 获取数据')
-                console.log(result)
-                var devDatas = JSON.parse(result)
+                var devDatas = JSON.parse(result.data)
                 var devData = devDatas[0].Data
                 that.deviceBtns = _cloneArr(DEVICES[0])
                 that.deviceBtns2 = _cloneArr(DEVICES[1])
-                console.log(deviceBtns)
-                return
+                console.log(devData)
                 for (let i = 0; i < that.deviceBtns.length;i++) {
                     var dev = that.deviceBtns[i]
                     if (!dev.detail) continue
                     for (let d in devData) {
                         var dObj = devData[d][0]
+                        if(!dObj) continue
+                        //console.log(dObj)
                         if (dObj.SprayID != dev.SprayID || dObj.SprayID == null) continue
+                        //设备状态
+                        if (dObj.stationstate) dev.status = dObj.stationstate
+                        //设备名称
+                        //if (dObj.stationName) dev.name = dObj.stationName
                         for (let det in dev.detail) {
                             var ele = dev.detail[det]
                             if (dObj[ele] != null) {
                                 dev.detail[det] = dObj[ele]
-                                //根据参数设定设备状态
-                                if (ele == 'StateN' || ele == 'VisualOneState' || ele == 'VisualTwoState' || ele == 'VisualThreeState' || ele == 'StateN') {
-
-                                }
-                                if (DETAILRANGE[ele] && (dObj[ele] < DETAILRANGE[ele].min || dObj[ele] > DETAILRANGE[ele].max)) {
-                                    dev.status = 3
-                                    dev.tooltip.disabled = false
-                                    dev.tips[det] = det+":"+dObj[ele]
-                                }
-                                if (dev.status != 3) dev.status = 1
+                                
+                                //
+                                //if (DETAILRANGE[ele] && (dObj[ele] < DETAILRANGE[ele].min || dObj[ele] > DETAILRANGE[ele].max)) {
+                                //    dev.status = 3
+                                //    dev.tooltip.disabled = false
+                                //    dev.tips[det] = det+":"+dObj[ele]
+                                //}
+                                //if (dev.status != 3) dev.status = 1
                             }
                             else {
                                 delete dev.detail[det]
@@ -229,6 +231,7 @@
                         }
                     }
                 }
+                console.log(that.deviceBtns)
             };
             ws.onerror = function (error) {
               console.log(error);
