@@ -42,7 +42,6 @@
         </el-collapse-item>
     </el-collapse>
 
-    <el-button v-on:click="createReport" type="primary">生成日报表</el-button>
 </el-main>
 
 <script>
@@ -128,7 +127,8 @@
         data: function () {
             return {
                 activeNames: ['1'],
-                deviceBtns: _cloneArr(DEVICES),
+                deviceBtns: _cloneArr(DEVICES[0]),
+                deviceBtns2: _cloneArr(DEVICES[1]),
                 showMask: false,
                 loading: true,
                 useages: [
@@ -187,9 +187,6 @@
                         setLocalObj('lineData', that.useages)
                     }
                 })
-            },
-            createReport: function () {
-                window.open("Reports/GetDailyReport");   
             }
         },
         created: function () {
@@ -197,9 +194,11 @@
             //webSocket 获取数据
             ws.onmessage = function (result) {
                 that.loading = false
-                var devData = JSON.parse(JSON.parse(result.data))
-                that.deviceBtns = _cloneArr(DEVICES)
-                console.log(devData)
+                console.log(result)
+                var devDatas = JSON.parse(result)
+                var devData = devDatas[0].Data
+                that.deviceBtns = _cloneArr(DEVICES[0])
+                that.deviceBtns2 = _cloneArr(DEVICES[1])
                 for (let i = 0; i < that.deviceBtns.length;i++) {
                     var dev = that.deviceBtns[i]
                     if (!dev.detail) continue
@@ -211,6 +210,9 @@
                             if (dObj[ele] != null) {
                                 dev.detail[det] = dObj[ele]
                                 //根据参数设定设备状态
+                                if (ele == 'StateN' || ele == 'VisualOneState' || ele == 'VisualTwoState' || ele == 'VisualThreeState' || ele == 'StateN') {
+
+                                }
                                 if (DETAILRANGE[ele] && (dObj[ele] < DETAILRANGE[ele].min || dObj[ele] > DETAILRANGE[ele].max)) {
                                     dev.status = 3
                                     dev.tooltip.disabled = false
