@@ -7,7 +7,7 @@
     <div v-show="showMask">
         <div class="mask"></div>
     </div>
-    <el-collapse v-model="activeNames" accordion>
+    <el-collapse v-model="activeNames">
         <el-collapse-item :title="useages[0].ProductLineName" name="1">
             <div @*v-loading="loading"
                  element-loading-text="数据加载中"
@@ -37,8 +37,7 @@
             </div>
         </el-collapse-item>
         <el-collapse-item :title="useages[1].ProductLineName" name="2">
-            <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-            <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
+            <img src="~/Content/images/deviceMonitor2.png" style="max-width:100%" />
         </el-collapse-item>
     </el-collapse>
 
@@ -210,6 +209,9 @@
                         if (dObj.SprayID != dev.SprayID || dObj.SprayID == null) continue
                         //设备状态
                         if (dObj.stationstate) dev.status = dObj.stationstate
+                        if (dev.detail['烤箱温度']) {
+
+                        }
                         //设备名称
                         //if (dObj.stationName) dev.name = dObj.stationName
                         for (let det in dev.detail) {

@@ -19,7 +19,14 @@
             <el-table :data="quality" stripe border>
                 <el-table-column v-for="opt in qualityOption" :key="opt" :prop="opt" :label="qualityObj[opt]"></el-table-column>
             </el-table>
-            <el-button v-on:click="createReport(lineData[0].ProductLineId)" type="primary">生成日报表</el-button>
+            <br />
+            <el-button v-on:click="createReport(lineData[0].ProductLineId)" type="primary">生成质量报表</el-button>
+            <h4>产量信息</h4>
+            <el-table :data="quantity" stripe border>
+                <el-table-column v-for="opt in quantityOption" :key="opt" :prop="opt" :label="quantityObj[opt]"></el-table-column>
+            </el-table>
+            <br />
+            <el-button v-on:click="createReport2(lineData[0].ProductLineId)" type="primary">生成产量报表</el-button>
         </el-collapse-item>
         <el-collapse-item :title="lineData[1].ProductLineName" name="2">
             <div>暂无数据</div>
@@ -62,7 +69,17 @@
         TestT: "测试时间",
         tester: "测试人员"
     }
-    var allOptions = [],allOptions2 = [],qualityOption = []
+    var quantityObj = {
+        ProductionBeat: "生产节拍",
+        NowN: '当班产量',
+        OldN: "前班产量",
+        ALlN: '总产量',
+        WeiTiaoConsumption: "围条用量",
+        HuChiConsumption: "护齿用量",
+        BiaoQianConsumption: "标签用量",
+        DaDiConsumption: "大底用量"
+    }
+    var allOptions = [],allOptions2 = [],qualityOption = [],quantityOption = []
     for (var c in tableOptions) {
         if (typeof (c) == 'string') allOptions.push(c)
     } 
@@ -71,6 +88,9 @@
     } 
     for (var c in qualityObj) {
         if (typeof (c) == 'string') qualityOption.push(c)
+    } 
+    for (var c in quantityObj) {
+        if (typeof (c) == 'string') quantityOption.push(c)
     } 
     new Vue({
         el: "#partPage",
@@ -85,8 +105,11 @@
                 tableOptions2: tableOptions2,
                 qualityObj: qualityObj,
                 qualityOption: qualityOption,
+                quantityObj: quantityObj,
+                quantityOption: quantityOption,
                 order: [],
-                quality: []
+                quality: [],
+                quantity: []
             }
         },
         methods: {
@@ -104,17 +127,26 @@
                         console.log(data)
                         that.order = [data.order]
                         that.quality = [data.quality]
+                        that.quantity = [data.order]
                     },
                     error: function (err) {
                         console.error(err)
                     }
                 })
+             
             },
             //生成日报表
             createReport: function (lineId) {
                 var date = new Date()
                 var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
                 var url = "/Reports/GetQualityDailyReport?DataTime=" + dateStr + "&lineid=" + lineId
+                console.log(url)
+                window.open(url);
+            },
+            createReport2: function (lineId) {
+                var date = new Date()
+                var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+                var url = "/Reports/GetProductDailyReport?DataTime=" + dateStr + "&lineid=" + lineId
                 console.log(url)
                 window.open(url);
             }

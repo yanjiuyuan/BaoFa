@@ -193,6 +193,7 @@
     <Content Include="Content\fonts\gif\more.gif" />
     <Content Include="Content\images\buttonBg.png" />
     <Content Include="Content\images\deviceMonitor.png" />
+    <Content Include="Content\images\deviceMonitor2.png" />
     <Content Include="Content\images\device\人工工位.jpg" />
     <Content Include="Content\images\device\十字压.png" />
     <Content Include="Content\images\device\压底机.png" />
@@ -212,6 +213,10 @@
     <Content Include="Content\images\QualityImages\3.png" />
     <Content Include="Content\images\QualityImages\4.png" />
     <Content Include="Content\images\title.png" />
+    <Content Include="Content\images\videoCover1.png" />
+    <Content Include="Content\images\videoCover2.png" />
+    <Content Include="Content\images\videoCover3.png" />
+    <Content Include="Content\images\videoCover4.png" />
     <Content Include="Content\images\worker\1.jpg" />
     <Content Include="Content\images\worker\2.jpg" />
     <Content Include="Content\images\worker\3.jpg" />
