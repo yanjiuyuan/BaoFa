@@ -18,7 +18,7 @@ namespace Bussiness
 
         public static Dictionary<string, string> jz = new Dictionary<string, string>
         {   {"Vamp","鞋面喷胶"},
-                {"WaiO","围条一胶"}, {"WaiT","围条一胶"}, {"WaiS","围条二胶"}, {"Outsole","大底喷胶"},
+                {"WaiO","围条一胶"}, {"WaiT","围条二胶"}, {"WaiS","围条三胶"}, {"Outsole","大底喷胶"},
             { "Mouthguards","护齿喷胶"},{ "LineUsage","生产线参数"}
 
         };
