@@ -22,7 +22,7 @@
         
     </script>
 </head>
-<body id="body">
+<body id="body" style="background-color:white;">
     <div id="app">
         <el-header>
         </el-header>
@@ -36,19 +36,26 @@
                         <el-main id="partPage">
                             <div>
                                 <div id="lineChart" style="height:300px;width:800px;"></div>
+                                <hr />
                                 <div id="barChart" style="height:300px;width:800px;"></div>
-                                <img id="hideImg" src="" />
+                                <hr />
+                                <img id="hideLineImg" src="" />
+                                <hr />
+                                <img id="hideBarImg" src="" />
                             </div>
                         </el-main>
 
                         <script>
+                            var lineChart, barChart, lineOption, barOption
                             var barTableConfig = {
                                 BiaoQianConsumption: "标签用量",
                                 DaDiConsumption: "大底用量",
                                 HuChiConsumption: "护齿用量",
                                 WeiTiaoConsumption: "围条用量"
                             }
-
+                            var date = new Date()
+                            var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+                            var lineId = 1
                             //折线图
                             lineChart = echarts.init(document.getElementById('lineChart'));
                             lineOption = {
@@ -67,6 +74,7 @@
                                     show: true,
                                     feature: {
                                         mark: { show: true },
+                                        dataView: { show: true, readOnly: false },
                                         magicType: {
                                             show: true,
                                             type: ['line', 'bar']
@@ -80,7 +88,7 @@
                                     {
                                         type: 'category',
                                         boundaryGap: false,
-                                        data: ['8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00']
+                                        data: ['0']
                                     }
                                 ],
                                 yAxis: [
@@ -95,7 +103,7 @@
                                     {
                                         name: '当班产量',
                                         type: 'line',
-                                        data: [0, 11, 25, 33, 52, 63, 70],
+                                        data: [0],
                                         markPoint: {
                                             data: [
                                                 { type: 'max', name: '当班产量' }
@@ -105,7 +113,7 @@
                                     {
                                         name: '预加工量',
                                         type: 'line',
-                                        data: [100, 100, 100, 100, 100, 100, 100],
+                                        data: [0],
                                         markPoint: {
                                             data: [
                                                 { type: 'max', name: '预加工量' }
@@ -115,8 +123,7 @@
                                 ]
                             };
                             lineChart.setOption(lineOption);
-                            var b = lineChart.getDataURL()
-                            $("#hideImg").attr("src", b)
+                            
                             //柱状图
                             barChart = echarts.init(document.getElementById('barChart'));
                             barOption = {
@@ -128,6 +135,7 @@
                                     show: true,
                                     feature: {
                                         mark: { show: true },
+                                        dataView: { show: true, readOnly: false },
                                         restore: { show: true },
                                         saveAsImage: { show: true }
                                     }
@@ -173,45 +181,67 @@
                                                 }
                                             }
                                         },
-                                        data: [70, 71, 75, 83]
+                                        data: [0, 0, 0, 0]
                                     }
                                 ]
                             };
                             barChart.setOption(barOption);
-                            //获取产量图数据
+
+                            //获取数据
+                            intervalId = window.setInterval(function () {
+                                getLineData({ DataTime: dateStr, Count: 100 })
+                                getBarData({ DataTime: dateStr, lineid: lineId })
+                            }, 50000)
+                            getLineData({ DataTime: dateStr, Count: 100 })
+                            getBarData({ DataTime: dateStr, lineid: lineId })
+
+                            //获取产量图数据方法
                             function getLineData(param) {
                                 $.ajax({
                                     url: "/Statistics/GetCurrentProduction" + _formatQueryStr(param),
                                     success: function (data) {
                                         var xArr = [], y1Arr = [], y2Arr = []
-                                        console.log(data)
-                                        //data = JSON.parse(data).Rows
-                                        //for (let d = 0; d < data.length; d++) {
-                                        //    xArr.push(data[d].ID_RealTimeUsage)
-                                        //    y1Arr.push(parseInt(data[d].NowN))
-                                        //    y2Arr.push(parseInt(data[d].ChildN))
-                                        //}
-                                        //lineOption.xAxis[0].data = xArr
-                                        //lineOption.series[0].data = y1Arr
-                                        //lineOption.series[1].data = y2Arr
-                                        //lineChart.setOption(lineOption)
+                                        console.log("获取产量图数据")
+                                        //console.log(data)
+                                        data = JSON.parse(data).Rows
+                                        for (let d = 0; d < data.length; d++) {
+                                            xArr.push(data[d].ID_RealTimeUsage)
+                                            y1Arr.push(parseInt(data[d].NowN))
+                                            y2Arr.push(parseInt(data[d].ChildN))
+                                        }
+                                        lineOption.xAxis[0].data = xArr
+                                        lineOption.series[0].data = y1Arr
+                                        lineOption.series[1].data = y2Arr
+                                        lineChart.setOption(lineOption)
+                                        window.setTimeout(function () {
+                                            var b = lineChart.getDataURL()
+                                            $("#hideLineImg").attr("src", b)
+                                        }, 500)
                                     }
                                 })
                             }
                             //获取用量图数据
                             function getBarData(param) {
+                                var url = "/Statistics/GetDosageInfo" + _formatQueryStr(param)
                                 $.ajax({
-                                    url: "/Statistics/GetDosageInfo" + _formatQueryStr(param),
+                                    url: url,
                                     success: function (data) {
+                                        console.log("获取用量图数据")
+                                        console.log(url)
+                                        console.log(data)
                                         data = JSON.parse(data)[0]
                                         var xArr = [], yArr = []
-                                        //for (var d in data) {
-                                        //    xArr.push(barTableConfig[d])
-                                        //    yArr.push(data[d])
-                                        //}
-                                        //barOption.xAxis[0].data = xArr
-                                        //barOption.series[0].data = yArr
-                                        //barChart.setOption(barOption)
+                                        for (var d in data) {
+                                            xArr.push(barTableConfig[d])
+                                            yArr.push(data[d])
+                                        }
+                                        barOption.xAxis[0].data = xArr
+                                        barOption.series[0].data = yArr
+                                        barChart.setOption(barOption)
+                                        window.setTimeout(function () {
+                                            var b = barChart.getDataURL()
+                                            $("#hideBarImg").attr("src", b)
+                                        }, 500)
                                     }
                                 })
                             }

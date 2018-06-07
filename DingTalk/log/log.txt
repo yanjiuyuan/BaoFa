@@ -1,3 +1,22 @@
-2018-06-06 08:55:11,944 [8] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-06-06 14:27:31,601 [24] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-06-06 16:43:08,456 [10] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-07 08:35:47,177 [11] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-07 08:52:18,323 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-07 08:52:19,091 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-07 09:22:44,456 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-07 09:22:45,989 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-07 10:34:33,983 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-07 13:52:33,865 [62] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-07 13:52:34,174 [62] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-07 14:06:32,037 [5] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-07 14:15:04,737 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-07 14:15:05,099 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-07 14:33:17,226 [26] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-07 14:33:17,227 [26] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-07 14:34:54,209 [15] ERROR Common.DbHelper.MySqlHelper - 未将对象引用设置到对象的实例。
+2018-06-07 14:34:54,209 [15] ERROR Bussiness.ProductionLines.ProductionLinesServer - 未将对象引用设置到对象的实例。
+2018-06-07 14:36:12,047 [28] ERROR Common.DbHelper.MySqlHelper - 未将对象引用设置到对象的实例。
+2018-06-07 14:36:12,047 [28] ERROR Bussiness.ProductionLines.ProductionLinesServer - 未将对象引用设置到对象的实例。
+2018-06-07 14:41:47,828 [31] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-07 14:41:49,979 [31] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-07 14:59:40,959 [36] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-07 16:02:03,328 [47] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-07 16:19:09,228 [11] INFO  Common.LogHelper.Logger - 系统初始化Logger模块

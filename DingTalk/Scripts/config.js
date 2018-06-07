@@ -53,9 +53,9 @@ var DETAILRANGE = {
         max: 1
     },//机器人状态号
     OvenTemperatureNow: {
-        min: 0,
+        min: 1,
         max: 150
-    }//OvenTemperatureNow
+    }//烤箱温度
 }
 var DEVICES = [
     [
