@@ -1,7 +1,7 @@
 ﻿using Bussiness.Time;
 using Common.DbHelper;
 using Common.JsonHelper;
-using MySql.Data.MySqlClient;
+ 
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -50,7 +50,7 @@ namespace Bussiness.DosageInfo
         {
             DataTable tb = new DataTable();
             try {
-            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ProductLineId ={1} order by ID_RealTimeUsage", strDataTime ,lineid);
+            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ChildID =(select ChildID from `usage` where ProductLineId ={1} order by id_usage desc limit 1) order by ID_RealTimeUsage", strDataTime ,lineid);
              tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
             
             }
@@ -146,7 +146,7 @@ namespace Bussiness.DosageInfo
         {
             DataTable tb = new DataTable();
             try { 
-            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN, AllN as CurrN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ID_RealTimeUsage<{1} and ProductLineId={2} order by ID_RealTimeUsage", strDataTime, strDataTimeend, lineid);
+            string strSql = string.Format("SELECT  ID_RealTimeUsage,NowN, NowN as CurrN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ID_RealTimeUsage<{1} and ProductLineId={2} order by ID_RealTimeUsage", strDataTime, strDataTimeend, lineid);
                 tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
             
             }
@@ -165,8 +165,14 @@ namespace Bussiness.DosageInfo
         /// <returns></returns>
         public DataTable ChangeData(DataTable tbNew, int dura_min)
         {
-        
-            DataTable tbOld = new DataTable();
+            int scale = 1;
+            if (dura_min > 60) dura_min = 60;
+            if (dura_min < 60) dura_min = 10;
+            else
+                scale = 60 / dura_min;
+
+
+             DataTable tbOld = new DataTable();
             try
             {
                 tbOld = tbNew.Clone();
@@ -179,13 +185,16 @@ namespace Bussiness.DosageInfo
                 for (int i = 0; i < tbNew.Rows.Count; i++)
                 {
                     if (i == 0)
+                        {
                         tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
-                   else if (i == tbNew.Rows.Count - 1 && tbNew.Rows.Count > 2)
+                      
+                        }
+                        else if (i == tbNew.Rows.Count - 1 && tbNew.Rows.Count > 2)
                     {
                         tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
                         int count = tbOld.Rows.Count-1;
                        
-                        tbOld.Rows[count][2] = Convert.ToInt32(tbOld.Rows[count][1]) - Convert.ToInt32(tbOld.Rows[count - 1][1]);
+                        tbOld.Rows[count][2] = scale*(Convert.ToInt32(tbOld.Rows[count][1]) - Convert.ToInt32(tbOld.Rows[count - 1][1]));
                         continue;
                     }
 
@@ -193,7 +202,7 @@ namespace Bussiness.DosageInfo
                     {
                         tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
                         int count = tbOld.Rows.Count-1;
-                        tbOld.Rows[count][2] = Convert.ToInt32(tbOld.Rows[count][1]) - Convert.ToInt32(tbOld.Rows[count - 1][1]);
+                        tbOld.Rows[count][2] = scale * (Convert.ToInt32(tbOld.Rows[count][1]) - Convert.ToInt32(tbOld.Rows[count - 1][1]));
                         
                         continue;
                     }
@@ -214,6 +223,86 @@ namespace Bussiness.DosageInfo
             }
             return tbOld;
         }
+
+        public string GetMonProduct(string StartDate, string EndDate, bool MultiMon = true)
+        {
+
+            try
+            {
+                //同一个月
+                if (!MultiMon)
+                {
+
+
+                    string strSql = " SELECT datestr, round(sum( b.`NowN`) ) as AllN" +
+                                    
+                                    "  FROM   ( select left(a.CT, 10) as datestr,a.* from `usage`  a  ";
+
+
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(strSql);
+
+                    if (StartDate != null || EndDate != null)
+                    {
+                        sb.Append(string.Format(" WHERE ct BETWEEN '{0}' AND  '{1}'     ", StartDate, EndDate));
+                    }
+
+                    sb.Append(" )b group by datestr order by datestr ");
+                    DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
+                    string strJsonString = string.Empty;
+                    if (tb.Rows.Count > 0)
+                        strJsonString = JsonHelper.DataTableToJson(tb);
+
+                    else
+                    {
+                        return Global.RETURN_EMPTY;
+                    }
+                    return strJsonString;
+                }
+                else
+                {
+
+
+                    string strSql = " SELECT datestr, round(sum( b.`NowN`) ) as AllN" +
+
+                                    "  FROM   ( select left(a.CT,7) as datestr,a.* from `usage`  a  ";
+                   
+
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(strSql);
+
+                    if (StartDate != null || EndDate != null)
+                    {
+                        sb.Append(string.Format(" WHERE ct BETWEEN '{0}' AND  '{1}'     ", StartDate, EndDate));
+                    }
+
+                    sb.Append(" ) b group by datestr  order by datestr ");
+                    DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
+                    string strJsonString = string.Empty;
+                    if (tb.Rows.Count > 0)
+                        strJsonString = JsonHelper.DataTableToJson(tb);
+
+                    else
+                    {
+                        return Global.RETURN_EMPTY;
+                    }
+                    return strJsonString;
+
+
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return Global.RETURN_ERROR(ex.Message);
+            }
+        }
+
+
     }
 
 }

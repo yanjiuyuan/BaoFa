@@ -49,6 +49,7 @@ namespace DingTalk.Controllers
         public string GetQualityCounts(string OrderId, string ChildId, string StartTime, string EndTime)
         {
             QualityServer qualityServer = new QualityServer();
+
             return qualityServer.GetQualityCounts(OrderId, ChildId, StartTime, EndTime);
         }
     }

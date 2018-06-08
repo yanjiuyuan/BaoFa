@@ -232,15 +232,17 @@ namespace Bussiness.Report
         {
             string[] strListTest = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" };
 
-            string strSql = "SELECT a.orderid,a.childid,b.ordern,a.childn,'华宝有限公司' AS factoryName," +
+            string strSql = "select * from (SELECT a.orderid,a.childid,b.ordern,a.childn,'华宝有限公司' AS factoryName," +
                 "productlineid,ordtime,DeliveryTime,ProductionT,Customer,ExpCountries,KRXTM,XTDH,Material," +
-                "color,XingTiN,BaoTouL,WeiTiaoW,HuChiW,ProductionBeat,NowN,OldN,ALlN,WeiTiaoConsumption," +
-                "HuChiConsumption,BiaoQianConsumption,DaDiConsumption FROM `Usage` a " +
+                "color,XingTiN,BaoTouL,WeiTiaoW,HuChiW,ProductionBeat,NowN,OldN,ALlN FROM `Usage` a " +
                 "LEFT JOIN `Order` b ON a.orderid=b.orderid  where a.CT >='" + startTime + "' and a.CT<='" + endTime + "' and a.productlineid=" + lineid +
-                " ORDER BY  a.CreateTime DESC  LIMIT 0,1";
-            DataTable db = MySqlHelper.ExecuteQuery(strSql);
+                " ORDER BY  a.CreateTime DESC  LIMIT 0,1)  T1 LEFT JOIN  (SELECT MAX(productlineid) AS productlineid , sum(NowN) as NowAN , sum(WeiTiaoConsumption) as WeiTiaoConsumption ," +
+                "sum(HuChiConsumption) as HuChiConsumption ,sum(BiaoQianConsumption) as BiaoQianConsumption , sum(DaDiConsumption) as DaDiConsumption  FROM `Usage` a   where a.CT >='" + startTime + "' and a.CT<='" + endTime + "'" +
+                " and a.productlineid=" + lineid + " ) T2 ON T1.productlineid=T2.productlineid";
 
-            if (db != null)
+                
+                DataTable db = MySqlHelper.ExecuteQuery(strSql);
+                if(db !=null)
                 return JsonHelper.DataTableToJson(db);
             else
                 return Global.RETURN_EMPTY;
@@ -269,20 +271,25 @@ namespace Bussiness.Report
 
                 string[] strListTest = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" };
 
-                string strSql = "SELECT a.orderid,a.childid,b.ordern,a.childn,'华宝有限公司' AS factoryName," +
-                    "productlineid,ordtime,DeliveryTime,ProductionT,Customer,ExpCountries,KRXTM,XTDH,Material," +
-                    "color,XingTiN,BaoTouL,WeiTiaoW,HuChiW,ProductionBeat,NowN,OldN,ALlN,WeiTiaoConsumption," +
-                    "HuChiConsumption,BiaoQianConsumption,DaDiConsumption FROM `Usage` a " +
-                    "LEFT JOIN `Order` b ON a.orderid=b.orderid  where a.CT >='" + startTime + "' and a.CT<='" + endTime + "' and a.productlineid=" + lineid +
-                    " ORDER BY  a.CreateTime DESC  LIMIT 0,1";
-                DataTable db = MySqlHelper.ExecuteQuery(strSql);
+                    string strSql = "select * from (SELECT a.orderid,a.childid,b.ordern,a.childn,'华宝有限公司' AS factoryName," +
+                     "productlineid,ordtime,DeliveryTime,ProductionT,Customer,ExpCountries,KRXTM,XTDH,Material," +
+                     "color,XingTiN,BaoTouL,WeiTiaoW,HuChiW,ProductionBeat,NowN,OldN,ALlN FROM `Usage` a " +
+                     "LEFT JOIN `Order` b ON a.orderid=b.orderid  where a.CT >='" + startTime + "' and a.CT<='" + endTime + "' and a.productlineid=" + lineid +
+                     " ORDER BY  a.CreateTime DESC  LIMIT 0,1)  T1 LEFT JOIN  (SELECT MAX(productlineid) AS productlineid , sum(NowN) as NowAN , sum(WeiTiaoConsumption) as WeiTiaoConsumption ," +
+                     "sum(HuChiConsumption) as HuChiConsumption ,sum(BiaoQianConsumption) as BiaoQianConsumption , sum(DaDiConsumption) as DaDiConsumption  FROM `Usage` a   where a.CT >='" + startTime + "' and a.CT<='" + endTime + "'" +
+                     " and a.productlineid=" + lineid + " ) T2 ON T1.productlineid=T2.productlineid";
+                    DataTable db = MySqlHelper.ExecuteQuery(strSql);
 
 
 
                 if (db.Rows.Count > 0)
                 {
+                        //当班总产量
+                        string strSql1 = "SELECT  sum(NowN) as NowAN  FROM `Usage` a   where a.CT >='" + startTime + "' and a.CT<='" + endTime + "' and a.productlineid=" + lineid;
+                    
+                        DataTable DB_ALL_DAY = MySqlHelper.ExecuteQuery(strSql1);
 
-                    List<string> list = new List<string>();
+                        List<string> list = new List<string>();
                     List<string> listTwo = new List<string>();
                     List<string> listTh = new List<string>();
                     List<string> listFour = new List<string>();
@@ -306,144 +313,59 @@ namespace Bussiness.Report
 
                     }
 
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            list[i] = db.Rows[0][0].ToString();
-                        }
-                        if (i == 1)
-                        {
-                            list[i] = db.Rows[0][1].ToString();
-                        }
-                        if (i == 4)
-                        {
-                            list[i] = db.Rows[0][2].ToString();
-                        }
-                        if (i == 7)
-                        {
-                            list[i] = db.Rows[0][3].ToString();
-                        }
-                        if (i == 9)
-                        {
-                            list[i] = db.Rows[0][4].ToString();
-                        }
-                        if (i == 13)
-                        {
-                            list[i] = db.Rows[0][5].ToString();
-                        }
-                        if (i == 15)
-                        {
-                            list[i] = db.Rows[0][6].ToString();
-                        }
-                        if (i == 17)
-                        {
-                            list[i] = db.Rows[0][7].ToString();
-                        }
-                        if (i == 19)
-                        {
-                            list[i] = db.Rows[0][8].ToString();
-                        }
-                    }
+                    //LIST
+                            list[0] = db.Rows[0][0].ToString();
+                        
+                            list[1] = db.Rows[0][1].ToString();
+                        
+                            list[4] = db.Rows[0][2].ToString();
+                        
+                            list[7] = db.Rows[0][3].ToString();
+                        
+                            list[9] = db.Rows[0][4].ToString();
+                        
+                            list[13] = db.Rows[0][5].ToString();
+                        
+                            list[15] = db.Rows[0][6].ToString();
+                        
+                            list[17] = db.Rows[0][7].ToString();
+                        
+                            list[19] = db.Rows[0][8].ToString();
+                         
+                     
+                            listTwo[0] = db.Rows[0][9].ToString();
+                       
+                            listTwo[1] = db.Rows[0][10].ToString();
+                         
+                            listTwo[4] = db.Rows[0][11].ToString();
+                        
+                            listTwo[7] = db.Rows[0][12].ToString();
+                    
+                            listTh[0] = db.Rows[0][13].ToString();
+                        
+                            listTh[1] = db.Rows[0][14].ToString();
+                        
+                            listTh[4] = db.Rows[0][15].ToString();
+                         
+                            listTh[7] = db.Rows[0][16].ToString();
+                       
+                            listTh[9] = db.Rows[0][17].ToString();
+                        
+                            listTh[13] = db.Rows[0][18].ToString();
+                         
+                            //生产节拍 当班 当日 总产量
+                            listFour[0] = db.Rows[0][19].ToString();
+                            listFive[0] = db.Rows[0][20].ToString();
+                            listSix[0] = db.Rows[0][24].ToString();
+                            listSeven[0] = db.Rows[0][22].ToString();
 
-                    for (int i = 0; i < listTwo.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            listTwo[i] = db.Rows[0][9].ToString();
-                        }
-                        if (i == 1)
-                        {
-                            listTwo[i] = db.Rows[0][10].ToString();
-                        }
-                        if (i == 4)
-                        {
-                            listTwo[i] = db.Rows[0][11].ToString();
-                        }
-                        if (i == 7)
-                        {
-                            listTwo[i] = db.Rows[0][12].ToString();
-                        }
-                    }
+                        //4用量
+                        listFour[1] = db.Rows[0][25].ToString();
+                        listFive[1] = db.Rows[0][26].ToString();
+                        listSix[1] = db.Rows[0][27].ToString();
+                        listSeven[1] = db.Rows[0][28].ToString();
 
-
-                    for (int i = 0; i < listTh.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            listTh[i] = db.Rows[0][13].ToString();
-                        }
-                        if (i == 1)
-                        {
-                            listTh[i] = db.Rows[0][14].ToString();
-                        }
-                        if (i == 4)
-                        {
-                            listTh[i] = db.Rows[0][15].ToString();
-                        }
-                        if (i == 7)
-                        {
-                            listTh[i] = db.Rows[0][16].ToString();
-                        }
-                        if (i == 9)
-                        {
-                            listTh[i] = db.Rows[0][17].ToString();
-                        }
-                        if (i == 13)
-                        {
-                            listTh[i] = db.Rows[0][18].ToString();
-                        }
-                    }
-
-                    for (int i = 0; i < listFour.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            listFour[i] = db.Rows[0][19].ToString();
-                        }
-                        if (i == 1)
-                        {
-                            listFour[i] = db.Rows[0][20].ToString();
-                        }
-                    }
-
-                    for (int i = 0; i < listFive.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            listFive[i] = db.Rows[0][21].ToString();
-                        }
-                        if (i == 1)
-                        {
-                            listFive[i] = db.Rows[0][22].ToString();
-                        }
-                    }
-
-                    for (int i = 0; i < listSix.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            listSix[i] = db.Rows[0][23].ToString();
-                        }
-                        if (i == 1)
-                        {
-                            listSix[i] = db.Rows[0][24].ToString();
-                        }
-                    }
-
-                    for (int i = 0; i < listSeven.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            listSeven[i] = db.Rows[0][23].ToString();
-                        }
-                        if (i == 1)
-                        {
-                            listSeven[i] = db.Rows[0][24].ToString();
-                        }
-                    }
-
-
+                        
                     string[] strListOne = list.ToArray();
                     string[] strListTwo = listTwo.ToArray();
                     string[] strListTh = listTh.ToArray();
@@ -510,18 +432,20 @@ namespace Bussiness.Report
          try
              {
 
-        string strSql = "SELECT a.orderid,a.childid,b.ordern,a.childn,'华宝有限公司' AS factoryName," +
-               "productlineid,ordtime,DeliveryTime,ProductionT,Customer,ExpCountries,KRXTM,XTDH,Material," +
-               "color,XingTiN,BaoTouL,WeiTiaoW,HuChiW,ProductionBeat,NowN,OldN,ALlN,WeiTiaoConsumption," +
-               "HuChiConsumption,BiaoQianConsumption,DaDiConsumption FROM `Usage` a " +
-               "LEFT JOIN `Order` b ON a.orderid=b.orderid  where a.CT >='" + startTime + "' and a.CT<='" + endTime + "' and a.productlineid=" + lineid +
-               " ORDER BY  a.CreateTime DESC  LIMIT 0,1";
-        DataTable db = MySqlHelper.ExecuteQuery(strSql);
+                string strSql = "select * from (SELECT a.orderid,a.childid,b.ordern,a.childn,'华宝有限公司' AS factoryName," +
+                           "productlineid,ordtime,DeliveryTime,ProductionT,Customer,ExpCountries,KRXTM,XTDH,Material," +
+                           "color,XingTiN,BaoTouL,WeiTiaoW,HuChiW,ProductionBeat,NowN,OldN,ALlN FROM `Usage` a " +
+                           "LEFT JOIN `Order` b ON a.orderid=b.orderid  where a.CT >='" + startTime + "' and a.CT<='" + endTime + "' and a.productlineid=" + lineid +
+                           " ORDER BY  a.CreateTime DESC  LIMIT 0,1)  T1 LEFT JOIN  (SELECT MAX(productlineid) AS productlineid , sum(NowN) as NowAN , sum(WeiTiaoConsumption) as WeiTiaoConsumption ," +
+                           "sum(HuChiConsumption) as HuChiConsumption ,sum(BiaoQianConsumption) as BiaoQianConsumption , sum(DaDiConsumption) as DaDiConsumption  FROM `Usage` a   where a.CT >='" + startTime + "' and a.CT<='" + endTime + "'" +
+                           " and a.productlineid=" + lineid + " ) T2 ON T1.productlineid=T2.productlineid";
+                DataTable db = MySqlHelper.ExecuteQuery(strSql);
 
 
-        //获取质量统计
 
-        string strSqlqa = " SELECT  round(sum(t.`AppearanceQualified`) /sum(1) ) as AppearanceQualified, " +
+                //获取质量统计
+
+                string strSqlqa = " SELECT  round(sum(t.`AppearanceQualified`) /sum(1) ) as AppearanceQualified, " +
                         "   round(sum(t.`AppearanceAfterQualified`) / sum(1)) as AppearanceAfterQualified," +
                         "   round(sum(t.`VampPullQualified`*100) / sum(1)) as VampPullQualified," +
                         "    round(sum(t.`DaDiPullQualified`*100) / sum(1)) as DaDiPullQualified," +
@@ -530,19 +454,17 @@ namespace Bussiness.Report
                         "    FROM(select a.* from Quality a left join `usage` b on a.id_usage = b.id_usage" +
                        "      where  b.CT >= '" + startTime + "' and b.CT <='" + endTime + "' and b.productlineid = " + lineid + ") as t";
         DataTable dbqa = MySqlHelper.ExecuteQuery(strSqlqa);
-
-
-
-        Hashtable hasht = new Hashtable();
+ 
+         Hashtable hasht = new Hashtable();
 
         if (db.Rows.Count > 0)
             hasht.Add("order", JsonHelper.DataRowToDic(db.Columns, db.Rows[0]));
         if (dbqa.Rows.Count > 0)
             hasht.Add("quality", JsonHelper.DataRowToDic(dbqa.Columns, dbqa.Rows[0]));
-
-                if (hasht.Count > 0)
+         
+        if (hasht.Count > 0)
                     return JsonConvert.SerializeObject(hasht);
-                else
+        else
                     return Global.RETURN_EMPTY;
          }
     catch (Exception ex)
@@ -590,19 +512,20 @@ namespace Bussiness.Report
 
 
                 string[] strListTest = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" };
-                //获取订单信息
-                string strSql = "SELECT a.orderid,a.childid,b.ordern,a.childn,'华宝有限公司' AS factoryName," +
-                    "productlineid,ordtime,DeliveryTime,ProductionT,Customer,ExpCountries,KRXTM,XTDH,Material," +
-                    "color,XingTiN,BaoTouL,WeiTiaoW,HuChiW,ProductionBeat,NowN,OldN,ALlN,WeiTiaoConsumption," +
-                    "HuChiConsumption,BiaoQianConsumption,DaDiConsumption FROM `Usage` a " +
-                    "LEFT JOIN `Order` b ON a.orderid=b.orderid  where a.CT >='" + startTime + "' and a.CT<='" + endTime + "' and a.productlineid=" + lineid +
-                    " ORDER BY  a.CreateTime DESC  LIMIT 0,1";
-                DataTable db = MySqlHelper.ExecuteQuery(strSql);
+                    //获取订单信息
+                    string strSql = "select * from (SELECT a.orderid,a.childid,b.ordern,a.childn,'华宝有限公司' AS factoryName," +
+                              "productlineid,ordtime,DeliveryTime,ProductionT,Customer,ExpCountries,KRXTM,XTDH,Material," +
+                              "color,XingTiN,BaoTouL,WeiTiaoW,HuChiW,ProductionBeat,NowN,OldN,ALlN FROM `Usage` a " +
+                              "LEFT JOIN `Order` b ON a.orderid=b.orderid  where a.CT >='" + startTime + "' and a.CT<='" + endTime + "' and a.productlineid=" + lineid +
+                              " ORDER BY  a.CreateTime DESC  LIMIT 0,1)  T1 LEFT JOIN  (SELECT MAX(productlineid) AS productlineid , sum(NowN) as NowAN , sum(WeiTiaoConsumption) as WeiTiaoConsumption ," +
+                              "sum(HuChiConsumption) as HuChiConsumption ,sum(BiaoQianConsumption) as BiaoQianConsumption , sum(DaDiConsumption) as DaDiConsumption  FROM `Usage` a   where a.CT >='" + startTime + "' and a.CT<='" + endTime + "'" +
+                              " and a.productlineid=" + lineid + " ) T2 ON T1.productlineid=T2.productlineid";
+                    DataTable db = MySqlHelper.ExecuteQuery(strSql);
 
 
-                //获取质量统计
+                    //获取质量统计
 
-                string strSqlqa = " SELECT  round(sum(t.`AppearanceQualified`) /sum(1) ) as AppearanceQualified, " +
+                    string strSqlqa = " SELECT  round(sum(t.`AppearanceQualified`) /sum(1) ) as AppearanceQualified, " +
                                 "   round(sum(t.`AppearanceAfterQualified`) / sum(1)) as AppearanceAfterQualified," +
                                 "   round(sum(t.`VampPullQualified`*100) / sum(1)) as VampPullQualified," +
                                 "    round(sum(t.`DaDiPullQualified`*100) / sum(1)) as DaDiPullQualified," +
@@ -637,96 +560,50 @@ namespace Bussiness.Report
                         listSeven.Add("");
 
                     }
-                    for (int i = 0; i < list.Count; i++)
-                    {
-                        if (i == 0)
+                        if (db.Rows.Count > 0)
                         {
-                            list[i] = db.Rows[0][0].ToString();
-                        }
-                        if (i == 1)
-                        {
-                            list[i] = db.Rows[0][1].ToString();
-                        }
-                        if (i == 4)
-                        {
-                            list[i] = db.Rows[0][2].ToString();
-                        }
-                        if (i == 7)
-                        {
-                            list[i] = db.Rows[0][3].ToString();
-                        }
-                        if (i == 9)
-                        {
-                            list[i] = db.Rows[0][4].ToString();
-                        }
-                        if (i == 13)
-                        {
-                            list[i] = db.Rows[0][5].ToString();
-                        }
-                        if (i == 15)
-                        {
-                            list[i] = db.Rows[0][6].ToString();
-                        }
-                        if (i == 17)
-                        {
-                            list[i] = db.Rows[0][7].ToString();
-                        }
-                        if (i == 19)
-                        {
-                            list[i] = db.Rows[0][8].ToString();
-                        }
-                    }
 
-                    for (int i = 0; i < listTwo.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            listTwo[i] = db.Rows[0][9].ToString();
-                        }
-                        if (i == 1)
-                        {
-                            listTwo[i] = db.Rows[0][10].ToString();
-                        }
-                        if (i == 4)
-                        {
-                            listTwo[i] = db.Rows[0][11].ToString();
-                        }
-                        if (i == 7)
-                        {
-                            listTwo[i] = db.Rows[0][12].ToString();
-                        }
-                    }
+                            //LIST
+                            list[0] = db.Rows[0][0].ToString();
+
+                            list[1] = db.Rows[0][1].ToString();
+
+                            list[4] = db.Rows[0][2].ToString();
+
+                            list[7] = db.Rows[0][3].ToString();
+
+                            list[9] = db.Rows[0][4].ToString();
+
+                            list[13] = db.Rows[0][5].ToString();
+
+                            list[15] = db.Rows[0][6].ToString();
+
+                            list[17] = db.Rows[0][7].ToString();
+
+                            list[19] = db.Rows[0][8].ToString();
 
 
-                    for (int i = 0; i < listTh.Count; i++)
-                    {
-                        if (i == 0)
-                        {
-                            listTh[i] = db.Rows[0][13].ToString();
-                        }
-                        if (i == 1)
-                        {
-                            listTh[i] = db.Rows[0][14].ToString();
-                        }
-                        if (i == 4)
-                        {
-                            listTh[i] = db.Rows[0][15].ToString();
-                        }
-                        if (i == 7)
-                        {
-                            listTh[i] = db.Rows[0][16].ToString();
-                        }
-                        if (i == 9)
-                        {
-                            listTh[i] = db.Rows[0][17].ToString();
-                        }
-                        if (i == 13)
-                        {
-                            listTh[i] = db.Rows[0][18].ToString();
-                        }
-                    }
+                            listTwo[0] = db.Rows[0][9].ToString();
 
-                    if (dbqa.Rows.Count > 0)
+                            listTwo[1] = db.Rows[0][10].ToString();
+
+                            listTwo[4] = db.Rows[0][11].ToString();
+
+                            listTwo[7] = db.Rows[0][12].ToString();
+
+                            listTh[0] = db.Rows[0][13].ToString();
+
+                            listTh[1] = db.Rows[0][14].ToString();
+
+                            listTh[4] = db.Rows[0][15].ToString();
+
+                            listTh[7] = db.Rows[0][16].ToString();
+
+                            listTh[9] = db.Rows[0][17].ToString();
+
+                            listTh[13] = db.Rows[0][18].ToString();
+                        }
+                        if (dbqa.Rows.Count > 0)
                     {
 
                         listFour[0] = dbqa.Rows[0][0].ToString();

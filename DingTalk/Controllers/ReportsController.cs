@@ -1,4 +1,5 @@
-﻿using Bussiness.Quality;
+﻿using Bussiness.DosageInfo;
+using Bussiness.Quality;
 using Bussiness.Report;
 using Bussiness.UsageInfo;
 using System;
@@ -46,10 +47,11 @@ namespace DingTalk.Controllers
             string enddatestr = endYear + "-" + endMonth + "-" + "01";
             DateTime endtime = Convert.ToDateTime(enddatestr);
             string EndDate = endtime.AddMonths(1).ToString("yyyy-MM-dd HH:mm:ss");
-            if(!startMonth.Equals(endMonth))
-            return quaServer.GetMonQuality(  StartDate,   EndDate) ;
-            else
-            return quaServer.GetMonQuality(StartDate, EndDate,false);
+            if(startMonth.Equals(endMonth) && startYear.Equals(endYear))
+                return quaServer.GetMonQuality(StartDate, EndDate, false);
+             else
+                return quaServer.GetMonQuality(StartDate, EndDate);
+
         }
 
         /// 测试数据：Reports/GetMonQuality?startYear=2018&startMonth=5&endYear=2018&endMonth=5
@@ -67,6 +69,26 @@ namespace DingTalk.Controllers
 
         }
 
+
+
+        /// 测试数据：Reports/GetMonProduct?startYear=2018&startMonth=5&endYear=2018&endMonth=5
+        public string GetMonProduct(string startYear, string startMonth, string endYear, string endMonth)
+        {
+            DosageInfoServer dosServer = new DosageInfoServer();
+            string startdatestr = startYear + "-" + startMonth + "-" + "01";
+            DateTime starttime = Convert.ToDateTime(startdatestr);
+            string StartDate = starttime.ToString("yyyy-MM-dd HH:mm:ss");
+
+            string enddatestr = endYear + "-" + endMonth + "-" + "01";
+            DateTime endtime = Convert.ToDateTime(enddatestr);
+            string EndDate = endtime.AddMonths(1).ToString("yyyy-MM-dd HH:mm:ss");
+            if (startMonth.Equals(endMonth) && startYear.Equals(endYear))
+                return dosServer.GetMonProduct(StartDate, EndDate, false);
+            else
+                return dosServer.GetMonProduct(StartDate, EndDate);
+             
+
+        }
 
 
 

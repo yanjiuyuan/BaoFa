@@ -26,7 +26,8 @@ namespace DingTalk.Controllers
         public string GetUsage()
         {
            UsageInfo usageInfo = new UsageInfo();
-           return  usageInfo.GetUsage();
+            string str= usageInfo.GetUsage();
+            return str;
         }
     }
 }
