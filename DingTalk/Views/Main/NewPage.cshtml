@@ -39,9 +39,13 @@
                                 <hr />
                                 <div id="barChart" style="height:300px;width:800px;"></div>
                                 <hr />
+                                <div id="pieChart" style="height:500px;width:800px;"></div>
+                                <hr />
                                 <img id="hideLineImg" src="" />
                                 <hr />
                                 <img id="hideBarImg" src="" />
+                                <hr />
+                                <img id="hidePieImg" src="" />
                             </div>
                         </el-main>
 
@@ -186,6 +190,105 @@
                                 ]
                             };
                             barChart.setOption(barOption);
+
+                            //饼状图
+                            pieChart = echarts.init(document.getElementById('pieChart'));
+                            var radarName = []
+                            var pieName = []
+                            for (var r in QUALITY_RADAR) {
+                                radarName.push({
+                                    text: QUALITY_RADAR[r]
+                                })
+                            }
+                            for (var p in QUALITY_PIE) {
+                                pieName.push(QUALITY_PIE[p])
+                            }
+                            pieOption = {
+                                title: {
+                                    text: '质量分析'
+                                },
+                                tooltip: {
+                                    trigger: 'item'
+                                },
+                                legend: {
+                                    data: pieName
+                                },
+                                toolbox: {
+                                    show: true,
+                                    feature: {
+                                        restore: { show: true },
+                                        dataView: { show: true, readOnly: false },
+                                        saveAsImage: { show: true }
+                                    }
+                                },
+                                polar: [
+                                    {
+                                        indicator: radarName,
+                                        center: [document.getElementById('pieChart').offsetWidth - 250, 225],
+                                        radius: 120
+                                    }
+                                ],
+                                calculable: false,
+                                series: [
+                                    {
+                                        name: '品质分析',
+                                        type: 'pie',
+                                        radius: [0, 110],
+                                        center: [170, 225],
+                                        data: [
+                                            {
+                                                name: 'A等',
+                                                value: Math.round(Math.random() * 10)
+                                            },
+                                            {
+                                                name: 'B等',
+                                                value: Math.round(Math.random() * 10)
+                                            },
+                                            {
+                                                name: 'C等',
+                                                value: Math.round(Math.random() * 10)
+                                            }]
+                                    },
+                                    {
+                                        name: 'radar',
+                                        type: 'radar',
+                                        itemStyle: {
+                                            normal: {
+                                                color: function (params) {
+                                                    var dataIndex = params.dataIndex
+                                                    switch (dataIndex) {
+                                                        case 0: return 'rgb(0,184,0)'; break;
+                                                        case 1: return 'pink'; break;
+                                                        case 2: return 'rgb(230,200,0)'; break;
+                                                        case 3: return 'rgb(0,156,213)'; break;
+                                                        default: return 'rgb(213,35,33)';
+                                                    }
+                                                },
+                                                areaStyle: {
+                                                    color: 'rgba(151,229,151,0.7)',
+                                                    type: 'default'
+                                                }
+
+                                            }
+                                        },
+                                        data: [{
+                                            name: '质量参数',
+                                            value: [
+                                                Math.round(Math.random() * 100),
+                                                Math.round(Math.random() * 100),
+                                                Math.round(Math.random() * 100),
+                                                Math.round(Math.random() * 100),
+                                                Math.round(Math.random() * 100)
+                                            ]
+                                        }]
+                                    }
+                                ]
+                            };
+                            pieChart.setOption(pieOption);
+                            window.setTimeout(function () {
+                                var b = pieChart.getDataURL()
+                                $("#hidePieImg").attr("src", b)
+                            }, 3000)
 
                             //获取数据
                             intervalId = window.setInterval(function () {

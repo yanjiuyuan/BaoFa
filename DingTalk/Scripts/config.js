@@ -348,83 +348,178 @@ var QUALITY_PIE = {
 var WORKERS = [
     {
         ArtificialConfig_ID: 1,
+        Mark: 1,
         Jobs: '套楦',
         position: {
             top: '74%',
             left: '4%'
         },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 1,
+        Mark: 0,
+        Jobs: '套楦',
+        position: {
+            top: '74%',
+            left: '14%'
+        },
+        stationstate: '',
         img: ''
     },
     {
         ArtificialConfig_ID: 4,
+        Mark: 1,
         Jobs: '帖大底',
         position: {
             top: '0%',
             left: '22%'
         },
+        stationstate: '',
         img: ''
     },
     {
-        ArtificialConfig_ID:5,
-        Jobs: '敲平',
+        ArtificialConfig_ID: 4,
+        Mark: 0,
+        Jobs: '帖大底',
         position: {
             top: '0%',
+            left: '32%'
+        },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 5,
+        Mark: 1,
+        Jobs: '敲平',
+        position: {
+            top: '2%',
             left: '42%'
         },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 5,
+        Mark: 0,
+        Jobs: '敲平',
+        position: {
+            top: '2%',
+            left: '52%'
+        },
+        stationstate: '',
         img: ''
     },
     {
         ArtificialConfig_ID: 8,
+        Mark: 1,
+        Jobs: '贴围条',
+        position: {
+            top: '20%',
+            left: '82%'
+        },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 8,
+        Mark: 0,
         Jobs: '贴围条',
         position: {
             top: '20%',
             left: '92%'
         },
+        stationstate: '',
         img: ''
     },
     {
         ArtificialConfig_ID: 9,
+        Mark: 1,
         Jobs: '滚压',
         position: {
             top: '74%',
             left: '60%'
         },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 9,
+        Mark: 0,
+        Jobs: '滚压',
+        position: {
+            top: '74%',
+            left: '70%'
+        },
+        stationstate: '',
         img: ''
     },
     {
         ArtificialConfig_ID: 11,
+        Mark: 1,
         Jobs: '帖护齿',
         position: {
             top: '74%',
             left: '40%'
         },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 11,
+        Mark: 0,
+        Jobs: '帖护齿',
+        position: {
+            top: '74%',
+            left: '50%'
+        },
+        stationstate: '',
         img: ''
     },
     {
         ArtificialConfig_ID: 13,
+        Mark: 1,
         Jobs: '品检',
         position: {
             top: '74%',
             left: '22%'
         },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 13,
+        Mark: 0,
+        Jobs: '品检',
+        position: {
+            top: '74%',
+            left: '32%'
+        },
+        stationstate: '',
         img: ''
     },
     {
         ArtificialConfig_ID: 14,
+        Mark: 1,
         Jobs: '工艺组组长',
         position: {
             top: '30%',
             left: '36%'
         },
+        stationstate: '',
         img: ''
     },
     {
         ArtificialConfig_ID: 15,
+        Mark: 1,
         Jobs: '喷胶调试员',
         position: {
             top: '30%',
             left: '50%'
         },
+        stationstate: '',
         img: ''
     }
 ]

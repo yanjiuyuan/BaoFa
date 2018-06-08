@@ -40,7 +40,8 @@
     var paramOption = []
     var lineChart1, lineOption1, lineChart2, lineOption2, lineChart3, lineOption3, lineChart4, lineOption4, lineChart5, lineOption5, lineChart6, lineOption6, lineChart7, lineOption7
     var lineElement1, lineElement2, lineElement3, lineElement4, lineElement5, lineElement6, lineElement7
-    var lineElements = [] , lineCharts = [], lineOptions = []
+    var lineElements = [], lineCharts = [], lineOptions = []
+    var usageOption = {}
     var demo = new Vue({
         el: "#partPage",
         mixins: [mixin],
@@ -107,26 +108,48 @@
                         console.log('查询单品单工位实时数据')
                         console.log(url)
                         console.log(data)
-                        for (var d in data) {
-                            xArr.push(data[d][param.Spray + 'ID'])
-                            y1Arr.push(data[d].AtomizationPressure)
-                            y2Arr.push(data[d].MaterialPressure)
-                            y3Arr.push(data[d].GlueWeight)
-                            y4Arr.push(data[d].FlowMeter)
-                            y5Arr.push(data[d].OvenTemperatureNow)
-                            y6Arr.push(data[d].StateN)
-                            y7Arr.push(data[d].ErrorN / 1000)
+                        if (data.length && data.length > 2) {
+                            if (param.Spray == 'LineUsage') {
+                                
+                                for (var d in data) {
+                                    xArr.push(data[d][param.Spray + 'ID'])
+                                    y1Arr.push(data[d].BOilPressure)
+                                    y2Arr.push(data[d].LOilPressure)
+                                    y3Arr.push(data[d].ROilPressure)
+                                    y4Arr.push(data[d].ShoeL)
+                                }
+                                lineOptions[index].xAxis[0].data = xArr
+                                lineOptions[index].series[0].data = y1Arr
+                                lineOptions[index].series[1].data = y2Arr
+                                lineOptions[index].series[2].data = y3Arr
+                                lineOptions[index].series[3].data = y4Arr
+                                console.log('LineUsage!!!!!!!!!!!!!!!!!!!!!!!!')
+                                console.log(index)
+                                console.log(lineOptions[index])
+                            }
+                            else {
+                                for (var d in data) {
+                                    xArr.push(data[d][param.Spray + 'ID'])
+                                    y1Arr.push(data[d].AtomizationPressure)
+                                    y2Arr.push(data[d].MaterialPressure)
+                                    y3Arr.push(data[d].GlueWeight)
+                                    y4Arr.push(data[d].FlowMeter)
+                                    y5Arr.push(data[d].OvenTemperatureNow)
+                                    y6Arr.push(data[d].StateN)
+                                    y7Arr.push(data[d].ErrorN / 1000)
+                                }
+                                lineOptions[index].xAxis[0].data = xArr
+                                lineOptions[index].series[0].data = y1Arr
+                                lineOptions[index].series[1].data = y2Arr
+                                lineOptions[index].series[2].data = y3Arr
+                                lineOptions[index].series[3].data = y4Arr
+                                lineOptions[index].series[4].data = y5Arr
+                                lineOptions[index].series[5].data = y6Arr
+                                lineOptions[index].series[6].data = y7Arr
+                            }
+                            lineOptions[index].title.text = title
+                            lineCharts[index].setOption(lineOptions[index])
                         }
-                        lineOptions[index].xAxis[0].data = xArr
-                        lineOptions[index].series[0].data = y1Arr
-                        lineOptions[index].series[1].data = y2Arr
-                        lineOptions[index].series[2].data = y3Arr
-                        lineOptions[index].series[3].data = y4Arr
-                        lineOptions[index].series[4].data = y5Arr
-                        lineOptions[index].series[5].data = y6Arr
-                        lineOptions[index].series[6].data = y7Arr
-                        lineOptions[index].title.text = title
-                        lineCharts[index].setOption(lineOptions[index])
                         $('#lineChart' + (index + 1)).show()
                         console.log(lineOptions[index])
                         console.log(lineCharts[index])
@@ -169,7 +192,7 @@
             x: 'center'
         },
         legend: {
-            data: realTimeData.params,
+            data: [],
             orient: 'vertical',
             x: 'left'
         },
@@ -208,41 +231,7 @@
         },
         backgroundColor:'white',
         series: [
-            {
-                name: '雾化压力',
-                type: 'line',
-                data: [1]
-            },
-            {
-                name: '物料压力',
-                type: 'line',
-                data: []
-            },
-            {
-                name: '胶重',
-                type: 'line',
-                data: []
-            },
-            {
-                name: '流量计',
-                type: 'line',
-                data: []
-            },
-            {
-                name: '烤箱实时温度',
-                type: 'line',
-                data: []
-            },
-            {
-                name: '机器人状态号',
-                type: 'line',
-                data: []
-            },
-            {
-                name: '机器人报警号',
-                type: 'line',
-                data: []
-            }
+            
         ]
     };
     for (let i = 0; i < 7; i++) {
@@ -251,9 +240,38 @@
         //let element = $(id)
         lineElements.push(element)
         lineCharts.push(echarts.init(element))
-        lineOptions.push(_cloneObj(lineOption))
+        let tempOption = jQuery.extend(true, {}, lineOption)
+        let tempSeries = []
+        tempOption.legend.data = realTimeData.params
+        for (let p of realTimeData.params) {
+            tempSeries.push({
+                name: p,
+                type: 'line',
+                data: [1]
+            })
+        }
+        tempOption.series = tempSeries
+        lineOptions.push(tempOption)
         lineCharts[i].setOption(lineOptions[i])
     }
+    //usageOption = _cloneObj(lineOption)
+    usageOption = jQuery.extend(true, {}, lineOption)
+    var paramArr = ['压底#总油压', '左十字压', '右十字压', '鞋长']
+    var seriesArr = []
+    console.log('usageOption')
+    console.log(usageOption)
+    usageOption.legend.data = []
+    usageOption.legend.data = paramArr
+    for (let p of paramArr) {
+        seriesArr.push({
+            name: p,
+            type: 'line',
+            data: []
+        })
+    }
+    usageOption.series = seriesArr
+    lineOptions[6] = usageOption
+
     console.log(11111)
     console.log(lineOptions)
     hideOptions()
