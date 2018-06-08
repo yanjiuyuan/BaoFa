@@ -385,7 +385,7 @@ namespace Bussiness.Report
                     ExcelHelperByNPOI.UpdateExcel(strServerPath, "日报表", strListSeven, 17, 9, false);
                 }
                 //添加产量增长图
-                String sql2 = "SELECT picstype, pics FROM getpics where getpicstime >='" + startTime + "' and getpicstime <='" + endTime + "' and picstype  in('1','2') ";
+                String sql2 = "SELECT picstype, pics FROM getpics where getpicstime >='" + startTime + "' and getpicstime <='" + endTime + "'  limit 5 ";
 
                 MySql.Data.MySqlClient.MySqlDataReader reader = MySqlHelper.ExecuteReader(sql2);
 
@@ -394,7 +394,7 @@ namespace Bussiness.Report
                 {
                     while (reader.Read())
                     {
-                        if ("1" == reader.GetString(0))
+                        if ("产品增量图" == reader.GetString(0))
                         {
                             long len = reader.GetBytes(1, 0, null, 0, 0);//1是picture  
                             buffer = new byte[len];
@@ -403,7 +403,7 @@ namespace Bussiness.Report
 
                             ExcelHelperByNPOI.UpdateImgToExcel(strServerPath, "日报表", buffer, 0, 11, 10, 25);
                         }
-                        if ("2" == reader.GetString(0))
+                        if ("用量统计图" == reader.GetString(0))
                         {
                             long len = reader.GetBytes(1, 0, null, 0, 0);//1是picture  
                             buffer = new byte[len];
@@ -711,8 +711,8 @@ namespace Bussiness.Report
 
 
 
-                //添加产量增长图
-                String sql2 = "SELECT picstype, pics FROM getpics where getpicstime >='" + startTime + "' and getpicstime <='" + endTime + "' and picstype  in('3') ";
+                    //添加质量分析图
+                    String sql2 = "SELECT picstype, pics FROM getpics where getpicstime >='" + startTime + "' and getpicstime <='" + endTime + "'   limit 5 ";
 
                 MySql.Data.MySqlClient.MySqlDataReader reader = MySqlHelper.ExecuteReader(sql2);
 
@@ -721,7 +721,7 @@ namespace Bussiness.Report
                 {
                     while (reader.Read())
                     {
-                        if ("3" == reader.GetString(0))
+                        if ("质量分析图" == reader.GetString(0))
                         {
                             long len = reader.GetBytes(1, 0, null, 0, 0);//1是picture  
                             buffer = new byte[len];

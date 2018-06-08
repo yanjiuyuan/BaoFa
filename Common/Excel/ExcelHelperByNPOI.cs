@@ -910,7 +910,7 @@ namespace Common.Excel
 
                 HSSFPatriarch patriarch = (HSSFPatriarch)sheet1.CreateDrawingPatriarch();
                 // 插图片的位置  HSSFClientAnchor（dx1,dy1,dx2,dy2,col1,row1,col2,row2) 后面再作解释
-                HSSFClientAnchor anchor = new HSSFClientAnchor(3, 3, 3, 3, beginCol, beginRow, endCol, endRow);
+                HSSFClientAnchor anchor = new HSSFClientAnchor(30, 30, 30, 30, beginCol, beginRow, endCol, endRow);
                 //把图片插到相应的位置
                 HSSFPicture pict = (HSSFPicture)patriarch.CreatePicture(anchor, pictureIdx);
 
