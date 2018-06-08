@@ -27,13 +27,14 @@
         </el-form-item>
     </el-form>
 
-    <div id="lineChart1" style="height:300px;"></div>
-    <div id="lineChart2" style="height:300px;"></div>
-    <div id="lineChart3" style="height:300px;"></div>
-    <div id="lineChart4" style="height:300px;"></div>
-    <div id="lineChart5" style="height:300px;"></div>
-    <div id="lineChart6" style="height:300px;"></div>
-    <div id="lineChart7" style="height:300px;"></div>
+    <div id="lineChart1" style="height:300px;background-color:red;"></div><br />
+    <div id="lineChart2" style="height:300px;background-color:red;"></div><br />
+    <div id="lineChart3" style="height:300px;background-color:red;"></div><br />
+    <div id="lineChart4" style="height:300px;"></div><br />
+    <div id="lineChart5" style="height:300px;"></div><br />
+    <div id="lineChart6" style="height:300px;"></div><br />
+    <div id="lineChart7" style="height:300px;"></div><br />
+
 </el-main>
 
 <script>
@@ -189,10 +190,12 @@
     lineOption = {
         title: {
             text: realTimeData.name,
+            backgroundColor: 'white',
             x: 'center'
         },
         legend: {
             data: [],
+            backgroundColor: 'white',
             orient: 'vertical',
             x: 'left'
         },
@@ -200,10 +203,12 @@
         toolbox: {
             show: true,
             x: 'right',
+            backgroundColor: 'white',
             feature: {
                 dataView: { show: true, readOnly: false },
                 magicType: { show: true, type: ['line', 'bar', 'stack', 'tiled'] },
                 restore: { show: true },
+                backgroundColor: 'white',
                 saveAsImage: { show: true }
             }
         },
