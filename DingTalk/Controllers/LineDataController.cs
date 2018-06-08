@@ -208,13 +208,31 @@ namespace DingTalk.Controllers
             if(linedt.Rows.Count<1)
             return strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"生产线数量为0!\"}";
 
-            for(int x=0;x< linedt.Rows.Count-1;x++)
+            
+
+
+
+
+
+
+
+
+
+            for (int x=0;x< linedt.Rows.Count-1;x++)
             {
                     Hashtable dic = new Hashtable();
                     int lineid = 0;
                     string linename= string.Empty; ;
                     int.TryParse(linedt.Rows[x][0].ToString(), out lineid);
-                    linename = linedt.Rows[x][1].ToString();
+
+
+                    LineDataServer lds = new LineDataServer();
+
+                    DataTable vdt = lds.getVstate(lineid);
+                    dic.Add("V_STATE", vdt);
+
+
+                linename = linedt.Rows[x][1].ToString();
 
                 dic.Add("ProductLineId", lineid.ToString());
                 dic.Add("ProductLineName", linename);
@@ -260,5 +278,6 @@ namespace DingTalk.Controllers
             return JsonConvert.SerializeObject(lineDataServer.GetLocationState());
         }
 
+     
     }
 }

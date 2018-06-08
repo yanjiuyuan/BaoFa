@@ -21,11 +21,39 @@ namespace Bussiness.Quality
         {
             try
             {
+                if (StartTime == null)
+                    StartTime = DateTime.Now.ToString("yyyy-MM-dd");
+                if (EndTime == null)
+                    EndTime = DateTime.Now.ToString("yyyy-MM-dd");
+                StartTime = StartTime + " 00:00:00";
+                EndTime = EndTime + " 23:59:59";
+
+                string dbsql = "  SELECT  sum( if(b.`QualityType`=1,1,0)) as Goods,  sum( if (b.`QualityType`= 2,1,0)) as Bads, sum( if (b.`QualityType`= 3,1,0)) as Inferior " +
+                    "FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage` ";
+                StringBuilder sb = new StringBuilder();
+                 sb.Append(dbsql);
+                sb.Append(string.Format(" where  ct BETWEEN '{0}' AND  '{1}'", StartTime, EndTime));
+                if (OrderId != null)
+                {
+                    sb.Append(string.Format(" and a.`OrderID`='{0}'", OrderId));
+                }
+                if (ChildId != null)
+                {
+                    sb.Append(string.Format(" and a.`ChildID`='{0}'", ChildId));
+                }
+                DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
+                int iGoods=0, iBads=0, iInferior=0;
+                if (tb.Rows.Count>0)
+                {
+                    object obj = tb.Rows[0]["Goods"];
+
+                    iGoods = int.Parse(tb.Rows[0].IsNull("Goods")? "0": tb.Rows[0]["Goods"].ToString());
+                    iBads = int.Parse(tb.Rows[0].IsNull("Bads") ? "0": tb.Rows[0]["Bads"].ToString());
+                    iInferior = int.Parse(tb.Rows[0].IsNull("Inferior") ? "0": tb.Rows[0]["Inferior"].ToString());
+                }
                 Dictionary<string, int> dic = new Dictionary<string, int>();
-                int iGoods, iBads, iInferior;
-                iGoods = Search(OrderId, ChildId, StartTime, EndTime, 1);
-                iBads = Search(OrderId, ChildId, StartTime, EndTime, 2);
-                iInferior = Search(OrderId, ChildId, StartTime, EndTime, 3);
+             
+                
                 dic.Add("Goods", iGoods);
                 dic.Add("Bads", iBads);
                 dic.Add("Inferior", iInferior);
@@ -38,46 +66,34 @@ namespace Bussiness.Quality
                 return Global.RETURN_ERROR(ex.Message);
             }
         }
-
-        public int Search(string OrderId, string ChildId, string StartTime, string EndTime, int iValue)
-        {
-            int iResult= 0;
-            try {
-                string strSql = "SELECT  COUNT(b.`QualityType`) as Counts   FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage`  ";
-                StringBuilder sb = new StringBuilder();
-                sb.Append(strSql);
-                if (OrderId != null)
-                {
-                    sb.Append(string.Format(" and a.`OrderID`='{0}'", OrderId));
-                }
-                if (ChildId != null)
-                {
-                    sb.Append(string.Format(" and a.`ChildID`='{0}'", ChildId));
-                }
-                if (StartTime != null || EndTime != null)
-                {
-                    sb.Append(string.Format(" and ct BETWEEN '{0}' AND  '{1}'", StartTime, EndTime));
-                }
-                sb.Append(string.Format(" and QualityType = {0}", iValue));
-                DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
-               
-                iResult = Int32.TryParse(tb.Rows[0][0].ToString(), out iResult) ? iResult : 0;
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex.Message);
-                 
-            }
-            return iResult;
-           
-        }
+ 
 
         public string GetBatchQuality(string OrderId, string ChildId, string StartTime, string EndTime)
         {
             try {
-                string strSql = "SELECT a.`OrderID`,a.`ChildID`,b.`AppearanceQualified`,b.`AppearanceAfterQualified`,b.`VampPullQualified`,b.`DaDiPullQualified`,b.`ZheWangQualified`,ct FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage`  ";
+
+                if (StartTime == null)
+                    StartTime = DateTime.Now.ToString("yyyy-MM-dd");
+                if (EndTime == null)
+                    EndTime = DateTime.Now.ToString("yyyy-MM-dd");
+                StartTime = StartTime + " 00:00:00";
+                EndTime = EndTime + " 23:59:59";
+
+
+                string strSql = " SELECT  round(sum( b.`AppearanceQualified`) /sum(1) ) as AppearanceQualified," +
+                                " round(sum(b.`AppearanceAfterQualified`) / sum(1)) as AppearanceAfterQualified," +
+                                " round(sum(b.`VampPullQualified`*100) / sum(1) ) as VampPullQualified," +
+                                 " round(sum(b.`DaDiPullQualified`*100) / sum(1) )as DaDiPullQualified," +
+                                 " round(sum(b.`ZheWangQualified`) / sum(1)) as ZheWangQualified" +
+                                "  FROM    `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage` ";
+
+
+
                 StringBuilder sb = new StringBuilder();
                 sb.Append(strSql);
+               sb.Append(string.Format(" WHERE ct BETWEEN '{0}' AND  '{1}'     ", StartTime, EndTime));
+               
+                
                 if (OrderId != null)
                 {
                     sb.Append(string.Format(" and a.`OrderID`='{0}'", OrderId));
@@ -86,54 +102,15 @@ namespace Bussiness.Quality
                 {
                     sb.Append(string.Format(" and a.`ChildID`='{0}'", ChildId));
                 }
-                if (StartTime != null || EndTime != null)
-                {
-                    sb.Append(string.Format(" and ct BETWEEN '{0}' AND  '{1}'", StartTime, EndTime));
-                }
+                 
                 DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
                 string strJsonString = string.Empty;
                 if (tb.Rows.Count > 0)
                 {
-                    int iCount = tb.Rows.Count;
-                    float faveVampPullQualified = 0;
-                    float faveDaDiPullQualified = 0;
-                    float faveAppearanceQualified = 0;
-                    float faveAppearanceAfterQualified = 0;
-                    float faveZheWangQualified = 0;
-                    foreach (DataRow Row in tb.Rows)
-                    {
-                        float fVampPullQualified = 0; float fDaDiPullQualified = 0;
-                        Row["VampPullQualified"] = float.TryParse(Row["VampPullQualified"].ToString(), out fVampPullQualified) ? fVampPullQualified * 100 : 0;
-                        Row["DaDiPullQualified"] = float.TryParse(Row["DaDiPullQualified"].ToString(), out fDaDiPullQualified) ? fDaDiPullQualified * 100 : 0;
-                        faveVampPullQualified += (float)Row["VampPullQualified"];
-                        faveDaDiPullQualified += (float)Row["DaDiPullQualified"];
-                        faveAppearanceQualified += (float)Row["AppearanceQualified"];
-                        faveAppearanceAfterQualified += (float)Row["AppearanceAfterQualified"];
-                        faveZheWangQualified += (float)Row["ZheWangQualified"];
-                    }
-                    faveVampPullQualified = faveVampPullQualified / iCount;
-                    faveDaDiPullQualified = faveDaDiPullQualified / iCount;
-                    faveAppearanceQualified = faveAppearanceQualified / iCount;
-                    faveAppearanceAfterQualified = faveAppearanceAfterQualified / iCount;
-                    faveZheWangQualified = faveZheWangQualified / iCount;
-
-                    DataRow newRow; newRow = tb.NewRow();
-                    newRow["VampPullQualified"] = faveVampPullQualified;
-                    newRow["DaDiPullQualified"] = faveDaDiPullQualified;
-                    newRow["AppearanceQualified"] = faveAppearanceQualified;
-                    newRow["AppearanceAfterQualified"] = faveAppearanceAfterQualified;
-                    newRow["ZheWangQualified"] = faveZheWangQualified;
-                    tb.Rows.Add(newRow);
+                     
                     tb.TableName = "Quality";
                     strJsonString = JsonHelper.DataTableToJson(tb);
-
-                    //JObject jObject = (JObject)JsonConvert.SerializeObject(strJsonString);
-                    //strJsonString= JsonConvert.SerializeObject(strJsonString);
-
-                    //strJsonString = JsonConvert.SerializeObject(tb);
-
-                    //var settings = new JsonSerializerSettings() { ContractResolver = new NullToEmptyStringResolver() };
-                    //strJsonString = JsonConvert.SerializeObject(tb, settings);
+ 
 
                 }
                 else
