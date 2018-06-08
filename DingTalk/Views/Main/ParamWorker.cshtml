@@ -22,6 +22,10 @@
                         <div class="device-worker" :style="{top: w.position.top,left:w.position.left}">
                             <img :src="'data:image/png;base64,'+w.img" />
                             <span>{{w.Jobs}}</span>
+
+                            <el-button v-if="w.stationstate == '运行'" type="success" round>{{w.stationstate}}</el-button>
+                            <el-button v-if="w.stationstate == '停止'||w.stationstate == '未启用'" type="info" round>{{w.stationstate}}</el-button>
+                            <el-button v-if="w.stationstate == '空闲'" type="warning" round>{{w.stationstate}}</el-button>
                         </div>
                     </el-tooltip>
                 </template>
@@ -41,6 +45,7 @@
     //vue组件-设备按钮显示
     var img = $("#imgFrame img").find("img")[0]
     var lineData = getLocalObj("lineData")
+    console.log(lineData)
     var index = new Vue({
         el: "#partPage",
         mixins: [mixin],
@@ -52,19 +57,43 @@
             }
         },
         methods: {
+            //获取工位信息
             getWorkersMessage: function () {
                 var that = this
                 $.ajax({
                     url: '/WorkStations/GetWorkSataionsInfo',
                     success: function (data) {
                         data = JSON.parse(data)
-                        for (var i = 0; i < data.length; i++) {
-                            for (var j = 0; j < WORKERS.length; j++) {
-                                if (data[i].ArtificialConfig_ID == WORKERS[j].ArtificialConfig_ID) {
+                        for (var j = 0; j < WORKERS.length; j++) {
+                            for (var i = 0; i < data.length; i++) {
+                                if (data[i].ArtificialConfig_ID == WORKERS[j].ArtificialConfig_ID && data[i].Mark == WORKERS[j].Mark) {
                                     WORKERS[j].img = data[i].img
                                     WORKERS[j].Name = data[i].Name
                                     WORKERS[j].Phone = data[i].Phone
                                     WORKERS[j].Jobs = data[i].Jobs
+                                }
+                            }
+                            if (!WORKERS[j].Name) WORKERS[j].Jobs = ''
+                        }
+                        that.workers = WORKERS
+                    }
+                })
+            },
+            //获取工位状态
+            getWorkStatus: function (lineid,orderid) {
+                var that = this
+                var url = '/WorkStations/GetWorkStationList?lineid=' + lineid + '&orderid=' + orderid
+                $.ajax({
+                    url: url,
+                    success: function (data) {
+                        console.log('//获取工位状态')
+                        console.log(url)
+                        data = JSON.parse(data)
+                        console.log(data)
+                        for (var i = 0; i < data.length; i++) {
+                            for (var j = 0; j < WORKERS.length; j++) {
+                                if (data[i].ArtificialConfig_ID == WORKERS[j].ArtificialConfig_ID && data[i].Mark == WORKERS[j].Mark) {
+                                    WORKERS[j].stationstate = data[i].stationstate
                                 }
                             }
                         }
@@ -75,6 +104,11 @@
         },
         created: function () {
             this.getWorkersMessage();
+            this.getWorkStatus(lineData[0].Data.ProductLineId, lineData[0].Data.OrderID)
+            var that = this
+            intervalId = window.setInterval(function () {
+                that.getWorkStatus(lineData[0].Data.ProductLineId, lineData[0].Data.OrderID)
+            }, 5000)
             loadHtml("mainPage", "partPage")
         }
     })

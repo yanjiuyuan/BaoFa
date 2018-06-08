@@ -24,7 +24,7 @@ function loadHtml(parentId,childId) {
 
 function _cloneObj(obj) {
     var newObj = {}
-    for (var o in obj) {
+    for (let o in obj) {
         newObj[o]=obj[o]
     }
     return newObj

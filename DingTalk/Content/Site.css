@@ -163,6 +163,11 @@ a{
     width: 8%;
     color: red;
     text-align:center;
+    font-size:0.8rem;
+}
+.device-worker button {
+    padding: 1px 4px !important;
+    font-size: 0.8rem;
 }
 .device-worker img{
     width:100%;
