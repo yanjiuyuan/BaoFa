@@ -26,7 +26,7 @@ namespace Bussiness.WorkSataions
             string retstr = string.Empty;
             try
             {
-                string strSql = " select  a.* , if ( b.stationstate is null,'未启用',  b.stationstate) as stationstate ,if ( b.starttime is null,'',  b.starttime) as lsttime from artificialconfig a "
+                string strSql = " select  a.* , if ( b.stationstate is null,'停止',  b.stationstate) as stationstate ,if ( b.starttime is null,'',  b.starttime) as lsttime from artificialconfig a "
                 + " left join LocationStatecache  b on a.Jobs = b.StationName and  a.ProductLineId=b.ProductLineId WHERE a.OrderID ='" + orderid + "' and a.ProductLineId="+lineid  ;
                 DataTable db = MySqlHelper.ExecuteQuery(strSql);
                 return  JsonConvert.SerializeObject(db);

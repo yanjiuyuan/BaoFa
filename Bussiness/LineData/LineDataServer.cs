@@ -41,7 +41,7 @@ namespace Bussiness.LineData
             {
                 string strSql = string.Empty;
                 string jzName = Global.jz[strTableName];
-            strSql = "select a.* , if ( b.stationstate is null,'未启用',  b.stationstate) as stationstate from "
+            strSql = "select a.* , if ( b.stationstate is null,'停止',  b.stationstate) as stationstate from "
            + " (select  *  , '"+jzName+ "' as stationName from  `" + strTableName + "`    where id_usage = (select max(id_usage) from `usage` a where a.productlineid = " + lineid+"   )  order by "+ strTableName+"id desc limit 1) a"
            + " left join(select  stationName, stationstate from LocationStateCache  where productlineid = " + lineid + "  "
            + "  and stationName = '" + jzName+"' order by starttime desc limit 1) b on a.stationName = b.stationName"
@@ -82,10 +82,14 @@ namespace Bussiness.LineData
             DataTable tb2= new DataTable ();
             try
             {
-                string strSqlstate = "select stationName, stationstate from LocationStatecache   where "
+                string strSqlstate = "select stationName, stationstate from  LocationStatecache   where "
          + "ProductLineId = " + lineid + "  and "
           + " stationName like  '视觉%'   ";
                 tb2 = MySqlHelper.ExecuteQuery(strSqlstate);
+                
+
+
+
             }
             catch (Exception ex)
             {
