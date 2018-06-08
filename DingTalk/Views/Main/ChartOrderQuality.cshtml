@@ -70,6 +70,9 @@
                     url: "/Quality/GetBatchQuality" + _formatQueryStr(searchParam),
                     dataType: 'json',
                     success: function (data) {
+                        console.log('获取雷达图数据')
+                        console.log("/Quality/GetBatchQuality" + _formatQueryStr(searchParam))
+                        console.log(data)
                         that.loadRadarData(data)
                     },
                     error: function (err) {
@@ -80,6 +83,8 @@
                     url: "/Quality/GetQualityCounts" + _formatQueryStr(searchParam),
                     dataType: 'json',
                     success: function (data) {
+                        console.log('获取饼状图数据')
+                        console.log("/Quality/GetQualityCounts" + _formatQueryStr(searchParam))
                         console.log(data)
                         if (!data) return;
                         for (var d in data) {
@@ -100,8 +105,12 @@
                 if (data.Rows instanceof Array) {
                     var radarValue = []
                     for (var q in QUALITY_RADAR) {
+                        var value = data.Rows[data.Rows.length - 1][q]
+                        if(!value && value!= '0') return
                         radarValue.push(parseFloat(data.Rows[data.Rows.length - 1][q]))
                     }
+                    console.log('radarValue')
+                    console.log(radarValue)
                     myChart.addData([
                         [
                             1,        // 系列索引
