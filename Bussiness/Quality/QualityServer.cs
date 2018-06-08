@@ -21,18 +21,24 @@ namespace Bussiness.Quality
         {
             try
             {
+                if(OrderId==null && ChildId ==null)
+                { 
                 if (StartTime == null)
                     StartTime = DateTime.Now.ToString("yyyy-MM-dd");
                 if (EndTime == null)
                     EndTime = DateTime.Now.ToString("yyyy-MM-dd");
+                }
                 StartTime = StartTime + " 00:00:00";
                 EndTime = EndTime + " 23:59:59";
 
                 string dbsql = "  SELECT  sum( if(b.`QualityType`=1,1,0)) as Goods,  sum( if (b.`QualityType`= 2,1,0)) as Bads, sum( if (b.`QualityType`= 3,1,0)) as Inferior " +
-                    "FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage` ";
+                    "FROM `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage` where 1=1 ";
                 StringBuilder sb = new StringBuilder();
                  sb.Append(dbsql);
-                sb.Append(string.Format(" where  ct BETWEEN '{0}' AND  '{1}'", StartTime, EndTime));
+                if (EndTime != null && StartTime != null)
+                {
+                    sb.Append(string.Format(" and   ct BETWEEN '{0}' AND  '{1}'", StartTime, EndTime));
+                }
                 if (OrderId != null)
                 {
                     sb.Append(string.Format(" and a.`OrderID`='{0}'", OrderId));
@@ -72,10 +78,13 @@ namespace Bussiness.Quality
         {
             try {
 
-                if (StartTime == null)
-                    StartTime = DateTime.Now.ToString("yyyy-MM-dd");
-                if (EndTime == null)
-                    EndTime = DateTime.Now.ToString("yyyy-MM-dd");
+                if (OrderId == null && ChildId == null)
+                {
+                    if (StartTime == null)
+                        StartTime = DateTime.Now.ToString("yyyy-MM-dd");
+                    if (EndTime == null)
+                        EndTime = DateTime.Now.ToString("yyyy-MM-dd");
+                }
                 StartTime = StartTime + " 00:00:00";
                 EndTime = EndTime + " 23:59:59";
 
@@ -85,15 +94,17 @@ namespace Bussiness.Quality
                                 " round(sum(b.`VampPullQualified`*100) / sum(1) ) as VampPullQualified," +
                                  " round(sum(b.`DaDiPullQualified`*100) / sum(1) )as DaDiPullQualified," +
                                  " round(sum(b.`ZheWangQualified`) / sum(1)) as ZheWangQualified" +
-                                "  FROM    `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage` ";
+                                "  FROM    `usage` a INNER JOIN `Quality` b ON a.`ID_Usage`= b.`ID_Usage` where 1=1";
 
 
 
                 StringBuilder sb = new StringBuilder();
                 sb.Append(strSql);
-               sb.Append(string.Format(" WHERE ct BETWEEN '{0}' AND  '{1}'     ", StartTime, EndTime));
-               
-                
+                if (EndTime != null && StartTime != null)
+                {
+                    sb.Append(string.Format(" and   ct BETWEEN '{0}' AND  '{1}'", StartTime, EndTime));
+                }
+
                 if (OrderId != null)
                 {
                     sb.Append(string.Format(" and a.`OrderID`='{0}'", OrderId));
