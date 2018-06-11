@@ -59,7 +59,21 @@ namespace Bussiness.Chart
           
           
                 DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
-                newTb.PrimaryKey = new DataColumn[] { newTb.Columns[1] };
+               if(newTb.Rows.Count>0)
+                {
+                    for (int i = 0; i < newTb.Rows.Count; i++)
+                    { 
+                        if (Convert.ToUInt32(newTb.Rows[i][3]) > 300)
+                            newTb.Rows[i][3] = 300;
+                    if (Convert.ToUInt32(newTb.Rows[i][4]) > 300)
+                        newTb.Rows[i][4] = 300;
+                    if (Convert.ToUInt32(newTb.Rows[i][5]) > 300)
+                        newTb.Rows[i][5] = 300;
+                    if (Convert.ToUInt32(newTb.Rows[i][7]) > 300)
+                        newTb.Rows[i][7] = 300;
+                    }
+
+                }
 
                 strJsonString = JsonHelper.DataTableToJson(newTb);
              
