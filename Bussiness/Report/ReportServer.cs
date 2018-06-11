@@ -478,10 +478,10 @@ namespace Bussiness.Report
         public string GetQualityDailyDetail(string startTime, string endTime, int lineid)
         {
         try { 
-            string strSqlqadetail = " SELECT RFIDN,round( AppearanceQualified,1), VampPullMinimum, VampPullAverage,round( VampPullQualified*100,1), DaDiPullMinimum, " +
-                                          "   DaDiPullAverage, round(DaDiPullQualified*100,1), round(ZheWangQualified,1), round(AppearanceAfterQualified,1)  " +
+            string strSqlqadetail = " SELECT RFIDN,round( AppearanceQualified,1) as AppearanceQualified, VampPullMinimum, VampPullAverage,round( VampPullQualified*100,1) as  VampPullQualified, DaDiPullMinimum, " +
+                                          "   DaDiPullAverage, round(DaDiPullQualified*100,1) as DaDiPullQualified, round(ZheWangQualified,1) as ZheWangQualified , round(AppearanceAfterQualified,1) as AppearanceAfterQualified  " +
                                           "    FROM  Quality a left join `usage` b on a.id_usage = b.id_usage " +
-                                          "      where  b.CT >= '" + startTime + "' and b.CT <= '" + endTime + "' and b.productlineid = " + lineid;
+                                          "      where  b.CT >= '" + startTime + "' and b.CT <= '" + endTime + "' and b.productlineid = " + lineid + " order by RFIDN";
             DataTable qadetail = MySqlHelper.ExecuteQuery(strSqlqadetail);
 
 
