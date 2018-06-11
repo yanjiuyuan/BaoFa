@@ -125,6 +125,7 @@ var pickerOptions = {
 //实例总参数
 var intervalId = 0
 var CURDATE = new Date()
+var DATASTR = CURDATE.getFullYear() + '-' + (CURDATE.getMonth() + 1) + '-' + CURDATE.getDate()
 var mixin = {
     data: {
         user: {},
@@ -145,10 +146,25 @@ var mixin = {
             endTime: [
                 { required: true, message: '结束时间不能为空', trigger: 'blur' }
             ]
-        }
+        },
+        currentPage: 1,
+        pageSize: 5
     },
     methods: {
-        
+        //翻頁相關事件
+        getData() {
+            var start = this.pageSize * (this.currentPage - 1)
+            this.tableData = this.data.slice(start, start + this.pageSize)
+        },
+        handleSizeChange: function (val) {
+            this.currentPage = 1
+            this.pageSize = val
+            this.getData()
+        },
+        handleCurrentChange: function (val) {
+            this.currentPage = val
+            this.getData()
+        }
     },
     created: function () {
         window.clearInterval(intervalId)
