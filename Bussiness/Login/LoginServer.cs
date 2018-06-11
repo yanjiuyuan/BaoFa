@@ -1,6 +1,7 @@
 ﻿using Common.DbHelper;
 using Common.Encrypt;
 using Common.LogHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,28 +14,71 @@ namespace Bussiness
     public class LoginServer
     {
         private static Logger logger = Logger.CreateLogger(typeof(LoginServer));
-        public  bool ChekLogin(string strUserName, string strPassword)
+        public  string ChekLogin(string strUserName, string strPassword)
         {
+            string retstr = string.Empty;
+            Dictionary<string, string> loginrst = new Dictionary<string, string>();
             int iResult = 0;
             try
             {
                 strPassword = MD5Encrypt.Encrypt(strPassword);
-                string strSql = string.Format("select username,password from huabao.userInfo where username='{0}' and password = '{1}' and  status='1'",
-                    strUserName, strPassword);
+                string strSql = string.Format("select username,password ,status from huabao.userInfo where username='{0}' ",
+                    strUserName);
                 //int iResult= MySqlHelper.ExecuteSql(strSql);
-                DataSet dataset = MySqlHelper.GetDataSet(strSql);
-                iResult = dataset.Tables[0].Rows.Count;
+                DataTable dt = MySqlHelper.ExecuteQuery(strSql);
+                if (dt.Rows.Count == 0)
+                { 
+                    loginrst.Add("Success", "false");
+                    loginrst.Add("msg", "用户不存在!");
+                }
+                else
+                {
+                   string  dbpsd = dt.Rows[0][1].ToString();
+                    string status = dt.Rows[0][2].ToString();
+                    if(!"1" .Equals(status))
+                    {
+                        loginrst.Add("Success", "false");
+                        loginrst.Add("msg", "用户已停用!");
+
+                    }
+                    else if(!dbpsd.Equals(strPassword))
+                    {
+                        loginrst.Add("Success", "false");
+                        loginrst.Add("msg", "输入密码有误!");
+
+                    }
+                    else
+                    {
+                       
+                        string updatesql = "update huabao.userInfo set lastLoginTime='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' where   username='" + strUserName + "'";
+                        iResult = MySqlHelper.ExecuteSql(updatesql);
+                        if(iResult==1)
+                        {
+                            loginrst.Add("Success", "true");
+                            loginrst.Add("msg", "登录成功!");
+                            loginrst.Add("LoginTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                             
+                        }
+                        else
+                        {
+                            loginrst.Add("Success", "false");
+                            loginrst.Add("msg", "登记末次登录时间失败!");
+                               
+                        }
+
+
+                    }
+
+                }
+
+           
             }
             catch (Exception ex)
             {
                 logger.Error(ex.Message);
                
             }
-            if (iResult == 1)
-                {
-                    return true;
-                }
-             return false;
+            return JsonConvert.SerializeObject(loginrst);
             
            
         }
