@@ -32,8 +32,8 @@
                 <template v-for="(btn,index) of deviceBtns">
                     <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
                 </template>
-                <i v-if="showMask" class="el-icon-error" v-on:click="restoreScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
-                <i v-else class="el-icon-rank" v-on:click="changeFullScreen" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
+                <i v-if="showMask" class="el-icon-error" v-on:click="restoreScreen(0)" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
+                <i v-else class="el-icon-rank" v-on:click="changeFullScreen(0)" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
             </div>
         </el-collapse-item>
         <el-collapse-item :title="useages[1].ProductLineName" name="2">
@@ -162,7 +162,7 @@
                 $(".device-count").css("font-size", "1.4em")
             },
             //监控界面恢复
-            restoreScreen: function () {
+            restoreScreen: function (no) {
                 $("#imgFrame").css({ "width": '100%', "height": 'auto', "position": "relative", "top": "0", "left": "0" })
                 $("#imgFrame").find("img").css({ "width": '100%'})
                 $("body").css({ "overflow": "scroll" })
@@ -229,6 +229,9 @@
                         }
                         //设备状态
                         if (dObj.stationstate) dev.status = dObj.stationstate
+                        if (dObj.VisualOneState) dev.status = dObj.VisualOneState
+                        if (dObj.VisualTwoState) dev.status = dObj.VisualTwoState
+                        if (dObj.VisualThreeState) dev.status = dObj.VisualThreeState
                         if (dev.detail['烤箱温度']) {
 
                         }
