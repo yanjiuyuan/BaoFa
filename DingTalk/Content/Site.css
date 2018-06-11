@@ -154,6 +154,7 @@ a{
     background: -webkit-linear-gradient(left, rgb(255, 245, 245) 20%, rgb(191, 191, 191) 73%);
 }
 .device-count {
+    width: 8%;
     position: absolute;
     padding: 6px 10px;
     font-size:1em;

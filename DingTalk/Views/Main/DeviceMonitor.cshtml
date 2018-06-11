@@ -152,6 +152,7 @@
                 $("#imgFrame").css({ "position": "fixed", "top": "0", "left": "0" })
                 imgWidth = parseInt($("#imgFrame").css("width"))
                 imgHeight = parseInt($("#imgFrame").css("height"))
+                console.log(frameWidth)
                 console.log("imgWidth,imgHeight = " + imgWidth + " , " + imgHeight)
                 this.showMask = true;
                 $("body").css({ "overflow": "hidden" })
@@ -231,7 +232,7 @@
                         if (dObj.stationstate) dev.status = dObj.stationstate
                         if (dObj.VisualOneState) dev.status = dObj.VisualOneState
                         if (dObj.VisualTwoState) dev.status = dObj.VisualTwoState
-                        if (dObj.VisualThreeState) dev.status = dObj.VisualThreeState
+                        if (dObj.StationState) dev.status = dObj.StationState
                         if (dev.detail['烤箱温度']) {
 
                         }

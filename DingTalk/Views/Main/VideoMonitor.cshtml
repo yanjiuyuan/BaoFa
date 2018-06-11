@@ -3,48 +3,84 @@
     Layout = null;
 }
 <div id="partPage">
-    <el-collapse v-model="activeNames">
-        <el-collapse-item :title="lineData[0].ProductLineName" name="1">
-            <video id="myPlayer1" poster="./content/images/videoCover1.png" style="width:40%;" controls playsInline webkit-playsinline autoplay>
-                <source src="http://hls.open.ys7.com/openlive/24df41d7f10947908b0177a8058b9e24.hd.m3u8" type="application/x-mpegURL" />
-            </video>
-            <video id="myPlayer2" poster="./content/images/videoCover2.png" style="width:40%;" controls playsInline webkit-playsinline>
-                <source src="http://hls.open.ys7.com/openlive/d758ba9d15f3453c953dd58c5530fcf8.hd.m3u8" type="application/x-mpegURL" />
-            </video>
-            <video id="myPlayer3" poster="./content/images/videoCover3.png" style="width:40%;" controls playsInline webkit-playsinline>
-                <source src="http://hls.open.ys7.com/openlive/8450fe5478c5477d8892ad21cceed2ef.hd.m3u8" type="application/x-mpegURL" />
-            </video>
-            <video id="myPlayer4" poster="./content/images/videoCover4.png" style="width:40%;" controls playsInline webkit-playsinline>
-                <source src="http://hls.open.ys7.com/openlive/08f84ff12e454c6e881347feeaae9c21.hd.m3u8" type="application/x-mpegURL" />
-            </video>
-        </el-collapse-item>
-        <el-collapse-item :title="lineData[1].ProductLineName" name="2">
-            <div>暂无数据</div>
-        </el-collapse-item>
-    </el-collapse>
-    
+    <video id="myPlayer" poster="./content/images/videoCover1.png" style="width:80%;" controls playsInline webkit-playsinline autoplay>
+        <source id="playerSource" src="http://hls.open.ys7.com/openlive/24df41d7f10947908b0177a8058b9e24.hd.m3u8" type="application/x-mpegURL" />
+    </video>
+    <video id="myPlayer2" poster="./content/images/videoCover2.png" style="width:80%;" controls playsInline webkit-playsinline autoplay>
+        <source id="playerSource2" src="http://hls.open.ys7.com/openlive/d758ba9d15f3453c953dd58c5530fcf8.hd.m3u8" type="application/x-mpegURL" />
+    </video>
+    <video id="myPlayer3" poster="./content/images/videoCover3.png" style="width:80%;" controls playsInline webkit-playsinline autoplay>
+        <source id="playerSource3" src="http://hls.open.ys7.com/openlive/8450fe5478c5477d8892ad21cceed2ef.hd.m3u8" type="application/x-mpegURL" />
+    </video>
+    <video id="myPlayer4" poster="./content/images/videoCover4.png" style="width:80%;" controls playsInline webkit-playsinline autoplay>
+        <source id="playerSource4" src="http://hls.open.ys7.com/openlive/08f84ff12e454c6e881347feeaae9c21.hd.m3u8" type="application/x-mpegURL" />
+    </video>
+
+    <div>
+        <button onclick="play(0)" class="device-button-danger">视频监控1</button>
+        <button onclick="play(1)" class="device-button-success">视频监控2</button>
+        <button onclick="play(2)" class="device-button-info">视频监控3</button>
+        <button onclick="play(3)" class="device-button-warning">视频监控4</button>
+    </div>
+
+    @*<el-collapse v-model="activeNames">
+            <el-collapse-item :title="lineData[0].ProductLineName" name="1">
+
+                <video id="myPlayer2" poster="./content/images/videoCover2.png" style="width:40%;" controls playsInline webkit-playsinline>
+                        <source src="http://hls.open.ys7.com/openlive/d758ba9d15f3453c953dd58c5530fcf8.hd.m3u8" type="application/x-mpegURL" />
+                    </video>
+                    <video id="myPlayer3" poster="./content/images/videoCover3.png" style="width:40%;" controls playsInline webkit-playsinline>
+                        <source src="http://hls.open.ys7.com/openlive/8450fe5478c5477d8892ad21cceed2ef.hd.m3u8" type="application/x-mpegURL" />
+                    </video>
+                    <video id="myPlayer4" poster="./content/images/videoCover4.png" style="width:40%;" controls playsInline webkit-playsinline>
+                        <source src="http://hls.open.ys7.com/openlive/08f84ff12e454c6e881347feeaae9c21.hd.m3u8" type="application/x-mpegURL" />
+                    </video>
+                <div>暂无数据</div>
+            </el-collapse-item>
+            <el-collapse-item :title="lineData[1].ProductLineName" name="2">
+                <div>暂无数据</div>
+            </el-collapse-item>
+        </el-collapse>*@
+
 </div>
 
-<script>
-    var player1 = new EZUIPlayer('myPlayer1');
-    var player2 = new EZUIPlayer('myPlayer2')
-    loadHtml("mainPage", "partPage")
-    //var demo = new Vue({
-    //    el: "#partPage",
-    //    mixins: [mixin],
-    //    data: function () {
-    //        return {
-    //            lineData: getLocalObj("lineData"),
-    //            activeNames: ['1']
-    //        }
-    //    },
-    //    methods: {
 
-    //    },
-    //    created: function () {
-    //        var that = this
-            
-    //        loadHtml("mainPage", "partPage")
-    //    }
-    //})
+
+<script>
+    var idArr = ['myPlayer', 'myPlayer2', 'myPlayer3', 'myPlayer4']
+    var sourceArr = ['playerSource', 'playerSource2', 'playerSource3', 'playerSource4']
+    var lineData = getLocalObj("lineData")
+    var index = 0
+
+    if (UrlObj.index) index = UrlObj.index
+    console.log(idArr[index])
+    removeVideo()
+
+    var player = new EZUIPlayer(idArr[index])
+    //$("#" + idArr[index]).show()
+
+    loadHtml("mainPage", "partPage")
+
+    function play(index) {
+        console.log(index)
+        //$("#" + playSourceArr[index]).attr('src', srcArr[index])
+        //player = new EZUIPlayer(idArr[index])
+        loadPage('/Main/BlankPage?index=' + index)
+        //loadPage('/Main/VideoMonitor?index=' + index)
+    }
+
+    function removeVideo() {
+        for (let id of idArr) {
+            if (id != idArr[index]) {
+                console.log('delete id ' + id)
+                $("#" + id).remove()
+            } 
+        }
+        for (let id of sourceArr) {
+            if (id != sourceArr[index]) {
+                console.log('delete id ' + id)
+                $("#" + id).remove()
+            }
+        }
+    }
 </script>
