@@ -11,9 +11,14 @@ namespace Bussiness.Company
 {
   public  class CompanyServer
     {
-        public string GetAllCompanyInfo()
+        public string GetAllCompanyInfo(string group)
         {
-            string strSql = "SELECT * FROM companyinfo";
+
+            string strSql = "SELECT * FROM companyinfo ";
+            if (group != null)
+            {
+                strSql +=" where GroupId = '"+ group+"'";
+                    }
             DataTable db = MySqlHelper.ExecuteQuery(strSql);
             string strJsonString = JsonConvert.SerializeObject(db);
             return strJsonString;

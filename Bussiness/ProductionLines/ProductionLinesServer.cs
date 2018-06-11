@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common.LogHelper;
+using Newtonsoft.Json;
 
 namespace Bussiness.ProductionLines
 {
@@ -16,7 +17,7 @@ namespace Bussiness.ProductionLines
         private static Logger logger = Logger.CreateLogger(typeof(ProductionLinesServer));
         public string GetProductionLinesData(string ProductLineId, string ProductLineName
             , string CompanyId, string telephone, string registertime,
-            string role, string status,
+            string role, string status, string GroupId,
             string IsEnable, string KeyWord
             , int? PageIndex = 0, int? PageSize = 5)
         {
@@ -25,7 +26,8 @@ namespace Bussiness.ProductionLines
             {
                 int startRow = PageIndex.Value * PageSize.Value;
                 StringBuilder sb = new StringBuilder();
-                sb.Append("SELECT * FROM huabao.`productlineinfo` ");
+                sb.Append(" select * from (SELECT a.*,c.GroupName  FROM huabao.`productlineinfo` a  left join huabao.`Companyinfo` b on a.companyid=b.companyid" +
+                    " left join groupinfo c on b.groupid=c.groupid) t1  ");
                 if (ProductLineId != null || ProductLineName != null || CompanyId != null || telephone != null || registertime != null
                     || role != null || status != null || IsEnable != null || KeyWord != null)
                 {
@@ -36,7 +38,8 @@ namespace Bussiness.ProductionLines
                     string strWhereKeyWord = string.Format(
                         " and ( ProductLineId like  '%{0}%' " +
                         "   or  ProductLineName like  '%{0}%' " +
-                          "   or  CompanyId like  '%{0}%' " +
+                          "   or  CompanyName like  '%{0}%' " +
+                          "   or  GroupName like  '%{0}%' " +
                            "   or  telephone like  '%{0}%' " +
                         "or role like  '%{0}%' ) ", KeyWord);
                     sb.Append(strWhereKeyWord);
@@ -57,6 +60,11 @@ namespace Bussiness.ProductionLines
                 {
                     sb.Append(string.Format(" and telephone='{0}'", telephone));
                 }
+               
+                if (GroupId != null)
+                {
+                    sb.Append(string.Format(" and GroupId='{0}'", GroupId));
+                }
                 int iRows = MySqlHelper.ExecuteQuery(sb.ToString()).Rows.Count;
                 string strWhereLimit = string.Format(" LIMIT {0},{1}", startRow, PageSize.Value);
 
@@ -76,6 +84,27 @@ namespace Bussiness.ProductionLines
 
 
 
+        public string GetGroupList()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                string strsql = "select * from groupinfo";
+
+
+                dt = MySqlHelper.ExecuteQuery(strsql);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+               
+            }
+
+            return JsonConvert.SerializeObject(dt);
+
+        }
+
+
         public DataTable GetLinesList()
         {
             DataTable dt = new DataTable();
@@ -89,10 +118,10 @@ namespace Bussiness.ProductionLines
             catch (Exception ex)
             {
                 logger.Error(ex.Message);
-               
+
             }
 
-            return dt;
+            return  dt;
 
         }
     }

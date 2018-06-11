@@ -21,10 +21,10 @@ namespace DingTalk.Controllers
         /// </summary>
         /// <returns></returns>
         /// 测试数据：/Company/GetCompanyInfo
-        public string GetCompanyInfo()
+        public string GetCompanyInfo(string groupid )
         {
             CompanyServer companyServer = new CompanyServer();
-            return companyServer.GetAllCompanyInfo();
+            return companyServer.GetAllCompanyInfo(groupid);
         }
     }
 }
