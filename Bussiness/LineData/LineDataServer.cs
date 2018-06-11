@@ -79,12 +79,24 @@ namespace Bussiness.LineData
 
         public  DataTable getVstate(int lineid)
         {
-            DataTable tb2= new DataTable ();
+
+            int num = 0;
+            StringBuilder sb = new StringBuilder();
+            foreach( KeyValuePair< string, string>  x in Global.jq)
+            {
+                num++;
+                sb.Append("'");
+                sb.Append(x.Value);
+                sb.Append("'"); 
+                if(num!= Global.jq.Count)
+                    sb.Append(",");
+            }
+                DataTable tb2= new DataTable ();
             try
             {
                 string strSqlstate = "select stationName, stationstate from  LocationStatecache   where "
-         + "ProductLineId = " + lineid + "  and "
-          + " stationName like  '视觉%'   ";
+                + "ProductLineId = " + lineid + "  and "
+                 + "stationName in ( "+ sb.ToString()+") ";
                 tb2 = MySqlHelper.ExecuteQuery(strSqlstate);
                 
 

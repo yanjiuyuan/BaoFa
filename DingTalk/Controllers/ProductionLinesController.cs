@@ -37,7 +37,7 @@ namespace DingTalk.Controllers
 
         public string ProductionLinesData(string ProductLineId, string OrderID
             , string CompanyId, string telephone, string registertime,
-            string role, string status,
+            string role, string status, string GroupId,
             string IsEnable, string KeyWord
             , int? PageIndex = 0, int? PageSize = 5)
         {
@@ -49,9 +49,14 @@ namespace DingTalk.Controllers
 
             return pServer.GetProductionLinesData(ProductLineId, OrderID
             , CompanyId, telephone, registertime, role,
-            status, IsEnable, KeyWord, PageIndex, PageSize);
+            status, GroupId, IsEnable, KeyWord, PageIndex, PageSize);
         }
 
+        public string GetGroupList()
+        {
+            ProductionLinesServer pLinesServer = new ProductionLinesServer();
+            return pLinesServer.GetGroupList();
+        }
 
 
         //获取生产线列表

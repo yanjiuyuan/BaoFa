@@ -46,11 +46,12 @@ namespace Bussiness.DosageInfo
         }
 
 
-        public DataTable GetCurrentProduction(long strDataTime, int Count,int lineid)
+        public DataTable GetCurrentProduction(long startDataTime, long endDataTime, int Count,int lineid)
         {
             DataTable tb = new DataTable();
             try {
-            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ChildID =(select ChildID from `usage` where ProductLineId ={1} order by id_usage desc limit 1) order by ID_RealTimeUsage", strDataTime ,lineid);
+            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ID_RealTimeUsage <{1} and ChildID =(select ChildID from `usage` " +
+                "where ProductLineId ={2} order by id_usage desc limit 1) order by ID_RealTimeUsage", startDataTime, endDataTime, lineid);
              tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
             
             }

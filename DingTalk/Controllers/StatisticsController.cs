@@ -67,8 +67,12 @@ namespace DingTalk.Controllers
         {
             DateTime time = Convert.ToDateTime(DataTime);
             long lTime = TimeHelper.ConvertDateTimeToInt(time);
+            
+            DateTime timeend = time.AddDays(1);
+            long lTimeend = TimeHelper.ConvertDateTimeToInt(timeend);
+
             DosageInfoServer dServer = new DosageInfoServer();
-            DataTable tb = dServer.GetCurrentProduction(lTime, Count, lineid);
+            DataTable tb = dServer.GetCurrentProduction(lTime, lTimeend, Count, lineid);
             return JsonHelper.DataTableToJson(tb);
         }
 
