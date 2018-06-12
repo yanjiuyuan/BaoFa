@@ -155,7 +155,7 @@ namespace DingTalk.Controllers
                 ProductionLinesServer pServer = new ProductionLinesServer();
 
                 DataTable linedt = pServer.GetLinesList();
-                string[] strList = new string[7] { "Vamp", "WaiO", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
+                string[] strList = new string[6] { "Vamp", "WaiO", "WaiT", "WaiS", "Outsole", "Mouthguards" };
                 strJsonString = RunAllTask(strList,linedt);
             }
             if (strMessage.Contains("GetTable"))   //GetTable:Vamp,Waio,WaiT...  
@@ -228,7 +228,7 @@ namespace DingTalk.Controllers
 
                     LineDataServer lds = new LineDataServer();
 
-                    DataTable vdt = lds.getVstate(lineid);
+                    Dictionary<string, string> vdt = lds.getVstate(lineid);
                     dic.Add("V_STATE", vdt);
 
 
