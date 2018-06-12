@@ -1,4 +1,6 @@
-﻿
+﻿//实例总参数
+var UrlObj = {} //url参数对象
+
 function getLocalObj(name) {
     return JSON.parse(localStorage.getItem(name))
 }
@@ -14,6 +16,13 @@ function logout() {
 }
 
 function loadPage(url) {
+    var param = url.split('?')[1]
+    if (param) {
+        var paramArr = param.split('&')
+        for (let p of paramArr) {
+            UrlObj[p.split('=')[0]] = p.split('=')[1]
+        }
+    }
     $("#tempPage").load(url)
 }
 
@@ -148,6 +157,7 @@ var mixin = {
             ]
         },
         currentPage: 1,
+        totalRows: 0,
         pageSize: 5
     },
     methods: {

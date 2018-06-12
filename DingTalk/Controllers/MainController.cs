@@ -81,5 +81,9 @@ namespace WebZhongZhi.Controllers
         {
             return View();
         }
+        public ActionResult BlankPage()
+        {
+            return View();
+        }
     }
 }

@@ -1,0 +1,22 @@
+﻿
+@{
+    Layout = null;
+}
+<div id="partPage">
+        <div>跳转中。。。</div>
+</div>
+
+
+
+<script>
+    var index = 0
+    if (UrlObj.index) index = UrlObj.index
+    console.log(index)
+
+    loadHtml("mainPage", "partPage")
+
+    setTimeout(function () {
+        loadPage('/Main/VideoMonitor?index=' + index)
+    }, 500)
+    
+</script>

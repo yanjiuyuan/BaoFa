@@ -24,7 +24,7 @@
             <el-table :data="quality" stripe border>
                 <!--表格實體-->
                 <el-table :data="tableData" stripe border>
-                    <el-table-column v-for="opt in testOptions" :prop="opt" :label="tableOptions[opt]"></el-table-column>
+                    <el-table-column v-for="opt in testOption" :prop="opt" :label="testObj[opt]"></el-table-column>
                 </el-table>
                 <!--底部翻頁-->
                 <div style="text-align:right">
@@ -110,7 +110,7 @@
         BiaoQianConsumption: "标签用量",
         DaDiConsumption: "大底用量"
     }
-    var allOptions = [],allOptions2 = [],qualityOption = [],quantityOption = []
+    var allOptions = [],allOptions2 = [],qualityOption = [],quantityOption = [],testOption = []
     for (var c in tableOptions) {
         if (typeof (c) == 'string') allOptions.push(c)
     } 
@@ -119,6 +119,9 @@
     } 
     for (var c in qualityObj) {
         if (typeof (c) == 'string') qualityOption.push(c)
+    }
+    for (var c in testObj) {
+        if (typeof (c) == 'string') testOption.push(c)
     } 
     for (var c in quantityObj) {
         if (typeof (c) == 'string') quantityOption.push(c)
@@ -136,11 +139,14 @@
                 tableOptions2: tableOptions2,
                 qualityObj: qualityObj,
                 qualityOption: qualityOption,
+                testObj: testObj,
+                testOption: testOption,
                 quantityObj: quantityObj,
                 quantityOption: quantityOption,
                 order: [],
                 quality: [],
                 data: [],
+                tableData: [],
                 quantity: []
             }
         },
@@ -152,13 +158,12 @@
                 $.ajax({
                     url: url,
                     success: function (data) {
-                        data = JSON.parse(data).Rows
+                        data = JSON.parse(data)
                         console.log(url)
                         console.log(data)
-                        for (let d of data) {
-                            that.data.push(d)
-                        }
-                        that.getDate()
+                        that.order = [data.order]
+                        that.quality = [data.quality]
+                        that.quantity = [data.order]
                     },
                     error: function (err) {
                         console.error(err)
@@ -172,12 +177,14 @@
                 $.ajax({
                     url: url,
                     success: function (data) {
-                        data = JSON.parse(data)
+                        data = JSON.parse(data).Rows
                         console.log(url)
                         console.log(data)
-                        that.order = [data.order]
-                        that.quality = [data.quality]
-                        that.quantity = [data.order]
+                        for (let d of data) {
+                            that.data.push(d)
+                        }
+                        that.getDate()
+                        that.totalRows = data.length
                     },
                     error: function (err) {
                         console.error(err)
