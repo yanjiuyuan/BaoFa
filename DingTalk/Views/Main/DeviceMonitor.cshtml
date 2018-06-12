@@ -187,58 +187,100 @@
                         setLocalObj('lineData', that.useages)
                     }
                 })
-            }
-        },
-        created: function () {
-            var that = this;
-            //webSocket 获取数据
-            ws.onmessage = function (result) {
-                that.loading = false
-                console.log('webSocket 获取数据')
-                var devDatas = JSON.parse(result.data)
-                var devData = devDatas[0].Data
+            },
+            //处理实时状态数据
+            handleStatusData: function (devData) {
+                var that = this;
+                //一号线数据
+                var devDataArr1 = []
+                for (let d in devData[0].Data) {
+                    if (devData[0].Data[d][0])
+                    devDataArr1.push(devData[0].Data[d][0])
+                }
+                devDataArr1.push(devData[0].V_STATE)
+
                 that.deviceBtns = _cloneArr(DEVICES[0])
                 that.deviceBtns2 = _cloneArr(DEVICES[1])
-                console.log(devData)
-                for (let i = 0; i < that.deviceBtns.length;i++) {
+                console.log(devDataArr1)
+                for (let i = 0; i < that.deviceBtns.length; i++) {
                     var dev = that.deviceBtns[i]
+                    var ifDevData = false
                     if (!dev.detail) continue
-                    for (let d in devData) {
-                        var dObj = devData[d][0]
-                        if(!dObj) continue
-                        //console.log(dObj)
+                    //胶站设置数据
+                    for (let dObj of devDataArr1) {
+                        if (!dObj) continue
                         if (dObj.SprayID != dev.SprayID || dObj.SprayID == null) continue
-                        
                         //设备名称
                         //if (dObj.stationName) dev.name = dObj.stationName
-                        for (let det in dev.detail) {
-                            var ele = dev.detail[det]
-                            if (dObj[ele] != null) {
-                                dev.detail[det] = dObj[ele]
-                                
-                                //
-                                if (DETAILRANGE[ele] && (dObj[ele] < DETAILRANGE[ele].min || dObj[ele] > DETAILRANGE[ele].max)) {
-                                    dev.status = '报警'
-                                    dev.tooltip.disabled = false
-                                    dev.tips[det] = det+":"+dObj[ele]
-                                }
-                                //if (dev.status != 3) dev.status = 1
-                            }
-                            else {
-                                delete dev.detail[det]
-                            }
-                        }
                         //设备状态
                         if (dObj.stationstate) dev.status = dObj.stationstate
                         if (dObj.VisualOneState) dev.status = dObj.VisualOneState
                         if (dObj.VisualTwoState) dev.status = dObj.VisualTwoState
                         if (dObj.StationState) dev.status = dObj.StationState
-                        if (dev.detail['烤箱温度']) {
-
+                        if (dObj.V1) dev.status = dObj.V1
+                        if (dObj.SOLEP) dev.status = dObj.SOLEP
+                        if (dObj.V2) dev.status = dObj.V2
+                        if (dObj.TENP) dev.status = dObj.TENP
+                        for (let det in dev.detail) {
+                            var ele = dev.detail[det]
+                            if (dObj[ele] != null) {
+                                dev.detail[det] = dObj[ele]
+                                //
+                                if (DETAILRANGE[ele]) {
+                                    if ((dObj[ele] < DETAILRANGE[ele].min || dObj[ele] > DETAILRANGE[ele].max)) {
+                                        console.log('报警报警报警报警报警报警')
+                                        console.log(ele)
+                                        console.log(dObj)
+                                        console.log(DETAILRANGE[ele].min)
+                                        console.log(DETAILRANGE[ele].max)
+                                        dev.status = '报警'
+                                        dev.tooltip.disabled = false
+                                        dev.tips[det] = det + ":" + dObj[ele]
+                                    }
+                                    else {
+                                        dev.status = '运行' 
+                                    }
+                                }
+                            }
+                            else {
+                                delete dev.detail[det]
+                            }
                         }
+                        
+                        ifDevData = true
+                        continue
+                    }
+                    //其他设置数据
+                    if (!ifDevData) {
+
                     }
                 }
                 console.log(that.deviceBtns)
+            },
+            //通过ajax而不是webSocket获取状态数据
+            getStatusData: function () {
+                var that = this
+                $.ajax({
+                    url: "api/dt/GetAllTable?strMessage=GetAllTable",
+                    success: function (data) {
+                        that.loading = false
+                        data = JSON.parse(data)
+                        console.log('ajax 获取状态数据')
+                        console.log(data)
+                        that.handleStatusData(data)
+                    }
+                })
+            }
+        },
+        created: function () {
+            var that = this;
+            //ajax 获取状态数据
+            this.getStatusData()
+            //webSocket 获取数据
+            ws.onmessage = function (result) {
+                that.loading = false
+                console.log('webSocket 获取数据')
+                that.handleStatusData(JSON.parse(result.data))
             };
             ws.onerror = function (error) {
               console.log(error);
