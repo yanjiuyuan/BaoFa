@@ -33,10 +33,10 @@ namespace Bussiness.Chart
             long begintime = TimeHelper.ConvertDateTimeToInt(DateTime.Now.AddMinutes(qmins));
              string datestr = DateTime.Now.ToLongDateString();
             long todaybegintime = TimeHelper.ConvertDateTimeToInt(Convert.ToDateTime(datestr));
-                //if (begintime < todaybegintime)
-                //    begintime = todaybegintime;
+                if (begintime < todaybegintime)
+                    begintime = todaybegintime;
                 //获取生产线的最新id_usage
-            string strSql1 = " select  max(id_usage) from `usage` where ProductLineId = " + lineid + " limit 1";
+                string strSql1 = " select  max(id_usage) from `usage` where ProductLineId = " + lineid + " limit 1";
             int usage_id = 0;
             object obj= MySqlHelper.GetSingle(strSql1);
             if (obj != null)
@@ -52,7 +52,7 @@ namespace Bussiness.Chart
               "  sum( if (stationstate = '报警',1, 0))  AS warn_c , stationNAME" +
              " from huabao.LocationState where   starttime > " + begintime + " and id_usage = " + usage_id + " group by stationNAME ) as t1 left join" +
              "  (SELECT *  from huabao.locationcfg where ProductLineId = "+lineid+"  )  t2  on t1.stationNAME=t2.StationName ) a1" +
-             " left join ( select  stationNAME,stationstate , (TIMESTAMPDIFF(SECOND, '1970-1-1', NOW())- round(starttime/1000)) as currtime    from huabao.LocationStatecache where " +
+             " left join ( select  stationNAME,stationstate , (TIMESTAMPDIFF(SECOND, '1970-1-1 08:00:00', NOW())- round(starttime/1000)) as currtime    from huabao.LocationStatecache where " +
              "   id_usage = " + usage_id + "  )b1" +
              " on a1.stationNAME  =b1.stationNAME order by a1.JobType, a1.LocationSeq";
           
