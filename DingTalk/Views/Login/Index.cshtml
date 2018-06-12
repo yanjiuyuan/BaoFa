@@ -47,7 +47,9 @@
             type: 'POST',
             data: $("#loginForm").serialize(),
             success: function (data) {
-                if (data == true || data == 'True') {
+                data = JSON.parse(data)
+                console.log(data)
+                if (data.Success && data.Success == 'true') {
                     var userInfo = {
                         username: _getCookie('UserName'),
                         companyId: _getCookie('CompanyId'),
@@ -56,6 +58,9 @@
                     console.log(userInfo);
                     //setLocalObj('user', userInfo)
                     location.href = '/'
+                }
+                else {
+                    alert(data.msg)
                 }
             }
         })

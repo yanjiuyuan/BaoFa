@@ -7,8 +7,10 @@
 <el-main id="partPage">
     <el-collapse v-model="activeNames">
         <el-collapse-item :title="lineData[0].ProductLineName" name="1">
-            <div id="barChart1" style="height:400px;"></div>
-            <div id="barChart2" style="height:400px;"></div>
+            <div id="barChart3" style="height:400px;width:50%;float:left;"></div>
+            <div id="barChart4" style="height:400px;width:50%;float:left;"></div>
+            <div id="barChart1" style="height:400px;width:50%;float:left;"></div>
+            <div id="barChart2" style="height:400px;width:50%;float:left;"></div>
         </el-collapse-item>
         <el-collapse-item :title="lineData[1].ProductLineName" name="2">
             <div>暂无数据</div>
@@ -37,44 +39,123 @@
             getData(lineid) {
                 var that = this
                 $.ajax({
-                    url: "Statistics/ChartBeatQuery?mins=8860&lineid=" + lineid,
+                    url: "Statistics/ChartBeatQuery?mins=60&lineid=" + lineid,
                     success: function (data) {
                         data = JSON.parse(data).Rows
                         console.log('获取生产节拍数据')
                         console.log(data)
                         var peopleX = [], peopleY1 = [], peopleY2 = [], peopleY3 = []
+                        var peopleCurrentX = [], peopleCurrentY1 = [], peopleCurrentY2 = [], peopleCurrentY3 = [], peopleCurrentY4 = []
                         var machineX = [], machineY1 = [], machineY2 = [], machineY3 = []
+                        var machineCurrentX = [], machineCurrentY1 = [], machineCurrentY2 = [], machineCurrentY3 = [], machineCurrentY4 = []
                         for (let d of data) {
                             if (d.JobType == '人工') {
                                 peopleX.push(d.stationNAME)
+                                peopleCurrentX.push(d.stationNAME)
                                 peopleY1.push(d.run)
                                 peopleY2.push(d.free)
                                 peopleY3.push(d.warn)
+                                switch (d.stationstate) {
+                                    case '运行':
+                                        peopleCurrentY1.push(d.currtime);
+                                        peopleCurrentY2.push(0)
+                                        peopleCurrentY3.push(0)
+                                        peopleCurrentY4.push(0)
+                                        break;
+                                    case '空闲':
+                                        peopleCurrentY1.push(0)
+                                        peopleCurrentY2.push(d.currtime);
+                                        peopleCurrentY3.push(0)
+                                        peopleCurrentY4.push(0)
+                                        break;
+                                    case '报警':
+                                        peopleCurrentY1.push(0)
+                                        peopleCurrentY2.push(0)
+                                        peopleCurrentY3.push(d.currtime);
+                                        peopleCurrentY4.push(0)
+                                        break;
+                                    default:
+                                        peopleCurrentY1.push(0)
+                                        peopleCurrentY2.push(0)
+                                        peopleCurrentY3.push(0)
+                                        peopleCurrentY4.push(d.currtime)
+                                }
                             } else {
                                 machineX.push(d.stationNAME)
+                                machineCurrentX.push(d.stationNAME)
                                 machineY1.push(d.run)
                                 machineY2.push(d.free)
                                 machineY3.push(d.warn)
+                                switch (d.stationstate) {
+                                    case '运行':
+                                        machineCurrentY1.push(d.currtime);
+                                        machineCurrentY2.push(0)
+                                        machineCurrentY3.push(0)
+                                        machineCurrentY4.push(0)
+                                        break;
+                                    case '空闲':
+                                        machineCurrentY1.push(0)
+                                        machineCurrentY2.push(d.currtime);
+                                        machineCurrentY3.push(0)
+                                        machineCurrentY4.push(0)
+                                        break;
+                                    case '报警':
+                                        machineCurrentY1.push(0)
+                                        machineCurrentY2.push(0)
+                                        machineCurrentY3.push(d.currtime);
+                                        machineCurrentY4.push(0)
+                                        break;
+                                    default:
+                                        machineCurrentY1.push(0)
+                                        machineCurrentY2.push(0)
+                                        machineCurrentY3.push(0)
+                                        machineCurrentY4.push(d.currtime)
+
+                                }
                             } 
                         }
+                        //人工平均
                         barOption1.yAxis[0].data = peopleX
                         barOption1.series[0].data = peopleY1
                         barOption1.series[1].data = peopleY2
                         barOption1.series[2].data = peopleY3
-                        console.log(barOption1)
                         barChart1.setOption(barOption1)
+                        //机器平均
                         barOption2.yAxis[0].data = machineX
                         barOption2.series[0].data = machineY1
                         barOption2.series[1].data = machineY2
                         barOption2.series[2].data = machineY3
-                        console.log(barOption2)
                         barChart2.setOption(barOption2)
+                        //人工实时
+                        barOption3.yAxis[0].data = peopleCurrentX
+                        barOption3.series[0].data = peopleCurrentY1
+                        barOption3.series[1].data = peopleCurrentY2
+                        barOption3.series[2].data = peopleCurrentY3
+                        barOption3.series[3].data = peopleCurrentY4
+                        console.log(peopleCurrentY1)
+                        console.log(peopleCurrentY2)
+                        console.log(peopleCurrentY3)
+                        console.log(peopleCurrentY4)
+                        console.log(barOption3)
+                        barChart3.setOption(barOption3)
+                        //机器实时
+                        barOption4.yAxis[0].data = machineCurrentX
+                        barOption4.series[0].data = machineCurrentY1
+                        barOption4.series[1].data = machineCurrentY2
+                        barOption4.series[2].data = machineCurrentY3
+                        barOption4.series[3].data = machineCurrentY4
+                        console.log(barOption4)
+                        barChart4.setOption(barOption4)
                     }
                 })
             }
         },
         created: function () {
+            var that = this
             this.getData(1)
+            window.setInterval(function () {
+                that.getData(1)
+            },5000)
             loadHtml("mainPage", "partPage")
         }
     })
@@ -82,13 +163,15 @@
     //柱状图
     var barChart1 = echarts.init(document.getElementById('barChart1'));
     var barChart2 = echarts.init(document.getElementById('barChart2'));
+    var barChart3 = echarts.init(document.getElementById('barChart3')); 
+    var barChart4 = echarts.init(document.getElementById('barChart4'));
     barOption = {
         title: {
             text: '生产节拍统计图',
             x: 'center'
         },
         legend: {
-            data: ['运行', '空闲', '报警'],
+            data: ['运行', '空闲', '报警' ,'停止'],
             x: 'left'
         },
         toolbox: {
@@ -119,7 +202,7 @@
                 name: '运行',
                 type: 'bar',
                 stack: '总量',
-                itemStyle: { normal: { color: '#67C23A', label: { show: true, position: 'insideRight' } } },
+                itemStyle: { normal: { color: '#67C23A', label: { show: true, position: 'inside' } } },
                 data: [0],
                 color: '#222'
             },
@@ -127,22 +210,36 @@
                 name: '空闲',
                 type: 'bar',
                 stack: '总量',
-                itemStyle: { normal: { color: '#E6A23C', label: { show: true, position: 'insideRight' } } },
+                itemStyle: { normal: { color: '#E6A23C', label: { show: true, position: 'inside' } } },
                 data: [0]
             },
             {
                 name: '报警',
                 type: 'bar',
                 stack: '总量',
-                itemStyle: { normal: { color: '#F56C6C', label: { show: true, position: 'insideRight' } } },
+                itemStyle: { normal: { color: '#F56C6C', label: { show: true, position: 'inside' } } },
+                data: [0]
+            },
+            {
+                name: '停止',
+                type: 'bar',
+                stack: '总量',
+                itemStyle: { normal: { color: '#909399', label: { show: true, position: 'inside' } } },
                 data: [0]
             }
         ]
     };
-    var barOption1 = _cloneObj(barOption)
-    var barOption2 = _cloneObj(barOption)
-    barOption1.title.text = '人工生产节拍统计图'
-    barOption2.title.text = '机器生产节拍统计图'
+    var barOption1 = {}, barOption2 = {}, barOption3 = {}, barOption4 = {}
+    $.extend(true, barOption1, barOption)
+    $.extend(true, barOption2, barOption)
+    $.extend(true, barOption3, barOption)
+    $.extend(true, barOption4, barOption)
+    barOption1.title.text = '人工生产平均节拍图'
+    barOption2.title.text = '机器生产平均节拍图'
+    barOption3.title.text = '人工生产实时节拍图'
+    barOption4.title.text = '机器生产实时节拍图'
     barChart1.setOption(barOption1) 
     barChart2.setOption(barOption2)
+    barChart3.setOption(barOption3)
+    barChart4.setOption(barOption4)
 </script>
