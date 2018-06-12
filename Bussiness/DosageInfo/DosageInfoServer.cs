@@ -29,7 +29,7 @@ namespace Bussiness.DosageInfo
             string strJsonString = string.Empty;
             try
             {
-                string strSearchSql = string.Format("SELECT   WeiTiaoConsumption,  HuChiConsumption, BiaoQianConsumption,  DaDiConsumption FROM huabao.`Usage` WHERE CT >='{0}' AND CT <='{1}' and ProductLineId={2}  ORDER BY CT DESC   LIMIT 0,1", startdate, enddate, lineid);
+                string strSearchSql = string.Format("SELECT   sum(WeiTiaoConsumption) as WeiTiaoConsumption,  sum(HuChiConsumption) as HuChiConsumption, sum(BiaoQianConsumption) as BiaoQianConsumption,  sum(DaDiConsumption) as DaDiConsumption FROM huabao.`Usage` WHERE CT >='{0}' AND CT <='{1}' and ProductLineId={2}  ", startdate, enddate, lineid);
                 //string strSearchSql = "SELECT * FROM huabao.`Usage`";
                 DataTable db = Common.DbHelper.MySqlHelper.ExecuteQuery(strSearchSql);
                 strJsonString = JsonConvert.SerializeObject(db);
@@ -50,8 +50,8 @@ namespace Bussiness.DosageInfo
         {
             DataTable tb = new DataTable();
             try {
-            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ID_RealTimeUsage <{1} and ChildID =(select ChildID from `usage` " +
-                "where ProductLineId ={2} order by id_usage desc limit 1) order by ID_RealTimeUsage", startDataTime, endDataTime, lineid);
+            string strSql = string.Format("SELECT  ID_RealTimeUsage,AllN,NowN,OldN,ChildN FROM huabao.`realtimeusage` WHERE ID_RealTimeUsage>{0} and ID_RealTimeUsage <{1} and ProductLineId ={2} " +
+                " order by ID_RealTimeUsage ", startDataTime, endDataTime, lineid);
              tb = Common.DbHelper.MySqlHelper.ExecuteQuery(strSql);
             
             }
@@ -169,7 +169,7 @@ namespace Bussiness.DosageInfo
             int scale = 1;
             if (dura_min > 60) dura_min = 60;
             if (dura_min < 60) dura_min = 10;
-            else
+            
                 scale = 60 / dura_min;
 
 
