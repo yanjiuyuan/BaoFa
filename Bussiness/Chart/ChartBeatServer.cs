@@ -51,7 +51,7 @@ namespace Bussiness.Chart
              " sum( if (stationstate = '报警', endtime - startTime, 0))/1000 AS warn_t," +
               "  sum( if (stationstate = '报警',1, 0))  AS warn_c , stationNAME" +
              " from huabao.LocationState where   starttime > " + begintime + " and id_usage = " + usage_id + " group by stationNAME ) as t1 left join" +
-             "   huabao.locationcfg t2  on t1.stationNAME=t2.StationName ) a1" +
+             "  (SELECT *  from huabao.locationcfg where ProductLineId = "+lineid+"  )  t2  on t1.stationNAME=t2.StationName ) a1" +
              " left join ( select  stationNAME,stationstate , (TIMESTAMPDIFF(SECOND, '1970-1-1', NOW())- round(starttime/1000)) as currtime    from huabao.LocationStatecache where " +
              "   id_usage = " + usage_id + "  )b1" +
              " on a1.stationNAME  =b1.stationNAME order by a1.JobType, a1.LocationSeq";
