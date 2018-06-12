@@ -177,6 +177,13 @@
         created: function () {
             this.getStations()
             loadHtml("mainPage", "partPage")
+            $('.footer').hide()
+        },
+        beforeDestroy: function () {
+            $('.footer').show()
+        },
+        destroyed: function () {
+            $('.footer').show()
         }
     })
     var realTimeData = {
@@ -216,6 +223,7 @@
             {
                 type: 'category',
                 boundaryGap: false,
+                name: '小时：分钟',
                 backgroundColor: 'white',
                 data: realTimeData.time
             }

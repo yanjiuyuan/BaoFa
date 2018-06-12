@@ -1,38 +1,23 @@
-2018-06-11 09:08:50,650 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-06-11 09:09:55,462 [6] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
-2018-06-11 09:09:56,397 [6] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
-2018-06-11 09:11:55,032 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
-2018-06-11 09:11:55,395 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
-2018-06-11 10:22:03,658 [13] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-06-11 10:50:55,425 [24] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
-2018-06-11 10:50:55,537 [24] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
-2018-06-11 10:52:17,868 [10] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
-2018-06-11 10:52:18,423 [10] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
-2018-06-11 10:53:26,213 [17] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
-2018-06-11 10:53:26,379 [17] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
-2018-06-11 11:26:46,031 [36] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
-2018-06-11 11:26:46,377 [36] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
-2018-06-11 11:40:08,358 [35] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
-2018-06-11 11:40:08,463 [35] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
-2018-06-11 14:13:58,854 [91] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-06-11 15:11:05,857 [26] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-06-11 16:22:02,032 [89] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
-2018-06-11 16:22:05,489 [89] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
-2018-06-11 16:32:54,775 [89] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-06-11 16:33:16,307 [77] ERROR Common.DbHelper.MySqlHelper - Connection unexpectedly terminated.
-2018-06-11 16:33:16,308 [77] ERROR Bussiness.ProductionLines.ProductionLinesServer - Connection unexpectedly terminated.
-2018-06-11 16:33:33,946 [77] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:33,946 [77] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:48,947 [62] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:48,948 [62] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:50,031 [89] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:50,032 [89] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:51,100 [18] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:51,100 [18] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:52,170 [77] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:52,170 [77] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:53,320 [18] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:53,321 [18] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:56,305 [62] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 16:33:56,305 [62] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
-2018-06-11 17:09:49,126 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-12 08:35:22,160 [10] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-12 08:36:03,227 [9] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-12 08:36:03,467 [9] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-12 08:36:04,897 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-12 08:36:05,097 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-12 09:48:06,020 [8] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-12 09:48:06,144 [8] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-12 09:48:06,199 [46] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-12 09:48:06,331 [46] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-12 09:50:56,472 [42] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-12 09:50:56,598 [42] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-12 09:51:27,623 [46] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-12 09:51:27,756 [46] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-12 09:53:59,915 [41] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-12 09:54:00,049 [41] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-12 09:57:13,670 [26] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-12 09:57:14,098 [26] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-12 10:08:20,377 [53] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-12 10:08:20,515 [53] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-12 10:11:31,679 [26] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-12 10:11:31,816 [26] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-12 10:13:35,711 [6] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-12 10:30:51,241 [67] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
