@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common.LogHelper;
+using System.Collections;
+
 namespace Bussiness.LineData
 {
     public class LineDataServer
@@ -77,10 +79,27 @@ namespace Bussiness.LineData
             return newTb;
         }
 
-        public  DataTable getVstate(int lineid)
+        public Dictionary<string, string> getVstate(int lineid)
         {
+            DataTable tb2 = new DataTable();
+            DataTable tbline = new DataTable();
+            DataTable tblineusage = new DataTable();
+            Hashtable htable = new Hashtable();
+            Dictionary<string, string> retdic = new Dictionary<string, string>();
+            try
+            {
+              
+ 
 
-            int num = 0;
+                //获取压底和十字压参数
+                string strlineusageSql = "select t1.*,t2.VisualOneState,t2.VisualOneError,t2.VisualTwoState,t2.VisualTwoError,t2.VisualThreeState,t2.VisualThreeError "+
+                     " from(select *  from  `LineUsage`  where id_usage = (select max(id_usage) from `usage` a where a.productlineid = " + lineid + " )order by lineusageid desc limit 1)t1 left join  `Line` t2 on t1.id_usage =t2.id_usage ";
+                tblineusage = MySqlHelper.ExecuteQuery(strlineusageSql);
+                if(tblineusage.Rows.Count>0)
+                { 
+                retdic = JsonHelper.DataRowToDic(tblineusage.Columns, tblineusage.Rows[0]);
+
+             int num = 0;
             StringBuilder sb = new StringBuilder();
             foreach( KeyValuePair< string, string>  x in Global.jq)
             {
@@ -91,24 +110,38 @@ namespace Bussiness.LineData
                 if(num!= Global.jq.Count)
                     sb.Append(",");
             }
-                DataTable tb2= new DataTable ();
-            try
-            {
-                string strSqlstate = "select stationName, stationstate from  LocationStatecache   where "
-                + "ProductLineId = " + lineid + "  and "
-                 + "stationName in ( "+ sb.ToString()+") ";
+               
+                string strSqlstate = "select a.stationName,if(b.stationstate is null ,'停止', b.stationstate ) as stationstate  from  LocationCfg a left join " +
+                    "locationstatecache b on a.stationName=b.stationName and a.ProductLineId=b.ProductLineId  where "
+                + "a.ProductLineId = " + lineid + "  and "
+                 + "a.stationName in ( "+ sb.ToString()+") ";
                 tb2 = MySqlHelper.ExecuteQuery(strSqlstate);
-                
+                 for(int i=0;i< tb2.Rows.Count;i++)
+                {
+                    Dictionary<string, string> dic = JsonHelper.DataRowToDic(tb2.Columns, tb2.Rows[i]);
+                    htable.Add(dic["stationName"], dic); 
+                }
+                    //压底
+                    foreach (KeyValuePair<string, string> x in Global.jq)
+                    {
+                        if (htable.ContainsKey(x.Value))
+                        {
+                            KeyValuePair<string, string> kp = new KeyValuePair<string, string>(x.Key, ((Dictionary<string, string>)htable[x.Value])["stationstate"]);
+                            retdic.Add(kp.Key, kp.Value);
+                        }
 
 
+                    }
 
-            }
+                    }
+
+                }
             catch (Exception ex)
             {
                 logger.Error(ex.Message);
 
             }
-            return tb2;
+            return retdic;
         }
 
 
