@@ -31,6 +31,7 @@
 
         <el-form-item>
             <el-button type="primary" v-on:click="onSearch('formInline')">搜索</el-button>
+            <span class="alert">{{alert}}</span>
         </el-form-item>
     </el-form>
     <div id="lineChart" style="height:300px;"></div>
@@ -49,7 +50,8 @@
                 formInline: {
                     startTime: '',
                     endTime: ''
-                }
+                },
+                alert: ''
             }
         },
         methods: {
@@ -71,7 +73,13 @@
                         success: function (data) {
                             data = JSON.parse(data)
                             console.log('月报质量查询')
+                            console.log('/reports/GetMonQuality' + timeUrl)
                             console.log(data.Rows)
+                            if (!data.Rows) {
+                                that.alert = '月报质量' + data.ErrorMessage
+                            } else {
+                                that.alert = ''
+                            }
                             data = data.Rows
                             var xArr = [], y1Arr = [], y2Arr = [], y3Arr = [], y4Arr = [], y5Arr = []
                             for (var d in data) {
