@@ -21,14 +21,14 @@ namespace Bussiness
         public static Dictionary<string, string> jz = new Dictionary<string, string>
         {   {"Vamp","鞋面喷胶"},
                 {"WaiO","围条一胶"}, {"WaiT","围条二胶"}, {"WaiS","围条三胶"}, {"Outsole","大底喷胶"},
-            { "Mouthguards","护齿喷胶"},{ "LineUsage","生产线参数"}
+            { "Mouthguards","护齿喷胶"}
 
         };
 
         //其余机器列表
         public static Dictionary<string, string> jq = new Dictionary<string, string>
         {
-            { "1","视觉1号站"},{"2","压底"},{"3","视觉2号站"},{"4","十字压"} 
+            { "V1","视觉1号站"},{"SOLEP","压底"},{"V2","视觉2号站"},{"V3","视觉3号站"},{"TENP","十字压"} 
 
         };
 
