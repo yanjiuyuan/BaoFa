@@ -63,14 +63,14 @@ namespace Bussiness.Chart
                 {
                     for (int i = 0; i < newTb.Rows.Count; i++)
                     { 
-                        if (Convert.ToUInt32(newTb.Rows[i][3]) > 300)
-                            newTb.Rows[i][3] = 300;
-                    if (Convert.ToUInt32(newTb.Rows[i][4]) > 300)
-                        newTb.Rows[i][4] = 300;
-                    if (Convert.ToUInt32(newTb.Rows[i][5]) > 300)
-                        newTb.Rows[i][5] = 300;
-                    if (Convert.ToUInt32(newTb.Rows[i][7]) > 300)
-                        newTb.Rows[i][7] = 300;
+                        if (Convert.ToUInt32(newTb.Rows[i][3]) > 299)
+                            newTb.Rows[i][3] = 299;
+                    if (Convert.ToUInt32(newTb.Rows[i][4]) > 299)
+                        newTb.Rows[i][4] = 299;
+                    if (Convert.ToUInt32(newTb.Rows[i][5]) > 299)
+                        newTb.Rows[i][5] = 299;
+                    if (Convert.ToUInt32(newTb.Rows[i][7]) > 299)
+                        newTb.Rows[i][7] = 299;
                     }
 
                 }
