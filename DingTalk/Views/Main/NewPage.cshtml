@@ -13,14 +13,27 @@
     <link rel="stylesheet" href="~/Content/display.css" />
     <link rel="stylesheet" href="~/Content/site.css" />
     <script src="~/Scripts/jquery-3.2.1.min.js"></script>
-    <script src="~/Scripts/lib.js"></script>
+    <script>
+        var lineChart, barChart, lineOption, barOption
+        var _cloneObj = function (obj) {
+            var newObj = {}
+            for (let o in obj) {
+                newObj[o] = obj[o]
+            }
+            return newObj
+        }
+        function _formatQueryStr(obj) {
+            var queryStr = '?'
+            for (var o in obj) {
+                queryStr = queryStr + o + '=' + obj[o] + '&'
+            }
+            return queryStr.substring(0, queryStr.length - 1)
+        }
+    </script>
     <script src="~/Scripts/config.js"></script>
     <script src="~/Scripts/ezuikit.js"></script>
     <script src="~/Scripts/echarts-all.js"></script>
-    <script>
-        var lineChart, barChart, lineOption, barOption
-        
-    </script>
+
 </head>
 <body id="body" style="background-color:white;">
     <div id="app">
@@ -50,6 +63,8 @@
                         </el-main>
 
                         <script>
+                            //function _cloneObj(obj) 
+                          
                             var lineChart, barChart, lineOption, barOption
                             var barTableConfig = {
                                 BiaoQianConsumption: "标签用量",
@@ -92,7 +107,7 @@
                                     {
                                         type: 'category',
                                         boundaryGap: false,
-                                        data: ['0']
+                                        data: ['10', '20','30','40','50']
                                     }
                                 ],
                                 yAxis: [
@@ -107,7 +122,7 @@
                                     {
                                         name: '当班产量',
                                         type: 'line',
-                                        data: [0],
+                                        data: [0, 10, 30,40,50],
                                         markPoint: {
                                             data: [
                                                 { type: 'max', name: '当班产量' }
@@ -117,7 +132,7 @@
                                     {
                                         name: '预加工量',
                                         type: 'line',
-                                        data: [0],
+                                        data: [100, 100, 100, 100, 100],
                                         markPoint: {
                                             data: [
                                                 { type: 'max', name: '预加工量' }
@@ -286,8 +301,12 @@
                             };
                             pieChart.setOption(pieOption);
                             window.setTimeout(function () {
-                                var b = pieChart.getDataURL()
-                                $("#hidePieImg").attr("src", b)
+                                var a = lineChart.getDataURL()
+                                $("#hideLineImg").attr("src", a)
+                                var b = barChart.getDataURL()
+                                $("#hideBarImg").attr("src", b)
+                                var c = pieChart.getDataURL()
+                                $("#hidePieImg").attr("src", c)
                             }, 3000)
 
                             //获取数据
@@ -303,6 +322,7 @@
                                 $.ajax({
                                     url: "/Statistics/GetCurrentProduction" + _formatQueryStr(param),
                                     success: function (data) {
+                                        if (!data || data.length <= 1) return
                                         var xArr = [], y1Arr = [], y2Arr = []
                                         console.log("获取产量图数据")
                                         //console.log(data)
@@ -319,7 +339,7 @@
                                         window.setTimeout(function () {
                                             var b = lineChart.getDataURL()
                                             $("#hideLineImg").attr("src", b)
-                                        }, 500)
+                                        }, 3000)
                                     }
                                 })
                             }
@@ -335,6 +355,7 @@
                                         data = JSON.parse(data)[0]
                                         var xArr = [], yArr = []
                                         for (var d in data) {
+                                            if(!data[d] && data[d]!=0) return
                                             xArr.push(barTableConfig[d])
                                             yArr.push(data[d])
                                         }
@@ -344,7 +365,7 @@
                                         window.setTimeout(function () {
                                             var b = barChart.getDataURL()
                                             $("#hideBarImg").attr("src", b)
-                                        }, 500)
+                                        }, 3000)
                                     }
                                 })
                             }

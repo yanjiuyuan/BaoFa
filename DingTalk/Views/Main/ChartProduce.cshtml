@@ -52,11 +52,11 @@
             console.log(dateStr)
             intervalId = window.setInterval(function () {
                 getLineData({ DataTime: dateStr, Count: 100 })
-                getAreaData({ DataTime: dateStr, dura: 60 })
+                getAreaData({ DataTime: dateStr, dura: 10 })
                 getBarData({DataTime: dateStr,lineid: lineData[0].ProductLineId})
             }, 50000)
             getLineData({ DataTime: dateStr, Count: 100 })
-            getAreaData({ DataTime: dateStr, dura: 60 })
+            getAreaData({ DataTime: dateStr, dura: 10 })
             getBarData({ DataTime: dateStr, lineid: lineData[0].ProductLineId })
             //echart canvas生成图片
             window.setTimeout(function () {

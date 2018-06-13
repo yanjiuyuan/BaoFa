@@ -36,10 +36,14 @@
         },
         methods: {
             //获取生产节拍数据
-            getData(lineid) {
+            getData(lineid,date) {
                 var that = this
+                if (!date) {
+                    var d = new Date()
+                    date = _dateToString(d)
+                }
                 $.ajax({
-                    url: "Statistics/ChartBeatQuery?mins=60&lineid=" + lineid,
+                    url: "Statistics/ChartBeatQuery?DataTime=" + date + "&lineid=" + lineid,
                     success: function (data) {
                         data = JSON.parse(data).Rows
                         console.log('获取生产节拍数据')
@@ -152,9 +156,11 @@
         },
         created: function () {
             var that = this
-            this.getData(1)
-            window.setInterval(function () {
-                that.getData(1)
+            var d = new Date()
+            var date = _dateToString(d)
+            this.getData(1, date)
+            intervalId = window.setInterval(function () {
+                that.getData(1, date)
             },5000)
             loadHtml("mainPage", "partPage")
         }
