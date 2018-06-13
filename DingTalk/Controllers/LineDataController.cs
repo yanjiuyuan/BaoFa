@@ -80,7 +80,7 @@ namespace DingTalk.Controllers
                      
                         if(linedt.Rows.Count>0)
                         { 
-                            string[] strList = new string[7] { "Vamp", "WaiO", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
+                            string[] strList = new string[6] { "Vamp", "WaiO", "WaiT", "WaiS", "Outsole", "Mouthguards" };
                             strJsonString = RunAllTask(strList, linedt);
                              
                         }

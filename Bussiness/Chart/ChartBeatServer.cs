@@ -6,6 +6,7 @@ using Common.LogHelper;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,28 +20,41 @@ namespace Bussiness.Chart
 
         private static Logger logger = Logger.CreateLogger(typeof(ChartBeatServer));
         //获取各工位的末次生产时间
-        public string ChartBeatQuery(int lineid=1,int mins=30)
+        public string ChartBeatQuery(  string DataTime,int lineid=1 )
         {
             string strJsonString = string.Empty;
 
             try
             {
+                
+
+
 
                 logger.Info("查询生产节拍");
-            int qmins = mins * -1;
-            
-            //获取指定时间点,若时间点小于当天则获取当天
-            long begintime = TimeHelper.ConvertDateTimeToInt(DateTime.Now.AddMinutes(qmins));
-             string datestr = DateTime.Now.ToLongDateString();
-            long todaybegintime = TimeHelper.ConvertDateTimeToInt(Convert.ToDateTime(datestr));
-                if (begintime < todaybegintime)
-                    begintime = todaybegintime;
+           
+               
+                long begintime = 0;
+                long endtime = 0;
+                string datestr =   DateTime.Now.ToLongDateString();
+                if (DataTime == null)
+                {
+                   
+                    begintime = TimeHelper.ConvertDateTimeToInt(Convert.ToDateTime(datestr));
+                    endtime = TimeHelper.ConvertDateTimeToInt(Convert.ToDateTime(datestr).AddDays(1));
+                }
+                else
+                {
+                    DateTimeFormatInfo dtFormat = new DateTimeFormatInfo();
+
+                    dtFormat.ShortDatePattern = "yyyy-MM-dd";
+                    datestr = DataTime;
+                    begintime = TimeHelper.ConvertDateTimeToInt(Convert.ToDateTime(datestr, dtFormat));
+                    endtime = TimeHelper.ConvertDateTimeToInt(Convert.ToDateTime(datestr, dtFormat).AddDays(1));
+
+                }
+              
                 //获取生产线的最新id_usage
-                string strSql1 = " select  max(id_usage) from `usage` where ProductLineId = " + lineid + " limit 1";
-            int usage_id = 0;
-            object obj= MySqlHelper.GetSingle(strSql1);
-            if (obj != null)
-                usage_id = Convert.ToInt32(obj);
+            
            //string dt = TimeHelper.GetDateTimeFrom1970Ticks(1527044472080/1000).ToString();
             string strSql = "   select a1.*, if (stationstate is null ,'停止',stationstate) as stationstate , if (currtime is null ,0,currtime) as currtime  from ( select  t2.JobType,t2.LocationSeq,t1.stationNAME, round(run_t /if (run_c > 0,run_c,1))as run,round(free_t /if (free_c > 0,free_c,1)) as free," +
             "round(warn_t /if (warn_c > 0,warn_c,1))as warn from(" +
@@ -50,10 +64,10 @@ namespace Bussiness.Chart
               " sum( if (stationstate = '空闲',1, 0))  AS free_c," +
              " sum( if (stationstate = '报警', endtime - startTime, 0))/1000 AS warn_t," +
               "  sum( if (stationstate = '报警',1, 0))  AS warn_c , stationNAME" +
-             " from huabao.LocationState where   starttime > " + begintime + " and id_usage = " + usage_id + " group by stationNAME ) as t1 left join" +
+             " from huabao.LocationState where   starttime > " + begintime + " and  starttime < " + endtime + " and ProductLineId = " + lineid + " group by stationNAME ) as t1 left join" +
              "  (SELECT *  from huabao.locationcfg where ProductLineId = "+lineid+"  )  t2  on t1.stationNAME=t2.StationName ) a1" +
              " left join ( select  stationNAME,stationstate , (TIMESTAMPDIFF(SECOND, '1970-1-1 08:00:00', NOW())- round(starttime/1000)) as currtime    from huabao.LocationStatecache where " +
-             "   id_usage = " + usage_id + "  )b1" +
+             "   ProductLineId = " + lineid + "  )b1" +
              " on a1.stationNAME  =b1.stationNAME order by a1.JobType, a1.LocationSeq";
           
           
