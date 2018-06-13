@@ -67,7 +67,12 @@ namespace DingTalk.Controllers
             ProductionLinesServer pLinesServer = new ProductionLinesServer();
             return JsonConvert.SerializeObject(pLinesServer.GetLinesList());
         }
-
+        /// 测试数据 /ProductionLines/GetLineTreeList
+        public string GetLineTreeList()
+        {
+            ProductionLinesServer pLinesServer = new ProductionLinesServer();
+            return pLinesServer.GetLineTreeList();
+        }
 
     }
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Common.LogHelper;
 using Newtonsoft.Json;
+using System.Collections;
 
 namespace Bussiness.ProductionLines
 {
@@ -60,7 +61,7 @@ namespace Bussiness.ProductionLines
                 {
                     sb.Append(string.Format(" and telephone='{0}'", telephone));
                 }
-               
+
                 if (GroupId != null)
                 {
                     sb.Append(string.Format(" and GroupId='{0}'", GroupId));
@@ -97,7 +98,7 @@ namespace Bussiness.ProductionLines
             catch (Exception ex)
             {
                 logger.Error(ex.Message);
-               
+
             }
 
             return JsonConvert.SerializeObject(dt);
@@ -121,8 +122,101 @@ namespace Bussiness.ProductionLines
 
             }
 
-            return  dt;
+            return dt;
 
         }
+
+        public string GetLineTreeList()
+        {
+            DataTable dt = new DataTable();
+            List<Hashtable> list = new List<Hashtable>();
+            try
+            {
+
+                string strsql = " select a.ProductLineId, a.ProductLineName, b.foundryid, b.foundryname , c.companyid , c.companyName , d.groupid  , d.groupName from productlineinfo a left join foundryinfo b  on a.foundryid = b.foundryid " +
+                 " left join companyinfo c   on b.companyid = c.companyid left join groupinfo d on c.groupid = d.groupid" +
+                 "  where a.status =1 order by groupid,companyid,foundryid,ProductLineId";
+
+
+                dt = MySqlHelper.ExecuteQuery(strsql);
+                string lstgroupid = string.Empty;
+                string lstfoundryid = string.Empty;
+                string lstcompanyid = string.Empty;
+                string lstlineid = string.Empty;
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    string groupid = dt.Rows[i]["groupid"].ToString();
+                    string foundryid = dt.Rows[i]["foundryid"].ToString();
+                    string companyid = dt.Rows[i]["companyid"].ToString();
+                    string lineid = dt.Rows[i]["ProductLineId"].ToString();
+                    string groupnm = dt.Rows[i]["groupname"].ToString();
+                    string foundrynm = dt.Rows[i]["foundryname"].ToString();
+                    string companynm = dt.Rows[i]["companyname"].ToString();
+                    string linenm = dt.Rows[i]["ProductLineName"].ToString();
+                   
+                    if(!groupid.Equals(lstgroupid))
+                    { 
+                        Hashtable t = new Hashtable();
+                        t.Add("groupid", groupid);
+                        t.Add("groupnm", groupnm);
+                        t.Add("list", new List< Hashtable>());
+                        list.Add(t);
+                        lstgroupid = groupid;
+                    }
+                    
+                    if (!companyid.Equals(lstcompanyid))
+                    {
+                        List<Hashtable> com_list= (List<Hashtable>)(list.Find(x=>(x["groupid"].ToString()== lstgroupid)))["list"];
+                        Hashtable t = new Hashtable();
+                        t.Add("companyid", companyid);
+                        t.Add("companynm", companynm);
+                        t.Add("list", new List<Hashtable>());
+
+                        com_list.Add(t);
+                         lstcompanyid = companyid;
+
+                    }
+                    if (!foundryid.Equals(lstfoundryid))
+                    {
+                        List<Hashtable> com_list = (List<Hashtable>)(list.Find(x => (x["groupid"].ToString() == lstgroupid)))["list"];
+                        List<Hashtable> fdy_list = (List<Hashtable>)(com_list.Find(x => (x["companyid"].ToString() == lstcompanyid)))["list"];
+
+                        Hashtable t = new Hashtable();
+                        t.Add("foundryid", foundryid);
+                        t.Add("foundrynm", foundrynm);
+                        t.Add("list", new List<Hashtable>());
+                        fdy_list.Add(t);
+                        lstfoundryid = foundryid;
+
+                    }
+                    if (!lineid.Equals(lstlineid))
+                    {
+                        List<Hashtable> com_list = (List<Hashtable>)(list.Find(x => (x["groupid"].ToString() == lstgroupid)))["list"];
+                        List<Hashtable> fdy_list = (List<Hashtable>)(com_list.Find(x => (x["companyid"].ToString() == lstcompanyid)))["list"];
+                        List<Hashtable> line_list = (List<Hashtable>)(fdy_list.Find(x => (x["foundryid"].ToString() == lstfoundryid)))["list"];
+
+                        Hashtable t = new Hashtable();
+                        t.Add("lineid", lineid);
+                        t.Add("linename", linenm);
+                        line_list.Add(t);
+                        lstlineid = lineid;
+
+                    }
+
+
+                }
+            }
+            catch(Exception ex)
+            { 
+                logger.Error(ex.Message);
+            }
+            return JsonConvert.SerializeObject(list );
+
+             
+                 
+            }
+         
+
     }
 }
