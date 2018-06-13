@@ -3,6 +3,7 @@
     Layout = null;
 }
 <div id="partPage">
+    @*<h4>华宝硫化鞋生产线01</h4>*@
     <video id="myPlayer" poster="./content/images/videoCover1.png" style="width:80%;" controls playsInline webkit-playsinline autoplay>
         <source id="playerSource" src="http://hls.open.ys7.com/openlive/24df41d7f10947908b0177a8058b9e24.hd.m3u8" type="application/x-mpegURL" />
     </video>
@@ -15,13 +16,36 @@
     <video id="myPlayer4" poster="./content/images/videoCover4.png" style="width:80%;" controls playsInline webkit-playsinline autoplay>
         <source id="playerSource4" src="http://hls.open.ys7.com/openlive/08f84ff12e454c6e881347feeaae9c21.hd.m3u8" type="application/x-mpegURL" />
     </video>
-
+    <video id="myPlayer5" poster="./content/images/videoCover5.png" style="width:80%;" controls playsInline webkit-playsinline autoplay>
+        <source id="playerSource5" src="http://hls.open.ys7.com/openlive/23cefc4d466b45898202f8751ae6d066.hd.m3u8" type="application/x-mpegURL" />
+    </video>
+    <video id="myPlayer6" poster="./content/images/videoCover6.png" style="width:80%;" controls playsInline webkit-playsinline autoplay>
+        <source id="playerSource6" src="http://hls.open.ys7.com/openlive/03d82e60755e4644a6e31db121480f39.hd.m3u8" type="application/x-mpegURL" />
+    </video>
+    <video id="myPlayer7" poster="./content/images/videoCover7.png" style="width:80%;" controls playsInline webkit-playsinline autoplay>
+        <source id="playerSource7" src="http://hls.open.ys7.com/openlive/cd371ef8b62b4b88a6a6b2a715e48a04.hd.m3u8" type="application/x-mpegURL" />
+    </video>
     <div>
-        <button onclick="play(0)" class="device-button-danger">视频监控1</button>
-        <button onclick="play(1)" class="device-button-success">视频监控2</button>
-        <button onclick="play(2)" class="device-button-info">视频监控3</button>
-        <button onclick="play(3)" class="device-button-warning">视频监控4</button>
+        <img id="img0" src="~/Content/images/videoCover1.png" onfocus="show(0)" class="img-small" />
+        <img id="img1" src="~/Content/images/videoCover2.png" onfocus="show(1)" class="img-small" />
+        <img id="img2" src="~/Content/images/videoCover3.png" onfocus="show(2)" class="img-small" />
+        <img id="img3" src="~/Content/images/videoCover4.png" onfocus="show(3)" class="img-small" />
+        <img id="img4" src="~/Content/images/videoCover5.png" onfocus="show(4)" class="img-small" />
+        <img id="img5" src="~/Content/images/videoCover6.png" onfocus="show(5)" class="img-small" />
+        <img id="img6" src="~/Content/images/videoCover7.png" onfocus="show(6)" class="img-small" />
     </div>
+    <div>
+        <p class="img-small">华宝1</p>
+        <p class="img-small">华宝2</p>
+        <p class="img-small">华宝3</p>
+        <p class="img-small">华宝4</p>
+        <p class="img-small">华昂4楼厂房1</p>
+        <p class="img-small">华昂4楼厂房2</p>
+        <p class="img-small">华昂4楼厂房3</p>
+
+    </div>
+
+    @*<h4>华昂硫化鞋生产线01</h4>*@
 
     @*<el-collapse v-model="activeNames">
             <el-collapse-item :title="lineData[0].ProductLineName" name="1">
@@ -47,8 +71,8 @@
 
 
 <script>
-    var idArr = ['myPlayer', 'myPlayer2', 'myPlayer3', 'myPlayer4']
-    var sourceArr = ['playerSource', 'playerSource2', 'playerSource3', 'playerSource4']
+    var idArr = ['myPlayer', 'myPlayer2', 'myPlayer3', 'myPlayer4', 'myPlayer5', 'myPlayer6', 'myPlayer7']
+    var sourceArr = ['playerSource', 'playerSource2', 'playerSource3', 'playerSource4', 'playerSource5', 'playerSource6', 'playerSource7']
     var lineData = getLocalObj("lineData")
     var index = 0
 
@@ -72,15 +96,29 @@
     function removeVideo() {
         for (let id of idArr) {
             if (id != idArr[index]) {
-                console.log('delete id ' + id)
                 $("#" + id).remove()
             } 
         }
         for (let id of sourceArr) {
             if (id != sourceArr[index]) {
-                console.log('delete id ' + id)
                 $("#" + id).remove()
             }
         }
     }
+
+    $(function () {
+        console.log($("img"))
+        for (let i = 0; i < $("img").length;i++) {
+            $("#img" + i).mouseover(function (event) {
+                $(event.target).addClass("img-bigger")
+            })
+
+            $("#img" + i).mouseout(function (event) {
+                $(event.target).removeClass("img-bigger")
+            })
+            $("#img" + i).on("click", function (event) {
+                loadPage('/Main/BlankPage?index=' + i)
+            })
+        }
+    })
 </script>

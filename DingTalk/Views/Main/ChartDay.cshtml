@@ -6,6 +6,15 @@
 <div id="partPage">
     <el-collapse v-model="activeNames">
         <el-collapse-item :title="lineData[0].ProductLineName" name="1">
+            <div class="block">
+                <span class="demonstration">日期选择</span>
+                <el-date-picker v-model="date"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="选择日期">
+                </el-date-picker>
+                <el-button type="primary" v-on:click="onFilter">搜索</el-button>
+            </div>
             <!--表格實體-->
             <h4>订单基本信息</h4>
             <el-table :data="order" stripe border>
@@ -21,7 +30,7 @@
             </el-table>
             <br />
             <h4>抽测鞋子参数</h4>
-            <el-table :data="quality" stripe border>
+        
                 <!--表格實體-->
                 <el-table :data="tableData" stripe border>
                     <el-table-column v-for="opt in testOption" :prop="opt" :label="testObj[opt]"></el-table-column>
@@ -37,7 +46,7 @@
                                    :total="totalRows">
                     </el-pagination>
                 </div>
-            </el-table>
+
             <br />
             <el-button v-on:click="createReport(lineData[0].ProductLineId)" type="primary">生成质量报表</el-button>
             <h4>产量信息</h4>
@@ -146,21 +155,31 @@
                 order: [],
                 quality: [],
                 data: [],
+                lineId: 1,
+                date: '',
                 tableData: [],
                 quantity: []
             }
         },
         methods: {
+            //按日期搜索
+            onFilter: function () {
+                this.getOrderData()
+                this.getTestData()
+            },
             //获取订单数据
-            getOrderData: function (lineId) {
+            getOrderData: function () {
                 var that = this
-                var url = "/Reports/GetQualityDailyData?DataTime=" + DATASTR + "&lineid=" + lineId
+                var dateStr = DATASTR
+                if (this.date) dateStr = this.date
+                var url = "/Reports/GetQualityDailyData?DataTime=" + dateStr + "&lineid=" + this.lineId
                 $.ajax({
                     url: url,
                     success: function (data) {
                         data = JSON.parse(data)
                         console.log(url)
                         console.log(data)
+                        if (!data) return
                         that.order = [data.order]
                         that.quality = [data.quality]
                         that.quantity = [data.order]
@@ -173,17 +192,22 @@
             //获取测试鞋子信息
             getTestData: function () {
                 var that = this
-                var url = "/Reports/GetQualityDailyDetail?DataTime=" + DATASTR + "&lineid=" + lineId
+                var dateStr = DATASTR
+                if (this.date) dateStr = this.date
+                var url = "/Reports/GetQualityDailyDetail?DataTime=" + dateStr + "&lineid=" + this.lineId
                 $.ajax({
                     url: url,
                     success: function (data) {
                         data = JSON.parse(data).Rows
                         console.log(url)
                         console.log(data)
+                        console.log(that.testOption)
+                        console.log(that.testObj)
+                        if(!data) return
                         for (let d of data) {
                             that.data.push(d)
                         }
-                        that.getDate()
+                        that.getData()
                         that.totalRows = data.length
                     },
                     error: function (err) {
@@ -192,17 +216,17 @@
                 })
             },
             //生成日报表
-            createReport: function (lineId) {
-                var date = new Date()
-                var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-                var url = "/Reports/GetQualityDailyReport?DataTime=" + dateStr + "&lineid=" + lineId
+            createReport: function () {
+                var dateStr = DATASTR
+                if (this.date) dateStr = this.date
+                var url = "/Reports/GetQualityDailyReport?DataTime=" + dateStr + "&lineid=" + this.lineId
                 console.log(url)
                 window.open(url);
             },
-            createReport2: function (lineId) {
-                var date = new Date()
-                var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-                var url = "/Reports/GetProductDailyReport?DataTime=" + dateStr + "&lineid=" + lineId
+            createReport2: function () {
+                var dateStr = DATASTR
+                if (this.date) dateStr = this.date
+                var url = "/Reports/GetProductDailyReport?DataTime=" + dateStr + "&lineid=" + this.lineId
                 console.log(url)
                 window.open(url);
             },
@@ -210,15 +234,15 @@
             handleSizeChange: function (val) {
                 this.currentPage = 1
                 this.pageSize = val
-                this.getTestData({})
+                this.getData()
             },
             handleCurrentChange: function (val) {
                 this.currentPage = val
-                this.getTestData({})
+                this.getData()
             }
         },
         created: function () {
-            this.getOrderData(1)
+            this.onFilter()
             loadHtml("mainPage", "partPage")
         }
     })

@@ -217,6 +217,9 @@
     <Content Include="Content\images\videoCover2.png" />
     <Content Include="Content\images\videoCover3.png" />
     <Content Include="Content\images\videoCover4.png" />
+    <Content Include="Content\images\videoCover5.png" />
+    <Content Include="Content\images\videoCover6.png" />
+    <Content Include="Content\images\videoCover7.png" />
     <Content Include="Content\images\worker\1.jpg" />
     <Content Include="Content\images\worker\2.jpg" />
     <Content Include="Content\images\worker\3.jpg" />
