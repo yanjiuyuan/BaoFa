@@ -8,10 +8,19 @@
  
     <el-collapse v-model="activeNames">
         <el-collapse-item :title="lineData[0].ProductLineName" name="1">
-                <div id="lineChart" style="height:300px;"></div>
-                <div id="areaChart" style="height:300px;"></div>
-                <div id="barChart" style="height:300px;"></div>
-                <img id="hideImg" src="" />
+            <div class="block">
+                <span class="demonstration">日期选择</span>
+                <el-date-picker v-model="date"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="选择日期">
+                </el-date-picker>
+                <el-button type="primary" v-on:click="onFilter">搜索</el-button>
+            </div>
+            <div id="lineChart" style="height:300px;"></div>
+            <div id="areaChart" style="height:300px;"></div>
+            <div id="barChart" style="height:300px;"></div>
+            <img id="hideImg" src="" />
         </el-collapse-item>
         <el-collapse-item :title="lineData[1].ProductLineName" name="2">
             <div>暂无数据</div>
@@ -35,37 +44,32 @@
             return {
                 lineData: getLocalObj("lineData"),
                 activeNames: ['1'],
+                date:'',
                 imgSrc: ""
             }
         },
         methods: {
-
+            onFilter: function () {
+                var lineData = getLocalObj("lineData")
+                console.log(lineData)
+                var date = new Date()
+                var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+                if (this.date) dateStr = this.date
+                console.log(dateStr)
+                intervalId = window.setInterval(function () {
+                    getLineData({ DataTime: dateStr, Count: 100 })
+                    getAreaData({ DataTime: dateStr, dura: 10 })
+                    getBarData({ DataTime: dateStr, lineid: lineData[0].ProductLineId })
+                }, 50000)
+                getLineData({ DataTime: dateStr, Count: 100 })
+                getAreaData({ DataTime: dateStr, dura: 10 })
+                getBarData({ DataTime: dateStr, lineid: lineData[0].ProductLineId })
+            }
         },
         created: function () {
             var that = this
             loadHtml("mainPage", "partPage")
-            var lineData = getLocalObj("lineData")
-            console.log(lineData)
-            var date = new Date()
-            var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
-            //dateStr = '2018-05-11'
-            console.log(dateStr)
-            intervalId = window.setInterval(function () {
-                getLineData({ DataTime: dateStr, Count: 100 })
-                getAreaData({ DataTime: dateStr, dura: 10 })
-                getBarData({DataTime: dateStr,lineid: lineData[0].ProductLineId})
-            }, 50000)
-            getLineData({ DataTime: dateStr, Count: 100 })
-            getAreaData({ DataTime: dateStr, dura: 10 })
-            getBarData({ DataTime: dateStr, lineid: lineData[0].ProductLineId })
-            //echart canvas生成图片
-            window.setTimeout(function () {
-                //var oCanvas = $(".zr-element")[1]
-                //var strDataURI = oCanvas.toDataURL("image/png");
-                //console.log(strDataURI)
-                //that.imgSrc = strDataURI
-            }, 2000)
-
+            this.onFilter()
         }
     })
     //折线图
@@ -304,7 +308,7 @@
                 var xArr = [], yArr = []
                 for (var d in data) {
                     xArr.push(barTableConfig[d])
-                    yArr.push(data[d])
+                    data[d] == null ? yArr.push(0) : yArr.push(data[d])
                 }
                 barOption.xAxis[0].data = xArr
                 barOption.series[0].data = yArr
