@@ -410,7 +410,7 @@ namespace Bussiness.Report
 
                             len = reader.GetBytes(1, 0, buffer, 0, (int)len);
 
-                            ExcelHelperByNPOI.UpdateImgToExcel(strServerPath, "日报表", buffer, 11, 11, 20, 25);
+                            ExcelHelperByNPOI.UpdateImgToExcel(strServerPath, "日报表", buffer, 10, 11, 21, 25);
                         }
                     }
 
@@ -728,7 +728,7 @@ namespace Bussiness.Report
 
                             len = reader.GetBytes(1, 0, buffer, 0, (int)len);
 
-                            ExcelHelperByNPOI.UpdateImgToExcel(strServerPath, "日报表", buffer, 0, imgRowstart, 20, imgRowend);
+                            ExcelHelperByNPOI.UpdateImgToExcel(strServerPath, "日报表", buffer, 6, imgRowstart, 17, imgRowend);
                         }
 
                     }
