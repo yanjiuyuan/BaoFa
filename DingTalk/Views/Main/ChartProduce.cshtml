@@ -56,11 +56,12 @@
                 var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
                 if (this.date) dateStr = this.date
                 console.log(dateStr)
+                window.clearInterval(intervalId)
                 intervalId = window.setInterval(function () {
                     getLineData({ DataTime: dateStr, Count: 100 })
                     getAreaData({ DataTime: dateStr, dura: 10 })
                     getBarData({ DataTime: dateStr, lineid: lineData[0].ProductLineId })
-                }, 50000)
+                }, 5000)
                 getLineData({ DataTime: dateStr, Count: 100 })
                 getAreaData({ DataTime: dateStr, dura: 10 })
                 getBarData({ DataTime: dateStr, lineid: lineData[0].ProductLineId })
@@ -262,12 +263,19 @@
             success: function (data) {
                 var xArr = [], y1Arr = [], y2Arr = []
                 console.log("获取产量图数据")
-                //console.log(data)
+                console.log(data)
                 data = JSON.parse(data).Rows
                 for (let d = 0; d < data.length; d++) {
                     xArr.push(data[d].ID_RealTimeUsage)
                     y1Arr.push(parseInt(data[d].NowN))
                     y2Arr.push(parseInt(data[d].ChildN))
+                }
+                if (data.length == 0) {
+                    for (var i = 0; i < 105; i++) {
+                        xArr.push(0)
+                        y1Arr.push(0)
+                        y2Arr.push(0)
+                    }
                 }
                 lineOption.xAxis[0].data = xArr
                 lineOption.series[0].data = y1Arr
@@ -282,12 +290,18 @@
             url: "/Statistics/GetYieldFluct" + _formatQueryStr(param),
             success: function (data) {
                 console.log("获取生产速度数据")
-                //console.log(data)
+                console.log(data)
                 data = JSON.parse(data).Rows
                 var xArr = [], yArr = []
                 for (var d in data) {
                     xArr.push(data[d].ID_RealTimeUsage)
                     yArr.push(data[d].CurrN)
+                }
+                if (data.length == 0) {
+                    for (var i = 0; i < 40; i++) {
+                        xArr.push(0)
+                        yArr.push(0)
+                    }
                 }
                 areaOption.xAxis[0].data = xArr
                 areaOption.series[0].data = yArr
