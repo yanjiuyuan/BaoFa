@@ -34,14 +34,15 @@
             <span class="alert">{{alert}}</span>
         </el-form-item>
     </el-form>
-    <div id="lineChart" style="height:300px;"></div>
+    <div id="lineChart2" style="height:300px;"></div>
     <div id="barChart" style="height:300px;"></div>
+    <div id="lineChart" style="height:300px;"></div>
 </el-main>
 
 <script>
     var date = new Date('2018/03/0')
     console.log(date.getDate())
-    var lineChart, lineOption, barChart, barOption
+    var lineChart, lineChart2, lineOption, lineOption2, barChart, barOption
     var demo = new Vue({
         el: "#partPage",
         mixins: [mixin],
@@ -68,53 +69,79 @@
                         alert('开始时间大于结束时间')
                         return
                     }
-                    $.ajax({
-                        url: '/reports/GetMonQuality' + timeUrl,
-                        success: function (data) {
-                            data = JSON.parse(data)
-                            console.log('月报质量查询')
-                            console.log('/reports/GetMonQuality' + timeUrl)
-                            console.log(data.Rows)
-                            if (!data.Rows) {
-                                that.alert = '月报质量' + data.ErrorMessage
-                            } else {
-                                that.alert = ''
-                            }
-                            data = data.Rows
-                            var xArr = [], y1Arr = [], y2Arr = [], y3Arr = [], y4Arr = [], y5Arr = []
-                            for (var d in data) {
-                                xArr.push(data[d].datestr)
-                                y1Arr.push(data[d].AppearanceAfterQualified)
-                                y2Arr.push(data[d].AppearanceQualified)
-                                y3Arr.push(data[d].DaDiPullQualified)
-                                y4Arr.push(data[d].VampPullQualified)
-                                y5Arr.push(data[d].ZheWangQualified)
-                            }
-                            lineOption.xAxis[0].data = xArr
-                            lineOption.series[0].data = y1Arr
-                            lineOption.series[1].data = y2Arr
-                            lineOption.series[2].data = y3Arr
-                            lineOption.series[3].data = y4Arr
-                            lineOption.series[4].data = y5Arr
-                            console.log(lineOption.series)
-                            lineChart.setOption(lineOption)
-                        }
-                    })
-                    $.ajax({
-                        url: '/reports/GetMonUsage' + timeUrl,
-                        success: function (data) {
-                            data = JSON.parse(data)
-                            console.log('月报用量查询')
-                            console.log(data.Rows)
-                            data = data.Rows[0]
-                            barOption.series[0].data = [data.BiaoQianConsumption, data.DaDiConsumption, data.HuChiConsumption, data.WeiTiaoConsumption]
-                            barChart.setOption(barOption)
-                        }
-                    })
+                    that.getData(timeUrl)
                 });
+            },
+            getData: function (timeUrl) {
+                var that = this
+                $.ajax({
+                    url: '/reports/GetMonQuality' + timeUrl,
+                    success: function (data) {
+                        console.log('月报质量查询')
+                        console.log('/Reports/GetMonQuality' + timeUrl)
+                        data = JSON.parse(data)
+                        console.log(data.Rows)
+                        if (!data.Rows) {
+                            that.alert = '月报质量' + data.ErrorMessage
+                        } else {
+                            that.alert = ''
+                        }
+                        data = data.Rows
+                        var xArr = [], y1Arr = [], y2Arr = [], y3Arr = [], y4Arr = [], y5Arr = []
+                        for (var d in data) {
+                            xArr.push(data[d].datestr)
+                            y1Arr.push(data[d].AppearanceAfterQualified)
+                            y2Arr.push(data[d].AppearanceQualified)
+                            y3Arr.push(data[d].DaDiPullQualified)
+                            y4Arr.push(data[d].VampPullQualified)
+                            y5Arr.push(data[d].ZheWangQualified)
+                        }
+                        lineOption.xAxis[0].data = xArr
+                        lineOption.series[0].data = y1Arr
+                        lineOption.series[1].data = y2Arr
+                        lineOption.series[2].data = y3Arr
+                        lineOption.series[3].data = y4Arr
+                        lineOption.series[4].data = y5Arr
+                        console.log(lineOption.series)
+                        lineChart.setOption(lineOption)
+                    }
+                })
+                $.ajax({
+                    url: '/Reports/GetMonProduct' + timeUrl,
+                    success: function (data) {
+                        console.log('月报产量查询')
+                        console.log('/reports/GetMonProduct' + timeUrl)
+                        data = JSON.parse(data)
+                        console.log(data.Rows)
+                        data = data.Rows
+                        var xArr = [], y1Arr = []
+                        for (var d in data) {
+                            xArr.push(data[d].datestr)
+                            y1Arr.push(data[d].AllN)
+                        }
+                        lineOption2.xAxis[0].data = xArr
+                        lineOption2.series[0].data = y1Arr
+                        console.log(lineOption2.series)
+                        lineChart2.setOption(lineOption2)
+                    }
+                })
+                $.ajax({
+                    url: '/Reports/GetMonUsage' + timeUrl,
+                    success: function (data) {
+                        data = JSON.parse(data)
+                        console.log('月报用量查询')
+                        console.log(data.Rows)
+                        data = data.Rows[0]
+                        barOption.series[0].data = [data.BiaoQianConsumption, data.DaDiConsumption, data.HuChiConsumption, data.WeiTiaoConsumption]
+                        barChart.setOption(barOption)
+                    }
+                })
             }
         },
         created: function () {
+            var date = new Date()
+            var timeUrl = '?startYear=' + date.getFullYear() + '&startMonth=' + (parseInt(date.getMonth()) + 1) + '&endYear=' + date.getFullYear() + '&endMonth=' + (parseInt(date.getMonth()) + 1)
+            this.getData(timeUrl)
             loadHtml("mainPage", "partPage")
         }
     })
@@ -204,6 +231,59 @@
                 markPoint: {
                     data: [
                         { type: 'max', name: '折弯疲劳合格率' }
+                    ]
+                },
+            }
+        ]
+    };
+    //折线图 -- 产量
+    lineChart2 = echarts.init(document.getElementById('lineChart2'));
+    lineOption2 = {
+        title: {
+            text: '',
+            x: 'center'
+        },
+        legend: {
+            data: ['产量'],
+            x: 'left'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                magicType: {
+                    show: true,
+                    type: ['line', 'bar']
+                },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        calculable: true,
+        xAxis: [
+            {
+                type: 'category',
+                boundaryGap: false,
+                data: []
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                axisLabel: {
+                    formatter: '{value} %'
+                }
+            }
+        ],
+        series: [
+            {
+                name: '产量',
+                type: 'line',
+                data: [0],
+                markPoint: {
+                    data: [
+                        { type: 'max', name: '产量' }
                     ]
                 },
             }
