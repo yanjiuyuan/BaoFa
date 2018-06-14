@@ -7,10 +7,10 @@
 <el-main id="partPage">
     <el-collapse v-model="activeNames">
         <el-collapse-item :title="lineData[0].ProductLineName" name="1">
-            <div id="barChart3" style="height:400px;width:50%;float:left;"></div>
-            <div id="barChart4" style="height:400px;width:50%;float:left;"></div>
-            <div id="barChart1" style="height:400px;width:50%;float:left;"></div>
-            <div id="barChart2" style="height:400px;width:50%;float:left;"></div>
+            <div id="barChart3" style="height:400px;width:49%;float:left;border:solid 1px rgb(128, 128, 128)"></div>
+            <div id="barChart4" style="height:400px;width:49%;float:left;border:solid 1px rgb(128, 128, 128)"></div>
+            <div id="barChart1" style="height:400px;width:49%;float:left;border:solid 1px rgb(128, 128, 128)"></div>
+            <div id="barChart2" style="height:400px;width:49%;float:left;border:solid 1px rgb(128, 128, 128)"></div>
         </el-collapse-item>
         <el-collapse-item :title="lineData[1].ProductLineName" name="2">
             <div>暂无数据</div>
@@ -38,13 +38,11 @@
             //获取生产节拍数据
             getData(lineid,date) {
                 var that = this
-                if (!date) {
-                    var d = new Date()
-                    date = _dateToString(d)
-                }
                 $.ajax({
                     url: "Statistics/ChartBeatQuery?DataTime=" + date + "&lineid=" + lineid,
                     success: function (data) {
+                        console.log("Statistics/ChartBeatQuery?DataTime=" + date + "&lineid=" + lineid)
+                        console.log(data)
                         data = JSON.parse(data).Rows
                         console.log('获取生产节拍数据')
                         console.log(data)
@@ -118,6 +116,7 @@
                                 }
                             } 
                         }
+                        //peopleCurrentX = machineCurrentX = [0,100,200,300]
                         //人工平均
                         barOption1.yAxis[0].data = peopleX
                         barOption1.series[0].data = peopleY1
@@ -157,9 +156,11 @@
         created: function () {
             var that = this
             var d = new Date()
-            var date = _dateToString(d)
+            var date = _dateToString(d,'-')
             this.getData(1, date)
             intervalId = window.setInterval(function () {
+                d = new Date()
+                date = _dateToString(d, '-')
                 that.getData(1, date)
             },5000)
             loadHtml("mainPage", "partPage")
@@ -177,15 +178,14 @@
             x: 'center'
         },
         legend: {
-            data: ['运行', '空闲', '报警' ,'停止'],
+            data: ['运行', '空闲', '', '报警' ,'停止'],
             x: 'left'
         },
         toolbox: {
             show: true,
+            position: 'left',
             feature: {
-                mark: { show: true },
                 dataView: { show: true, readOnly: false },
-                restore: { show: true },
                 saveAsImage: { show: true }
             }
         },
@@ -200,7 +200,7 @@
         yAxis: [
             {
                 type: 'category',
-                data: ['无']
+                data: ['']
             }
         ],
         series: [
