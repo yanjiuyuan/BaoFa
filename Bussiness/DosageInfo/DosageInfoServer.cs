@@ -46,7 +46,7 @@ namespace Bussiness.DosageInfo
         }
 
 
-        public DataTable GetCurrentProduction(long startDataTime, long endDataTime, int Count,int lineid)
+        public DataTable GetCurrentProduction(long startDataTime, long endDataTime, int dura_min, int lineid)
         {
             DataTable tb = new DataTable();
             try {
@@ -60,78 +60,56 @@ namespace Bussiness.DosageInfo
                 logger.Error(ex.Message);
                 
             }
-            return ChangeTable(tb, Count);
+            return ChangeTable(tb, dura_min);
         }
 
         /// <summary>
-        /// 取整点及头尾有效数据
+        /// 取整点及头尾有效数据  ,10分钟取一次
         /// </summary>
         /// <param name="tbNew"></param>
         /// <returns></returns>
-        public DataTable ChangeTable(DataTable tbNew, int Count)
+        public DataTable ChangeTable(DataTable tbNew, int dura_min=10)
         {
-            
+           
+            if (dura_min > 60) dura_min = 60;
+            if (dura_min < 60) dura_min = 10; 
             DataTable tbOld = new DataTable();
-            tbOld = tbNew.Clone();
-            tbOld.PrimaryKey = null;
-            tbOld.Columns["ID_RealTimeUsage"].DataType = typeof(string);//指定Age为Int类型
             try
             {
+                tbOld = tbNew.Clone();
+                tbOld.PrimaryKey = null;
+                tbOld.Columns["ID_RealTimeUsage"].DataType = typeof(string);//指定Age为Int类型
+
                 if (tbNew.Rows.Count > 0)
-            {
-                if (tbNew.Rows.Count > Count)
-                {
-                    int j = tbNew.Rows.Count / Count + 1;
-                    for (int i = 0; i < tbNew.Rows.Count; i++)
-                    {
-                        //取收尾两
-                        if (i == 0 || i == tbNew.Rows.Count - 1)
-                        { 
-                            //加入首尾两行
-                            tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
-                        }
-                        else
-                        {
-                            if (i * j < tbNew.Rows.Count)
-                            {
-                                tbOld.Rows.Add(tbNew.Rows[i * j].ItemArray);
-                            }
-                        }
-                    }
-                }
-                else
                 {
 
-                    //数据条数低于Count ，则去除间隔低于1分钟的数据
                     for (int i = 0; i < tbNew.Rows.Count; i++)
                     {
                         if (i == 0)
+                        {
                             tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+
+                        }
                         else if (i == tbNew.Rows.Count - 1 && tbNew.Rows.Count > 2)
                         {
                             tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
-
-                            continue;
+                             continue;
                         }
 
-                        else if (Convert.ToInt64(tbNew.Rows[i][0]) >= Convert.ToInt64(tbNew.Rows[i - 1][0]) + (long)60*1000)
+                        else if (Convert.ToInt64(tbNew.Rows[i][0]) >= Convert.ToInt64(tbOld.Rows[tbOld.Rows.Count - 1][0]) + (long)dura_min * 60 * 1000)
                         {
                             tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
-
+                            
                             continue;
                         }
                     }
-
-                   
                 }
-            }
-            
-            for (int i = 0; i < tbOld.Rows.Count; i++)
-            {
-                //转换时间格式
-                tbOld.Rows[i][0] = TimeHelper.GetStringToDateTime((tbOld.Rows[i][0].ToString()));
 
-            }
+                for (int i = 0; i < tbOld.Rows.Count; i++)
+                {
+                    //转换时间格式
+                    tbOld.Rows[i][0] = TimeHelper.GetStringToDateTime((tbOld.Rows[i][0].ToString()));
+                     }
             }
             catch (Exception ex)
             {
@@ -139,6 +117,74 @@ namespace Bussiness.DosageInfo
 
             }
             return tbOld;
+            //DataTable tbOld = new DataTable();
+            //tbOld = tbNew.Clone();
+            //tbOld.PrimaryKey = null;
+            //tbOld.Columns["ID_RealTimeUsage"].DataType = typeof(string);//指定Age为Int类型
+            //try
+            //{
+            //    if (tbNew.Rows.Count > 0)
+            //{
+            //    if (tbNew.Rows.Count > Count)
+            //    {
+            //        int j = tbNew.Rows.Count / Count + 1;
+            //        for (int i = 0; i < tbNew.Rows.Count; i++)
+            //        {
+            //            //取收尾两
+            //            if (i == 0 || i == tbNew.Rows.Count - 1)
+            //            { 
+            //                //加入首尾两行
+            //                tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+            //            }
+            //            else
+            //            {
+            //                if (i * j < tbNew.Rows.Count)
+            //                {
+            //                    tbOld.Rows.Add(tbNew.Rows[i * j].ItemArray);
+            //                }
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+
+            //        //数据条数低于Count ，则去除间隔低于1分钟的数据
+            //        for (int i = 0; i < tbNew.Rows.Count; i++)
+            //        {
+            //            if (i == 0)
+            //                tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+            //            else if (i == tbNew.Rows.Count - 1 && tbNew.Rows.Count > 2)
+            //            {
+            //                tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+
+            //                continue;
+            //            }
+
+            //            else if (Convert.ToInt64(tbNew.Rows[i][0]) >= Convert.ToInt64(tbNew.Rows[i - 1][0]) + (long)60*1000)
+            //            {
+            //                tbOld.Rows.Add(tbNew.Rows[i].ItemArray);
+
+            //                continue;
+            //            }
+            //        }
+
+                   
+            //    }
+            //}
+            
+            //for (int i = 0; i < tbOld.Rows.Count; i++)
+            //{
+            //    //转换时间格式
+            //    tbOld.Rows[i][0] = TimeHelper.GetStringToDateTime((tbOld.Rows[i][0].ToString()));
+
+            //}
+            //}
+            //catch (Exception ex)
+            //{
+            //    logger.Error(ex.Message);
+
+            //}
+            //return tbOld;
         }
 
 
