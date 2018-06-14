@@ -157,6 +157,7 @@
                     success: function (data) {
                         data = JSON.parse(data)
                         console.log('/获取订单数据')
+                        console.log("/ProductionLines/ProductionLinesData" + _formatQueryStr(obj))
                         console.log(data)
                         if (data && data.Rows) {
                             that.tableData = data.Rows
@@ -262,9 +263,17 @@
                     }
                 }
             },
-            //点击节点索索
+            //点击节点搜索
             clickNode: function (obj) {
+                this.currentPage = 1
+                var param = {}
+                if (obj.groupid) param = { groupid: obj.groupid }
+                if (obj.companyid) param = { companyid: obj.companyid }
+                if (obj.foundryid) param = { foundryid: obj.foundryid }
+                if (obj.lineid) param = { lineid: obj.lineid }
                 console.log(obj)
+                console.log(param)
+                this.getOrderData(param)
             }
         },
         created: function () {
