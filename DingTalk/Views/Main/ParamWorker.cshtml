@@ -20,7 +20,7 @@
                             {{w.Phone}}
                         </div>
                         <div class="device-worker" :style="{top: w.position.top,left:w.position.left}">
-                            <img :src="'data:image/png;base64,'+w.img" />
+                            <img v-if="w.img" :src="'data:image/png;base64,'+w.img" />
                             <span>{{w.Jobs}}</span>
 
                             <el-button v-if="w.stationstate == '运行'" type="success" round>{{w.stationstate}}</el-button>
