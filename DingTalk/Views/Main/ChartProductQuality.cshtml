@@ -111,7 +111,7 @@
                         console.log(data)
                         if (data.length && data.length > 2) {
                             if (param.Spray == 'LineUsage') {
-                                
+
                                 for (var d in data) {
                                     xArr.push(data[d][param.Spray + 'ID'])
                                     y1Arr.push(data[d].BOilPressure)
@@ -119,14 +119,6 @@
                                     y3Arr.push(data[d].ROilPressure)
                                     y4Arr.push(data[d].ShoeL)
                                 }
-                                lineOptions[index].xAxis[0].data = xArr
-                                lineOptions[index].series[0].data = y1Arr
-                                lineOptions[index].series[1].data = y2Arr
-                                lineOptions[index].series[2].data = y3Arr
-                                lineOptions[index].series[3].data = y4Arr
-                                console.log('LineUsage!!!!!!!!!!!!!!!!!!!!!!!!')
-                                console.log(index)
-                                console.log(lineOptions[index])
                             }
                             else {
                                 for (var d in data) {
@@ -139,18 +131,31 @@
                                     y6Arr.push(data[d].StateN)
                                     y7Arr.push(data[d].ErrorN / 1000)
                                 }
-                                lineOptions[index].xAxis[0].data = xArr
-                                lineOptions[index].series[0].data = y1Arr
-                                lineOptions[index].series[1].data = y2Arr
-                                lineOptions[index].series[2].data = y3Arr
-                                lineOptions[index].series[3].data = y4Arr
-                                lineOptions[index].series[4].data = y5Arr
-                                lineOptions[index].series[5].data = y6Arr
-                                lineOptions[index].series[6].data = y7Arr
                             }
-                            lineOptions[index].title.text = title
-                            lineCharts[index].setOption(lineOptions[index])
+                        } else {
+                            xArr = [0], y1Arr = [0], y2Arr = [0], y3Arr = [0], y4Arr = [0], y5Arr = [0], y6Arr = [0], y7Arr = [0]
                         }
+                        if (param.Spray == 'LineUsage') {
+                            lineOptions[index].xAxis[0].data = xArr
+                            lineOptions[index].series[0].data = y1Arr
+                            lineOptions[index].series[1].data = y2Arr
+                            lineOptions[index].series[2].data = y3Arr
+                            lineOptions[index].series[3].data = y4Arr
+                            console.log('LineUsage!!!!!!!!!!!!!!!!!!!!!!!!')
+                            console.log(index)
+                            console.log(lineOptions[index])
+                        } else {
+                            lineOptions[index].xAxis[0].data = xArr
+                            lineOptions[index].series[0].data = y1Arr
+                            lineOptions[index].series[1].data = y2Arr
+                            lineOptions[index].series[2].data = y3Arr
+                            lineOptions[index].series[3].data = y4Arr
+                            lineOptions[index].series[4].data = y5Arr
+                            lineOptions[index].series[5].data = y6Arr
+                            lineOptions[index].series[6].data = y7Arr
+                        }
+                        lineOptions[index].title.text = title
+                        lineCharts[index].setOption(lineOptions[index],true)
                         $('#lineChart' + (index + 1)).show()
                         console.log(lineOptions[index])
                         console.log(lineCharts[index])
@@ -265,7 +270,7 @@
         }
         tempOption.series = tempSeries
         lineOptions.push(tempOption)
-        lineCharts[i].setOption(lineOptions[i])
+        lineCharts[i].setOption(lineOptions[i],true)
     }
     //usageOption = _cloneObj(lineOption)
     usageOption = jQuery.extend(true, {}, lineOption)

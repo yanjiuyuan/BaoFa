@@ -82,7 +82,8 @@
                                         peopleCurrentY3.push(0)
                                         peopleCurrentY4.push(d.currtime)
                                 }
-                            } else {
+                            }
+                            else {
                                 machineX.push(d.stationNAME)
                                 machineCurrentX.push(d.stationNAME)
                                 machineY1.push(d.run)
@@ -122,25 +123,23 @@
                         barOption1.series[0].data = peopleY1
                         barOption1.series[1].data = peopleY2
                         barOption1.series[2].data = peopleY3
-                        barChart1.setOption(barOption1)
+                        barOption1.series[3].data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                        console.log(barOption1)
+                        barChart1.setOption(barOption1,true)
                         //机器平均
                         barOption2.yAxis[0].data = machineX
                         barOption2.series[0].data = machineY1
                         barOption2.series[1].data = machineY2
                         barOption2.series[2].data = machineY3
-                        barChart2.setOption(barOption2)
+                        barOption2.series[3].data = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                        barChart2.setOption(barOption2, true)
                         //人工实时
                         barOption3.yAxis[0].data = peopleCurrentX
                         barOption3.series[0].data = peopleCurrentY1
                         barOption3.series[1].data = peopleCurrentY2
                         barOption3.series[2].data = peopleCurrentY3
                         barOption3.series[3].data = peopleCurrentY4
-                        console.log(peopleCurrentY1)
-                        console.log(peopleCurrentY2)
-                        console.log(peopleCurrentY3)
-                        console.log(peopleCurrentY4)
-                        console.log(barOption3)
-                        barChart3.setOption(barOption3)
+                        barChart3.setOption(barOption3, true)
                         //机器实时
                         barOption4.yAxis[0].data = machineCurrentX
                         barOption4.series[0].data = machineCurrentY1
@@ -148,7 +147,7 @@
                         barOption4.series[2].data = machineCurrentY3
                         barOption4.series[3].data = machineCurrentY4
                         console.log(barOption4)
-                        barChart4.setOption(barOption4)
+                        barChart4.setOption(barOption4, true)
                     }
                 })
             }
@@ -208,7 +207,7 @@
                 name: '运行',
                 type: 'bar',
                 stack: '总量',
-                itemStyle: { normal: { color: '#67C23A', label: { show: true, position: 'inside' } } },
+                itemStyle: { normal: { color: '#67C23A', label: { show: true, position: 'insideLeft' } } },
                 data: [0],
                 color: '#222'
             },
@@ -216,21 +215,21 @@
                 name: '空闲',
                 type: 'bar',
                 stack: '总量',
-                itemStyle: { normal: { color: '#E6A23C', label: { show: true, position: 'inside' } } },
+                itemStyle: { normal: { color: '#E6A23C', label: { show: true, position: 'insideLeft' } } },
                 data: [0]
             },
             {
                 name: '报警',
                 type: 'bar',
                 stack: '总量',
-                itemStyle: { normal: { color: '#F56C6C', label: { show: true, position: 'inside' } } },
+                itemStyle: { normal: { color: '#F56C6C', label: { show: true, position: 'insideLeft' } } },
                 data: [0]
             },
             {
                 name: '停止',
                 type: 'bar',
                 stack: '总量',
-                itemStyle: { normal: { color: '#909399', label: { show: true, position: 'inside' } } },
+                itemStyle: { normal: { color: '#909399', label: { show: true, position: 'insideLeft' } } },
                 data: [0]
             }
         ]

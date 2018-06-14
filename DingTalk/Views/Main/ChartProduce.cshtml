@@ -271,16 +271,12 @@
                     y2Arr.push(parseInt(data[d].ChildN))
                 }
                 if (data.length == 0) {
-                    for (var i = 0; i < 105; i++) {
-                        xArr.push(0)
-                        y1Arr.push(0)
-                        y2Arr.push(0)
-                    }
+                    xArr = [0], y1Arr = [0], y2Arr = [0]
                 }
                 lineOption.xAxis[0].data = xArr
                 lineOption.series[0].data = y1Arr
                 lineOption.series[1].data = y2Arr
-                lineChart.setOption(lineOption)
+                lineChart.setOption(lineOption, true)
             }
         })
     }
@@ -298,14 +294,11 @@
                     yArr.push(data[d].CurrN)
                 }
                 if (data.length == 0) {
-                    for (var i = 0; i < 40; i++) {
-                        xArr.push(0)
-                        yArr.push(0)
-                    }
+                    xArr = [0], yArr = [0]
                 }
                 areaOption.xAxis[0].data = xArr
                 areaOption.series[0].data = yArr
-                areaChart.setOption(areaOption)
+                areaChart.setOption(areaOption,true)
             }
         })
     }

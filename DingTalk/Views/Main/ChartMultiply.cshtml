@@ -31,7 +31,7 @@
 
         <el-form-item>
             <el-button type="primary" v-on:click="onSearch('formInline')">搜索</el-button>
-            <span class="alert">{{alert}}</span>
+            @*<span class="alert">{{alert}}</span>*@
         </el-form-item>
     </el-form>
     <div id="lineChart2" style="height:300px;"></div>
@@ -88,14 +88,19 @@
                         }
                         data = data.Rows
                         var xArr = [], y1Arr = [], y2Arr = [], y3Arr = [], y4Arr = [], y5Arr = []
-                        for (var d in data) {
-                            xArr.push(data[d].datestr)
-                            y1Arr.push(data[d].AppearanceAfterQualified)
-                            y2Arr.push(data[d].AppearanceQualified)
-                            y3Arr.push(data[d].DaDiPullQualified)
-                            y4Arr.push(data[d].VampPullQualified)
-                            y5Arr.push(data[d].ZheWangQualified)
+                        if (!data) {
+                            xArr = [0], y1Arr = [0], y2Arr = [0], y3Arr = [0], y4Arr = [0], y5Arr = [0]
+                        } else {
+                            for (var d in data) {
+                                xArr.push(data[d].datestr)
+                                y1Arr.push(data[d].AppearanceAfterQualified)
+                                y2Arr.push(data[d].AppearanceQualified)
+                                y3Arr.push(data[d].DaDiPullQualified)
+                                y4Arr.push(data[d].VampPullQualified)
+                                y5Arr.push(data[d].ZheWangQualified)
+                            }
                         }
+                        
                         lineOption.xAxis[0].data = xArr
                         lineOption.series[0].data = y1Arr
                         lineOption.series[1].data = y2Arr
@@ -103,7 +108,7 @@
                         lineOption.series[3].data = y4Arr
                         lineOption.series[4].data = y5Arr
                         console.log(lineOption.series)
-                        lineChart.setOption(lineOption)
+                        lineChart.setOption(lineOption,true)
                     }
                 })
                 $.ajax({
@@ -112,17 +117,23 @@
                         console.log('月报产量查询')
                         console.log('/reports/GetMonProduct' + timeUrl)
                         data = JSON.parse(data)
+                        console.log(data)
                         console.log(data.Rows)
                         data = data.Rows
                         var xArr = [], y1Arr = []
-                        for (var d in data) {
-                            xArr.push(data[d].datestr)
-                            y1Arr.push(data[d].AllN)
+                        if (!data) {
+                            xArr = [0], y1Arr = [0]
+                        } else {
+                            for (var d in data) {
+                                xArr.push(data[d].datestr)
+                                y1Arr.push(data[d].AllN)
+                            }
                         }
                         lineOption2.xAxis[0].data = xArr
                         lineOption2.series[0].data = y1Arr
                         console.log(lineOption2.series)
-                        lineChart2.setOption(lineOption2)
+                        //lineChart2.clear()
+                        lineChart2.setOption(lineOption2, true)
                     }
                 })
                 $.ajax({
@@ -133,7 +144,7 @@
                         console.log(data.Rows)
                         data = data.Rows[0]
                         barOption.series[0].data = [data.BiaoQianConsumption, data.DaDiConsumption, data.HuChiConsumption, data.WeiTiaoConsumption]
-                        barChart.setOption(barOption)
+                        barChart.setOption(barOption,true)
                     }
                 })
             }
@@ -150,7 +161,7 @@
     lineChart = echarts.init(document.getElementById('lineChart'));
     lineOption = {
         title: {
-            text: '',
+            text: '质量统计图',
             x: 'center'
         },
         legend: {
@@ -240,7 +251,7 @@
     lineChart2 = echarts.init(document.getElementById('lineChart2'));
     lineOption2 = {
         title: {
-            text: '',
+            text: '产量统计图',
             x: 'center'
         },
         legend: {
@@ -272,7 +283,7 @@
             {
                 type: 'value',
                 axisLabel: {
-                    formatter: '{value} %'
+                    formatter: '{value} 只'
                 }
             }
         ],
@@ -316,6 +327,9 @@
         yAxis: [
             {
                 type: 'value',
+                axisLabel: {
+                    formatter: '{value} 个'
+                }
             }
         ],
         series: [
