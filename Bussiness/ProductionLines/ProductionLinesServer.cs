@@ -27,7 +27,8 @@ namespace Bussiness.ProductionLines
             {
                 int startRow = PageIndex.Value * PageSize.Value;
                 StringBuilder sb = new StringBuilder();
-                sb.Append(" select * from (SELECT a.*,d.GroupName,b.FoundryName  FROM huabao.`productlineinfo` a  left join huabao.`foundryinfo` b  on a.FoundryId=b.FoundryId left join huabao.`Companyinfo` c on b.companyid=c.companyid" +
+                sb.Append(" select * from (SELECT a.ProductLineId,a.ProductLineName,c.CompanyId,a.role,c.telephone,c.registertime,if(a.status=1,'启用','禁用') as  status " +
+                      ", d.GroupName,b.FoundryName  FROM huabao.`productlineinfo` a  left join huabao.`foundryinfo` b  on a.FoundryId=b.FoundryId left join huabao.`Companyinfo` c on b.companyid=c.companyid" +
                     " left join groupinfo d on c.groupid=d.groupid) t1  ");
                 if (ProductLineId != null || ProductLineName != null || CompanyId != null || telephone != null || registertime != null
                     || role != null || status != null || IsEnable != null || KeyWord != null || FoundryId != null || GroupId != null)
@@ -69,6 +70,10 @@ namespace Bussiness.ProductionLines
                 if (GroupId != null)
                 {
                     sb.Append(string.Format(" and GroupId='{0}'", GroupId));
+                }
+                if (status != null)
+                {
+                    sb.Append(string.Format(" and status='{0}'", status));
                 }
                 int iRows = MySqlHelper.ExecuteQuery(sb.ToString()).Rows.Count;
                 string strWhereLimit = string.Format(" LIMIT {0},{1}", startRow, PageSize.Value);
