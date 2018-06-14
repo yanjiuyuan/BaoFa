@@ -27,8 +27,8 @@ namespace Bussiness.ProductionLines
             {
                 int startRow = PageIndex.Value * PageSize.Value;
                 StringBuilder sb = new StringBuilder();
-                sb.Append(" select * from (SELECT a.ProductLineId,a.ProductLineName,c.CompanyId,a.role,c.telephone,c.registertime,if(a.status=1,'启用','禁用') as  status " +
-                      ", d.GroupName,b.FoundryName  FROM huabao.`productlineinfo` a  left join huabao.`foundryinfo` b  on a.FoundryId=b.FoundryId left join huabao.`Companyinfo` c on b.companyid=c.companyid" +
+                sb.Append(" select * from (SELECT a.ProductLineId,a.ProductLineName,a.role,c.telephone,c.registertime,if(a.status=1,'启用','禁用') as  status " +
+                      ",d.groupid, d.GroupName,b.FoundryName,b.Foundryid,c.CompanyId,c.CompanyName  FROM huabao.`productlineinfo` a  left join huabao.`foundryinfo` b  on a.FoundryId=b.FoundryId left join huabao.`Companyinfo` c on b.companyid=c.companyid" +
                     " left join groupinfo d on c.groupid=d.groupid) t1  ");
                 if (ProductLineId != null || ProductLineName != null || CompanyId != null || telephone != null || registertime != null
                     || role != null || status != null || IsEnable != null || KeyWord != null || FoundryId != null || GroupId != null)
