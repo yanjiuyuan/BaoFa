@@ -88,7 +88,7 @@
                 switch (this.param.status) {
                     case '空闲': theme = {
                         mainClass: 'device-button-info',
-                        warnType: 'info',
+                        warnType: 'warning',
                         text: '空闲',
                         color: '#E6A23C'
                     }; break;
@@ -248,7 +248,7 @@
                                     else {
                                         dev.status = '运行' 
                                     }
-                                    if (getLocalObj('lineData')[0].Data.Linestatus == '生产完成') {
+                                    if (getLocalObj('lineData')[0].Data.Linestatus == '生产完成' || getLocalObj('lineData')[0].Data.Linestatus == '停止完成') {
                                         console.log('生产完成')
                                         dev.status = '停止'
                                     }

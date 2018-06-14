@@ -747,3 +747,6 @@
 2018-06-14 10:22:37,285 [14] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
 2018-06-14 11:20:06,639 [10] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
 2018-06-14 11:20:11,823 [28] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-14 12:14:23,507 [5] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-14 13:38:56,696 [31] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-14 13:39:39,714 [12] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
