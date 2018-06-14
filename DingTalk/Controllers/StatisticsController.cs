@@ -49,21 +49,21 @@ namespace DingTalk.Controllers
         /// <returns>返回头尾以及整点数据</returns>
         /// 测试数据 Statistics/GetCurrentProduction
         /// 测试数据 /Statistics/GetCurrentProduction?DataTime=2018-03-01&Count=100&lineid=1
-        public string GetCurrentProduction(string DataTime,int Count,int lineid=1)
+        public string GetCurrentProduction(string DataTime,int Count,int lineid=1, int duramins=10)
         {
             string strResult = string.Empty;
             if (DataTime != null)
             {
-                strResult = ChangeTime(DataTime,Count, lineid);
+                strResult = ChangeTime(DataTime, duramins, lineid);
             }
             else
             {
-                strResult = ChangeTime(DateTime.Now.ToString("yyyy-MM-dd"), Count, lineid);
+                strResult = ChangeTime(DateTime.Now.ToString("yyyy-MM-dd"), duramins, lineid);
             }
             return strResult;
         }
 
-        public string ChangeTime(string DataTime,int Count,int lineid=1)
+        public string ChangeTime(string DataTime,int duramins, int lineid=1)
         {
             DateTime time = Convert.ToDateTime(DataTime);
             long lTime = TimeHelper.ConvertDateTimeToInt(time);
@@ -72,7 +72,7 @@ namespace DingTalk.Controllers
             long lTimeend = TimeHelper.ConvertDateTimeToInt(timeend);
 
             DosageInfoServer dServer = new DosageInfoServer();
-            DataTable tb = dServer.GetCurrentProduction(lTime, lTimeend, Count, lineid);
+            DataTable tb = dServer.GetCurrentProduction(lTime, lTimeend, duramins, lineid);
             return JsonHelper.DataTableToJson(tb);
         }
 
