@@ -9,31 +9,27 @@
     <el-form :inline="false" :model="formInline" ref="formInline" :rules="rules" class="demo-form-inline"
              size="medium">
         <el-form-item label="二维码号" prop="qrCode">
-            <el-input v-model="formInline.qrCode"
+            <el-input v-model="formInline.qrCode" style="width:200px;"
                       placeholder="请输入鞋子二维码"></el-input>
+            <el-button type="primary" v-on:click="search('formInline')">搜索</el-button>
         </el-form-item>
         <el-form-item label="工位" prop="stationId">
-            @*<el-select v-model="formInline.stationId">
-                    <el-option v-for="s of stations" :label="s.Value" :value="s.Key" key="s.Key"></el-option>
-                </el-select>*@
-            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" v-on:change="handleCheckAllChange">全选</el-checkbox>
-            <div style="margin: 15px 0;"></div>
-            <el-checkbox-group v-model="formInline.stationId" v-on:change="handleCheckedCitiesChange">
+   
+            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" v-on:change="handleCheckAllChange"
+                         style="float:left;">全选</el-checkbox>
+            <el-checkbox-group v-model="formInline.stationId" v-on:change="handleCheckedCitiesChange" style="float:left;margin-left:15px;">
                 <el-checkbox v-for="s in stations" :label="s.Key" :key="s.Key">{{s.Value}}</el-checkbox>
             </el-checkbox-group>
         </el-form-item>
-        <el-form-item>
-            <el-button type="primary" v-on:click="search('formInline')">搜索</el-button>
-        </el-form-item>
     </el-form>
 
-    <div id="lineChart1" style="height:300px;background-color:red;"></div><br />
-    <div id="lineChart2" style="height:300px;background-color:red;"></div><br />
-    <div id="lineChart3" style="height:300px;background-color:red;"></div><br />
-    <div id="lineChart4" style="height:300px;"></div><br />
-    <div id="lineChart5" style="height:300px;"></div><br />
-    <div id="lineChart6" style="height:300px;"></div><br />
-    <div id="lineChart7" style="height:300px;"></div><br />
+    <div id="lineChart1" style="height:200px;width:50%;float:left;"></div>
+    <div id="lineChart2" style="height:200px;width:50%;float:left;"></div>
+    <div id="lineChart3" style="height:200px;width:50%;float:left;"></div>
+    <div id="lineChart4" style="height:200px;width:50%;float:left;"></div>
+    <div id="lineChart5" style="height:200px;width:50%;float:left;"></div>
+    <div id="lineChart6" style="height:200px;width:50%;float:left;"></div>
+    <div id="lineChart7" style="height:200px;width:50%;float:left;"></div>
 
 </el-main>
 
@@ -243,7 +239,7 @@
             }
         ],
         grid: {
-            x: '14%',
+            x: '24%',
             containLabel: true,
             backgroundColor: 'white',
         },
