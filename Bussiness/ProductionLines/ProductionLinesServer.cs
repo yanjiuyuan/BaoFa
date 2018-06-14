@@ -18,7 +18,7 @@ namespace Bussiness.ProductionLines
         private static Logger logger = Logger.CreateLogger(typeof(ProductionLinesServer));
         public string GetProductionLinesData(string ProductLineId, string ProductLineName
             , string CompanyId, string telephone, string registertime,
-            string role, string status, string GroupId,
+            string role, string status, string GroupId, string FoundryId,
             string IsEnable, string KeyWord
             , int? PageIndex = 0, int? PageSize = 5)
         {
@@ -27,10 +27,10 @@ namespace Bussiness.ProductionLines
             {
                 int startRow = PageIndex.Value * PageSize.Value;
                 StringBuilder sb = new StringBuilder();
-                sb.Append(" select * from (SELECT a.*,c.GroupName  FROM huabao.`productlineinfo` a  left join huabao.`Companyinfo` b on a.companyid=b.companyid" +
-                    " left join groupinfo c on b.groupid=c.groupid) t1  ");
+                sb.Append(" select * from (SELECT a.*,d.GroupName,b.FoundryName  FROM huabao.`productlineinfo` a  left join huabao.`foundryinfo` b  on a.FoundryId=b.FoundryId left join huabao.`Companyinfo` c on b.companyid=c.companyid" +
+                    " left join groupinfo d on c.groupid=d.groupid) t1  ");
                 if (ProductLineId != null || ProductLineName != null || CompanyId != null || telephone != null || registertime != null
-                    || role != null || status != null || IsEnable != null || KeyWord != null)
+                    || role != null || status != null || IsEnable != null || KeyWord != null || FoundryId != null || GroupId != null)
                 {
                     sb.Append(" where 1=1 ");
                 }
@@ -41,6 +41,7 @@ namespace Bussiness.ProductionLines
                         "   or  ProductLineName like  '%{0}%' " +
                           "   or  CompanyName like  '%{0}%' " +
                           "   or  GroupName like  '%{0}%' " +
+                           "   or FoundryName like  '%{0}%' " +
                            "   or  telephone like  '%{0}%' " +
                         "or role like  '%{0}%' ) ", KeyWord);
                     sb.Append(strWhereKeyWord);
@@ -61,7 +62,10 @@ namespace Bussiness.ProductionLines
                 {
                     sb.Append(string.Format(" and telephone='{0}'", telephone));
                 }
-
+                if (FoundryId != null)
+                {
+                    sb.Append(string.Format(" and FoundryId='{0}'", FoundryId));
+                }
                 if (GroupId != null)
                 {
                     sb.Append(string.Format(" and GroupId='{0}'", GroupId));
