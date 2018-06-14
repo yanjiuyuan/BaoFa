@@ -248,7 +248,7 @@
                                     else {
                                         dev.status = '运行' 
                                     }
-                                    if (getLocalObj('lineData')[0].Data.Linestatus == '生产完成' || getLocalObj('lineData')[0].Data.Linestatus == '停止完成') {
+                                    if (getLocalObj('lineData')[0].Data.Linestatus == '生产完成' || getLocalObj('lineData')[0].Data.Linestatus == '停止') {
                                         console.log('生产完成')
                                         dev.status = '停止'
                                     }
