@@ -35,7 +35,7 @@ namespace DingTalk.Controllers
         /// <returns>Json数组</returns>
         /// 测试数据：/ProductionLines/ProductionLinesData?CompanyId=1&keyword=1号生产线
 
-        public string ProductionLinesData(string ProductLineId, string OrderID
+        public string ProductionLinesData(string LineId, string OrderID
             , string CompanyId, string telephone, string registertime,
             string role, string status, string GroupId, string FoundryId,
             string IsEnable, string KeyWord
@@ -47,7 +47,7 @@ namespace DingTalk.Controllers
             //}
             ProductionLinesServer pServer = new ProductionLinesServer();
 
-            return pServer.GetProductionLinesData(ProductLineId, OrderID
+            return pServer.GetProductionLinesData( LineId, OrderID
             , CompanyId, telephone, registertime, role,
             status, GroupId, FoundryId, IsEnable, KeyWord, PageIndex, PageSize);
         }
