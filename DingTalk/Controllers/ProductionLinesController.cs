@@ -37,7 +37,7 @@ namespace DingTalk.Controllers
 
         public string ProductionLinesData(string ProductLineId, string OrderID
             , string CompanyId, string telephone, string registertime,
-            string role, string status, string GroupId,
+            string role, string status, string GroupId, string FoundryId,
             string IsEnable, string KeyWord
             , int? PageIndex = 0, int? PageSize = 5)
         {
@@ -49,7 +49,7 @@ namespace DingTalk.Controllers
 
             return pServer.GetProductionLinesData(ProductLineId, OrderID
             , CompanyId, telephone, registertime, role,
-            status, GroupId, IsEnable, KeyWord, PageIndex, PageSize);
+            status, GroupId, FoundryId, IsEnable, KeyWord, PageIndex, PageSize);
         }
 
         public string GetGroupList()
