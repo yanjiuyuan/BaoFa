@@ -104,8 +104,10 @@
                                 allZero = false
                             } 
                         }
-                        that.loadPieData({ Goods: 1, Bads: 1, Inferior: 1}, true)
-                        if (allZero) that.alert = '饼状图无有效数据,数据都为0'
+                        if (allZero) {
+                            that.loadPieData({ Goods: 1, Bads: 1, Inferior: 1 }, true)
+                            that.alert = '饼状图无有效数据,数据都为0'
+                        }
                     },
                     error: function (err) {
                         that.alert = '饼状图无有效数据'

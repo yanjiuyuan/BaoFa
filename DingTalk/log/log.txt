@@ -4328,3 +4328,12 @@
 2018-06-15 16:14:48,467 [98] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
 2018-06-15 16:14:52,367 [89] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
 2018-06-15 16:14:52,488 [89] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 16:49:47,336 [25] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 16:49:47,337 [25] ERROR Bussiness.DosageInfo.DosageInfoServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 16:49:47,337 [25] ERROR Bussiness.DosageInfo.DosageInfoServer - 未将对象引用设置到对象的实例。
+2018-06-15 16:50:17,349 [15] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 16:50:17,349 [15] ERROR Bussiness.DosageInfo.DosageInfoServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 16:50:35,761 [9] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 16:50:35,762 [9] ERROR Bussiness.DosageInfo.DosageInfoServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 16:50:35,762 [9] ERROR Bussiness.DosageInfo.DosageInfoServer - 未将对象引用设置到对象的实例。
+2018-06-15 17:23:12,428 [10] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
