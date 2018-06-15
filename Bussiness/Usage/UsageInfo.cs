@@ -96,13 +96,9 @@ namespace Bussiness.UsageInfo
             }
             DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
             string strJsonString = string.Empty;
-            if (tb.Rows.Count > 0)
+            
                 strJsonString = JsonHelper.DataTableToJson(tb);
-
-            else
-            {
-                strJsonString = Global.RETURN_EMPTY;
-            }
+ 
             return strJsonString;
             }
             catch (Exception ex)

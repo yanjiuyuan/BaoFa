@@ -298,13 +298,10 @@ namespace Bussiness.DosageInfo
                     sb.Append(" )b group by datestr order by datestr ");
                     DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
                     string strJsonString = string.Empty;
-                    if (tb.Rows.Count > 0)
+                     
                         strJsonString = JsonHelper.DataTableToJson(tb);
 
-                    else
-                    {
-                        return Global.RETURN_EMPTY;
-                    }
+                    
                     return strJsonString;
                 }
                 else
@@ -328,13 +325,10 @@ namespace Bussiness.DosageInfo
                     sb.Append(" ) b group by datestr  order by datestr ");
                     DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
                     string strJsonString = string.Empty;
-                    if (tb.Rows.Count > 0)
+                   
                         strJsonString = JsonHelper.DataTableToJson(tb);
 
-                    else
-                    {
-                        return Global.RETURN_EMPTY;
-                    }
+                    
                     return strJsonString;
 
 

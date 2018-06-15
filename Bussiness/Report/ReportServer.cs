@@ -247,10 +247,9 @@ namespace Bussiness.Report
 
                 
                 DataTable db = MySqlHelper.ExecuteQuery(strSql);
-                if(db !=null)
+                 
                 return JsonHelper.DataTableToJson(db);
-            else
-                return Global.RETURN_EMPTY;
+             
         }
         catch (Exception ex)
         {
@@ -468,10 +467,9 @@ namespace Bussiness.Report
         if (dbqa.Rows.Count > 0)
             hasht.Add("quality", JsonHelper.DataRowToDic(dbqa.Columns, dbqa.Rows[0]));
          
-        if (hasht.Count > 0)
+        
                     return JsonConvert.SerializeObject(hasht);
-        else
-                    return Global.RETURN_EMPTY;
+       
          }
     catch (Exception ex)
     {
@@ -491,10 +489,9 @@ namespace Bussiness.Report
             DataTable qadetail = MySqlHelper.ExecuteQuery(strSqlqadetail);
 
 
-            if (qadetail.Rows.Count > 0)
+             
                 return JsonHelper.DataTableToJson(qadetail);
-            else
-                return Global.RETURN_EMPTY;
+            
         }
         catch (Exception ex)
         {

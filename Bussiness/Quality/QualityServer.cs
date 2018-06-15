@@ -116,18 +116,12 @@ namespace Bussiness.Quality
                  
                 DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
                 string strJsonString = string.Empty;
-                if (tb.Rows.Count > 0)
-                {
+                
                      
                     tb.TableName = "Quality";
                     strJsonString = JsonHelper.DataTableToJson(tb);
  
-
-                }
-                else
-                {
-                    return Global.RETURN_EMPTY;
-                }
+ 
                 return strJsonString;
             }
             catch (Exception ex)
@@ -205,13 +199,9 @@ namespace Bussiness.Quality
                     sb.Append(" )b group by datestr order by datestr ");
                     DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
                     string strJsonString = string.Empty;
-                    if (tb.Rows.Count > 0)
+                   
                         strJsonString = JsonHelper.DataTableToJson(tb);
-
-                    else
-                    {
-                        return Global.RETURN_EMPTY;
-                    }
+ 
                     return strJsonString;
                 }
                 else
@@ -237,13 +227,10 @@ namespace Bussiness.Quality
                     sb.Append(" ) b group by datestr  order by datestr ");
                     DataTable tb = MySqlHelper.ExecuteQuery(sb.ToString());
                     string strJsonString = string.Empty;
-                    if (tb.Rows.Count > 0)
+                 
                         strJsonString = JsonHelper.DataTableToJson(tb);
 
-                    else
-                    {
-                        return Global.RETURN_EMPTY;
-                    }
+                   
                     return strJsonString;
 
 
