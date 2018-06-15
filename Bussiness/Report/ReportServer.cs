@@ -30,6 +30,8 @@ namespace Bussiness.Report
                 //复制Excel
                 if (File.Exists(strPath))
                 {
+                    
+
                     File.Copy(strPath, strServerPath, true);
 
                     string[] strListTest = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" };
@@ -230,9 +232,12 @@ namespace Bussiness.Report
         {
         try
         {
+                string comname = Global.GetCompanyNameByLineID(lineid);
+
+
             string[] strListTest = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" };
 
-            string strSql = "select * from (SELECT a.orderid,a.childid,b.ordern,a.childn,'华宝有限公司' AS factoryName," +
+            string strSql = "select * from (SELECT a.orderid,a.childid,b.ordern,a.childn,'" + comname + "' AS factoryName," +
                 "productlineid,ordtime,DeliveryTime,ProductionT,Customer,ExpCountries,KRXTM,XTDH,Material," +
                 "color,XingTiN,BaoTouL,WeiTiaoW,HuChiW,ProductionBeat,NowN,OldN,ALlN FROM `Usage` a " +
                 "LEFT JOIN `Order` b ON a.orderid=b.orderid  where a.CT >='" + startTime + "' and a.CT<='" + endTime + "' and a.productlineid=" + lineid +
@@ -265,13 +270,13 @@ namespace Bussiness.Report
         try {
             if (File.Exists(strPath))
             {
+                    string comname = Global.GetCompanyNameByLineID(lineid);
 
-
-                File.Copy(strPath, strServerPath, true);
+                    File.Copy(strPath, strServerPath, true);
 
                 string[] strListTest = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" };
 
-                    string strSql = "select * from (SELECT a.orderid,a.childid,b.ordern,a.childn,'华宝有限公司' AS factoryName," +
+                    string strSql = "select * from (SELECT a.orderid,a.childid,b.ordern,a.childn,'"+ comname+"' AS factoryName," +
                      "productlineid,ordtime,DeliveryTime,ProductionT,Customer,ExpCountries,KRXTM,XTDH,Material," +
                      "color,XingTiN,BaoTouL,WeiTiaoW,HuChiW,ProductionBeat,NowN,OldN,ALlN FROM `Usage` a " +
                      "LEFT JOIN `Order` b ON a.orderid=b.orderid  where a.CT >='" + startTime + "' and a.CT<='" + endTime + "' and a.productlineid=" + lineid +
@@ -431,8 +436,9 @@ namespace Bussiness.Report
         {
          try
              {
+                string comname = Global.GetCompanyNameByLineID(lineid);
 
-                string strSql = "select * from (SELECT a.orderid,a.childid,b.ordern,a.childn,'华宝有限公司' AS factoryName," +
+                string strSql = "select * from (SELECT a.orderid,a.childid,b.ordern,a.childn,'" + comname + "' AS factoryName," +
                            "productlineid,ordtime,DeliveryTime,ProductionT,Customer,ExpCountries,KRXTM,XTDH,Material," +
                            "color,XingTiN,BaoTouL,WeiTiaoW,HuChiW,ProductionBeat,NowN,OldN,ALlN FROM `Usage` a " +
                            "LEFT JOIN `Order` b ON a.orderid=b.orderid  where a.CT >='" + startTime + "' and a.CT<='" + endTime + "' and a.productlineid=" + lineid +
@@ -510,10 +516,11 @@ namespace Bussiness.Report
             {
                 File.Copy(strPath, strServerPath, true);
 
+                    string comname = Global.GetCompanyNameByLineID(lineid);
 
-                string[] strListTest = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" };
+                    string[] strListTest = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" };
                     //获取订单信息
-                    string strSql = "select * from (SELECT a.orderid,a.childid,b.ordern,a.childn,'华宝有限公司' AS factoryName," +
+                    string strSql = "select * from (SELECT a.orderid,a.childid,b.ordern,a.childn,'" + comname + "' AS factoryName," +
                               "productlineid,ordtime,DeliveryTime,ProductionT,Customer,ExpCountries,KRXTM,XTDH,Material," +
                               "color,XingTiN,BaoTouL,WeiTiaoW,HuChiW,ProductionBeat,NowN,OldN,ALlN FROM `Usage` a " +
                               "LEFT JOIN `Order` b ON a.orderid=b.orderid  where a.CT >='" + startTime + "' and a.CT<='" + endTime + "' and a.productlineid=" + lineid +

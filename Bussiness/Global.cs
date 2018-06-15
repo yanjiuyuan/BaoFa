@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common.DbHelper;
+using Common.LogHelper;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace Bussiness
 {
    public static class Global
     {
-
+        private static Logger logger = Logger.CreateLogger(typeof(Global));
         public  static string  RETURN_EMPTY =  "{\"ErrorType\":1,\"ErrorMessage\":\"暂无数据!\"}";
         public static string RETURN_ERROR(string msg)
         {
@@ -33,7 +35,34 @@ namespace Bussiness
         };
 
 
-      
+        public static string GetCompanyNameByLineID(int lineid)
+        {
+            DataTable dt = new DataTable();
+            string retstr = string.Empty;
+            try
+            {
+
+                string strsql = " select  c.companyName  from productlineinfo a left join foundryinfo b  on a.foundryid = b.foundryid " +
+                 " left join companyinfo c   on b.companyid = c.companyid  where a.ProductLineId=" + lineid;
+
+
+                dt = MySqlHelper.ExecuteQuery(strsql);
+                if (dt.Rows.Count > 0)
+                {
+                    retstr = dt.Rows[0]["companyName"].ToString();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                logger.Error(ex.Message);
+            }
+            return retstr;
+
+        }
+
 
     }
 }
