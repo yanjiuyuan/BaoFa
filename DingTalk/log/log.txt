@@ -10,3 +10,650 @@
 2018-06-15 09:39:31,024 [20] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
 2018-06-15 09:40:20,912 [11] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
 2018-06-15 10:10:07,752 [11] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-15 10:47:57,850 [10] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:47:57,949 [10] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:48:02,838 [35] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:48:02,922 [35] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:48:06,880 [35] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:48:07,278 [35] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:48:11,881 [10] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:48:11,962 [10] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:48:16,880 [10] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:48:16,965 [10] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:48:21,879 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:48:21,971 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:48:26,882 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:48:26,967 [19] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:48:31,879 [35] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:48:31,967 [35] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:48:36,882 [26] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:48:36,973 [26] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:48:42,270 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:48:42,351 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:48:47,271 [10] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:48:47,356 [10] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:48:52,271 [26] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:48:52,359 [26] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:48:57,271 [10] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:48:57,351 [10] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:49:02,274 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:49:02,353 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:49:07,276 [10] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:49:07,362 [10] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:49:12,271 [26] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:49:12,352 [26] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:49:17,273 [5] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:49:17,360 [5] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:49:22,274 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:49:22,366 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:49:27,273 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:49:27,841 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:49:32,273 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:49:32,359 [16] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:49:37,277 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:49:37,364 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:49:42,274 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:49:42,350 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:49:47,275 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:49:47,354 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:49:52,277 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:49:52,364 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:49:57,276 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:49:57,354 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:50:02,278 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:50:02,353 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:50:07,277 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:50:07,368 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:50:12,278 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:50:12,355 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:50:17,277 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:50:17,355 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:50:22,278 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:50:22,363 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:50:27,279 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:50:27,361 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:50:32,279 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:50:32,358 [13] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:50:37,280 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:50:37,372 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:50:42,283 [5] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:50:42,358 [5] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:50:47,281 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:50:47,364 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:50:52,280 [5] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:50:52,373 [5] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:50:57,284 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:50:57,363 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:51:02,282 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:51:02,376 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:51:07,282 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:51:07,367 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:51:12,282 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:51:12,361 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:51:17,283 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:51:17,370 [11] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:51:22,284 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:51:22,372 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:51:27,284 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:51:27,358 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:51:32,285 [5] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:51:32,372 [5] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:51:37,285 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:51:37,380 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:51:42,059 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:51:42,142 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:51:46,897 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:51:46,974 [21] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:51:51,898 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:51:51,986 [19] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:51:56,897 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:51:56,971 [16] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:52:02,288 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:52:02,370 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:52:06,898 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:52:06,984 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:52:11,899 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:52:11,976 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:52:16,899 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:52:16,986 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:52:21,900 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:52:21,987 [21] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:52:26,905 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:52:26,982 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:52:31,901 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:52:31,997 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:52:36,902 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:52:36,987 [11] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:52:41,901 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:52:41,978 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:52:46,902 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:52:46,977 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:52:51,902 [42] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:52:51,988 [42] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:52:56,903 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:52:56,989 [27] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:53:01,903 [42] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:53:01,993 [42] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:53:06,907 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:53:06,993 [18] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:53:11,905 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:53:11,978 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:53:16,906 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:53:16,983 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:53:21,909 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:53:21,996 [11] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:53:26,906 [42] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:53:26,982 [42] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:53:31,907 [42] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:53:31,990 [42] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:53:36,908 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:53:37,049 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:53:41,907 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:53:41,984 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:53:46,907 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:53:46,986 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:53:51,908 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:53:51,997 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:53:56,909 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:53:56,983 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:54:01,909 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:54:01,985 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:54:06,911 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:54:06,996 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:54:11,910 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:54:11,995 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:54:16,915 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:54:17,004 [21] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 10:54:21,920 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:54:22,005 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:54:27,258 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:54:27,354 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:54:32,233 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:54:32,308 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:54:37,233 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:54:37,319 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:54:42,234 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:54:42,331 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:54:47,234 [42] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:54:47,308 [42] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:54:52,235 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:54:52,322 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:54:57,235 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:54:57,321 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:55:02,236 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:55:02,317 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:55:07,235 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:55:07,320 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:55:12,240 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:55:12,326 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:55:17,237 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:55:17,312 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:55:22,237 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:55:22,317 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:55:27,238 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:55:27,330 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:55:32,238 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:55:32,312 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:55:37,239 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:55:37,318 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:55:42,238 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:55:42,332 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:55:47,240 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:55:47,318 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:55:52,240 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:55:52,319 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:55:57,241 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:55:57,326 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:56:02,240 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:56:02,316 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:56:07,241 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:56:07,333 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:56:12,241 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:56:12,329 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:56:17,242 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:56:17,318 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:56:22,242 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:56:22,331 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:56:27,242 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:56:27,326 [13] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:56:32,244 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:56:32,332 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:56:37,243 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:56:37,322 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:56:42,246 [42] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:56:42,339 [42] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:56:47,249 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:56:47,335 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:56:52,245 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:56:52,334 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:56:57,245 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:56:57,336 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:57:02,246 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:57:02,332 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:57:07,246 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:57:07,335 [19] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:57:12,247 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:57:12,333 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:57:17,247 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:57:17,332 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:57:22,248 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:57:22,332 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:57:27,249 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:57:27,337 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:57:32,248 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:57:32,324 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:57:37,248 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:57:37,335 [11] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:57:42,250 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:57:42,711 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:57:47,255 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:57:47,334 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:57:52,251 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:57:52,340 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:57:57,250 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:57:57,349 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:58:02,253 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:58:02,340 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:58:07,251 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:58:07,341 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:58:12,252 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:58:12,346 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:58:17,253 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:58:17,341 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:58:22,252 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:58:22,343 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:58:27,254 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:58:27,354 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:58:32,255 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:58:32,342 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:58:37,254 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:58:37,346 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:58:42,257 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:58:42,351 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:58:47,255 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:58:47,342 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:58:52,258 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:58:52,352 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:58:57,256 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:58:57,353 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:59:02,257 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:59:02,727 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:59:07,256 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:59:07,708 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:59:12,257 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:59:12,357 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:59:17,257 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:59:17,353 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:59:22,258 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:59:22,345 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:59:27,267 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:59:27,354 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:59:32,258 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:59:32,355 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:59:37,260 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:59:42,662 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:59:42,682 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:59:42,773 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:59:47,261 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:59:47,349 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:59:52,261 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:59:52,359 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 10:59:57,263 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 10:59:57,354 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:00:02,262 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:00:02,705 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:00:07,262 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:00:07,359 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:00:12,267 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:00:12,362 [37] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 11:00:17,262 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:00:17,350 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:00:22,265 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:00:22,358 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:00:27,264 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:00:27,783 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:00:32,271 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:00:32,367 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:00:37,265 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:00:37,660 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:00:42,266 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:00:42,354 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:00:47,266 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:00:47,366 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:00:52,268 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:00:52,354 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:00:57,267 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:00:57,367 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:01:02,269 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:01:02,351 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:01:07,269 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:01:07,366 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:01:12,268 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:01:12,350 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:01:17,269 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:01:17,360 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:01:22,272 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:01:22,378 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:01:27,270 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:01:27,370 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:01:32,270 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:01:32,371 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:01:37,269 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:01:37,365 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:01:42,271 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:01:42,352 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:01:47,271 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:01:47,369 [16] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 11:01:52,272 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:01:52,726 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:01:57,272 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:01:57,358 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:02:02,272 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:02:02,373 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:02:07,273 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:02:07,367 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:02:12,282 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:02:12,377 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:02:17,274 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:02:17,375 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:02:22,273 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:02:22,364 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:02:27,275 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:02:27,361 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:02:32,276 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:02:32,375 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:02:37,275 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:02:37,369 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:02:42,275 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:02:51,721 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:02:51,733 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:02:51,822 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:02:52,282 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:02:52,359 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:02:57,277 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:02:57,762 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:03:02,278 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:03:02,358 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:03:07,277 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:03:07,356 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:03:12,278 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:03:12,365 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:03:17,281 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:03:17,366 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:03:22,279 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:03:22,369 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:03:27,283 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:03:27,364 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:03:32,281 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:03:32,366 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:03:37,282 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:03:37,370 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:03:42,285 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:03:42,365 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:03:47,283 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:03:47,361 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:03:52,281 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:03:52,411 [29] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 11:03:57,283 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:03:57,362 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:04:02,282 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:04:02,360 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:04:07,284 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:04:07,376 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:04:12,284 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:04:12,363 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:04:17,285 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:04:17,369 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:04:22,284 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:04:22,374 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:04:27,285 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:04:27,364 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:04:32,286 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:04:32,371 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:04:37,286 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:04:37,375 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:04:42,286 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:04:42,365 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:04:47,287 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:04:47,371 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:04:52,287 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:04:52,380 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:04:57,289 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:04:57,368 [18] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:05:02,288 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:05:02,372 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:05:07,289 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:05:07,380 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:05:12,293 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:05:12,372 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:05:17,292 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:05:17,379 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:05:22,292 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:05:22,380 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:05:27,290 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:05:27,369 [27] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:05:32,292 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:05:32,374 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:05:37,291 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:05:37,382 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:05:42,293 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:05:42,374 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:05:47,291 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:05:47,377 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:05:52,292 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:05:52,381 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:05:57,293 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:05:57,373 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:06:02,295 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:06:02,379 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:06:07,295 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:06:07,387 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:06:12,294 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:06:12,373 [21] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 11:06:17,294 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:06:17,379 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:06:22,294 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:06:22,385 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:06:27,296 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:06:27,378 [16] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 11:06:32,295 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:06:32,381 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:06:37,297 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:06:37,388 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:06:42,296 [28] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:06:42,376 [28] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 11:06:47,297 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:06:47,381 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:06:52,297 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:06:52,389 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:06:57,298 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:06:57,377 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:07:02,299 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:07:02,380 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:07:07,299 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:07:07,391 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:07:12,299 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:07:12,386 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:07:17,299 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:07:17,383 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:07:22,300 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:07:22,391 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:07:27,300 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:07:27,380 [37] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:07:32,302 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:07:32,384 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:07:37,301 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:07:37,396 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:07:42,302 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:07:42,382 [29] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 11:07:47,302 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:07:47,389 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:07:52,303 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:07:52,422 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:07:57,304 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:07:57,383 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:08:02,304 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:08:02,386 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:08:07,303 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:08:07,395 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:08:12,304 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:08:12,383 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:08:17,306 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:08:17,391 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:08:22,305 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:08:22,397 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:08:27,306 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:08:27,387 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:08:32,307 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:08:32,393 [34] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 11:08:37,307 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:08:37,397 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:08:42,307 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:08:42,388 [21] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 11:08:47,307 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:08:47,391 [16] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 11:08:52,308 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:08:52,402 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:08:57,309 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:08:57,392 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:09:02,308 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:09:02,392 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:09:07,310 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:09:07,398 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:09:12,309 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:09:12,395 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:09:17,312 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:09:17,400 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:09:22,312 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:09:22,408 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:09:27,314 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:09:27,398 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:09:32,312 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:09:32,402 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:09:37,311 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:09:37,404 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:09:42,315 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:09:42,394 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:09:47,313 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:09:47,403 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:09:52,314 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:09:52,425 [16] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:09:57,313 [23] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:09:57,400 [23] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:10:02,315 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:10:02,400 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:10:07,315 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:10:07,413 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:10:12,316 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:10:12,396 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:10:17,315 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:10:17,405 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:10:22,316 [23] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:10:22,408 [23] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:10:27,316 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:10:27,401 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:10:32,317 [23] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:10:32,404 [23] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:10:37,318 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:10:37,409 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:10:42,317 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:10:42,399 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:10:47,318 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:10:47,405 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:10:52,318 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:10:52,409 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:10:57,324 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:10:57,405 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:11:02,319 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:11:02,409 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:11:07,320 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:11:07,413 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:11:12,320 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:11:12,401 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:11:17,322 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:11:17,414 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:11:22,322 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:11:22,415 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:11:27,322 [23] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:11:27,407 [23] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:11:32,322 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:11:32,415 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:11:37,326 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:11:37,424 [21] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:11:42,323 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:11:42,406 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:11:47,324 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:11:47,414 [15] ERROR Bussiness.Chart.ChartBeatServer - 查询生产节拍失败值对于 UInt32 太大或太小。
+2018-06-15 11:11:52,325 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:11:52,417 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:11:57,324 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:11:57,407 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:12:02,326 [20] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:12:02,417 [20] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:12:07,325 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:12:07,418 [34] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:12:12,326 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:12:12,406 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:12:17,326 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:12:17,417 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:12:22,326 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:12:22,417 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:12:27,327 [20] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:12:27,410 [20] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:12:32,327 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:12:32,420 [29] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:12:37,328 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:12:37,421 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:12:42,328 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:12:42,414 [25] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:12:47,331 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:12:47,425 [32] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:12:52,336 [23] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:12:52,432 [23] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:12:57,329 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
+2018-06-15 11:12:57,415 [15] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
+2018-06-15 11:34:38,544 [22] ERROR Common.DbHelper.MySqlHelper - Fatal error encountered during command execution.
+2018-06-15 11:34:38,545 [22] ERROR Bussiness.ProductionLines.ProductionLinesServer - Fatal error encountered during command execution.
+2018-06-15 11:34:42,581 [22] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:34:42,582 [22] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:34:44,568 [22] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:34:44,569 [22] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:01,562 [45] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:01,563 [45] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:16,576 [43] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:16,576 [43] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:31,587 [45] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:31,588 [45] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:46,605 [22] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:46,605 [22] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:54,284 [23] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:54,285 [23] ERROR Bussiness.DosageInfo.DosageInfoServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:54,296 [23] ERROR Bussiness.DosageInfo.DosageInfoServer - 未将对象引用设置到对象的实例。
+2018-06-15 11:35:55,343 [28] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:55,343 [28] ERROR Bussiness.DosageInfo.DosageInfoServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:55,631 [22] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:55,632 [22] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:56,700 [49] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:56,700 [49] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:57,750 [22] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:57,751 [22] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:58,806 [46] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:58,807 [46] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:59,879 [45] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:35:59,880 [45] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:00,944 [22] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:00,945 [22] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:02,023 [46] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:02,024 [46] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:03,098 [46] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:03,099 [46] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:04,150 [49] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:04,150 [49] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:05,214 [22] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:05,215 [22] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:06,288 [43] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:06,289 [43] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:07,361 [46] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:07,361 [46] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:08,411 [49] ERROR Common.DbHelper.MySqlHelper - Unable to connect to any of the specified MySQL hosts.
+2018-06-15 11:36:08,412 [49] ERROR Bussiness.ProductionLines.ProductionLinesServer - Unable to connect to any of the specified MySQL hosts.
