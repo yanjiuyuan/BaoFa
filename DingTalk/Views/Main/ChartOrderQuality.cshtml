@@ -28,10 +28,13 @@
 
         <el-form-item>
             <el-button type="primary" v-on:click="getData">搜索</el-button>
-            <span class="alert">{{alert}}</span>
+            
         </el-form-item>
-        
     </el-form>
+    <div>
+        <span class="alert">{{alert}}</span>
+        <span class="alert" style="float:right;">{{alert2}}</span>
+    </div>
     <div id="chart" style="height:500px;"></div>
 </el-main>
 
@@ -47,7 +50,8 @@
                     ChildId: '',
                     OrderTime: ''
                 },
-                alert: ''
+                alert: '',
+                alert2: ''
             }
         },
         methods: {
@@ -73,9 +77,11 @@
                         console.log('获取雷达图数据')
                         console.log("/Quality/GetBatchQuality" + _formatQueryStr(searchParam))
                         console.log(data)
-                        that.loadRadarData(data)
+                        that.alert2 = ''
+                        that.loadRadarData(data, true)
                     },
                     error: function (err) {
+                        that.alert2 = '雷达图无有效数据'
                         console.error(err)
                     }
                 })
@@ -86,17 +92,22 @@
                         console.log('获取饼状图数据')
                         console.log("/Quality/GetQualityCounts" + _formatQueryStr(searchParam))
                         console.log(data)
-                        if (!data) return;
+                        var allZero = true
+                        if (!data) {
+                            that.alert = '饼状图无有效数据'
+                            return;
+                        }
                         for (var d in data) {
                             if (data[d] > 0) {
-                                that.loadPieData(data)
+                                that.loadPieData(data, true)
                                 that.alert = ''
-                                break
+                                allZero = false
                             }
                         }
-                        that.alert = '无有效数据，图表为随机数'
+                        if (allZero) that.alert = '饼状图无有效数据,数据都为0'
                     },
                     error: function (err) {
+                        that.alert = '饼状图无有效数据'
                         console.error(err)
                     }
                 })
@@ -106,9 +117,13 @@
                     var radarValue = []
                     for (var q in QUALITY_RADAR) {
                         var value = data.Rows[data.Rows.length - 1][q]
-                        if(!value && value!= '0') return
+                        if (!value && value != '0') {
+                            this.alert2 = '雷达图无有效数据'
+                            return
+                        }
                         radarValue.push(parseFloat(data.Rows[data.Rows.length - 1][q]))
                     }
+                    this.alert2 = ''
                     console.log('radarValue')
                     console.log(radarValue)
                     myChart.addData([
@@ -179,8 +194,8 @@
         polar: [
             {
                 indicator: radarName,
-                center: [document.getElementById('chart').offsetWidth - 250, 225],
-                radius: 120
+                center: [document.getElementById('chart').offsetWidth - 300, 225],
+                radius: 150
             }
         ],
         calculable: false,
@@ -188,8 +203,8 @@
             {
                 name: '品质分析',
                 type: 'pie',
-                radius: [0, 110],
-                center: [170, 225],
+                radius: [0, 150],
+                center: [250, 225],
                 data: [
                     {
                         name: 'A等',
