@@ -9,3 +9,4 @@
 2018-06-15 09:39:30,965 [20] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍
 2018-06-15 09:39:31,024 [20] INFO  Bussiness.Chart.ChartBeatServer - 查询生产节拍结束
 2018-06-15 09:40:20,912 [11] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
+2018-06-15 10:10:07,752 [11] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
