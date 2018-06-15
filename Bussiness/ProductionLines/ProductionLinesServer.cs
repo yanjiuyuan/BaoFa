@@ -163,27 +163,27 @@ namespace Bussiness.ProductionLines
                     string foundrynm = dt.Rows[i]["foundryname"].ToString();
                     string companynm = dt.Rows[i]["companyname"].ToString();
                     string linenm = dt.Rows[i]["ProductLineName"].ToString();
-                   
-                    if(!groupid.Equals(lstgroupid))
-                    { 
+
+                    if (!groupid.Equals(lstgroupid))
+                    {
                         Hashtable t = new Hashtable();
                         t.Add("groupid", groupid);
                         t.Add("groupnm", groupnm);
-                        t.Add("list", new List< Hashtable>());
+                        t.Add("list", new List<Hashtable>());
                         list.Add(t);
                         lstgroupid = groupid;
                     }
-                    
+
                     if (!companyid.Equals(lstcompanyid))
                     {
-                        List<Hashtable> com_list= (List<Hashtable>)(list.Find(x=>(x["groupid"].ToString()== lstgroupid)))["list"];
+                        List<Hashtable> com_list = (List<Hashtable>)(list.Find(x => (x["groupid"].ToString() == lstgroupid)))["list"];
                         Hashtable t = new Hashtable();
                         t.Add("companyid", companyid);
                         t.Add("companynm", companynm);
                         t.Add("list", new List<Hashtable>());
 
                         com_list.Add(t);
-                         lstcompanyid = companyid;
+                        lstcompanyid = companyid;
 
                     }
                     if (!foundryid.Equals(lstfoundryid))
@@ -216,16 +216,15 @@ namespace Bussiness.ProductionLines
 
                 }
             }
-            catch(Exception ex)
-            { 
+            catch (Exception ex)
+            {
                 logger.Error(ex.Message);
             }
-            return JsonConvert.SerializeObject(list );
+            return JsonConvert.SerializeObject(list);
 
-             
-                 
-            }
-         
 
-    }
+
+        }
+
+   }
 }
