@@ -170,7 +170,7 @@
                     //dataType: 'json',
                     success: function (data) {
                         data=JSON.parse(data)
-                        
+                        console.log(data)
                         if (data && data.Rows) {
                             that.tableData = data.Rows
                             that.totalRows = parseInt(data.Counts)
