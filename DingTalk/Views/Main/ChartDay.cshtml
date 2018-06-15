@@ -203,12 +203,18 @@
                         console.log(data)
                         console.log(that.testOption)
                         console.log(that.testObj)
-                        if(!data) return
-                        for (let d of data) {
-                            that.data.push(d)
+                        that.data = []
+                        if (data) {
+                            for (let d of data) {
+                                that.data.push(d)
+                            }
+                            that.totalRows = data.length
+                        } else {
+                            that.totalRows = 0
                         }
+                            
                         that.getData()
-                        that.totalRows = data.length
+                        
                     },
                     error: function (err) {
                         console.error(err)
