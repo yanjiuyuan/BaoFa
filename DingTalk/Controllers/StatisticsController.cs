@@ -49,7 +49,7 @@ namespace DingTalk.Controllers
         /// <returns>返回头尾以及整点数据</returns>
         /// 测试数据 Statistics/GetCurrentProduction
         /// 测试数据 /Statistics/GetCurrentProduction?DataTime=2018-03-01&Count=100&lineid=1
-        public string GetCurrentProduction(string DataTime,int Count,int lineid=1, int duramins=10)
+        public string GetCurrentProduction(string DataTime,int Count,int lineid=1, int duramins=5)
         {
             string strResult = string.Empty;
             if (DataTime != null)

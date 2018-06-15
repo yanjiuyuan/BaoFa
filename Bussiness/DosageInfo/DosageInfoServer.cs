@@ -68,11 +68,11 @@ namespace Bussiness.DosageInfo
         /// </summary>
         /// <param name="tbNew"></param>
         /// <returns></returns>
-        public DataTable ChangeTable(DataTable tbNew, int dura_min=10)
+        public DataTable ChangeTable(DataTable tbNew, int dura_min=5)
         {
            
             if (dura_min > 60) dura_min = 60;
-            if (dura_min < 60) dura_min = 10; 
+            if (dura_min < 5) dura_min = 5; 
             DataTable tbOld = new DataTable();
             try
             {
@@ -214,7 +214,7 @@ namespace Bussiness.DosageInfo
         {
             int scale = 1;
             if (dura_min > 60) dura_min = 60;
-            if (dura_min < 60) dura_min = 10;
+            if (dura_min < 10) dura_min = 10;
             
                 scale = 60 / dura_min;
 
