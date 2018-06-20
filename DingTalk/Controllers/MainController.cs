@@ -96,10 +96,14 @@ namespace WebZhongZhi.Controllers
 
         public string MenuList(string roleid)
         {
-            return  JsonConvert.SerializeObject (Global.MenuList[roleid]);
+            if (roleid == null)
+                return Global.RETURN_ERROR("roleid参数不能为空！");
+             return  JsonConvert.SerializeObject (Global.MenuList[roleid]);
         }
         public string AccessList(string roleid)
         {
+            if (roleid == null)
+                return Global.RETURN_ERROR("roleid参数不能为空！");
             return JsonConvert.SerializeObject(Global.AccessList[roleid]);
         }
     }

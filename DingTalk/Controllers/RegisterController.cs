@@ -106,11 +106,11 @@ namespace WebZhongZhi.Controllers
 
         //角色修改
         //测试 /Register/GetUserList?LineId=1&keyword=04
-        public string GetUserList(string keyword, int? GroupId, int? CompanyId, int? FoundryId, int? LineId)
+        public string GetUserList(string keyword, int? GroupId, int? CompanyId, int? FoundryId )
         {
 
              
-            string rst = RegisterServer.GetUserList(keyword, GroupId, CompanyId, FoundryId, LineId);
+            string rst = RegisterServer.GetUserList(keyword, GroupId, CompanyId, FoundryId );
 
             return rst;
 

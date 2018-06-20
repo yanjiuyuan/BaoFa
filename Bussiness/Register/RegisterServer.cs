@@ -127,38 +127,28 @@ namespace Bussiness.Register
 
 
         //获取用户列表
-        public static string GetUserList(string keyword, int? GroupId , int? CompanyId , int? FoundryId , int? LineId )
+        public static string GetUserList(string keyword, int? GroupId , int? CompanyId , int? FoundryId )
         {
 
             string querysql = string.Empty;
-            if (LineId != null)
-                querysql = "select * from userinfo where role='04' and Companyid=" + LineId;
-            else if (FoundryId != null)
-            {
-                querysql = "select * from userinfo where role='03' and Companyid=" + FoundryId
-                    + " union select * from userinfo where role='04' and Companyid in (select ProductLineId" +
-                    " from productlineinfo where foundryid="+ FoundryId+")";
-                 
-            }
+            if (FoundryId != null)
+                querysql = "select * from userinfo where role='04' and Companyid=" + FoundryId;
             else if (CompanyId != null)
             {
-                querysql = "select * from userinfo where role='02' and Companyid=" + CompanyId
-                    + " union select * from userinfo where role='03' and Companyid in (select FoundryId" 
-                    + " from foundryinfo where companyid=" + CompanyId + ") "
-                    +" union select * from userinfo where role='04' and Companyid in (select ProductLineId"  
-                    + " from productlineinfo where foundryid in (select foundryid from foundryinfo where companyid=" + CompanyId + ")) ";
+                querysql = "select * from userinfo where role='03' and Companyid=" + CompanyId
+                    + " union select * from userinfo where role='04' and Companyid in (select FoundryId"
+                    + " from foundryinfo where companyid=" + CompanyId + ")";
 
             }
+                 
             else if (GroupId != null)
             {
-                querysql = "select * from userinfo where role='01' and Companyid=" + GroupId
-                    + " union select * from userinfo where role='02' and Companyid in (select companyid"
+                querysql = "select * from userinfo where role='02' and Companyid=" + GroupId
+                    + " union select * from userinfo where role='03' and Companyid in (select companyid"
                     + " from companyinfo where groupid=" + GroupId + ") "
-                    + " union select * from userinfo where role='03' and Companyid in (select foundryid"
-                    + " from foundryinfo where companyid in (select companyid from companyinfo where GroupId=" + GroupId + ")) "
-                     + " union select * from userinfo where role='04' and Companyid in (select ProductLineId"
-                    + " from productlineinfo where foundryid in (select foundryid from foundryinfo where companyid in"
-                    + " (select   companyid from companyinfo where GroupId=" + GroupId + ")) ) ";
+                    + " union select * from userinfo where role='04' and Companyid in (select foundryid"
+                    + " from foundryinfo where companyid in (select companyid from companyinfo where GroupId=" + GroupId + ")) ";
+                    
                  
             }
             else
