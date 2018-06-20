@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bussiness;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +13,12 @@ namespace WebZhongZhi.Controllers
 
         public ActionResult Index()
         {
+            if (HttpContext.Session["user"] == null)
+            {
+                HttpContext.Response.Redirect("~/Login/Index", true);
+                return View();
+            }
+
             return View();
         }
         public ActionResult DeviceMonitor()
@@ -84,6 +92,15 @@ namespace WebZhongZhi.Controllers
         public ActionResult BlankPage()
         {
             return View();
+        }
+
+        public string MenuList(string roleid)
+        {
+            return  JsonConvert.SerializeObject (Global.MenuList[roleid]);
+        }
+        public string AccessList(string roleid)
+        {
+            return JsonConvert.SerializeObject(Global.AccessList[roleid]);
         }
     }
 }

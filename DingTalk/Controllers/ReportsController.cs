@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace DingTalk.Controllers
 {
-    public class ReportsController : Controller
+    public class ReportsController : BaseController
     {
         // GET: Reports
         public ActionResult Index()

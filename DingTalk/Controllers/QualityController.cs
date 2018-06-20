@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace DingTalk.Controllers
 {
-    public class QualityController : Controller
+    public class QualityController : BaseController
     {
         // GET: Quality
         public ActionResult Index()

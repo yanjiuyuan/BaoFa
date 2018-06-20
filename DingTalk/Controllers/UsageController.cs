@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace DingTalk.Controllers
 {
-    public class UsageController : Controller
+    public class UsageController : BaseController
     {
         // GET: Usage
         public ActionResult Index()

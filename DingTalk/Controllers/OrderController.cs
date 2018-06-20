@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace DingTalk.Controllers
 {
-    public class OrderController : Controller
+    public class OrderController : BaseController
     {
         // GET: Order
         public ActionResult Index()

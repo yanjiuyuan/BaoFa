@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace DingTalk.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         // GET: Account
         public ActionResult Index()

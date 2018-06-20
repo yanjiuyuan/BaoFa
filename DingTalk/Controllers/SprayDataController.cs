@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace DingTalk.Controllers
 {
-    public class SprayDataController : Controller
+    public class SprayDataController : BaseController
     {
         // GET: SprayData
         public ActionResult Index()

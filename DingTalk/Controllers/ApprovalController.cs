@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DingTalk.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -6,7 +7,7 @@ using System.Web.Mvc;
 
 namespace WebZhongZhi.Controllers
 {
-    public class ApprovalController : Controller
+    public class ApprovalController : BaseController
     {
         public ActionResult Index()
         {

@@ -1,5 +1,7 @@
 ﻿using Bussiness.LineData;
+using Bussiness.Model;
 using Bussiness.ProductionLines;
+using Common.LogHelper;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -14,22 +16,33 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Controllers;
+using System.Web.SessionState;
 using System.Web.WebSockets;
 
 namespace DingTalk.Controllers
 {
+   
     [RoutePrefix("api/dt")]
-    public class LineDataController : ApiController
+    public class LineDataController : ApiController,IRequiresSessionState
     {
+        private static Logger logger = Logger.CreateLogger(typeof(LineDataController));
+
         //定义缓存锁类型
         public static object _oLock = new object();
+
+
+       
+        
 
         [Route("Get")]
         public HttpResponseMessage Get()
         {
-            if (HttpContext.Current.IsWebSocketRequest)
+             if (HttpContext.Current.IsWebSocketRequest)
             {
-                HttpContext.Current.AcceptWebSocketRequest(ProcessWSChat);
+                var user = (SessionUser)HttpContext.Current.Session["user"];
+                var ooo = new Func<AspNetWebSocketContext, Task>((x) => ProcessWSChat(x, user));
+                HttpContext.Current.AcceptWebSocketRequest(ooo);
             }
             return new HttpResponseMessage(HttpStatusCode.SwitchingProtocols);
         }
@@ -41,7 +54,7 @@ namespace DingTalk.Controllers
         /// <param name="arg"></param>
         /// <returns></returns>
         [Route("ProcessWSChat")]
-        private async Task ProcessWSChat(AspNetWebSocketContext arg)
+        private async Task ProcessWSChat(AspNetWebSocketContext arg, SessionUser user)
         {
             WebSocket socket = arg.WebSocket;
             while (true)
@@ -72,13 +85,16 @@ namespace DingTalk.Controllers
 
                     if (strMessage == "GetAllTable")
                     {
-
-                        //获取所有生产线
-                        ProductionLinesServer pServer = new ProductionLinesServer();
-
-                         DataTable  linedt=  pServer.GetLinesList();
-                     
-                        if(linedt.Rows.Count>0)
+                        DataTable linedt = new DataTable();
+                        try {
+                            //获取所有生产线
+                            linedt =  GetLineDt(user);
+                        }
+                        catch(Exception ex)
+                        {
+                            logger.Info(ex.Message);
+                        }
+                        if (linedt.Rows.Count>0)
                         { 
                             string[] strList = new string[6] { "Vamp", "WaiO", "WaiT", "WaiS", "Outsole", "Mouthguards" };
                             strJsonString = RunAllTask(strList, linedt);
@@ -135,7 +151,25 @@ namespace DingTalk.Controllers
             var result = lineDataServer.GetSprayMessage();
             return result;
         }
+        public DataTable GetLineDt(SessionUser user)
+        {
+            string role = string.Empty;
+            int departid = 1;
+           
+            if (user != null)
+            {
+                role = user.roleid;
+                departid = user.departid;
+              
 
+            }
+            
+
+            ProductionLinesServer pServer = new ProductionLinesServer();
+
+           return pServer.GetLinesList(role, departid);
+
+        }
 
         /// <summary>
         /// Post时时数据接口
@@ -150,11 +184,13 @@ namespace DingTalk.Controllers
         public string GetAllTable(string strMessage)
         {
             string strJsonString = string.Empty;
+
+           
+            
             if (strMessage == "GetAllTable")
             {
-                ProductionLinesServer pServer = new ProductionLinesServer();
-
-                DataTable linedt = pServer.GetLinesList();
+                
+                DataTable linedt = GetLineDt((SessionUser)HttpContext.Current.Session["user"]);
                 string[] strList = new string[6] { "Vamp", "WaiO", "WaiT", "WaiS", "Outsole", "Mouthguards" };
                 strJsonString = RunAllTask(strList,linedt);
             }
@@ -207,18 +243,9 @@ namespace DingTalk.Controllers
             
             if(linedt.Rows.Count<1)
             return strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"生产线数量为0!\"}";
+             
 
-            
-
-
-
-
-
-
-
-
-
-            for (int x=0;x< linedt.Rows.Count-1;x++)
+            for (int x=0;x< linedt.Rows.Count;x++)
             {
                     Hashtable dic = new Hashtable();
                     int lineid = 0;

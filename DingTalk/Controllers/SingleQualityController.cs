@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace DingTalk.Controllers
 {
-    public class SingleQualityController : Controller
+    public class SingleQualityController : BaseController
     {
         // GET: SingleQuality
         public ActionResult Index()

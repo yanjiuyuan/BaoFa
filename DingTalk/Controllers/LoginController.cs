@@ -45,7 +45,18 @@ namespace WebZhongZhi.Controllers
                 //System.Web.HttpContext.Current.Session["UserName"] = strUserName;
                 //System.Web.HttpContext.Current.Session["Role"] = loginServer.GetRole(strUserName);
                 //System.Web.HttpContext.Current.Session["CompanyId"] = loginServer.GetCompanyId(strUserName);
+                Bussiness.Model.SessionUser user = new Bussiness.Model.SessionUser
+                {
+                    username = json["username"].ToString(),
+                    departid= Convert.ToInt32(json["departid"].ToString() ),
+                    departname = json["departname"].ToString(),
+                    roleid = json["role"].ToString(),
+                    lstlogintime = json["LoginTime"].ToString()
 
+                };
+
+
+                System.Web.HttpContext.Current.Session["user"] = user;
                 //var loginName = strUserName;
                 //loginer.AuthToken = GetToken(loginName);
                 //var data = JsonConvert.SerializeObject(loginer);

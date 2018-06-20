@@ -1,4 +1,5 @@
-﻿using Bussiness.Register;
+﻿using Bussiness;
+using Bussiness.Register;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +52,7 @@ namespace WebZhongZhi.Controllers
             string strphoneNumber, string strPassword, string strRegisterTime, string strLastLoginTime,
            string strAddress, string strProvince, string strCity,
             string strTelephone, string strOtherContact, string strFax,
-            string strLastLoginIp, string strEmail,string strCompanyId,string strCompanyName,int? iStatus = 1,int? iRole=1, int IsActive=1)
+            string strLastLoginIp, string strEmail,string strCompanyId,string strCompanyName,int? iStatus = 1,string iRole="01", int IsActive=1)
         {
             if (Session["Code"].ToString() != strCode)
             {
@@ -80,6 +81,58 @@ namespace WebZhongZhi.Controllers
             {
                 return "{\"ErrorType\":4,\"ErrorMessage\":\"用户名已存在!\"}"; 
             }
+        }
+
+        //角色修改
+        //测试 /Register/RoleChange?username=2222&strCompanyId=1&strCompanyName=第二车间&iRole=04
+        public string RoleChange(string username,string strCompanyId, string strCompanyName, string iRole )
+        {
+             
+            if (username == null ||   strCompanyId == null || strCompanyName == null || iRole == null)
+            {
+                return  Global.RETURN_ERROR("输入参数不完整");
+            }
+            if (RegisterServer.CheckUserName(username))
+            {
+                return Global.RETURN_ERROR("用户名不存在");
+            }
+
+            string rst = RegisterServer.RoleChange(username, strCompanyId, strCompanyName, iRole);
+             
+                    return rst;
+                
+        }
+
+
+        //角色修改
+        //测试 /Register/GetUserList?LineId=1&keyword=04
+        public string GetUserList(string keyword, int? GroupId, int? CompanyId, int? FoundryId, int? LineId)
+        {
+
+             
+            string rst = RegisterServer.GetUserList(keyword, GroupId, CompanyId, FoundryId, LineId);
+
+            return rst;
+
+        }
+
+        //密码修改
+        //测试 /Register/RoleChange?username=2222&strCompanyId=1&strCompanyName=第二车间&iRole=04
+        public string PwdChange(string username, string oldpwd, string newpwd )
+        {
+            if (username == null || oldpwd == null || newpwd == null  )
+            {
+                return Global.RETURN_ERROR("输入参数不完整");
+            }
+            if (RegisterServer.CheckUserName(username))
+            {
+                return Global.RETURN_ERROR("用户名不存在");
+            }
+
+            string rst = RegisterServer.PwdChange(username, oldpwd, newpwd);
+
+            return rst;
+
         }
     }
 }

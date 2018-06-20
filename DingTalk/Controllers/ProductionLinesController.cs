@@ -1,4 +1,5 @@
-﻿using Bussiness.ProductionLines;
+﻿using Bussiness.Model;
+using Bussiness.ProductionLines;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Web.Mvc;
 
 namespace DingTalk.Controllers
 {
-    public class ProductionLinesController : Controller
+    public class ProductionLinesController : BaseController
     {
         // GET: ProductionLines
         public ActionResult Index()
@@ -35,9 +36,9 @@ namespace DingTalk.Controllers
         /// <returns>Json数组</returns>
         /// 测试数据：/ProductionLines/ProductionLinesData?CompanyId=1&keyword=1号生产线
 
-        public string ProductionLinesData(string LineId, string OrderID
-            , string CompanyId, string telephone, string registertime,
-            string role, string status, string GroupId, string FoundryId,
+        public string ProductionLinesData(int? LineId, string OrderID
+            , int? CompanyId, string telephone, string registertime,
+            string role, string status, int? GroupId, int? FoundryId,
             string IsEnable, string KeyWord
             , int? PageIndex = 0, int? PageSize = 5)
         {
@@ -45,6 +46,23 @@ namespace DingTalk.Controllers
             //{
             //    return "没有权限访问！";
             //}
+
+            role = "01";
+            int departid = 1;
+            if (HttpContext.Session["user"] != null)
+            {
+
+                role = (HttpContext.Session["user"] as SessionUser).roleid;
+                departid = (HttpContext.Session["user"] as SessionUser).departid;
+                if ("02".Equals(role))
+                    GroupId = departid;
+                if ("03".Equals(role))
+                    CompanyId = departid;
+                if ("04".Equals(role))
+                    FoundryId = departid;
+
+
+            }
             ProductionLinesServer pServer = new ProductionLinesServer();
 
             return pServer.GetProductionLinesData( LineId, OrderID
@@ -64,14 +82,33 @@ namespace DingTalk.Controllers
         /// 测试数据 /ProductionLines/GetLineList
         public string GetLineList()
         {
+            string role = "01";
+            int departid = 1;
+            if (HttpContext.Session["user"] != null)
+            {
+
+                role = (HttpContext.Session["user"] as SessionUser).roleid;
+                departid = (HttpContext.Session["user"] as SessionUser).departid;
+            }
+
             ProductionLinesServer pLinesServer = new ProductionLinesServer();
-            return JsonConvert.SerializeObject(pLinesServer.GetLinesList());
+            return JsonConvert.SerializeObject(pLinesServer.GetLinesList(role, departid));
         }
         /// 测试数据 /ProductionLines/GetLineTreeList
         public string GetLineTreeList()
         {
+            string role = "01";
+            int departid = 1;
+            if (HttpContext.Session["user"] != null)
+            {
+             
+               role = (HttpContext.Session["user"] as SessionUser).roleid;
+                departid = (HttpContext.Session["user"] as SessionUser).departid;
+            }
+
+
             ProductionLinesServer pLinesServer = new ProductionLinesServer();
-            return pLinesServer.GetLineTreeList();
+            return pLinesServer.GetLineTreeList(role, departid);
         }
 
     }
