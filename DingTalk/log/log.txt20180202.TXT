@@ -1,3 +1,0 @@
-2018-02-02 10:52:16,847 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块
-2018-02-02 10:52:29,015 [7] ERROR Common.DbHelper.MySqlHelper - Fatal error encountered during command execution.
-2018-02-02 10:55:32,176 [7] INFO  Common.LogHelper.Logger - 系统初始化Logger模块

@@ -60,9 +60,11 @@ namespace WebZhongZhi.Controllers
                 //var loginName = strUserName;
                 //loginer.AuthToken = GetToken(loginName);
                 //var data = JsonConvert.SerializeObject(loginer);
-                CookieHelper.SetCookie("UserName", strUserName);
-                CookieHelper.SetCookie("Role", loginServer.GetRole(strUserName).ToString());
-                CookieHelper.SetCookie("CompanyId", loginServer.GetCompanyId(strUserName));
+                CookieHelper.SetCookie("UserName", user.username);
+                CookieHelper.SetCookie("Role", user.roleid);
+                CookieHelper.SetCookie("CompanyId", user.departid.ToString());
+                CookieHelper.SetCookie("CompanyName", user.departname );
+                CookieHelper.SetCookie("LoginTime", user.lstlogintime);
             }
             return rst;
         }
