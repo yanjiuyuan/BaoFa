@@ -48,41 +48,69 @@ namespace WebZhongZhi.Controllers
         /// <param name="strCompanyName">公司名</param>
         /// 测试数据：Register/CheckRegister?username=sa&strPassword=123&strCompanyId=1&strCompanyName=华宝有限公司
         /// <returns></returns>
-        public string CheckRegister(string strCode,string username, string strRealName,
-            string strphoneNumber, string strPassword, string strRegisterTime, string strLastLoginTime,
+        public string CheckRegister(string username, string strRealName,
+            string strphoneNumber,  
            string strAddress, string strProvince, string strCity,
             string strTelephone, string strOtherContact, string strFax,
-            string strLastLoginIp, string strEmail,string strCompanyId,string strCompanyName,int? iStatus = 1,string iRole="01", int IsActive=1)
+            string strEmail,string strCompanyId,string strCompanyName,string iRole )
         {
-            if (Session["Code"].ToString() != strCode)
+             
+            if (username == null || iRole == null || strCompanyId == null || strCompanyName==null)
             {
-                return "{\"ErrorType\":1,\"ErrorMessage\":\"验证码有误!\"}";
-            }
-            if (username == null || strPassword == null || strCompanyId == null || strCompanyName==null)
-            {
-                return "{\"ErrorType\":2,\"ErrorMessage\":\"信息不完整!\"}";
+                return  Global.RETURN_ERROR("信息不完整!");
             }
             if (RegisterServer.CheckUserName(username))
             {
                 if (RegisterServer.Register(username, strRealName,
-             strphoneNumber, strPassword, strRegisterTime, strLastLoginTime,
+             strphoneNumber,  
               strAddress, strProvince, strCity,
              strTelephone, strOtherContact, strFax,
-             strLastLoginIp, strEmail,strCompanyId, strCompanyName,iStatus, iRole,IsActive))
+              strEmail,strCompanyId, strCompanyName ,iRole))
                 {
-                    return "{\"ErrorType\":0,\"ErrorMessage\":\"注册成功!\"}";
+                    return Global.RETURN_SUCESS;
+                  
                 }
                 else
                 {
-                    return "{\"ErrorType\":3,\"ErrorMessage\":\"注册失败,请联系管理员!\"}";
-                }
+                    return Global.RETURN_ERROR("添加失败!");
+                   }
             }
             else
             {
-                return "{\"ErrorType\":4,\"ErrorMessage\":\"用户名已存在!\"}"; 
+                return Global.RETURN_ERROR("用户名已存在!"); 
             }
         }
+        public string UserModify(string username, string strRealName,
+            string strphoneNumber,  
+           string strAddress, string strProvince, string strCity,
+            string strTelephone, string strOtherContact, string strFax,
+              string strEmail, string strCompanyId, string strCompanyName,   string iRole  )
+        {
 
+            if (username == null || iRole == null || strCompanyId == null || strCompanyName == null)
+            {
+                return Global.RETURN_ERROR("信息不完整!");
+            }
+            if (RegisterServer.CheckUserName(username))
+            {
+                return Global.RETURN_ERROR("用户名不存在!");
+            }
+                if (RegisterServer.UserModify(username, strRealName,
+             strphoneNumber, 
+              strAddress, strProvince, strCity,
+             strTelephone, strOtherContact, strFax,
+              strEmail, strCompanyId, strCompanyName,  iRole ))
+                {
+                    return Global.RETURN_SUCESS;
+
+                }
+                else
+                {
+                    return Global.RETURN_ERROR("添加失败!");
+                }
+             
+            
+        }
         //角色修改
         //测试 /Register/RoleChange?username=2222&strCompanyId=1&strCompanyName=第二车间&iRole=04
         public string RoleChange(string username,string strCompanyId, string strCompanyName, string iRole )

@@ -66,26 +66,27 @@ namespace Bussiness.Register
         /// <param name="strEmail"></param>
         /// <returns></returns>
         public static bool  Register(string strUserName, string strRealName,
-            string strphoneNumber, string strPassword, string strRegisterTime,string strLastLoginTime,
+            string strphoneNumber, 
              string strAddress, string strProvince, string strCity,
             string strTelephone, string strOtherContact, string strFax,
-            string strLastLoginIp, string strEmail, string strCompanyId, string strCompanyName, int? iStatus=1, string iRole="01",int? IsActive=1)
+              string strEmail, string strCompanyId, string strCompanyName, string iRole )
         {
             bool bResult = false;
             try
             {
-                strRegisterTime = DateTime.Now.ToString();
+               string strRegisterTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 //进行MD5 加密
-                strPassword = MD5Encrypt.Encrypt(strPassword);
+                string strPassword = MD5Encrypt.Encrypt("123456");
                 string strSql = string.Format("insert into huabao.userinfo set " +
                     "userName='{0}',realName='{1}',phoneNumber='{2}',password='{3}'," +
                     "registertime='{4}',lastLoginTime='{5}',status='{6}',address='{7}'," +
                     "role='{8}',province='{9}',city='{10}',telephone='{11}',otherContact='{12}'," +
-                    "fax='fax',isActive='{14}',lastLoginIp='{15}',email='{16}',CompanyId='{17}',CompanyName='{18}'", strUserName, strRealName,
-                 strphoneNumber, strPassword, strRegisterTime, strLastLoginTime,
-                 iStatus, strAddress, iRole, strProvince, strCity,
-                 strTelephone, strOtherContact, strFax, IsActive,
-                 strLastLoginIp, strEmail, strCompanyId, strCompanyName);
+                    "fax='{13}',isActive='{14}',lastLoginIp='{15}',email='{16}',CompanyId='{17}',CompanyName='{18}'",
+                    strUserName, strRealName,
+                 strphoneNumber, strPassword, strRegisterTime, "",
+                 "1", strAddress, iRole, strProvince, strCity,
+                 strTelephone, strOtherContact, strFax, "1",
+                 "", strEmail, strCompanyId, strCompanyName);
                  bResult = MySqlHelper.ExecuteSql(strSql) == 1 ? true : false;
             }
             catch (Exception ex)
@@ -96,7 +97,53 @@ namespace Bussiness.Register
             return bResult;
             
 }
+        public static bool UserModify(string strUserName, string strRealName,
+            string strphoneNumber,  string strAddress, string strProvince, string strCity,
+            string strTelephone, string strOtherContact, string strFax,
+              string strEmail, string strCompanyId, string strCompanyName,  string iRole )
+        {
+            bool bResult = false;
+            try
+            {
 
+                string strSql =  "update huabao.userinfo set " +
+                    " role ='" + iRole + "' " +
+                     " ,CompanyId ='" + strCompanyId + "' " +
+                      " ,CompanyName ='" + strCompanyName + "' ";
+                if (strRealName != null)
+                    strSql += " ,realName ='" + strRealName + "' ";
+                if (strRealName != null)
+                    strSql += " ,realName ='" + strRealName + "' ";
+                if (strphoneNumber != null)
+                    strSql += " ,phoneNumber ='" + strphoneNumber + "' ";
+                if (strAddress != null)
+                    strSql += " ,address ='" + strAddress + "' ";
+                if (strProvince != null)
+                    strSql += " ,province ='" + strProvince + "' ";
+                if (strCity != null)
+                    strSql += " ,city ='" + strCity + "' ";
+                if (strTelephone != null)
+                    strSql += " ,telephone ='" + strTelephone + "' ";
+                if (strOtherContact != null)
+                    strSql += " ,otherContact ='" + strOtherContact + "' ";
+                if (strFax != null)
+                    strSql += " ,fax ='" + strFax + "' ";
+                if (strEmail != null)
+                    strSql += " ,email ='" + strEmail + "' ";
+
+                strSql += " where username='" + strUserName + "'";
+
+ 
+                bResult = MySqlHelper.ExecuteSql(strSql) == 1 ? true : false;
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+
+            }
+            return bResult;
+
+        }
         //修改角色
         public static string RoleChange(string strUserName,  string strCompanyId, string strCompanyName,  string iRole = "01" )
         {
