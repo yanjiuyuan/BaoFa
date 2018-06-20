@@ -168,6 +168,7 @@
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\ApprovalController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\DeviceInfoController.cs" />
     <Compile Include="Controllers\ProductionLinesController.cs" />
     <Compile Include="Controllers\QualityController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />

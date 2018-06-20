@@ -249,5 +249,35 @@ namespace Bussiness.ProductionLines
 
         }
 
-   }
+        public string ProductionCalSet(int ProductLineId ,int ProductionBeat,int ProductionShifts,
+            string ProductionDays, string oper)
+        {
+            string retstr = string.Empty;
+           
+            try
+            {
+
+                string strsql = string.Format("update  productlineinfo set  ProductionBeat={0} , " +
+                    " ProductionShifts={1} ," +
+                    " ProductionDays='{2}'  " +
+                    " where ProductLineId= {3}", ProductionBeat, ProductionShifts, ProductionDays, ProductLineId);
+                 
+                int anum = MySqlHelper.ExecuteSql(strsql);
+
+                if (anum <= 1)
+                    retstr = Global.RETURN_ERROR("操作失败!");
+                retstr = Global.RETURN_SUCESS;
+
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                retstr =Global.RETURN_ERROR(ex.Message);
+            }
+            return retstr;
+
+
+
+        }
+    }
 }

@@ -1,4 +1,5 @@
-﻿using Bussiness.Model;
+﻿using Bussiness;
+using Bussiness.Model;
 using Bussiness.ProductionLines;
 using Newtonsoft.Json;
 using System;
@@ -109,6 +110,26 @@ namespace DingTalk.Controllers
 
             ProductionLinesServer pLinesServer = new ProductionLinesServer();
             return pLinesServer.GetLineTreeList(role, departid);
+        }
+
+        //产线生产计划设置
+        // 测试数据 /ProductionLines/ProductionCalSet?ProductLineId=1&ProductionDays=1,2,3,4,5,6&ProductionBeat=600&ProductionShifts=1
+
+        public string ProductionCalSet()
+        {
+
+            if (Request["ProductLineId"] == null || Request["ProductionBeat"] == null || Request["ProductionShifts"] == null || Request["ProductionDays"] == null)
+                return Global.RETURN_ERROR("参数不完整!");
+
+            int ProductLineId = Convert.ToInt32(Request["ProductLineId"]);
+            int ProductionBeat = Convert.ToInt32(Request["ProductionBeat"]);
+            int ProductionShifts = Convert.ToInt32(Request["ProductionShifts"]);
+            string ProductionDays = Convert.ToString( Request["ProductionDays"]);
+            string oper= Convert.ToString(HttpContext.Session["user"]==null?"": (HttpContext.Session["user"] as SessionUser).username);
+             
+
+            ProductionLinesServer pLinesServer = new ProductionLinesServer();
+            return  pLinesServer.ProductionCalSet(ProductLineId, ProductionBeat, ProductionShifts, ProductionDays, oper);
         }
 
     }
