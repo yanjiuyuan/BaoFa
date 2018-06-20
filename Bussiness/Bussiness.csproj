@@ -73,6 +73,7 @@
     <Compile Include="Global.cs" />
     <Compile Include="LineData\LineDataServer.cs" />
     <Compile Include="Login\LoginServer.cs" />
+    <Compile Include="Model\SessionUser.cs" />
     <Compile Include="Order\OrderServer.cs" />
     <Compile Include="ProductionLines\ProductionLinesServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

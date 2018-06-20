@@ -22,7 +22,7 @@ namespace Bussiness
             try
             {
                 strPassword = MD5Encrypt.Encrypt(strPassword);
-                string strSql = string.Format("select username,password ,status from huabao.userInfo where username='{0}' ",
+                string strSql = string.Format("select username,password ,status,companyid,companyname,role from huabao.userInfo where username='{0}' ",
                     strUserName);
                 //int iResult= MySqlHelper.ExecuteSql(strSql);
                 DataTable dt = MySqlHelper.ExecuteQuery(strSql);
@@ -57,7 +57,10 @@ namespace Bussiness
                             loginrst.Add("Success", "true");
                             loginrst.Add("msg", "登录成功!");
                             loginrst.Add("LoginTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                             
+                            loginrst.Add("departid", dt.Rows[0][3].ToString());
+                            loginrst.Add("departname", dt.Rows[0][4].ToString());
+                            loginrst.Add("role", dt.Rows[0][5].ToString());
+                            loginrst.Add("username", dt.Rows[0][0].ToString());
                         }
                         else
                         {

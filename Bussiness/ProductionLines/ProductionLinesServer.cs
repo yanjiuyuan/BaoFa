@@ -16,9 +16,9 @@ namespace Bussiness.ProductionLines
     {
 
         private static Logger logger = Logger.CreateLogger(typeof(ProductionLinesServer));
-        public string GetProductionLinesData(string ProductLineId, string ProductLineName
-            , string CompanyId, string telephone, string registertime,
-            string role, string status, string GroupId, string FoundryId,
+        public string GetProductionLinesData(int? ProductLineId, string ProductLineName
+            , int? CompanyId, string telephone, string registertime,
+            string role, string status, int? GroupId, int? FoundryId,
             string IsEnable, string KeyWord
             , int? PageIndex = 0, int? PageSize = 5)
         {
@@ -115,13 +115,27 @@ namespace Bussiness.ProductionLines
         }
 
 
-        public DataTable GetLinesList()
+        public DataTable GetLinesList(string role="01", int departid=1)
         {
             DataTable dt = new DataTable();
+            string strsql = string.Empty;
             try
             {
-                string strsql = "select a.ProductLineId ,a.ProductLineName,b.CompanyId,b.CompanyName from productlineinfo a left join  companyinfo b on a.CompanyId =b.CompanyId  where a.status =1";
 
+
+                strsql = " select a.ProductLineId, a.ProductLineName, b.foundryid, b.foundryname , c.companyid , c.companyName , d.groupid  , d.groupName from productlineinfo a left join foundryinfo b  on a.foundryid = b.foundryid " +
+           " left join companyinfo c   on b.companyid = c.companyid left join groupinfo d on c.groupid = d.groupid" +
+           "  where a.status =1 ";
+                    if ("02".Equals(role))
+                        strsql += " and  d.groupid=" + departid;
+                    else if ("03".Equals(role))
+                     
+                        strsql += " and  c.companyid=" + departid;
+                    else if ("04".Equals(role))
+                    
+                        strsql += " and  b.foundryid=" + departid;
+
+                strsql +=" order by groupid,companyid,foundryid,ProductLineId";
 
                 dt = MySqlHelper.ExecuteQuery(strsql);
             }
@@ -135,7 +149,7 @@ namespace Bussiness.ProductionLines
 
         }
 
-        public string GetLineTreeList()
+        public string GetLineTreeList(string role = "01", int departid = 1)
         {
             DataTable dt = new DataTable();
             List<Hashtable> list = new List<Hashtable>();
@@ -144,8 +158,17 @@ namespace Bussiness.ProductionLines
 
                 string strsql = " select a.ProductLineId, a.ProductLineName, b.foundryid, b.foundryname , c.companyid , c.companyName , d.groupid  , d.groupName from productlineinfo a left join foundryinfo b  on a.foundryid = b.foundryid " +
                  " left join companyinfo c   on b.companyid = c.companyid left join groupinfo d on c.groupid = d.groupid" +
-                 "  where a.status =1 order by groupid,companyid,foundryid,ProductLineId";
+                 "  where a.status =1 ";
+                if ("02".Equals(role))
+                    strsql += " and    d.groupid=" + departid;
+                else if ("03".Equals(role))
 
+                    strsql += " and    c.companyid=" + departid;
+                else if ("04".Equals(role))
+
+                    strsql += " and    b.foundryid=" + departid;
+
+                strsql += "  order by groupid,companyid,foundryid,ProductLineId";
 
                 dt = MySqlHelper.ExecuteQuery(strsql);
                 string lstgroupid = string.Empty;

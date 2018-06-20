@@ -12,10 +12,69 @@ namespace Bussiness
    public static class Global
     {
         private static Logger logger = Logger.CreateLogger(typeof(Global));
-        public  static string  RETURN_EMPTY =  "{\"ErrorType\":1,\"ErrorMessage\":\"暂无数据!\"}";
+        public static Dictionary<string, List<string>> AccessList = new Dictionary<string, List<string>>();
+        public static Dictionary<string, List<string>> MenuList = new Dictionary<string, List<string>>();
+        static Global()
+         {
+            AccessListInit();
+         
+         }
+
+        private static void AccessListInit()
+        {
+            DataTable roledt = new DataTable();
+            DataTable accessdt = new DataTable();
+
+            try
+            {
+                //获取角色列表
+                string strsql = " select roleid  from roleinfo where rolestat =1";
+
+
+                roledt = MySqlHelper.ExecuteQuery(strsql);
+
+                for (int i = 0; i < roledt.Rows.Count; i++)
+                {
+                    string roleid = roledt.Rows[i]["roleid"].ToString();
+                    AccessList.Add(roleid, new List<string>());
+                    MenuList.Add(roleid, new List<string>());
+                    string strsqlR = " select accessid,menuid ,url from accessinfo where rolectl like  '%" + roleid + "%'";
+
+
+                    accessdt = MySqlHelper.ExecuteQuery(strsqlR);
+                    for (int j = 0; j < accessdt.Rows.Count; j++)
+                    {
+                        string urls = accessdt.Rows[j]["url"].ToString();
+                        string menuid = accessdt.Rows[j]["menuid"].ToString();
+                        foreach (string s in urls.Split(','))
+                        {
+                            if (!AccessList[roleid].Contains(s))
+                                AccessList[roleid].Add(s                                                                                          );
+
+                        }
+                       
+                        if (!MenuList[roleid].Contains(menuid))
+                            MenuList[roleid].Add(menuid);
+                    }
+
+
+                }
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex.Message);
+
+            }
+
+            
+        }
+
+
+        public static string   RETURN_SUCESS = "{\"Success\":true,\"Msg\":\"操作成功!\"}";
+        public  static string  RETURN_EMPTY = "{\"Success\":false,\"Msg\":\"暂无数据!\"}";
         public static string RETURN_ERROR(string msg)
         {
-            string err_Str = "{\"ErrorType\":1,\"ErrorMessage\":\""+msg+"!\"}";
+            string err_Str = "{\"Success\":false,\"Msg\":\"" + msg+"!\"}";
             return err_Str;
         }
 
@@ -33,7 +92,7 @@ namespace Bussiness
             { "V1","视觉1号站"},{"SOLEP","压底"},{"V2","视觉2号站"},{"V3","视觉3号站"},{"TENP","十字压"} 
 
         };
-
+        
 
         public static string GetCompanyNameByLineID(int lineid)
         {
