@@ -154,6 +154,18 @@ var mixin = {
             ],
             endTime: [
                 { required: true, message: '结束时间不能为空', trigger: 'blur' }
+            ],
+            userName: [
+                { required: true, message: '用户名不能为空', trigger: 'blur' }
+            ],
+            iRole: [
+                { required: true, message: '用户角色不能为空', trigger: 'blur' }
+            ],
+            strCompanyId: [
+                { required: true, message: '部门Id不能为空', trigger: 'blur' }
+            ],
+            strCompanyName: [
+                { required: true, message: '部门名称不能为空', trigger: 'blur' }
             ]
         },
         currentPage: 1,
