@@ -175,6 +175,7 @@ var mixin = {
             this.currentPage = val
             this.getData()
         }
+        
     },
     created: function () {
         window.clearInterval(intervalId)

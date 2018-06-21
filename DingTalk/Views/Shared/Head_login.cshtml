@@ -29,6 +29,7 @@
             <div index="4" class="userBlock ">
                 @*<img src="~/Content/images/portrait.png">*@
                 <span><b>{{user.username}}</b> 欢迎您</span>
+                <el-button  plain v-on:click="showChangePw()" size="small" type="danger">修改密码</el-button>
                 <el-tag onclick="logout()" type="danger">登出</el-tag>
             </div>
         </el-menu>
