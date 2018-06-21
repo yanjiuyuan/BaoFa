@@ -75,6 +75,7 @@
     <Compile Include="Login\LoginServer.cs" />
     <Compile Include="Model\SessionUser.cs" />
     <Compile Include="Order\OrderServer.cs" />
+    <Compile Include="ProductionLines\DevicesServer.cs" />
     <Compile Include="ProductionLines\ProductionLinesServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quality\QualityServer.cs" />
