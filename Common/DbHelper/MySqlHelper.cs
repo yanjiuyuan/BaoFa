@@ -216,7 +216,13 @@ namespace Common.DbHelper
                     cmd.CommandText = sql;
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        table.Load(reader);
+                        using (DataSet ds = new DataSet() { EnforceConstraints = false })
+                        {
+                            ds.Tables.Add(table);
+                            table.Load(reader, LoadOption.OverwriteChanges);
+                            ds.Tables.Remove(table);
+                        }
+                    
                     }
                 }
                 catch (Exception ex)
