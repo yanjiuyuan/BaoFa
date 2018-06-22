@@ -12,6 +12,22 @@
             <el-form-item label="用户名(必填)" prop="userName">
                 <el-input v-model="ruleForm.userName" style="width:100px;" :disabled="!isAdd"></el-input>
             </el-form-item>
+            <el-form-item label="用户角色(必填)" prop="iRole">
+                @*<el-input v-model="ruleForm.iRole" style="width:100px;"></el-input>*@
+                <el-select v-model="ruleForm.iRole" placeholder="请选择">
+                    <el-option v-for="role in roleList"
+                               :key="role.roleid"
+                               :label="role.rolename"
+                               :value="role.roleid">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="部门Id(必填)" prop="strCompanyId">
+                <el-input v-model="ruleForm.strCompanyId" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="部门名称(必填)" prop="strCompanyName">
+                <el-input v-model="ruleForm.strCompanyName" style="width:100px;"></el-input>
+            </el-form-item>
             <el-form-item label="真实姓名">
                 <el-input v-model="ruleForm.strRealName" style="width:100px;"></el-input>
             </el-form-item>
@@ -20,9 +36,6 @@
             </el-form-item>
             <el-form-item label="地址">
                 <el-input v-model="ruleForm.strAddress" style="width:500px;"></el-input>
-            </el-form-item>
-            <el-form-item label="用户角色(必填)" prop="iRole">
-                <el-input v-model="ruleForm.iRole" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="省">
                 <el-input v-model="ruleForm.strProvince" style="width:100px;"></el-input>
@@ -42,13 +55,8 @@
             <el-form-item label="邮箱">
                 <el-input v-model="ruleForm.strEmail" style="width:100px;"></el-input>
             </el-form-item>
-            <el-form-item label="部门Id(必填)" prop="strCompanyId">
-                <el-input v-model="ruleForm.strCompanyId" style="width:100px;"></el-input>
-            </el-form-item>
-            <el-form-item label="部门名称(必填)" prop="strCompanyName">
-                <el-input v-model="ruleForm.strCompanyName" style="width:100px;"></el-input>
-            </el-form-item>
-            <el-form-item label="状态" prop="strCompanyName">
+
+            <el-form-item label="状态">
                 <el-switch v-model="ruleForm.status"
                            active-color="#13ce66"
                            inactive-color="#ff4949"
@@ -60,7 +68,7 @@
                 <el-button type="primary" v-on:click="addUser('ruleForm')" :disabled="disableAdd">添加</el-button>
             </el-form-item>
             <el-form-item v-else>
-                <el-button type="primary" v-on:click="editUser('ruleForm')" :disabled="disableAdd">编辑</el-button>
+                <el-button type="primary" v-on:click="editUser('ruleForm')" :disabled="disableAdd">保存</el-button>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -130,6 +138,7 @@
                 lineData: lineData,
                 data: [],
                 tableData: [],
+                roleList: [],
                 disableAdd: false,
                 showAddUser: false,
                 isAdd: true,
@@ -193,6 +202,22 @@
                     }
                 })
             },
+            //获取角色列表
+            getRoleList: function () {
+                var that = this
+                $.ajax({
+                    url: "/Register/GetRoleList",
+                    success: function (data) {
+                        that.roleList = JSON.parse(data)
+                        console.log('//获取角色列表')
+                        console.log(data)
+                        
+                    },
+                    error: function (err) {
+                        console.error(err)
+                    }
+                })
+            },
             //添加用户
             addUser: function (formName) {
                 this.isAdd = true
@@ -238,6 +263,7 @@
                                 alert(JSON.parse(data).Msg)
                                 that.disableAdd = false
                                 that.dialogFormVisible = false
+                                that.getUserList()
                             }
                         })
                     } else {
@@ -251,7 +277,8 @@
                 this.dialogFormVisible = true
                 this.isAdd = true
                 for (let f in this.ruleForm) {
-                    this.ruleForm[f] = ''
+                    if (f == 'status') this.ruleForm[f] = '1'
+                    else this.ruleForm[f] = ''
                 }
             },
             //表单操作
@@ -281,6 +308,7 @@
         },
         created: function () {
             this.getUserList({})
+            this.getRoleList()
             loadHtml("mainPage", "partPage")
         }
     })
