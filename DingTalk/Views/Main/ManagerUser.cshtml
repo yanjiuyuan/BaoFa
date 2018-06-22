@@ -48,6 +48,14 @@
             <el-form-item label="部门名称(必填)" prop="strCompanyName">
                 <el-input v-model="ruleForm.strCompanyName" style="width:100px;"></el-input>
             </el-form-item>
+            <el-form-item label="状态" prop="strCompanyName">
+                <el-switch v-model="ruleForm.status"
+                           active-color="#13ce66"
+                           inactive-color="#ff4949"
+                           active-value="1" active-text="启用"
+                           inactive-value="0" inactive-text="禁用">
+                </el-switch>
+            </el-form-item>
             <el-form-item v-if="isAdd">
                 <el-button type="primary" v-on:click="addUser('ruleForm')" :disabled="disableAdd">添加</el-button>
             </el-form-item>
@@ -57,7 +65,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button v-on:click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" v-on:click="dialogFormVisible = false">完 成</el-button>
+            @*<el-button type="primary" v-on:click="dialogFormVisible = false">完 成</el-button>*@
         </div>
     </el-dialog>
     <!--表格實體-->
@@ -85,8 +93,8 @@
         <el-table-column prop="realName" label="真实姓名"></el-table-column>
         <el-table-column prop="lastLoginTime" label="上次登录"></el-table-column>
         <el-table-column prop="registerTime" label="注册时间"></el-table-column>
-        <el-table-column prop="status" label="状态"></el-table-column>
-        <el-table-column prop="role" label="角色"></el-table-column>
+        <el-table-column prop="statusText" label="状态"></el-table-column>
+        <el-table-column prop="roleText" label="角色"></el-table-column>
         <el-table-column prop="CompanyName" label="公司名称"></el-table-column>
         <el-table-column label="操作">
             <template slot-scope="scope">
@@ -139,7 +147,16 @@
                     strFax: '',
                     strEmail: '',
                     strCompanyId: '',
-                    strCompanyName: ''
+                    strCompanyName: '',
+                    status: ''
+                }
+            }
+        },
+        filters: {
+            filterState: function (value) {
+                switch (value) {
+                    case 1: return '启用'; break;
+                    default:return '禁用'
                 }
             }
         },
@@ -156,6 +173,19 @@
                         console.log('//获取用户列表')
                         console.log(url)
                         console.log(that.data)
+                        for (let d of that.data) {
+                            switch (d.status) {
+                                case 1:case '1': d.statusText =  '启用'; break;
+                                default: d.statusText = '禁用'
+                            }
+                            switch (d.role) {
+                                case '01': d.roleText = '管理员'; break;
+                                case '02': d.roleText = '集团用户'; break;
+                                case '03': d.roleText = '公司用户'; break;
+                                case '04': d.roleText = '车间用户'; break;
+                                default: d.roleText = ''; 
+                            }
+                        }
                         that.getData()
                     },
                     error: function (err) {
@@ -181,6 +211,7 @@
                                 alert(JSON.parse(data).Msg)
                                 that.disableAdd = false
                                 that.dialogFormVisible = false
+                                that.getUserList()
                             }
                         })
                     } else {
@@ -242,6 +273,7 @@
                 this.ruleForm.strEmail = row.email
                 this.ruleForm.strCompanyId = row.CompanyId
                 this.ruleForm.strCompanyName = row.CompanyName
+                this.ruleForm.status = row.status + ''
             },
             handleDelete: function (index, row) {
 
