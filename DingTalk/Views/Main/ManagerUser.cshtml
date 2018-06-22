@@ -4,7 +4,7 @@
 
 <!--右侧实体内容-->
 <div id="partPage">
-    <el-button v-on:click="dialogFormVisible = true" type="primary">添加用户</el-button>
+    <el-button v-on:click="handleAdd" type="primary">添加用户</el-button>
     <!--添加表單-->
     <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
         <el-form :inline="true" :model="ruleForm" class="demo-form-inline"
@@ -214,6 +214,14 @@
                         return false;
                     }
                 });
+            },
+            //添加用户按钮事件
+            handleAdd: function () {
+                this.dialogFormVisible = true
+                this.isAdd = true
+                for (let f in this.ruleForm) {
+                    this.ruleForm[f] = ''
+                }
             },
             //表单操作
             handleEdit: function (index, row) {
