@@ -73,7 +73,7 @@ namespace WebZhongZhi.Controllers
             string strphoneNumber,  
            string strAddress, string strProvince, string strCity,
             string strTelephone, string strOtherContact, string strFax,
-              string strEmail, string strCompanyId, string strCompanyName,   string iRole  )
+              string strEmail, string strCompanyId, string strCompanyName,   string iRole , int? status)
         {
 
             if (username == null || iRole == null || strCompanyId == null || strCompanyName == null)
@@ -88,7 +88,7 @@ namespace WebZhongZhi.Controllers
              strphoneNumber, 
               strAddress, strProvince, strCity,
              strTelephone, strOtherContact, strFax,
-              strEmail, strCompanyId, strCompanyName,  iRole ))
+              strEmail, strCompanyId, strCompanyName,  iRole , status))
                 {
                     return Global.RETURN_SUCESS;
 
@@ -128,6 +128,18 @@ namespace WebZhongZhi.Controllers
 
              
             string rst = RegisterServer.GetUserList(keyword, GroupId, CompanyId, FoundryId );
+
+            return rst;
+
+        }
+
+        //角色修改
+        //测试 /Register/GetRoleList 
+        public string GetRoleList()
+        {
+
+
+            string rst = RegisterServer.GetRoleList();
 
             return rst;
 

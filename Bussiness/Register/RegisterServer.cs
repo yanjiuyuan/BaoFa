@@ -100,7 +100,8 @@ namespace Bussiness.Register
         public static bool UserModify(string strUserName, string strRealName,
             string strphoneNumber,  string strAddress, string strProvince, string strCity,
             string strTelephone, string strOtherContact, string strFax,
-              string strEmail, string strCompanyId, string strCompanyName,  string iRole )
+              string strEmail, string strCompanyId, string strCompanyName,  string iRole, int? status)
+       
         {
             bool bResult = false;
             try
@@ -130,7 +131,10 @@ namespace Bussiness.Register
                     strSql += " ,fax ='" + strFax + "' ";
                 if (strEmail != null)
                     strSql += " ,email ='" + strEmail + "' ";
-
+                if (strEmail != null)
+                    strSql += " ,email ='" + strEmail + "' ";
+                if (status != null)
+                    strSql += " ,status =" + status + " ";
                 strSql += " where username='" + strUserName + "'";
 
  
@@ -254,5 +258,18 @@ namespace Bussiness.Register
 
 
         }
+
+
+        public static  string GetRoleList()
+        {
+            string querysql = string.Empty;
+           
+            querysql = "select roleid,rolename  from roleinfo where rolestat=1";
+             
+            DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+            return JsonConvert.SerializeObject(dt);
+        }
+     
     }
 }
