@@ -166,7 +166,7 @@ namespace WebZhongZhi.Controllers
         }
 
         //角色修改
-        //测试 /Register/GetDepartList?LineId=1&keyword=04
+        //测试 /Register/GetDepartList
         public string GetDepartList()
         {
             string role = "01";

@@ -326,13 +326,13 @@ namespace Bussiness.Register
 
                     if (!companyid.Equals(lstcompanyid))
                     {
-                        DepartList.Add(new KeyValuePair<int, string>(Convert.ToInt32(companyid), "\0" + companynm));
+                        DepartList.Add(new KeyValuePair<int, string>(Convert.ToInt32(companyid), "&nbsp;&nbsp;" + companynm));
                         lstcompanyid = companyid;
 
                     }
                     if (!foundryid.Equals(lstfoundryid))
                     {
-                        DepartList.Add(new KeyValuePair<int, string>(Convert.ToInt32(foundryid), "\0\0" + foundrynm));
+                        DepartList.Add(new KeyValuePair<int, string>(Convert.ToInt32(foundryid), "&nbsp;&nbsp;&nbsp;&nbsp;" + foundrynm));
 
                         lstfoundryid = foundryid;
 
