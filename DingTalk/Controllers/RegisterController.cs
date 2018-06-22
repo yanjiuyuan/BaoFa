@@ -1,4 +1,5 @@
 ﻿using Bussiness;
+using Bussiness.Model;
 using Bussiness.Register;
 using System;
 using System.Collections.Generic;
@@ -159,6 +160,25 @@ namespace WebZhongZhi.Controllers
             }
 
             string rst = RegisterServer.PwdChange(username, oldpwd, newpwd);
+
+            return rst;
+
+        }
+
+        //角色修改
+        //测试 /Register/GetDepartList?LineId=1&keyword=04
+        public string GetDepartList()
+        {
+            string role = "01";
+            int departid = 0;
+            if (HttpContext.Session["user"] != null)
+            {
+                role = (HttpContext.Session["user"] as SessionUser).roleid;
+                departid = (HttpContext.Session["user"] as SessionUser).departid;
+            }
+
+
+            string rst = RegisterServer.GetDepartList(role, departid );
 
             return rst;
 

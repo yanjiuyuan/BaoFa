@@ -122,18 +122,19 @@ namespace Bussiness.ProductionLines
             try
             {
 
-
-                strsql = " select a.ProductLineId, a.ProductLineName, b.foundryid, b.foundryname , c.companyid , c.companyName , d.groupid  , d.groupName from productlineinfo a left join foundryinfo b  on a.foundryid = b.foundryid " +
-           " left join companyinfo c   on b.companyid = c.companyid left join groupinfo d on c.groupid = d.groupid" +
-           "  where a.status =1 ";
+        strsql = " select t1.* ,d.groupname from (select t.*, c.companyname ,c.groupid  from (select a.ProductLineId, a.ProductLineName, b.foundryid, b.foundryname ,b.companyid  " +
+              " from productlineinfo a left join foundryinfo b  on a.foundryid = b.foundryid  where a.status =1 ) t  " +
+             " left join companyinfo c   on t.companyid = c.companyid ) t1 " +
+          "left join groupinfo d on t1.groupid = d.groupid " +
+            "  where 1=1  ";
                     if ("02".Equals(role))
-                        strsql += " and  d.groupid=" + departid;
+                        strsql += " and  t1.groupid=" + departid;
                     else if ("03".Equals(role))
                      
-                        strsql += " and  c.companyid=" + departid;
+                        strsql += " and  t1.companyid=" + departid;
                     else if ("04".Equals(role))
                     
-                        strsql += " and  b.foundryid=" + departid;
+                        strsql += " and  t1.foundryid=" + departid;
 
                 strsql +=" order by groupid,companyid,foundryid,ProductLineId";
 
@@ -156,17 +157,19 @@ namespace Bussiness.ProductionLines
             try
             {
 
-                string strsql = " select a.ProductLineId, a.ProductLineName, b.foundryid, b.foundryname , c.companyid , c.companyName , d.groupid  , d.groupName from productlineinfo a left join foundryinfo b  on a.foundryid = b.foundryid " +
-                 " left join companyinfo c   on b.companyid = c.companyid left join groupinfo d on c.groupid = d.groupid" +
-                 "  where a.status =1 ";
+            string     strsql = " select t1.* ,d.groupname from (select t.*, c.companyname ,c.groupid  from (select a.ProductLineId, a.ProductLineName, b.foundryid, b.foundryname ,b.companyid  " +
+                    " from productlineinfo a left join foundryinfo b  on a.foundryid = b.foundryid ) t  " +
+                   " left join companyinfo c   on t.companyid = c.companyid ) t1 " +
+                "left join groupinfo d on t1.groupid = d.groupid " +
+                  "  where 1=1 ";
                 if ("02".Equals(role))
-                    strsql += " and    d.groupid=" + departid;
+                    strsql += " and    t1.groupid=" + departid;
                 else if ("03".Equals(role))
 
-                    strsql += " and    c.companyid=" + departid;
+                    strsql += " and    t1.companyid=" + departid;
                 else if ("04".Equals(role))
 
-                    strsql += " and    b.foundryid=" + departid;
+                    strsql += " and    t1.foundryid=" + departid;
 
                 strsql += "  order by groupid,companyid,foundryid,ProductLineId";
 

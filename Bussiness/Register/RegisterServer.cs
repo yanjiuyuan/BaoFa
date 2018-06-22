@@ -270,6 +270,85 @@ namespace Bussiness.Register
 
             return JsonConvert.SerializeObject(dt);
         }
-     
+
+
+        
+        public static string GetDepartList(string role = "01", int departid = 0)
+        {
+            DataTable dt = new DataTable();
+            string strsql = string.Empty;
+            List<KeyValuePair<int, string>> DepartList = new List<KeyValuePair<int, string>>();
+                try
+            {
+
+
+                strsql = " select t.*, d.groupname from (select  a.foundryid, a.foundryname ,c.companyid,c.companyname,c. groupid   from   foundryinfo a " +
+          " left join companyinfo c   on a.companyid = c.companyid ) t " +
+         "left join groupinfo d on t.groupid = d.groupid " +
+      "  where 1=1 ";
+               if ("02".Equals(role))
+                  strsql += " and  d.groupid=" + departid;
+                else if ("03".Equals(role))
+
+              strsql += " and   t.companyid=" + departid;
+              else if ("04".Equals(role))
+
+                  strsql += " and  t. foundryid=" + departid;
+
+           strsql += " order by groupid,companyid,foundryid ";
+
+
+
+
+                dt = MySqlHelper.ExecuteQuery(strsql);
+
+                string lstgroupid = string.Empty;
+                string lstfoundryid = string.Empty;
+                string lstcompanyid = string.Empty;
+
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+
+                    string groupid = dt.Rows[i]["groupid"].ToString();
+                    string foundryid = dt.Rows[i]["foundryid"].ToString();
+                    string companyid = dt.Rows[i]["companyid"].ToString();
+                    string groupnm = dt.Rows[i]["groupname"].ToString();
+                    string foundrynm = dt.Rows[i]["foundryname"].ToString();
+                    string companynm = dt.Rows[i]["companyname"].ToString();
+                    if (!groupid.Equals(lstgroupid))
+                    {
+                       
+                        DepartList.Add(new KeyValuePair<int, string>(Convert.ToInt32(groupid), groupnm));
+
+                        lstgroupid = groupid;
+                    }
+
+                    if (!companyid.Equals(lstcompanyid))
+                    {
+                        DepartList.Add(new KeyValuePair<int, string>(Convert.ToInt32(companyid), "\0" + companynm));
+                        lstcompanyid = companyid;
+
+                    }
+                    if (!foundryid.Equals(lstfoundryid))
+                    {
+                        DepartList.Add(new KeyValuePair<int, string>(Convert.ToInt32(foundryid), "\0\0" + foundrynm));
+
+                        lstfoundryid = foundryid;
+
+                    }
+                }
+
+
+                }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+
+            }
+
+            return JsonConvert.SerializeObject(DepartList);
+
+        }
     }
 }

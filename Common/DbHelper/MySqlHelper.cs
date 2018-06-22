@@ -207,6 +207,7 @@ namespace Common.DbHelper
         {
             MySqlConnection connection = new MySqlConnection(connstr);
             DataTable table = new DataTable();
+         
             using (MySqlCommand cmd = connection.CreateCommand())
             {
                 try
