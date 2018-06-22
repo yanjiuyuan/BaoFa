@@ -12,6 +12,22 @@
             <el-form-item label="用户名(必填)" prop="userName">
                 <el-input v-model="ruleForm.userName" style="width:100px;" :disabled="!isAdd"></el-input>
             </el-form-item>
+            <el-form-item label="用户角色(必填)" prop="iRole">
+                @*<el-input v-model="ruleForm.iRole" style="width:100px;"></el-input>*@
+                <el-select v-model="ruleForm.iRole" placeholder="请选择">
+                    <el-option v-for="role in roleList"
+                               :key="role.roleid"
+                               :label="role.rolename"
+                               :value="role.roleid">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="部门Id(必填)" prop="strCompanyId">
+                <el-input v-model="ruleForm.strCompanyId" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="部门名称(必填)" prop="strCompanyName">
+                <el-input v-model="ruleForm.strCompanyName" style="width:100px;"></el-input>
+            </el-form-item>
             <el-form-item label="真实姓名">
                 <el-input v-model="ruleForm.strRealName" style="width:100px;"></el-input>
             </el-form-item>
@@ -20,9 +36,6 @@
             </el-form-item>
             <el-form-item label="地址">
                 <el-input v-model="ruleForm.strAddress" style="width:500px;"></el-input>
-            </el-form-item>
-            <el-form-item label="用户角色(必填)" prop="iRole">
-                <el-input v-model="ruleForm.iRole" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="省">
                 <el-input v-model="ruleForm.strProvince" style="width:100px;"></el-input>
@@ -42,22 +55,25 @@
             <el-form-item label="邮箱">
                 <el-input v-model="ruleForm.strEmail" style="width:100px;"></el-input>
             </el-form-item>
-            <el-form-item label="部门Id(必填)" prop="strCompanyId">
-                <el-input v-model="ruleForm.strCompanyId" style="width:100px;"></el-input>
-            </el-form-item>
-            <el-form-item label="部门名称(必填)" prop="strCompanyName">
-                <el-input v-model="ruleForm.strCompanyName" style="width:100px;"></el-input>
+
+            <el-form-item label="状态">
+                <el-switch v-model="ruleForm.status"
+                           active-color="#13ce66"
+                           inactive-color="#ff4949"
+                           active-value="1" active-text="启用"
+                           inactive-value="0" inactive-text="禁用">
+                </el-switch>
             </el-form-item>
             <el-form-item v-if="isAdd">
                 <el-button type="primary" v-on:click="addUser('ruleForm')" :disabled="disableAdd">添加</el-button>
             </el-form-item>
             <el-form-item v-else>
-                <el-button type="primary" v-on:click="editUser('ruleForm')" :disabled="disableAdd">编辑</el-button>
+                <el-button type="primary" v-on:click="editUser('ruleForm')" :disabled="disableAdd">保存</el-button>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button v-on:click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" v-on:click="dialogFormVisible = false">完 成</el-button>
+            @*<el-button type="primary" v-on:click="dialogFormVisible = false">完 成</el-button>*@
         </div>
     </el-dialog>
     <!--表格實體-->
@@ -85,8 +101,8 @@
         <el-table-column prop="realName" label="真实姓名"></el-table-column>
         <el-table-column prop="lastLoginTime" label="上次登录"></el-table-column>
         <el-table-column prop="registerTime" label="注册时间"></el-table-column>
-        <el-table-column prop="status" label="状态"></el-table-column>
-        <el-table-column prop="role" label="角色"></el-table-column>
+        <el-table-column prop="statusText" label="状态"></el-table-column>
+        <el-table-column prop="roleText" label="角色"></el-table-column>
         <el-table-column prop="CompanyName" label="公司名称"></el-table-column>
         <el-table-column label="操作">
             <template slot-scope="scope">
@@ -122,6 +138,7 @@
                 lineData: lineData,
                 data: [],
                 tableData: [],
+                roleList: [],
                 disableAdd: false,
                 showAddUser: false,
                 isAdd: true,
@@ -139,7 +156,16 @@
                     strFax: '',
                     strEmail: '',
                     strCompanyId: '',
-                    strCompanyName: ''
+                    strCompanyName: '',
+                    status: ''
+                }
+            }
+        },
+        filters: {
+            filterState: function (value) {
+                switch (value) {
+                    case 1: return '启用'; break;
+                    default:return '禁用'
                 }
             }
         },
@@ -156,7 +182,36 @@
                         console.log('//获取用户列表')
                         console.log(url)
                         console.log(that.data)
+                        for (let d of that.data) {
+                            switch (d.status) {
+                                case 1:case '1': d.statusText =  '启用'; break;
+                                default: d.statusText = '禁用'
+                            }
+                            switch (d.role) {
+                                case '01': d.roleText = '管理员'; break;
+                                case '02': d.roleText = '集团用户'; break;
+                                case '03': d.roleText = '公司用户'; break;
+                                case '04': d.roleText = '车间用户'; break;
+                                default: d.roleText = ''; 
+                            }
+                        }
                         that.getData()
+                    },
+                    error: function (err) {
+                        console.error(err)
+                    }
+                })
+            },
+            //获取角色列表
+            getRoleList: function () {
+                var that = this
+                $.ajax({
+                    url: "/Register/GetRoleList",
+                    success: function (data) {
+                        that.roleList = JSON.parse(data)
+                        console.log('//获取角色列表')
+                        console.log(data)
+                        
                     },
                     error: function (err) {
                         console.error(err)
@@ -181,6 +236,7 @@
                                 alert(JSON.parse(data).Msg)
                                 that.disableAdd = false
                                 that.dialogFormVisible = false
+                                that.getUserList()
                             }
                         })
                     } else {
@@ -207,6 +263,7 @@
                                 alert(JSON.parse(data).Msg)
                                 that.disableAdd = false
                                 that.dialogFormVisible = false
+                                that.getUserList()
                             }
                         })
                     } else {
@@ -220,7 +277,8 @@
                 this.dialogFormVisible = true
                 this.isAdd = true
                 for (let f in this.ruleForm) {
-                    this.ruleForm[f] = ''
+                    if (f == 'status') this.ruleForm[f] = '1'
+                    else this.ruleForm[f] = ''
                 }
             },
             //表单操作
@@ -242,6 +300,7 @@
                 this.ruleForm.strEmail = row.email
                 this.ruleForm.strCompanyId = row.CompanyId
                 this.ruleForm.strCompanyName = row.CompanyName
+                this.ruleForm.status = row.status + ''
             },
             handleDelete: function (index, row) {
 
@@ -249,6 +308,7 @@
         },
         created: function () {
             this.getUserList({})
+            this.getRoleList()
             loadHtml("mainPage", "partPage")
         }
     })
