@@ -1,0 +1,259 @@
+﻿@{
+    Layout = null;
+}
+
+<!--右侧实体内容-->
+<div id="partPage">
+    <el-button v-on:click="handleAdd" type="primary">添加用户</el-button>
+    <!--添加表單-->
+    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+        <el-form :inline="true" :model="ruleForm" class="demo-form-inline"
+                 size="medium" :rules="rules" ref="ruleForm">
+            <el-form-item label="用户名(必填)" prop="userName">
+                <el-input v-model="ruleForm.userName" style="width:100px;" :disabled="!isAdd"></el-input>
+            </el-form-item>
+            <el-form-item label="真实姓名">
+                <el-input v-model="ruleForm.strRealName" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="电话号码">
+                <el-input v-model="ruleForm.strphoneNumber" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="地址">
+                <el-input v-model="ruleForm.strAddress" style="width:500px;"></el-input>
+            </el-form-item>
+            <el-form-item label="用户角色(必填)" prop="iRole">
+                <el-input v-model="ruleForm.iRole" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="省">
+                <el-input v-model="ruleForm.strProvince" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="市">
+                <el-input v-model="ruleForm.strCity" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="电话">
+                <el-input v-model="ruleForm.strTelephone" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="其他概要">
+                <el-input v-model="ruleForm.strOtherContact" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="传真">
+                <el-input v-model="ruleForm.strFax" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="邮箱">
+                <el-input v-model="ruleForm.strEmail" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="部门Id(必填)" prop="strCompanyId">
+                <el-input v-model="ruleForm.strCompanyId" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item label="部门名称(必填)" prop="strCompanyName">
+                <el-input v-model="ruleForm.strCompanyName" style="width:100px;"></el-input>
+            </el-form-item>
+            <el-form-item v-if="isAdd">
+                <el-button type="primary" v-on:click="addUser('ruleForm')" :disabled="disableAdd">添加</el-button>
+            </el-form-item>
+            <el-form-item v-else>
+                <el-button type="primary" v-on:click="editUser('ruleForm')" :disabled="disableAdd">编辑</el-button>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button v-on:click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" v-on:click="dialogFormVisible = false">完 成</el-button>
+        </div>
+    </el-dialog>
+    <!--表格實體-->
+    <el-table :data="tableData" stripe border>
+        <el-table-column type="expand">
+            <template slot-scope="props">
+                <el-form label-position="left" inline class="table-expand">
+                    <el-form-item label="电话">
+                        <span>{{ props.row.phoneNumber }}</span>
+                    </el-form-item>
+                    <el-form-item label="地址">
+                        <span>{{ props.row.address }}</span>
+                    </el-form-item>
+                    <el-form-item label="手机">
+                        <span>{{ props.row.telephone }}</span>
+                    </el-form-item>
+                    <el-form-item label="邮箱">
+                        <span>{{ props.row.email }}</span>
+                    </el-form-item>
+                </el-form>
+            </template>
+        </el-table-column>
+        <el-table-column prop="UserId" label="用户编号"></el-table-column>
+        <el-table-column prop="userName" label="用户名"></el-table-column>
+        <el-table-column prop="realName" label="真实姓名"></el-table-column>
+        <el-table-column prop="lastLoginTime" label="上次登录"></el-table-column>
+        <el-table-column prop="registerTime" label="注册时间"></el-table-column>
+        <el-table-column prop="status" label="状态"></el-table-column>
+        <el-table-column prop="role" label="角色"></el-table-column>
+        <el-table-column prop="CompanyName" label="公司名称"></el-table-column>
+        <el-table-column label="操作">
+            <template slot-scope="scope">
+                <el-button size="mini"
+                            v-on:click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                <el-button size="mini"
+                            type="danger"
+                            v-on:click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+    <!--底部翻頁-->
+    <div style="text-align:right">
+        <el-pagination v-on:size-change="handleSizeChange"
+                        v-on:current-change="handleCurrentChange"
+                        :current-page="currentPage"
+                        :page-sizes="[1, 3, 5, 10]"
+                        :page-size="pageSize"
+                        layout="total, sizes, prev, pager, next, jumper"
+                        :total="totalRows">
+        </el-pagination>
+    </div>
+</div>
+
+
+<script>
+    var lineData = getLocalObj("lineData")
+    new Vue({
+        el: "#partPage",
+        mixins: [mixin],
+        data: function () {
+            return {
+                lineData: lineData,
+                data: [],
+                tableData: [],
+                disableAdd: false,
+                showAddUser: false,
+                isAdd: true,
+                dialogFormVisible: false,
+                ruleForm: {
+                    userName: '',
+                    strRealName: '',
+                    strphoneNumber: '',
+                    strAddress: '',
+                    iRole: '',
+                    strProvince: '',
+                    strCity: '',
+                    strTelephone: '',
+                    strOtherContact: '',
+                    strFax: '',
+                    strEmail: '',
+                    strCompanyId: '',
+                    strCompanyName: ''
+                }
+            }
+        },
+        methods: {
+            //获取用户列表
+            getUserList:function(obj) {
+                var that = this
+                var url = "/Register/GetUserList" + _formatQueryStr(obj)
+                $.ajax({
+                    url: url,
+                    success: function (data) {
+                        that.data = JSON.parse(data)
+                        that.totalRows = that.data.length
+                        console.log('//获取用户列表')
+                        console.log(url)
+                        console.log(that.data)
+                        that.getData()
+                    },
+                    error: function (err) {
+                        console.error(err)
+                    }
+                })
+            },
+            //添加用户
+            addUser: function (formName) {
+                this.isAdd = true
+                var that = this
+                this.$refs[formName].validate((valid) => {
+                    if (valid ) {
+                        that.disableAdd = true
+                        var url = '/Register/CheckRegister' + _formatQueryStr(that.ruleForm)
+                        console.log("添加用户")
+                        console.log(url)
+                        $.ajax({
+                            url: url,
+                            success: function (data) {
+                                console.log("添加用户ok")
+                                console.log(data)
+                                alert(JSON.parse(data).Msg)
+                                that.disableAdd = false
+                                that.dialogFormVisible = false
+                            }
+                        })
+                    } else {
+                        console.log('添加用户失败')
+                        return false;
+                    }
+                });
+            },
+            //编辑用户
+            editUser: function (formName) {
+                this.isAdd = false
+                var that = this
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        that.disableAdd = true
+                        var url = '/Register/UserModify' + _formatQueryStr(that.ruleForm)
+                        console.log("编辑用户")
+                        console.log(url)
+                        $.ajax({
+                            url: url,
+                            success: function (data) {
+                                console.log("编辑用户ok")
+                                console.log(data)
+                                alert(JSON.parse(data).Msg)
+                                that.disableAdd = false
+                                that.dialogFormVisible = false
+                            }
+                        })
+                    } else {
+                        console.log('添加用户失败')
+                        return false;
+                    }
+                });
+            },
+            //添加用户按钮事件
+            handleAdd: function () {
+                this.dialogFormVisible = true
+                this.isAdd = true
+                for (let f in this.ruleForm) {
+                    this.ruleForm[f] = ''
+                }
+            },
+            //表单操作
+            handleEdit: function (index, row) {
+                console.log(index)
+                console.log(row)
+                this.isAdd = false
+                this.dialogFormVisible = true
+                this.ruleForm.userName = row.userName
+                this.ruleForm.strRealName = row.realName
+                this.ruleForm.strphoneNumber = row.phoneNumber
+                this.ruleForm.strAddress = row.address
+                this.ruleForm.iRole = row.role
+                this.ruleForm.strProvince = row.province
+                this.ruleForm.strCity = row.city
+                this.ruleForm.strTelephone = row.telephone
+                this.ruleForm.strOtherContact = row.otherContact
+                this.ruleForm.strFax = row.fax
+                this.ruleForm.strEmail = row.email
+                this.ruleForm.strCompanyId = row.CompanyId
+                this.ruleForm.strCompanyName = row.CompanyName
+            },
+            handleDelete: function (index, row) {
+
+            }
+        },
+        created: function () {
+            this.getUserList({})
+            loadHtml("mainPage", "partPage")
+        }
+    })
+
+
+
+
+</script>

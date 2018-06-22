@@ -41,8 +41,16 @@
                         <el-menu-item v-show="menuList.indexOf('4000')>=0" index="4" onclick="loadPage('/Main/VideoMonitor')">
                             <i class="el-icon-view"></i>视频监控
                         </el-menu-item>
+                        <el-submenu index="4">
+                            <template slot="title">
+                                <i class="el-icon-setting"></i>系统管理
+                            </template>
+                            <el-menu-item-group>
+                                <el-menu-item index="4-1" onclick="loadPage('/Main/ManagerUser')">用户管理</el-menu-item>
+                            </el-menu-item-group>
+                        </el-submenu>
                         @*<el-menu-item index="5" onclick="loadPage('/Main/VideoSimulation')">
-                            <i class="el-icon-refresh"></i>生产仿真
-                        </el-menu-item>*@
+            <i class="el-icon-refresh"></i>生产仿真
+        </el-menu-item>*@
                     </el-menu>
                 </div>

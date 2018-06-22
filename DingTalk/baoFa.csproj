@@ -375,6 +375,7 @@
     <Content Include="Views\Main\VideoSimulation.cshtml" />
     <Content Include="Views\Main\NewPage.cshtml" />
     <Content Include="Views\Main\BlankPage.cshtml" />
+    <Content Include="Views\Main\ManagerUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bussiness\Bussiness.csproj">
