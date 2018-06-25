@@ -22,6 +22,61 @@ namespace Bussiness.AutoTask
     {
 
         private static Logger logger = Logger.CreateLogger(typeof(SubTaskServer));
+
+        private static string errorcollect = "select stationNAME, errortype, sum(warn_t) as warn_t, sum(warn_c) as warn_c from(select stationNAME, sum( if (errorn & 1 = 1, warn_t ,0)) as warn_t,'EN0' as errortype,  " +
+" sum( if (errorn & 1 = 1, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+
+" union all select stationNAME, sum( if (errorn & 2 = 2, warn_t, 0)) as warn_t,  " +
+" 'EN1' as errortype,sum( if (errorn & 2 = 2, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+
+" union all select stationNAME, sum( if (errorn & 4 = 4, warn_t, 0)) as warn_t,'EN2' as errortype,  " +
+" sum( if (errorn & 4 = 4, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+" union all select stationNAME, sum( if (errorn & 8 = 8, warn_t, 0)) as warn_t,'EN3' as errortype,  " +
+" sum( if (errorn & 8 = 8, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+" union all select stationNAME, sum( if (errorn & 16 = 16, warn_t, 0)) as warn_t,'EN4' as errortype,  " +
+" sum( if (errorn & 16 = 16, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+" union all select stationNAME, sum( if (errorn & 32 = 32, warn_t, 0)) as warn_t,'EN5' as errortype,  " +
+" sum( if (errorn & 32 = 32, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+
+" union all select stationNAME, sum( if (errorn & 64 = 64, warn_t, 0)) as warn_t,'EN6' as errortype,  " +
+" sum( if (errorn & 64 = 64, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+" union all  select stationNAME, sum( if (errorn & 128 = 128, warn_t, 0)) as warn_t,'EN7' as errortype,  " +
+" sum( if (errorn & 128 = 128, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+" union all select stationNAME, sum( if (errorn & 256 = 256, warn_t, 0)) as warn_t,'EN8' as errortype,  " +
+" sum( if (errorn & 256 = 256, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+" union all select stationNAME, sum( if (errorn & 512 = 512, warn_t, 0)) as warn_t,'EN9' as errortype,  " +
+" sum( if (errorn & 512 = 512, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+
+" union all select stationNAME, sum( if (errorn & 1024 = 1024, warn_t, 0)) as warn_t,'EN10' as errortype,  " +
+" sum( if (errorn & 1024 = 1024, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+" union all select stationNAME, sum( if (errorn & 2048 = 2048, warn_t, 0)) as warn_t,'EN11' as errortype,  " +
+" sum( if (errorn & 2048 = 2048, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  )t1 group by stationNAME, errortype";
+//" union all select stationNAME, sum( if (errorn & 4096 = 4096, warn_t, 0)) as warn_t,'EN12' as errortype,  " +
+//" sum( if (errorn & 4096 = 4096, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+
+//" union all select stationNAME, sum( if (errorn & 8192 = 8192, warn_t, 0)) as warn_t,'EN13' as errortype,  " +
+//" sum( if (errorn & 8192 = 8192, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+//" union all select stationNAME, sum( if (errorn & 16384 = 16384, warn_t, 0)) as warn_t,'EN14' as errortype,  " +
+//" sum( if (errorn & 16384 = 16384, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+//" union all select stationNAME, sum( if (errorn & 32768 = 32768, warn_t, 0)) as warn_t,'EN15' as errortype,  " +
+//" sum( if (errorn & 32768 = 32768, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME)t1 group by stationNAME, errortype";
+
         //获取各工位的末次生产时间
         public void taskInit(string datestr)
         {
@@ -678,17 +733,16 @@ namespace Bussiness.AutoTask
                 string ProductionDays = Convert.ToString(dts.Rows[i]["ProductionDays"]);
                 PlanPowerOnT = Convert.ToInt32(dts.Rows[i]["ProductionTimes"].Equals(DBNull.Value) ? 0 : dts.Rows[i]["ProductionTimes"]);
                 isplanpoweron = Global.IsWeekInList(datestr, ProductionDays) == true ? 1 : 0;
-                //查询各事件次数及事件时间
-                strsql = string.Format(
-                   "  insert into RptDeviceErrDay  " +
-                   "  select null as id, t.Deviceid, '{0}' as ProductionT, t.productlineid, round(t2.warn_t / 3600, 2) as warnt, t2.warn_c as warnc, errorn  from " +
-                  " (select a.ProductLineId, a.DeviceId, b.StationName from deviceinfo a left join locationcfg b on a.LocationId = b.LocationId and " +
-                  "  a.ProductLineId = b.ProductLineId  where a.ProductLineId ={1}) t left join( "+
-                  " select     sum(endtime - startTime) / 1000 AS warn_t, sum(1)     AS warn_c, if (ERRORN is null ,9999,ERRORN) as ERRORN, "+
-                  "  stationNAME from huabao.LocationState where id_usage in ({2}) and StationState = '报警'   group by stationNAME ,ERRORN) t2 on t.stationNAME = t2.stationNAME where t2.stationNAME is not null "
-                   , datestr,  productlineid, id_usages);
-                int insertC = MySqlHelper.ExecuteSql(strsql);
-                logger.Info(productlineid + "产线机器报警统计数据插入数量：" + insertC);
+                    //查询各事件次数及事件时间
+                    strsql = string.Format(
+                       "  insert into RptDeviceErrDay  " +
+                       "  select null as id, t.Deviceid, '{1}' as ProductionT, t.productlineid, errortype as errorn ,round(t2.warn_t  ) as warnt, t2.warn_c as warnc from " +
+                      " (select a.ProductLineId, a.DeviceId, b.StationName from deviceinfo a left join locationcfg b on a.LocationId = b.LocationId and " +
+                      "  a.ProductLineId = b.ProductLineId  where a.ProductLineId ={2}) t left join( " + errorcollect + " )  t2 on t.stationNAME = t2.stationNAME where t2.stationNAME is not null ",
+                 id_usages, datestr,  productlineid  );
+                 int insertC = MySqlHelper.ExecuteSql(strsql);
+                    logger.Info(strsql);
+                    logger.Info(productlineid + "产线机器报警统计数据插入数量：" + insertC);
                  
 
             }

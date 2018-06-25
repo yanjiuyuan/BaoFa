@@ -113,6 +113,19 @@ namespace DingTalk.Controllers
 
 
         }
+        /// <summary>
+        /// 设备型号
+        /// </summary>
+        /// <param name="DeviceId">机器编号</param>
+        /// <returns></returns>
+        /// /DeviceInfo/DeviceModelList
+        public string DeviceModelList( )
+        {
+            DevicesServer dev = new DevicesServer();
 
+            return dev.DeviceModelList( );
+
+
+        }
     }
 }

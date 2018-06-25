@@ -196,6 +196,28 @@ namespace Bussiness.ProductionLines
             return retstr;
 
         }
-        
+        public string DeviceModelList( )
+
+        {
+            string retstr = string.Empty;
+     
+            try
+            {
+
+                string strSql = string.Format(" select distinct(devicemodel) as devicemodel from    deviceinfo  " );
+
+                DataTable dt = MySqlHelper.ExecuteQuery(strSql);
+                 retstr=JsonConvert.SerializeObject(dt);
+ 
+
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                retstr = Global.RETURN_ERROR(ex.Message);
+            }
+            return retstr;
+
+        }
     }
 }

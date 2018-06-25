@@ -1,4 +1,6 @@
-﻿using Bussiness.DosageInfo;
+﻿using Bussiness;
+using Bussiness.DosageInfo;
+using Bussiness.ProductionLines;
 using Bussiness.Quality;
 using Bussiness.Report;
 using Bussiness.UsageInfo;
@@ -192,5 +194,213 @@ namespace DingTalk.Controllers
 
 
 
+        /// <summary>
+        /// /Reports/LineDailyRpt
+        /// </summary>
+        /// <param name="begintime"> 查询日期(*)</param>
+        /// <param name="groupid">集团id</param>
+        /// <param name="companyid">公司id</param>
+        /// <param name="foundryid">车间id</param>
+        /// <param name="ProductLineId">产线id</param>
+        /// <returns></returns>
+        public string  LineDailyRpt(string begintime,   int? groupid, int? companyid, int? foundryid, int? ProductLineId)
+        {
+            if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
+                return Global.RETURN_ERROR("部门编号不能全部为空");
+            ProductionLinesServer pls = new ProductionLinesServer();
+            string lineids = pls.GetLinesStr(groupid,  companyid,foundryid, ProductLineId);
+
+            ReportServer rps = new ReportServer();
+            return rps.LineDailyRpt(begintime, lineids);
+
+
+        }
+    /// <param name=""begintime"">开始日期(*)
+    /// <param name=""endtime""> 结束日期(*)
+    /// <param name=""groupid"">集团id
+    /// <param name=""companyid"">公司id
+    /// <param name=""foundryid"">车间id
+    /// <param name=""ProductLineId"">产线id"	
+        public string LineDailyPhase(string begintime,string endtime, int? groupid, int? companyid, int? foundryid, int? ProductLineId)
+        {
+            if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
+                return Global.RETURN_ERROR("部门编号不能全部为空");
+            ProductionLinesServer pls = new ProductionLinesServer();
+            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+
+            ReportServer rps = new ReportServer();
+            return rps.LinePhaseRpt(begintime, endtime, lineids);
+
+
+        }
+
+        /// <param name=""begintime"">查询月份(*)
+        /// <param name=""endtime""> 结束日期(*)
+        /// <param name=""groupid"">集团id
+        /// <param name=""companyid"">公司id
+        /// <param name=""foundryid"">车间id
+        /// <param name=""ProductLineId"">产线id"	
+
+        public string LineDailyMonth(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId)
+        {
+            if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
+                return Global.RETURN_ERROR("部门编号不能全部为空");
+            ProductionLinesServer pls = new ProductionLinesServer();
+            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            ReportServer rps = new ReportServer();
+            return rps.LineMonthRpt(begintime, lineids);
+
+        }
+
+
+        /// <param name=""begintime"">查询年份(*)
+        /// <param name=""endtime""> 结束日期(*)
+        /// <param name=""groupid"">集团id
+        /// <param name=""companyid"">公司id
+        /// <param name=""foundryid"">车间id
+        /// <param name=""ProductLineId"">产线id"
+        public string LineDailyYear(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId)
+        {
+            if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
+                return Global.RETURN_ERROR("部门编号不能全部为空");
+            ProductionLinesServer pls = new ProductionLinesServer();
+            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            ReportServer rps = new ReportServer();
+            return rps.LineYearRpt(begintime, lineids);
+        }
+
+        public string DeviceDailyRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId ,string  devicemodel)
+        {
+
+            if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
+                return Global.RETURN_ERROR("部门编号不能全部为空");
+            ProductionLinesServer pls = new ProductionLinesServer();
+            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+
+            ReportServer rps = new ReportServer();
+            return rps.DeviceDailyRpt(begintime, lineids,devicemodel);
+
+
+        }
+        /// <param name=""begintime"">开始日期(*)
+        /// <param name=""endtime""> 结束日期(*)
+        /// <param name=""groupid"">集团id
+        /// <param name=""companyid"">公司id
+        /// <param name=""foundryid"">车间id
+        /// <param name=""ProductLineId"">产线id"	
+        public string DevicePhaseRpt(string begintime, string endtime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel)
+        {
+            if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
+                return Global.RETURN_ERROR("部门编号不能全部为空");
+            ProductionLinesServer pls = new ProductionLinesServer();
+            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+
+            ReportServer rps = new ReportServer();
+            return rps.DevicePhaseRpt(begintime, endtime, lineids,devicemodel);
+
+
+        }
+
+        /// <param name=""begintime"">查询月份(*)
+        /// <param name=""endtime""> 结束日期(*)
+        /// <param name=""groupid"">集团id
+        /// <param name=""companyid"">公司id
+        /// <param name=""foundryid"">车间id
+        /// <param name=""ProductLineId"">产线id"	
+
+        public string DeviceMonthRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel)
+        {
+            if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
+                return Global.RETURN_ERROR("部门编号不能全部为空");
+            ProductionLinesServer pls = new ProductionLinesServer();
+            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            ReportServer rps = new ReportServer();
+            return rps.DeviceMonthRpt(begintime, lineids, devicemodel);
+
+        }
+
+
+        /// <param name=""begintime"">查询年份(*)
+        /// <param name=""endtime""> 结束日期(*)
+        /// <param name=""groupid"">集团id
+        /// <param name=""companyid"">公司id
+        /// <param name=""foundryid"">车间id
+        /// <param name=""ProductLineId"">产线id"
+        public string DeviceYearRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel)
+        {
+            if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
+                return Global.RETURN_ERROR("部门编号不能全部为空");
+            ProductionLinesServer pls = new ProductionLinesServer();
+            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            ReportServer rps = new ReportServer();
+            return rps.DeviceYearRpt(begintime, lineids, devicemodel);
+        }
+
+        public string DeviceErrDailyRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel, int islister1 = 1)
+        {
+
+            if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
+                return Global.RETURN_ERROR("部门编号不能全部为空");
+            ProductionLinesServer pls = new ProductionLinesServer();
+            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+
+            ReportServer rps = new ReportServer();
+            return rps.DeviceErrDailyRpt(begintime, lineids, devicemodel,islisterr);
+
+
+        }
+        /// <param name=""begintime"">开始日期(*)
+        /// <param name=""endtime""> 结束日期(*)
+        /// <param name=""groupid"">集团id
+        /// <param name=""companyid"">公司id
+        /// <param name=""foundryid"">车间id
+        /// <param name=""ProductLineId"">产线id"	
+        public string DeviceErrPhaseRpt(string begintime, string endtime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel,int islister1=1)
+        {
+            if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
+                return Global.RETURN_ERROR("部门编号不能全部为空");
+            ProductionLinesServer pls = new ProductionLinesServer();
+            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+
+            ReportServer rps = new ReportServer();
+            return rps.DeviceErrPhaseRpt(begintime, endtime, lineids, devicemodel,islisterr);
+
+
+        }
+
+        /// <param name=""begintime"">查询月份(*)
+        /// <param name=""endtime""> 结束日期(*)
+        /// <param name=""groupid"">集团id
+        /// <param name=""companyid"">公司id
+        /// <param name=""foundryid"">车间id
+        /// <param name=""ProductLineId"">产线id"	
+
+        public string DeviceErrMonthRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel, int islister1 = 1)
+        {
+            if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
+                return Global.RETURN_ERROR("部门编号不能全部为空");
+            ProductionLinesServer pls = new ProductionLinesServer();
+            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            ReportServer rps = new ReportServer();
+            return rps.DeviceErrMonthRpt(begintime, lineids, devicemodel, islisterr);
+
+        }
+
+
+        /// <param name=""begintime"">查询年份(*)
+        /// <param name=""endtime""> 结束日期(*)
+        /// <param name=""groupid"">集团id
+        /// <param name=""companyid"">公司id
+        /// <param name=""foundryid"">车间id
+        /// <param name=""ProductLineId"">产线id"
+        public string DeviceErrYearRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel, int islister1 = 1)
+        {
+            if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
+                return Global.RETURN_ERROR("部门编号不能全部为空");
+            ProductionLinesServer pls = new ProductionLinesServer();
+            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            ReportServer rps = new ReportServer();
+            return rps.DeviceErrYearRpt(begintime, lineids, devicemodel, islisterr);
+        }
     }
 }

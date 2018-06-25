@@ -752,6 +752,452 @@ namespace Bussiness.Report
         }
 
 
+        public string LineDailyRpt(string begintime, string lineids )
+        {
+         
+            string RSTSTR = string.Empty;
+            try
+            {
+                string querysql = "select t.* ,concat(round(runt*100/if(allt>0,allt,1),2),'%' ) as runrate, " +
+                   " concat(round(stopt * 100 /if (allt > 0,allt,1),2),'%' ) as stoprate,  " +
+                   " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
+                   " concat(round(offlinet * 100 /if (allt > 0,allt,1),2),'%' ) as offlinerate, " +
+                   " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate, " +
+                   " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate " +
+                   "  from( select  a.* , a.runt + a.stopt + a.warnt + offlinet as allt, b.productlinename from rptproductday a left " +
+                   "  join productlineinfo b on a.productlineid = b.productlineid  where a.productionT='" + begintime + "' and a.productlineid in (" + lineids+ ")) t";
 
+                DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+                RSTSTR = JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message);
+            }
+            return RSTSTR;
+        }
+
+        public string LineMonthRpt(string begintime, string lineids)
+        {
+
+            string RSTSTR = string.Empty;
+            try
+            {
+                string querysql = "select t.* , "+
+                " round(runt / days, 2) as Davgrunt,round(stopt / days, 2) as Davgstopt,round(warnt / days, 2) as Davgwarnt,round(offlinet / days, 2) as Davgofflinet, " +
+                " concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate, " +
+                " concat(round(stopt * 100 /if (allt > 0,allt,1),2),'%' ) as stoprate, " +
+                " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
+                " concat(round(offlinet * 100 /if (allt > 0,allt,1),2),'%' ) as offlinerate, " +
+                " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate, " +
+                " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate " +
+                "  from( select  a.*, a.runt + a.stopt + a.warnt + offlinet as allt, b.productlinename from rptproductmonth a left  join " +
+                " productlineinfo b on a.productlineid = b.productlineid where a.productionT='" + begintime + "' and a.productlineid in (" + lineids + ")) t ";
+
+                DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+                RSTSTR = JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message);
+            }
+            return RSTSTR;
+        }
+
+        public string LinePhaseRpt(string begintime, string endtime, string lineids)
+        {
+
+            string RSTSTR = string.Empty;
+            try
+            {
+                string querysql = "   select t.* ,  '"+begintime+"-"+endtime+"' as productionT,  "+
+               "   round(runt / days, 2) as Davgrunt,round(stopt / days, 2) as Davgstopt,round(warnt / days, 2) as Davgwarnt,round(offlinet / days, 2) as Davgofflinet,  " +
+               "   concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate,   " +
+               "   concat(round(stopt * 100 /if (allt > 0,allt,1),2),'%' ) as stoprate,  " +
+               "   concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate,   " +
+               "   concat(round(offlinet * 100 /if (allt > 0,allt,1),2),'%' ) as offlinerate,  " +
+               "   concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate,   " +
+               "   concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate  " +
+               "   from(select count(id) as days, sum(runt) as runt, sum(RunC) as RunC, sum(StopT) as StopT, sum(StopC) as StopC, sum(WarnT) as WarnT, sum(WarnC) as WarnC, sum(OffLineT) as OffLineT, sum(OffLineC) as OffLineC,  " +
+               "   sum(PlanPowerOnT) as PlanPowerOnT, sum(PowerOnT) as PowerOnT, sum(PowerOffT) as PowerOffT, sum(IsPlanPowerOn) as IsPlanPowerOn, sum(PlanShifts) as PlanShifts, sum(Shifts) as Shifts, sum(PlanWorkLoad) as PlanWorkLoad, sum(WorkLoad) as WorkLoad  " +
+               "   ,a.ProductLineId, productlinename, sum(a.runt + a.stopt + a.warnt + offlinet) as allt from rptproductday a left    join  " +
+               "  productlineinfo b on a.productlineid = b.productlineid where a.productionT >= '"+begintime+ "' and productionT <= '" + endtime + "' and  a.productlineid in (" + lineids + ") group by a.ProductLineId, productlinename) t ";
+
+
+
+               DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+                RSTSTR = JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message);
+            }
+            return RSTSTR;
+        }
+        public string LineYearRpt(string begintime, string lineids)
+        {
+
+            string RSTSTR = string.Empty;
+            try
+            {
+                string querysql = "select t.* , " +
+                " round(runt / days, 2) as Davgrunt,round(stopt / days, 2) as Davgstopt,round(warnt / days, 2) as Davgwarnt,round(offlinet / days, 2) as Davgofflinet, " +
+                " concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate, " +
+                " concat(round(stopt * 100 /if (allt > 0,allt,1),2),'%' ) as stoprate, " +
+                " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
+                " concat(round(offlinet * 100 /if (allt > 0,allt,1),2),'%' ) as offlinerate, " +
+                " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate, " +
+                " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate " +
+                "  from( select  a.*, a.runt + a.stopt + a.warnt + offlinet as allt, b.productlinename from rptproductyear a left  join " +
+                " productlineinfo b on a.productlineid = b.productlineid  where a.productionT='" + begintime + "' and a.productlineid in (" + lineids + ")) t";
+
+                DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+                RSTSTR = JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message);
+            }
+            return RSTSTR;
+        }
+
+        public string DeviceDailyRpt(string begintime, string lineids,string devicemodel)
+        {
+
+            string RSTSTR = string.Empty;
+            try
+            {
+                string querysql = "select t.* , "+ 
+                 " concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate,  "+
+                 " concat(round(freet * 100 /if (allt > 0,allt,1),2),'%' ) as freerate,  " +
+                 " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
+                 " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate, " +
+                 " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate " +
+                 " from(select a.*, b.productlinename, c.devicename, c.devicemodel, (a.runt + a.freet + a.warnt) as allt from rptdeviceday a " +
+                 " left  join productlineinfo b on a.productlineid = b.productlineid " +
+                 " left join deviceinfo c on a.deviceid = c.deviceid " +
+                 " where a.productionT ='" + begintime + "' and a.productlineid in ('" + lineids + "')";
+                if (devicemodel != null)
+                    querysql += " and c.devicemodel = '" + devicemodel + "'";
+
+                querysql += " ) t order by productlineid,deviceid";
+                   DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+                RSTSTR = JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message);
+            }
+            return RSTSTR;
+        }
+
+
+        public string DevicePhaseRpt(string begintime, string endtime, string lineids, string devicemodel)
+        {
+
+            string RSTSTR = string.Empty;
+            try
+            {
+                string querysql = "   select t.* ,  '"+begintime+"-"+endtime+"' as productionT,  "+
+                     " round(runt / days, 2) as Davgrunt,round(freet / days, 2) as Davgfreet,round(warnt / days, 2) as Davgwarnt, " +
+                     " concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate,   " +
+                     " concat(round(freet * 100 /if (allt > 0,allt,1),2),'%' ) as freerate, " +
+                     " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
+                     " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate,   " +
+                     " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate  " +
+                     " from(select a.*,  b.productlinename, c.devicename, c.devicemodel, (a.runt + a.freet + a.warnt) as allt from  " +
+                     " (select deviceid, productlineid, count(id) as days, sum(runt) as runt, sum(RunC) as RunC, sum(freet) as freet, sum(freec) as freec, sum(WarnT) as WarnT, sum(WarnC) as WarnC,  " +
+                     " sum(PlanPowerOnT) as PlanPowerOnT, sum(PowerOnT) as PowerOnT, sum(PowerOffT) as PowerOffT, sum(IsPlanPowerOn) as IsPlanPowerOn, sum(PlanWorkLoad) as PlanWorkLoad, sum(WorkLoad) as WorkLoad  " +
+                     " from rptdeviceday where productionT >= '" + begintime + "' and productionT <=  '" + begintime + "' and  productlineid in ('1,2') group by deviceid, productlineid)a  " +
+                     " left  join    productlineinfo b on a.productlineid = b.productlineid  left  join    deviceinfo c on a.deviceid = c.deviceid  ";
+                 
+                     if (devicemodel != null)
+                    querysql += " where  c.devicemodel = '" + devicemodel + "'";
+
+                querysql += " ) t order by productlineid,deviceid";
+                DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+                RSTSTR = JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message);
+            }
+            return RSTSTR;
+        }
+
+        public string DeviceMonthRpt(string begintime, string lineids, string devicemodel)
+        {
+
+            string RSTSTR = string.Empty;
+            try
+            {
+                string querysql = "select t.* , " +
+                 " round(runt / days, 2) as Davgrunt,round(freet / days, 2) as Davgfreet,round(warnt / days, 2) as Davgwarnt, " +
+                " concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate,  " +
+                 " concat(round(freet * 100 /if (allt > 0,allt,1),2),'%' ) as freerate,  " +
+                 " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
+                 " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate, " +
+                 " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate " +
+                 " from(select a.*, b.productlinename, c.devicename, c.devicemodel, (a.runt + a.freet + a.warnt) as allt from rptdevicemonth a " +
+                 " left  join productlineinfo b on a.productlineid = b.productlineid " +
+                 " left join deviceinfo c on a.deviceid = c.deviceid " +
+                 " where a.productionT ='" + begintime + "' and a.productlineid in ('" + lineids + "')";
+                if (devicemodel != null)
+                    querysql += " and c.devicemodel = '" + devicemodel + "'";
+
+                querysql += " ) t order by productlineid,deviceid";
+                DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+                RSTSTR = JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message);
+            }
+            return RSTSTR;
+        }
+        public string DeviceYearRpt(string begintime, string lineids, string devicemodel)
+        {
+
+            string RSTSTR = string.Empty;
+            try
+            {
+                string querysql = "select t.* , " +
+                 " round(runt / days, 2) as Davgrunt,round(freet / days, 2) as Davgfreet,round(warnt / days, 2) as Davgwarnt, " +
+                " concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate,  " +
+                 " concat(round(freet * 100 /if (allt > 0,allt,1),2),'%' ) as freerate,  " +
+                 " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
+                 " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate, " +
+                 " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate " +
+                 " from(select a.*, b.productlinename, c.devicename, c.devicemodel, (a.runt + a.freet + a.warnt) as allt from rptdeviceyear a " +
+                 " left  join productlineinfo b on a.productlineid = b.productlineid " +
+                 " left join deviceinfo c on a.deviceid = c.deviceid " +
+                 " where a.productionT ='" + begintime + "' and a.productlineid in ('" + lineids + "')";
+                if (devicemodel != null)
+                    querysql += " and c.devicemodel = '" + devicemodel + "'";
+
+                querysql += " ) t order by productlineid,deviceid";
+                DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+                RSTSTR = JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message);
+            }
+            return RSTSTR;
+        }
+
+
+        public string DeviceErrDailyRpt(string begintime, string lineids, string devicemodel,int   islisterr= 1)
+        {
+
+            string RSTSTR = string.Empty;
+            try
+            {
+                string querysql = string.Empty;
+                if(islisterr==1)
+                { 
+                  querysql = "select a.*, b.productlinename ,c.devicename,c.devicemodel,c.stationName,d.paraname as errname  from rptdeviceerrday a left  join productlineinfo b on a.productlineid = b.productlineid  " +
+                 " left join(select t.deviceid, t.devicename, t.devicemodel, t1.stationName from  deviceinfo t left join  " +
+                 "locationcfg t1 on t.productlineid= t1.productlineid and t.locationid= t1.locationid)  c on a.deviceid = c.deviceid "+
+                 " left join parainfo d on   a.errorn = d.paraid and d.paratype='ERRORN' " +
+                 " where a.productionT ='" + begintime + "' and a.productlineid in ('" + lineids + "')";
+                if (devicemodel != null)
+                    querysql += " and c.devicemodel = '" + devicemodel + "'";
+
+                querysql += "  order by productlineid,deviceid,errorn";
+                }
+                else
+                {
+                      querysql = "select a.*, b.productlinename ,c.devicename,c.devicemodel,c.stationName ,'全部' as errname from(  " +
+                    "  select deviceid, productiont, productlineid,'ALL' as ERRORN ,sum(warnt) as warnt,sum(warnC) as warnC   from rptdeviceerrday   " +
+                    "  where productionT = '" + begintime + "' and productlineid in ('" + lineids + "') group by deviceid , productionT,productlineid) " +
+                   "  a left  join productlineinfo b on a.productlineid = b.productlineid  " +
+                   "  left join(select t.deviceid, t.devicename, t.devicemodel, t1.stationName from  deviceinfo t left join  locationcfg t1 on" +
+                   " t.productlineid= t1.productlineid and t.locationid= t1.locationid)  c on a.deviceid = c.deviceid ";
+                     if (devicemodel != null)
+                        querysql += " where c.devicemodel = '" + devicemodel + "'";
+
+                    querysql += "    order by productlineid,deviceid";
+
+
+
+                }
+                   
+
+
+                DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+                RSTSTR = JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message);
+            }
+            return RSTSTR;
+        }
+        public string DeviceErrPhaseRpt(string begintime, string endtime, string lineids, string devicemodel, int islisterr = 1)
+        {
+
+            string RSTSTR = string.Empty;
+            try
+            {
+                string querysql = string.Empty;
+                if (islisterr == 1)
+                {
+                      querysql = " select '"+begintime+"-"+ endtime +"' as ProductionT, round(warnt/days,2) as  Davgwarnt,round(warnc/days,2) as  Davgwarnc,a.*, b.productlinename ,c.devicename,c.devicemodel,c.stationName from  " +
+                         " (select deviceid, productlineid, ERRORN, sum(warnt) as warnt, sum(warnC) as warnC, count(id) as days  from rptdeviceerrday    where productionT = '2018-06-25' and  productlineid in ('1') group by deviceid," +
+                        " productlineid, ERRORN) a left  join productlineinfo b on a.productlineid = b.productlineid "+
+                   "    left join(select t.deviceid, t.devicename, t.devicemodel, t1.stationName from  deviceinfo t left join  locationcfg t1 on t.productlineid= t1.productlineid and t.locationid= t1.locationid)  c on a.deviceid = c.deviceid " +
+                   "   left join parainfo d on a.errorn = d.paraid and d.paratype = 'ERRORN'  ";
+                     if (devicemodel != null)
+                        querysql += " where c.devicemodel = '" + devicemodel + "'";
+
+                    querysql += "   order by productlineid,deviceid,errorn";
+                }
+                else
+                {
+                      querysql = "select  '" + begintime + "-" + endtime + "' as ProductionT, round(warnt/days,2) as  Davgwarnt,round(warnc/days,2) as  Davgwarnc,a.*, b.productlinename ,c.devicename,c.devicemodel,c.stationName ,'全部' as errname from(  " +
+                    "  select deviceid,  productlineid,'ALL' as ERRORN ,sum(warnt) as warnt,sum(warnC) as warnC ,count(id) as days  from rptdeviceerrday   " +
+                    "  where productionT = '" + begintime + "' and productlineid in ('" + lineids + "') group by deviceid ,productlineid) " +
+                   "  a left  join productlineinfo b on a.productlineid = b.productlineid  " +
+                   "  left join(select t.deviceid, t.devicename, t.devicemodel, t1.stationName from  deviceinfo t left join  locationcfg t1 on" +
+                   " t.productlineid= t1.productlineid and t.locationid= t1.locationid)  c on a.deviceid = c.deviceid ";
+                    if (devicemodel != null)
+                        querysql += " and c.devicemodel = '" + devicemodel + "'";
+
+                    querysql += "   order by productlineid,deviceid";
+
+
+
+                }
+
+
+
+                DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+                RSTSTR = JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message);
+            }
+            return RSTSTR;
+        }
+        public string DeviceErrMonthRpt(string begintime, string lineids, string devicemodel, int islisterr = 1)
+        {
+
+            string RSTSTR = string.Empty;
+            try
+            {
+                 string querysql = string.Empty;
+                if (islisterr == 1)
+                {
+                      querysql = "select   round(warnt/days,2) as  Davgwarnt,round(warnc/days,2) as  Davgwarnc, a.*, b.productlinename ,c.devicename,c.devicemodel,c.stationName,d.paraname as errname  from rptdeviceerrmonth a left  join productlineinfo b on a.productlineid = b.productlineid  " +
+                     " left join(select t.deviceid, t.devicename, t.devicemodel, t1.stationName from  deviceinfo t left join  " +
+                     "locationcfg t1 on t.productlineid= t1.productlineid and t.locationid= t1.locationid)  c on a.deviceid = c.deviceid " +
+                     " left join parainfo d on   a.errorn = d.paraid and d.paratype='ERRORN' " +
+                     " where a.productionT ='" + begintime + "' and a.productlineid in ('" + lineids + "')";
+                    if (devicemodel != null)
+                        querysql += " and c.devicemodel = '" + devicemodel + "'";
+
+                    querysql += "  order by productlineid,deviceid,errorn";
+                }
+                else
+                {
+                      querysql = "select   round(warnt/days,2) as  Davgwarnt,round(warnc/days,2) as  Davgwarnc, a.*, b.productlinename ,c.devicename,c.devicemodel,c.stationName ,'全部' as errname from(  " +
+                    "  select deviceid, productiont, productlineid,'ALL' as ERRORN ,sum(warnt) as warnt,sum(warnC) as warnC ,max(days) as days  from rptdeviceerrmonth   " +
+                    "  where productionT = '" + begintime + "' and productlineid in ('" + lineids + "') group by deviceid , productionT,productlineid) " +
+                   "  a left  join productlineinfo b on a.productlineid = b.productlineid  " +
+                   "  left join(select t.deviceid, t.devicename, t.devicemodel, t1.stationName from  deviceinfo t left join  locationcfg t1 on" +
+                   " t.productlineid= t1.productlineid and t.locationid= t1.locationid)  c on a.deviceid = c.deviceid ";
+                    if (devicemodel != null)
+                        querysql += " where c.devicemodel = '" + devicemodel + "'";
+
+                    querysql += "   order by productlineid,deviceid";
+
+
+
+                }
+
+
+
+                DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+                RSTSTR = JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message);
+            }
+            return RSTSTR;
+        }
+        public string DeviceErrYearRpt(string begintime, string lineids, string devicemodel, int islisterr = 1)
+        {
+
+            string RSTSTR = string.Empty;
+            try
+            {
+                string querysql = string.Empty;
+                if (islisterr == 1)
+                {
+                      querysql = "select   round(warnt/days,2) as  Davgwarnt,round(warnc/days,2) as  Davgwarnc, a.*, b.productlinename ,c.devicename,c.devicemodel,c.stationName,d.paraname as errname  from rptdeviceerryear a left  join productlineinfo b on a.productlineid = b.productlineid  " +
+                     " left join(select t.deviceid, t.devicename, t.devicemodel, t1.stationName from  deviceinfo t left join  " +
+                     "locationcfg t1 on t.productlineid= t1.productlineid and t.locationid= t1.locationid)  c on a.deviceid = c.deviceid " +
+                     " left join parainfo d on   a.errorn = d.paraid and d.paratype='ERRORN' " +
+                     " where a.productionT ='" + begintime + "' and a.productlineid in ('" + lineids + "')";
+                    if (devicemodel != null)
+                        querysql += " and c.devicemodel = '" + devicemodel + "'";
+
+                    querysql += "  order by productlineid,deviceid,errorn";
+                }
+                else
+                {
+                      querysql = "select   round(warnt/days,2) as  Davgwarnt,round(warnc/days,2) as  Davgwarnc, a.*, b.productlinename ,c.devicename,c.devicemodel,c.stationName ,'全部' as errname from(  " +
+                    "  select deviceid, productiont, productlineid,'ALL' as ERRORN ,sum(warnt) as warnt,sum(warnC) as warnC,max(days) as days,max(months) as months   from rptdeviceerryear   " +
+                    "  where productionT = '" + begintime + "' and productlineid in ('" + lineids + "') group by deviceid , productionT,productlineid) " +
+                   "  a left  join productlineinfo b on a.productlineid = b.productlineid  " +
+                   "  left join(select t.deviceid, t.devicename, t.devicemodel, t1.stationName from  deviceinfo t left join  locationcfg t1 on" +
+                   " t.productlineid= t1.productlineid and t.locationid= t1.locationid)  c on a.deviceid = c.deviceid ";
+                    if (devicemodel != null)
+                        querysql += " where c.devicemodel = '" + devicemodel + "'";
+
+                    querysql += "   order by productlineid,deviceid";
+
+
+
+                }
+
+
+
+                DataTable dt = MySqlHelper.ExecuteQuery(querysql);
+
+                RSTSTR = JsonConvert.SerializeObject(dt);
+
+            }
+            catch (Exception ex)
+            {
+                return Global.RETURN_ERROR(ex.Message);
+            }
+            return RSTSTR;
+        }
     }
 }
