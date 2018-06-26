@@ -1,6 +1,12 @@
 ﻿//实例总参数
 var UrlObj = {} //url参数对象
 
+if (!String.prototype.trim) {
+    String.prototype.trim = function () {
+        return this.replace(/(^[\s\n\t]+|[\s\n\t]+$)/g, "");
+    }
+}
+
 function getLocalObj(name) {
     return JSON.parse(localStorage.getItem(name))
 }
