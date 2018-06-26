@@ -149,7 +149,7 @@ namespace Bussiness.ProductionLines
             return dt;
 
         }
-
+        
         public string GetLineTreeList(string role = "01", int departid = 1)
         {
             DataTable dt = new DataTable();
@@ -253,7 +253,7 @@ namespace Bussiness.ProductionLines
         }
 
         public string ProductionCalSet(int ProductLineId ,int ProductionBeat,int ProductionShifts,
-            string ProductionDays, string oper)
+            string ProductionDays, string ProductionTimes, string oper)
         {
             string retstr = string.Empty;
            
@@ -261,9 +261,9 @@ namespace Bussiness.ProductionLines
             {
 
                 string strsql = string.Format("update  productlineinfo set  ProductionBeat={0} , " +
-                    " ProductionShifts={1} ," +
-                    " ProductionDays='{2}'  " +
-                    " where ProductLineId= {3}", ProductionBeat, ProductionShifts, ProductionDays, ProductLineId);
+                    " ProductionShifts={1} ," + " ProductionTimes={2} ," +
+                    " ProductionDays='{3}'  " +
+                    " where ProductLineId= {4}", ProductionBeat, ProductionShifts, ProductionTimes, ProductionDays, ProductLineId);
                  
                 int anum = MySqlHelper.ExecuteSql(strsql);
 

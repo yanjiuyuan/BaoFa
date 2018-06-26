@@ -26,7 +26,10 @@ namespace Common.LogHelper
         {
             loger = LogManager.GetLogger(type);
         }
-
+        private Logger(string type)
+        {
+            loger = LogManager.GetLogger(type);
+        }
         /// <summary>
         /// 创建Logger
         /// </summary>
@@ -35,6 +38,11 @@ namespace Common.LogHelper
         public static Logger CreateLogger(Type type)
         {
             return new Logger(type);
+        }
+
+        public static Logger GetLogger(string loggname)
+        {
+            return new Logger(loggname);
         }
 
         /// <summary>

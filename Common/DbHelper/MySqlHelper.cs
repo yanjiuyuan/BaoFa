@@ -3,6 +3,8 @@ using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -215,7 +217,7 @@ namespace Common.DbHelper
                     connection.Open();
                     cmd.CommandText = sql;
                     using (MySqlDataReader reader = cmd.ExecuteReader())
-                    {
+                    { 
                         using (DataSet ds = new DataSet() { EnforceConstraints = false })
                         {
                             ds.Tables.Add(table);
@@ -448,6 +450,82 @@ namespace Common.DbHelper
             }
         }
         #endregion
+        #region 插入DataTable数据
+        public static void BatchInsert(DataTable table, string tablename,int batchSize = 10000)
+        { 
+                if (table.Rows.Count == 0)
+                {
+                    return;
+                }
+            using (MySqlConnection connection = new MySqlConnection(connstr))
+            {
+                using (MySqlCommand cmd = connection.CreateCommand())
+                {
+                    try
+                    {
 
+                        connection.Open();
+                        cmd.CommandText = GenSql(table, tablename);
+                        cmd.ExecuteNonQuery();
+
+                    }
+                    catch (Exception exp)
+                    {
+                        throw new Exception(exp.Message);
+                    }
+                    finally
+                    {
+
+                        cmd.Dispose();
+                        connection.Close();
+                    }
+                }   
+            }
+
+        }
+        public static string GenSql(DataTable dt,string tablename)
+        {
+            List<string> listsql = new List<string>();
+            string head= "insert into " + tablename + "(";
+            string cols = "";
+            string mid = ") values ";
+       
+            string tail = ";";
+            StringBuilder headbuild = new StringBuilder();
+            headbuild.Append(head);
+            List<string> colnames = new List<string>();
+            List<string> values = new List<string>();
+            foreach (DataColumn s in  dt.Columns)
+            {
+                colnames.Add(s.ColumnName); 
+            }
+            headbuild.Append(string.Join(",", colnames));
+            headbuild.Append(mid);
+             for (int i=0;i<dt.Rows.Count;i++)
+            {
+                StringBuilder rowbuild = new StringBuilder("(");
+                foreach (DataColumn s in dt.Columns)
+                {
+                    if (s.DataType == Type.GetType("System.Int32"))
+                        rowbuild.Append(dt.Rows[i][s.ColumnName]);
+                    else
+                    {
+                        rowbuild.Append("'");
+                        rowbuild.Append(dt.Rows[i][s.ColumnName]);
+                        rowbuild.Append("'");
+                    }
+                    rowbuild.Append(",");
+                }
+                if (rowbuild.Length > 0)
+                    rowbuild.Remove(rowbuild.Length - 1, 1);
+                rowbuild.Append(")");
+                values.Add(rowbuild.ToString());
+            }
+            headbuild.Append(string.Join(",", values));
+            headbuild.Append(tail);
+            return headbuild.ToString();
+        }
+
+    #endregion
     }
 }
