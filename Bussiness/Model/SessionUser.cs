@@ -18,6 +18,6 @@ namespace Bussiness.Model
 
         public string lstlogintime { get; set; }
 
-        
+        public string lines { get; set; }
     }
 }

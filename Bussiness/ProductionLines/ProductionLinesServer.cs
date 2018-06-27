@@ -149,7 +149,47 @@ namespace Bussiness.ProductionLines
             return dt;
 
         }
-        
+        public string  GetLinesStr(int? groupid , int? companyid, int? foundryid, int? ProductLineId)
+        {
+            DataTable dt = new DataTable();
+            string lines = string.Empty;
+            List<string> linelist = new List<string>();
+            string strsql = string.Empty;
+            try
+            {
+
+                strsql = " select t1.* ,d.groupname from (select t.*, c.companyname ,c.groupid  from (select a.ProductLineId, a.ProductLineName, b.foundryid, b.foundryname ,b.companyid  " +
+                      " from productlineinfo a left join foundryinfo b  on a.foundryid = b.foundryid  where a.status =1 ) t  " +
+                     " left join companyinfo c   on t.companyid = c.companyid ) t1 " +
+                  "left join groupinfo d on t1.groupid = d.groupid " +
+                    "  where 1=1  ";
+                if (ProductLineId!=null)
+                    strsql += " and  t1.ProductLineId=" + ProductLineId;
+            
+                else if (foundryid!=null)
+                    strsql += " and  t1.foundryid=" + foundryid;
+                
+                else if (companyid!=null)
+                    strsql += " and  t1.companyid=" + companyid;
+
+                else if(groupid!=null)
+                    strsql += " and  t1.groupid=" + groupid;
+
+
+                strsql += " order by groupid,companyid,foundryid,ProductLineId";
+
+                dt = MySqlHelper.ExecuteQuery(strsql);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+
+            }
+            for (int i = 0; i < dt.Rows.Count; i++)
+                linelist.Add(Convert.ToString(dt.Rows[i]["ProductLineId"]));
+            return string.Join(",",linelist.ToArray());
+
+        }
         public string GetLineTreeList(string role = "01", int departid = 1)
         {
             DataTable dt = new DataTable();
