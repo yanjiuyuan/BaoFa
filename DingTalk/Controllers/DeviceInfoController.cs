@@ -58,7 +58,7 @@ namespace DingTalk.Controllers
 
 
         public string DeviceAdd(string DeviceId,string DeviceName,string DeviceType,string DeviceModel,string ComAddress
-            , int ProductLineId,int LocationId,string OnlineDate,string OfflineDate,int DeviceStat )
+            , int? ProductLineId,int? LocationId,string OnlineDate,string OfflineDate,int? DeviceStat )
         {
             DevicesServer dev = new DevicesServer();
            
@@ -87,7 +87,7 @@ namespace DingTalk.Controllers
 
 
         public string DeviceSave(string DeviceId, string DeviceName, string DeviceType, string DeviceModel, string ComAddress
-          , int ProductLineId, int LocationId, string OnlineDate, string OfflineDate, int DeviceStat)
+          , int?  ProductLineId, int?  LocationId, string OnlineDate, string OfflineDate, int ?DeviceStat)
         {
             DevicesServer dev = new DevicesServer();
 

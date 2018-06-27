@@ -80,7 +80,7 @@ namespace Bussiness.ProductionLines
         }
 
         public string DeviceAdd(string DeviceId, string DeviceName, string DeviceType, string DeviceModel, string ComAddress
-           , int ProductLineId, int LocationId, string OnlineDate, string OfflineDate, int DeviceStat,string oper)
+           , int? ProductLineId, int? LocationId, string OnlineDate, string OfflineDate, int? DeviceStat,string oper)
 
         {
             string retstr = string.Empty;
@@ -90,12 +90,21 @@ namespace Bussiness.ProductionLines
                 string strTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 //进行MD5 加密
 
-                string strSql = string.Format("insert into  deviceinfo set " +
+                string sql = "insert into  deviceinfo set " +
                     "DeviceId='{0}',DeviceName='{1}',DeviceType='{2}',DeviceModel='{3}'," +
-                    "ComAddress='{4}',ProductLineId={5},LocationId={6},OnlineDate='{7}'," +
-                    "OfflineDate='{8}',DeviceStat={9},CT='{10}',Operator='{11}' ",
+                    "ComAddress='{4}',OnlineDate='{5}'," +
+                    "OfflineDate='{6}',CT='{7}',Operator='{8}'";
+                if (ProductLineId != null)
+                    sql += " ,ProductLineId={9}";
+                if (LocationId != null)
+                    sql += " ,LocationId={10}";
+                if (DeviceStat != null)
+                    sql += " ,DeviceStat={11}";
+                string strSql=string.Format(sql ,
                       DeviceId,   DeviceName,   DeviceType,   DeviceModel,   ComAddress
-                ,   ProductLineId,   LocationId,   OnlineDate,   OfflineDate,   DeviceStat, strTime, oper);
+               ,   OnlineDate,   OfflineDate,   strTime, oper, ProductLineId==null?0:(int)ProductLineId,
+                    LocationId == null ? 0 : (int)LocationId,
+                    DeviceStat == null ? 0 : (int)DeviceStat );
 
 
                 int anum = MySqlHelper.ExecuteSql(strSql);
@@ -116,7 +125,7 @@ namespace Bussiness.ProductionLines
 
 
         public string DeviceSave(string DeviceId, string DeviceName, string DeviceType, string DeviceModel, string ComAddress
-           , int ProductLineId, int LocationId, string OnlineDate, string OfflineDate, int DeviceStat, string oper)
+           , int? ProductLineId, int? LocationId, string OnlineDate, string OfflineDate, int? DeviceStat, string oper)
 
         {
             string retstr = string.Empty;
@@ -125,13 +134,24 @@ namespace Bussiness.ProductionLines
             {
                 string strTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                 //进行MD5 加密
+                string sql = "update  deviceinfo set" +
+                  " DeviceName='{1}',DeviceType='{2}',DeviceModel='{3}'," +
+                  " ComAddress='{4}',OnlineDate='{5}'," +
+                  " OfflineDate='{6}',CT='{7}',Operator='{8}'";
+                if (ProductLineId != null)
+                    sql += " ,ProductLineId={9}";
+                if (LocationId != null)
+                    sql += " ,LocationId={10}";
+                if (DeviceStat != null)
+                    sql += " ,DeviceStat={11}";
 
-                string strSql = string.Format("update  deviceinfo set " +
-                    " DeviceName='{1}',DeviceType='{2}',DeviceModel='{3}'," +
-                    "ComAddress='{4}',ProductLineId={5},LocationId={6},OnlineDate='{7}'," +
-                    "OfflineDate='{8}',DeviceStat={9},CT='{10}',Operator='{11}' where DeviceId='{0}'",
+                sql += " where DeviceId='{0}'";
+                string strSql = string.Format(sql,
                       DeviceId, DeviceName, DeviceType, DeviceModel, ComAddress
-                , ProductLineId, LocationId, OnlineDate, OfflineDate, DeviceStat, strTime, oper);
+               , OnlineDate, OfflineDate, strTime, oper, ProductLineId == null ? 0 : (int)ProductLineId,
+                    LocationId == null ? 0 : (int)LocationId,
+                    DeviceStat == null ? 0 : (int)DeviceStat);
+                 
 
 
                 int anum = MySqlHelper.ExecuteSql(strSql);
