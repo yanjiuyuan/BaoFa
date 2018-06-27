@@ -13,7 +13,6 @@
                 <el-input v-model="ruleForm.userName" style="width:100px;" :disabled="!isAdd"></el-input>
             </el-form-item>
             <el-form-item label="用户角色(必填)" prop="iRole">
-                @*<el-input v-model="ruleForm.iRole" style="width:100px;"></el-input>*@
                 <el-select v-model="ruleForm.iRole" placeholder="请选择">
                     <el-option v-for="role in roleList"
                                :key="role.roleid"
@@ -22,16 +21,9 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            @*<el-form-item label="部门Id(必填)" prop="strCompanyId">
-                <el-input v-model="ruleForm.strCompanyId" style="width:100px;"></el-input>
-            </el-form-item>*@
-                @*<el-form-item label="部门名称(必填)" prop="strCompanyName">
-                <el-input v-model="ruleForm.strCompanyName" style="width:100px;"></el-input>
-            </el-form-item>*@
             <el-form-item label="部门名称(必填)" prop="strCompanyName">
-                @*<el-input v-model="ruleForm.iRole" style="width:100px;"></el-input>*@
-                <el-select v-model="ruleForm.strCompanyName" placeholder="请选择">
-                    <el-option v-for="depart in departList"
+                <el-select v-model="ruleForm.strCompanyName" placeholder="请选择" :filter="false">
+                    <el-option v-for="depart in departList" :filter="false"
                                :key="depart.Value"
                                :label="depart.Value"
                                :value="depart.Value">
