@@ -89,6 +89,10 @@ namespace WebZhongZhi.Controllers
         {
             return View();
         }
+        public ActionResult ManagerDevice()
+        {
+            return View();
+        }
         public ActionResult NewPage()
         {
             return View();

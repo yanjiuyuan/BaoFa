@@ -377,6 +377,7 @@
     <Content Include="Views\Main\NewPage.cshtml" />
     <Content Include="Views\Main\BlankPage.cshtml" />
     <Content Include="Views\Main\ManagerUser.cshtml" />
+    <Content Include="Views\Main\ManagerDevice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bussiness\Bussiness.csproj">

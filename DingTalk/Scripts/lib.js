@@ -80,7 +80,8 @@ function _delCookie(name) {
         document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
 
-function _dateToString(date,split) {
+function _dateToString(date, split) {
+    if (!split) split = '-' 
     var d = new Date(date)
     var year = d.getFullYear()
     var month = d.getMonth()+1
@@ -172,6 +173,12 @@ var mixin = {
             ],
             strCompanyName: [
                 { required: true, message: '部门名称不能为空', trigger: 'blur' }
+            ],
+            DeviceId: [
+                { required: true, message: '设备Id不能为空', trigger: 'blur' }
+            ],
+            DeviceName: [
+                { required: true, message: '设备名称不能为空', trigger: 'blur' }
             ]
         },
         currentPage: 1,
