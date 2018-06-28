@@ -15,7 +15,7 @@
             <el-form-item label="机器名" prop="DeviceName">
                 <el-input v-model="ruleForm.DeviceName" style="width:100px;"></el-input>
             </el-form-item>
-            <el-form-item label="设备类型">
+            <el-form-item label="设备类型" prop="DeviceType">
                 <el-select v-model="ruleForm.DeviceType" placeholder="请选择">
                     <el-option v-for="d in deviceTypeList"
                                :key="d.key"
@@ -24,17 +24,30 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="设备型号">
+            <el-form-item label="设备型号" prop="DeviceModel">
                 <el-input v-model="ruleForm.DeviceModel" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="通信地址">
                 <el-input v-model="ruleForm.ComAddress" style="width:500px;"></el-input>
             </el-form-item>
-            <el-form-item label="产线编号">
-                <el-input v-model="ruleForm.ProductLineId" style="width:100px;"></el-input>
+            <el-form-item label="生产线">
+                <el-select v-model="ruleForm.ProductLineId" placeholder="请选择" v-on:change="selectLine">
+                    <el-option v-for="d in ProductLineList"
+                               :key="d.ProductLineId"
+                               :label="d.ProductLineId"
+                               
+                               :value="d.ProductLineId">
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="工位编号">
-                <el-input v-model="ruleForm.LocationId" style="width:100px;"></el-input>
+                <el-select v-model="ruleForm.LocationId" placeholder="请选择">
+                    <el-option v-for="d in MachineLocationList"
+                               :key="d.locationid"
+                               :label="d.locationid"
+                               :value="d.locationid">
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="上线日期">
                 <el-date-picker v-model="ruleForm.OnlineDate"
@@ -48,7 +61,7 @@
                                 placeholder="选择日期">
                 </el-date-picker>
             </el-form-item>
-            <el-form-item label="设备状态">
+            <el-form-item label="设备状态" prop="DeviceStat">
                 <el-select v-model="ruleForm.DeviceStat" placeholder="请选择">
                     <el-option v-for="d in deviceStateList"
                                :key="d.key"
@@ -115,8 +128,8 @@
                 lineData: lineData,
                 data: [],
                 tableData: [],
-                roleList: [],
-                departList: [],
+                ProductLineList: [],
+                MachineLocationList: [],
                 disableAdd: false,
                 isAdd: true,
                 dialogFormVisible: false,
@@ -199,34 +212,38 @@
                     }
                 })
             },
-            //获取角色列表
-            getRoleList: function () {
+            //获取产线列表
+            getLineList: function () {
                 var that = this
                 $.ajax({
-                    url: "/Register/GetRoleList",
+                    url: "/ProductionLines/GetLineList",
                     success: function (data) {
-                        that.roleList = JSON.parse(data)
-                        console.log('//获取角色列表')
+                        that.ProductLineList = JSON.parse(data)
+                        console.log('//获取产线列表')
                         console.log(data)
-                        
                     },
                     error: function (err) {
                         console.error(err)
                     }
                 })
             },
-            //获取部门列表
-            getDepartList: function () {
+            //下拉选择生产线
+            selectLine: function (index) {
+                console.log('hello')
+                console.log(index)
+                this.getMachineLocationList(index)
+            },
+            //获取工位编号列表
+            getMachineLocationList: function (lineId) {
                 var that = this
                 $.ajax({
-                    url: "/Register/GetDepartList",
+                    url: "/WorkStations/GetMachineLocationList?lineid=" + lineId,
                     success: function (data) {
-                        that.departList = JSON.parse(data)
-                        for (let d of that.departList) {
-                            d.Value = d.Value.replace(/&nbsp;/g,'_')
-                        }
-                        console.log('//获取部门列表')
-                        console.log(that.departList)
+                        data = JSON.parse(data)
+                        that.MachineLocationList = data
+                        data.length > 0 ? that.ruleForm.LocationId = data[0].locationid : that.ruleForm.LocationId = ''
+                        console.log('//获取工位编号列表')
+                        console.log(that.MachineLocationList)
                     },
                     error: function (err) {
                         console.error(err)
@@ -270,7 +287,7 @@
                 var that = this
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        //that.disableAdd = true
+                        that.disableAdd = true
                         if (typeof (that.ruleForm.OnlineDate) != 'string')
                             that.ruleForm.OnlineDate = _dateToString(that.ruleForm.OnlineDate, '-')
                         if (typeof (that.ruleForm.OfflineDate) != 'string')
@@ -320,20 +337,35 @@
                     else if (r == 'DeviceType') {
                         for (let t of this.deviceTypeList)
                             if (row[r] == t.value) this.ruleForm[r] = t.key
-                    } else {
+                    }
+                    else if (r == 'DeviceType') {
+                        for (let t of this.deviceTypeList)
+                            if (row[r] == t.value) this.ruleForm[r] = t.key
+                    }
+                    else {
                         this.ruleForm[r] = row[r]
                     }
                 }
-                console.log('11111111111111111111111111')
-                console.log(this.ruleForm)
                 //this.ruleForm.userName = row.userName
             },
+            //删除设备
             handleDelete: function (index, row) {
-
+                var that = this
+                var url = '/DeviceInfo/DeviceDel?DeviceId=' + row.DeviceId
+                $.ajax({
+                    url: url,
+                    success: function (data) {
+                        console.log("删除设备ok")
+                        console.log(url)
+                        console.log(data)
+                        that.getDeviceList()
+                    }
+                })
             }
         },
         created: function () {
             this.getDeviceList({})
+            this.getLineList()
             loadHtml("mainPage", "partPage")
         }
     })
