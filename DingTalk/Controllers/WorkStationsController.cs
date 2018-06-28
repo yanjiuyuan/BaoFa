@@ -47,5 +47,14 @@ namespace DingTalk.Controllers
             return wServer.GetArtificialInfo(artificialid);
 
         }
+
+
+        public string GetMachineLocationList(  int lineid = 1)
+        {
+            WorkSataionsServer wServer = new WorkSataionsServer();
+            return wServer.GetMachineLocationList( lineid);
+
+
+        }
     }
 }

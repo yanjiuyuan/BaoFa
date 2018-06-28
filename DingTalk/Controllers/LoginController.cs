@@ -1,4 +1,5 @@
 ﻿using Bussiness;
+using Bussiness.ProductionLines;
 using Common.Cookie;
 using Newtonsoft.Json.Linq;
 using System;
@@ -51,11 +52,9 @@ namespace WebZhongZhi.Controllers
                     departid= Convert.ToInt32(json["departid"].ToString() ),
                     departname = json["departname"].ToString(),
                     roleid = json["role"].ToString(),
-                    lstlogintime = json["LoginTime"].ToString()
+                    lstlogintime = json["LoginTime"].ToString() 
 
                 };
-
-
                 System.Web.HttpContext.Current.Session["user"] = user;
                 //var loginName = strUserName;
                 //loginer.AuthToken = GetToken(loginName);

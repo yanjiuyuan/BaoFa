@@ -720,7 +720,7 @@ namespace Bussiness.AutoTask
                   "  insert into rptproductmonth  " +
                   "  SELECT null, ProductLineId, '{0}' as ProductionT, sum(RunT) as RunT, SUM(RunC) AS RunC, sum(StopT) as StopT, sum(StopC) StopT, sum(WarnT) as WarnT, " +
                   "  sum(WarnC) as WarnC, sum(OffLineT) as OffLineT, sum(OffLineC) as OffLineC, sum(PlanPowerOnT) as PlanPowerOnT, sum(PowerOnT) asPowerOnT, sum(PowerOffT) as PowerOffT, " +
-                  "  sum(IsPlanPowerOn) as PlanPowerOns, sum(PlanShifts) as PlanShifts, sum(Shifts) as Shi, sum(PlanWorkLoad) as PlanWorkLoad, sum(WorkLoad) as WorkLoad FROM rptproductday where ProductionT like '{0}%' group by ProductLineId"
+                  "  sum(IsPlanPowerOn) as PlanPowerOns, sum(PlanShifts) as PlanShifts, sum(Shifts) as Shi, sum(PlanWorkLoad) as PlanWorkLoad, sum(WorkLoad) as WorkLoad ,count(id) as Days FROM rptproductday where ProductionT like '{0}%' group by ProductLineId"
                   , monthstr);
             int insertC = MySqlHelper.ExecuteSql(strsql);
             logger.Info("产线生产统计月报数据插入数量：" + insertC);
@@ -746,7 +746,7 @@ namespace Bussiness.AutoTask
                   "  SELECT null as id, DeviceId, '{0}' as ProductionT, ProductLineId, sum(RunT) as RunT, SUM(RunC) AS RunC, sum(FreeT) as  freeT," +
                   " sum(FreeC) as freeC, sum(WarnT) as WarnT, sum(WarnC) as WarnC," +
                   " sum(PlanPowerOnT) as PlanPowerOnT, sum(PowerOnT) asPowerOnT, sum(PowerOffT) as PowerOffT," +
-                   " sum(IsPlanPowerOn) as PlanPowerOns, sum(PlanWorkLoad) as PlanWorkLoad, sum(WorkLoad) as WorkLoad FROM rptdeviceday where ProductionT like '{0}%'  group by DeviceId, ProductLineId"
+                   " sum(IsPlanPowerOn) as PlanPowerOns, sum(PlanWorkLoad) as PlanWorkLoad, sum(WorkLoad) as WorkLoad ,count(id) as Days FROM rptdeviceday where ProductionT like '{0}%'  group by DeviceId, ProductLineId"
                     , monthstr);
             int insertC = MySqlHelper.ExecuteSql(strsql);
             logger.Info("机器运行统计月报数据插入数量：" + insertC);
@@ -769,7 +769,7 @@ namespace Bussiness.AutoTask
 
             string strsql = string.Format(
                   "  insert into rptdeviceerrMonth  " +
-                  " SELECT null as  id, DeviceId, '{0}' as ProductionT, ProductLineId, ErrorN, sum(WarnT) as warnT, sum(WarnC) as WarnC " +
+                  " SELECT null as  id, DeviceId, '{0}' as ProductionT, ProductLineId, ErrorN, sum(WarnT) as warnT, sum(WarnC) as WarnC ,count(id) as Days " +
                   " FROM rptdeviceerrday where  ProductionT like '{0}%' group by DeviceId,ProductLineId,ErrorN "
                     , monthstr);
             int insertC = MySqlHelper.ExecuteSql(strsql);
@@ -797,7 +797,7 @@ namespace Bussiness.AutoTask
                   "  insert into rptproductyear  " +
                   "  SELECT null, ProductLineId, '{0}' as ProductionT, sum(RunT) as RunT, SUM(RunC) AS RunC, sum(StopT) as StopT, sum(StopC) StopT, sum(WarnT) as WarnT, " +
                   "  sum(WarnC) as WarnC, sum(OffLineT) as OffLineT, sum(OffLineC) as OffLineC, sum(PlanPowerOnT) as PlanPowerOnT, sum(PowerOnT) asPowerOnT, sum(PowerOffT) as PowerOffT, " +
-                  "  sum(PlanPowerOns) as PlanPowerOns, sum(PlanShifts) as PlanShifts, sum(Shifts) as Shi, sum(PlanWorkLoad) as PlanWorkLoad, sum(WorkLoad) as WorkLoad FROM rptproductMonth where ProductionT like '{0}%' group by ProductLineId"
+                  "  sum(PlanPowerOns) as PlanPowerOns, sum(PlanShifts) as PlanShifts, sum(Shifts) as Shi, sum(PlanWorkLoad) as PlanWorkLoad, sum(WorkLoad) as WorkLoad ,sum(days) as days,count(id) as months FROM rptproductMonth where ProductionT like '{0}%' group by ProductLineId"
                   , monthstr);
             int insertC = MySqlHelper.ExecuteSql(strsql);
             logger.Info("产线生产统计年报数据插入数量：" + insertC);
@@ -823,7 +823,7 @@ namespace Bussiness.AutoTask
                   "  SELECT null as id, DeviceId, '{0}' as ProductionT, ProductLineId, sum(RunT) as RunT, SUM(RunC) AS RunC, sum(FreeT) as  freeT," +
                   " sum(FreeC) as freeC, sum(WarnT) as WarnT, sum(WarnC) as WarnC," +
                   " sum(PlanPowerOnT) as PlanPowerOnT, sum(PowerOnT) asPowerOnT, sum(PowerOffT) as PowerOffT," +
-                   " sum(PlanPowerOns) as PlanPowerOns, sum(PlanWorkLoad) as PlanWorkLoad, sum(WorkLoad) as WorkLoad FROM rptdevicemonth where ProductionT like '{0}%'  group by DeviceId, ProductLineId"
+                   " sum(PlanPowerOns) as PlanPowerOns, sum(PlanWorkLoad) as PlanWorkLoad, sum(WorkLoad) as WorkLoad ,sum(days) as days,count(id) as months  FROM rptdevicemonth where ProductionT like '{0}%'  group by DeviceId, ProductLineId"
                     , monthstr);
             int insertC = MySqlHelper.ExecuteSql(strsql);
             logger.Info("机器运行统计年报数据插入数量：" + insertC);
@@ -845,7 +845,7 @@ namespace Bussiness.AutoTask
 
             string strsql = string.Format(
                   "  insert into rptdeviceerrYear " +
-                  " SELECT null as  id, DeviceId, '{0}' as ProductionT, ProductLineId, ErrorN, sum(WarnT) as warnT, sum(WarnC) as WarnC " +
+                  " SELECT null as  id, DeviceId, '{0}' as ProductionT, ProductLineId, ErrorN, sum(WarnT) as warnT, sum(WarnC) as WarnC ,sum(days) as days,count(id) as months " +
                   " FROM rptdeviceerrMonth where  ProductionT like '{0}%' group by DeviceId,ProductLineId,ErrorN "
                     , monthstr);
             int insertC = MySqlHelper.ExecuteSql(strsql);

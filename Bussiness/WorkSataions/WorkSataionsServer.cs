@@ -58,6 +58,23 @@ namespace Bussiness.WorkSataions
             }
            
         }
+        public string GetMachineLocationList(int lineid)
+        {
+            string retstr = string.Empty;
+            try
+            {
+                string strSql = " select locationid,stationname from locationcfg  WHERE productlineid =" + lineid +" and jobtype='机器' and state=1 order by locationseq ";
+                DataTable db = MySqlHelper.ExecuteQuery(strSql);
+                return JsonConvert.SerializeObject(db);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return Global.RETURN_ERROR(ex.Message);
+
+            }
+
+        }
 
     }
 }
