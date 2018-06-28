@@ -118,18 +118,19 @@ namespace DingTalk.Controllers
         public string ProductionCalSet()
         {
 
-            if (Request["ProductLineId"] == null || Request["ProductionBeat"] == null || Request["ProductionShifts"] == null || Request["ProductionDays"] == null)
+            if (Request["ProductLineId"] == null || Request["ProductionBeat"] == null || Request["ProductionShifts"] == null || Request["ProductionDays"] == null || Request["ProductionTimes"] == null)
                 return Global.RETURN_ERROR("参数不完整!");
 
             int ProductLineId = Convert.ToInt32(Request["ProductLineId"]);
             int ProductionBeat = Convert.ToInt32(Request["ProductionBeat"]);
             int ProductionShifts = Convert.ToInt32(Request["ProductionShifts"]);
+            int ProductionTimes = Convert.ToInt32(Request["ProductionTimes"]);
             string ProductionDays = Convert.ToString( Request["ProductionDays"]);
             string oper= Convert.ToString(HttpContext.Session["user"]==null?"": (HttpContext.Session["user"] as SessionUser).username);
              
 
             ProductionLinesServer pLinesServer = new ProductionLinesServer();
-            return  pLinesServer.ProductionCalSet(ProductLineId, ProductionBeat, ProductionShifts, ProductionDays, oper);
+            return  pLinesServer.ProductionCalSet(ProductLineId, ProductionBeat, ProductionShifts, ProductionDays, ProductionDays, oper);
         }
 
     }

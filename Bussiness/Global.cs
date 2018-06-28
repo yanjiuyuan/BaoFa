@@ -121,7 +121,57 @@ namespace Bussiness
             return retstr;
 
         }
+        public static string GetDbDate()
+        {
+            DataTable dt = new DataTable();
+            string retstr = string.Empty;
+            try
+            {
+
+                string strSql = "select   date_format(  curdate() ,'%Y-%m-%d') as nowday  ";
 
 
+                dt = MySqlHelper.ExecuteQuery(strSql);
+                if (dt.Rows.Count > 0)
+                {
+                    retstr = dt.Rows[0]["nowday"].ToString();
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                logger.Error(ex.Message);
+            }
+            return retstr;
+
+        }
+        public static bool IsWeekInList(string datestr,string days)
+        {
+            DateTime dt = Convert.ToDateTime(datestr);
+            int y = dt.Year;
+            int m = dt.Month;
+            int d = dt.Day;
+            int week = (d + 2 * m + 3 * (m + 1) / 5 + y + y / 4 - y / 100 + y / 400) % 7;
+            week = week + 1;//上面计算的，星期一是0
+            if (days.Contains(week.ToString()))
+                return true;
+            return false;
+
+        }
+        public static bool IsMonthLast(string datestr)
+        {
+            DateTime dt = Convert.ToDateTime(datestr);
+            return ( dt== dt.AddDays(1 - dt.Day).AddMonths(1).AddDays(-1));
+             
+        }
+
+        public static bool IsYearLast(string datestr)
+        {
+            DateTime dt = Convert.ToDateTime(datestr);
+            return (dt.Month==12 && dt == dt.AddDays(1 - dt.Day).AddMonths(1).AddDays(-1));
+
+        }
     }
 }
