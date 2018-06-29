@@ -336,7 +336,7 @@ namespace DingTalk.Controllers
             return rps.DeviceYearRpt(begintime, lineids, devicemodel);
         }
 
-        public string DeviceErrDailyRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel, int islister1 = 1)
+        public string DeviceErrDailyRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel, int islisterr = 1)
         {
 
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
@@ -355,7 +355,7 @@ namespace DingTalk.Controllers
         /// <param name=""companyid"">公司id
         /// <param name=""foundryid"">车间id
         /// <param name=""ProductLineId"">产线id"	
-        public string DeviceErrPhaseRpt(string begintime, string endtime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel,int islister1=1)
+        public string DeviceErrPhaseRpt(string begintime, string endtime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel,int islisterr = 1)
         {
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
@@ -375,7 +375,7 @@ namespace DingTalk.Controllers
         /// <param name=""foundryid"">车间id
         /// <param name=""ProductLineId"">产线id"	
 
-        public string DeviceErrMonthRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel, int islister1 = 1)
+        public string DeviceErrMonthRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel, int islisterr = 1)
         {
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
@@ -393,7 +393,7 @@ namespace DingTalk.Controllers
         /// <param name=""companyid"">公司id
         /// <param name=""foundryid"">车间id
         /// <param name=""ProductLineId"">产线id"
-        public string DeviceErrYearRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel, int islister1 = 1)
+        public string DeviceErrYearRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel, int islisterr = 1)
         {
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
