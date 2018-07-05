@@ -1,0 +1,392 @@
+﻿@{
+    Layout = null;
+}
+
+<!--右侧实体内容-->
+<script src="~/Scripts/echarts-all.js"></script>
+<el-main id="partPage">
+ 
+    <el-collapse v-model="activeNames">
+        <el-collapse-item :title="lineData[0].ProductLineName" name="1">
+            <el-form :model="form" class="demo-form-inline"
+                     size="medium" :rules="rules" ref="form">
+                <el-form-item label="功能选择" prop="date">
+                    <el-select v-model="form.dateOption" placeholder="请选择">
+                        <el-option v-for="d in dateOptions"
+                                   :key="d.key"
+                                   :label="d.value"
+                                   :value="d.key">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="日期选择" prop="date">
+                    <el-date-picker v-model="form.date"
+                                    type="date"
+                                    v-show="form.dateOption == 1"
+                                    @*value-format="yyyy-MM-dd"*@
+                                    placeholder="选择日期">
+                    </el-date-picker>
+                    <el-date-picker v-model="form.date"
+                                    v-show="form.dateOption == 2"
+                                    type="month"
+                                    @*value-format="yyyy-MM"*@
+                                    placeholder="选择月">
+                    </el-date-picker>
+                    <el-date-picker v-model="form.date"
+                                    v-show="form.dateOption == 3"
+                                    type="year"
+                                    @*value-format="yyyy"*@
+                                    placeholder="选择年">
+                    </el-date-picker>
+                    <el-date-picker v-model="form.dateRange"
+                                    type="daterange"
+                                    v-show="form.dateOption == 4"
+                                    :picker-options="pickerOptions"
+                                    range-separator="至"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期">
+                    </el-date-picker>
+                    <el-button type="primary" v-on:click="onFilter('form')">搜索</el-button>
+                </el-form-item>
+            </el-form>
+            <el-table :data="tableData" stripe border>
+                <el-table-column v-for="opt in allOptions" :prop="opt" :key="opt" :label="tableOptions[opt]"></el-table-column>
+            </el-table>
+            <!--图形展示-->
+            <div id="barChart" style="height:400px;width:49%;float:left;border:solid 1px rgb(128, 128, 128)"></div>
+            <div id="radarChart" style="height:400px;width:49%;float:left;border:solid 1px rgb(128, 128, 128)"></div>
+        </el-collapse-item>
+        <el-collapse-item :title="lineData[1].ProductLineName" name="2">
+            <div>暂无数据</div>
+        </el-collapse-item>
+    </el-collapse>
+</el-main>
+
+
+<script>
+    var radarChart, barChart, radarChart, barOption
+    var tableOptions = {
+        ProductLineId: "产线编号",
+        productlinename: "产线名",
+        ProductionT: "查询日期",
+        days: "天数",
+        RunC: "运行次数",
+        StopC: "停止次数",
+        WarnC: "报警次数",
+        OffLineC: "离线次数",
+        IsPlanPowerOn: "是否计划开机",
+        PlanShifts: "计划流转次数",
+        Shifts: "流转次数",
+        PlanWorkLoad: "计划产量",
+        WorkLoad: "实际产量"
+    }
+    var barTableConfig = {
+        runt: "运行时长",
+        StopT: "停止时长",
+        WarnT: "报警时长",
+        OffLineT: "离线时长",
+        PlanPowerOnT: "计划开机时长",
+        PowerOnT: "开机时长",
+        PowerOffT: "停机时长",
+        allt: "总时长"
+    }
+    var radarConfig = {
+        runrate: "运行率",
+        stoprate: "停止率",
+        warnrate: "报警率",
+        offlinerate: "离线率",
+        userate: "产线使用率",
+        activationate: "产线稼动率"
+    }
+    var averageTime = {
+        Davgrunt: "日平均运行时长",
+        Davgstopt: "日平均停止时长",
+        Davgwarnt: "日平均报警时长",
+        Davgofflinet: "日平均离线时长"
+    }
+    var allOptions = []
+    for (var c in tableOptions) {
+        if (typeof (c) == 'string') allOptions.push(c)
+    }
+    var demo = new Vue({
+        el: "#partPage",
+        mixins: [mixin],
+        data: function () {
+            return {
+                tableData: [],
+                lineData: getLocalObj("lineData"),
+                activeNames: ['1'],
+                dateOptions: [
+                    {
+                        key: 1,
+                        value: '按日统计'
+                    },
+                    {
+                        key: 2,
+                        value: '按月统计'
+                    },
+                    {
+                        key: 3,
+                        value: '按年统计'
+                    },
+                    {
+                        key: 4,
+                        value: '按阶段统计'
+                    }
+                ],
+                allOptions: allOptions,
+                tableOptions: tableOptions,
+                form: {
+                    dateOption: 0,
+                    dateRange: [],
+                    date: ''
+                }
+            }
+        },
+        methods: {
+            onFilter: function (formName) {
+                var that = this
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var year, month, day, dateRange = [], paramObj = {} 
+                        if (that.form.date) {
+                            year = that.form.date.getFullYear()
+                            month = that.form.date.getMonth() + 1
+                            day = that.form.date.getDate()
+                            if (month < 10) month = '0' + month
+                            if (day < 10) day = '0' + day
+                        }
+                        if (that.form.dateRange.length > 0) {
+                            dateRange.push(_dateToString(that.dateRange[0]))
+                            dateRange.push(_dateToString(that.dateRange[1]))
+                        }
+                        switch (that.form.dateOption) {
+                            case 1:
+                                paramObj = {
+                                    url: '/Reports/LineDailyRpt',
+                                    param: {
+                                        begintime: year + '-' + month + '-' + day,
+                                        groupid: 1
+                                    }
+                                }
+                                break;
+                            case 2:
+                                paramObj = {
+                                    url: '/Reports/LineMonthRpt',
+                                    param: {
+                                        begintime: year + '-' + month,
+                                        groupid: 1
+                                    }
+                                }
+                                break;
+                            case 3:
+                                paramObj = {
+                                    url: '/Reports/LineYearRpt',
+                                    param: {
+                                        begintime: year,
+                                        groupid: 1
+                                    }
+                                }
+                                break;
+                            case 4:
+                                paramObj = {
+                                    url: '/Reports/LinePhaseRpt',
+                                    param: {
+                                        begintime: dateRange[0],
+                                        endtime: dateRange[1],
+                                        groupid: 1
+                                    }
+                                }
+                                break;
+                        }
+                        console.log(paramObj)
+                        that.getRuntimeData(paramObj)
+                    } else {
+                        return false;
+                    }
+                });
+                return
+                //var lineData = getLocalObj("lineData")
+                //console.log(lineData)
+                //var date = new Date()
+                //var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+                
+            },
+            //获取运行状态数据
+            getRuntimeData: function (obj) {
+                var that = this
+                var url = obj.url + _formatQueryStr(obj.param)
+                $.ajax({
+                    url: url,
+                    //dataType: 'json',
+                    success: function (data) {
+                        data = JSON.parse(data)
+                        console.log('获取运行状态数据')
+                        console.log(url)
+                        console.log(data)
+                        that.tableData = data
+
+                        var yArr = [], radarArr = []
+                        for (let b in barTableConfig) data[b] == null ? yArr.push(0) : yArr.push(data[b])
+                        for (let r in radarConfig) data[r] == null ? radarArr.push(0) : radarArr.push(data[r])
+                        barOption.series[0].data = yArr
+                        barChart.setOption(barOption)
+                        myChart.addData([
+                            [
+                                1,        // 系列索引
+                                {         // 新增数据
+                                    name: '效率分析',
+                                    value: radarValue
+                                },
+                                false,     // 新增数据是否从队列头部插入
+                                false      // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
+                            ]
+                        ])
+                    },
+                    error: function (err) {
+                        console.error(err)
+                    }
+                })
+            },
+        },
+        created: function () {
+            var that = this
+            loadHtml("mainPage", "partPage")
+        }
+    })
+
+    //柱状图
+    barChart = echarts.init(document.getElementById('barChart'));
+    var barTable_xarr = [], barTable_yarr = []
+    for (let b in barTableConfig) {
+        barTable_xarr.push(barTableConfig[b])
+        barTable_yarr.push(0)
+    }
+    barOption = {
+        title: {
+            text: '时长统计(单位-小时)',
+            x: 'center'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                mark: { show: true },
+                dataView: { show: true, readOnly: false },
+                restore: { show: true },
+                saveAsImage: { show: true }
+            }
+        },
+        calculable: true,
+        grid: {
+            borderWidth: 0,
+            x: 0,
+            x2: 0,
+            y: 0,
+            y2: 0
+        },
+        xAxis: [
+            {
+                type: 'category',
+                show: false,
+                data: barTable_xarr
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                show: false
+            }
+        ],
+        series: [
+            {
+                type: 'bar',
+                itemStyle: {
+                    normal: {
+                        color: function (params) {
+                            // build a color map as your need.
+                            var colorList = [
+                                '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                                '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD',
+                                '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0'
+                            ];
+                            return colorList[params.dataIndex]
+                        },
+                        label: {
+                            show: true,
+                            position: 'top',
+                            formatter: '{b}\n{c}'
+                        }
+                    }
+                },
+                data: barTable_yarr
+            }
+        ]
+    };
+    barChart.setOption(barOption);
+    //雷达图
+    myChart = echarts.init(document.getElementById('radarChart'));
+    var radarName = [],radarValue = []
+    for (var r in radarConfig) {
+        radarName.push({
+            text: radarConfig[r]
+        })
+        radarValue.push(0)
+    }
+    option = {
+        title: {
+            text: '效率分析',
+            x: 'center'
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                restore: { show: true },
+                dataView: { show: true, readOnly: false },
+                saveAsImage: { show: true }
+            }
+        },
+        polar: [
+            {
+                indicator: radarName,
+                //center: [document.getElementById('chart').offsetWidth - 300, 225],
+                radius: 150
+            }
+        ],
+        calculable: false,
+        series: [
+            {
+                name: 'radar',
+                type: 'radar',
+                itemStyle: {
+                    normal: {
+                        color: function (params) {
+                            var dataIndex = params.dataIndex
+                            switch (dataIndex) {
+                                case 0: return 'rgb(0,184,0)'; break;
+                                case 1: return 'pink'; break;
+                                case 2: return 'rgb(230,200,0)'; break;
+                                case 3: return 'rgb(0,156,213)'; break;
+                                default: return 'rgb(213,35,33)';
+                            }
+                        },
+                        areaStyle: {
+                            color: 'rgba(151,229,151,0.7)',
+                            type: 'default'
+                        }
+
+                    }
+                },
+                data: [{
+                    name: '效率分析',
+                    value: radarValue
+                }]
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>
+
+

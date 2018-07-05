@@ -185,9 +185,15 @@ var mixin = {
             ],
             DeviceModel: [
                 { required: true, message: '设备型号不能为空', trigger: 'blur' }
-            ],
+            ], 
             DeviceStat: [
                 { required: true, message: '设备状态不能为空', trigger: 'blur' }
+            ],
+            date: [
+                { required: true, message: '日期不能为空', trigger: 'blur' }
+            ],
+            dateOptions: [
+                { required: true, message: '日期选项不能为空', trigger: 'blur' }
             ]
         },
         currentPage: 1,
