@@ -221,7 +221,7 @@ namespace DingTalk.Controllers
     /// <param name=""companyid"">公司id
     /// <param name=""foundryid"">车间id
     /// <param name=""ProductLineId"">产线id"	
-        public string LineDailyPhase(string begintime,string endtime, int? groupid, int? companyid, int? foundryid, int? ProductLineId)
+        public string LinePhaseRpt(string begintime,string endtime, int? groupid, int? companyid, int? foundryid, int? ProductLineId)
         {
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
@@ -241,7 +241,7 @@ namespace DingTalk.Controllers
         /// <param name=""foundryid"">车间id
         /// <param name=""ProductLineId"">产线id"	
 
-        public string LineDailyMonth(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId)
+        public string LineMonthRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId)
         {
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
@@ -259,7 +259,7 @@ namespace DingTalk.Controllers
         /// <param name=""companyid"">公司id
         /// <param name=""foundryid"">车间id
         /// <param name=""ProductLineId"">产线id"
-        public string LineDailyYear(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId)
+        public string LineYearRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId)
         {
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
