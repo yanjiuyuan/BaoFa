@@ -1,0 +1,231 @@
+﻿@{
+    Layout = null;
+}
+
+<!--右侧实体内容-->
+<script src="~/Scripts/echarts-all.js"></script>
+<el-main id="partPage">
+ 
+    <el-collapse v-model="activeNames">
+        <el-collapse-item :title="lineData[0].ProductLineName" name="1">
+            <el-form :model="form" class="demo-form-inline"
+                     size="medium" :rules="rules" ref="form">
+                <el-form-item label="功能选择" prop="date">
+                    <el-select v-model="form.dateOption" placeholder="请选择">
+                        <el-option v-for="d in dateOptions"
+                                   :key="d.key"
+                                   :label="d.value"
+                                   :value="d.key">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="日期选择" prop="date">
+                    <el-date-picker v-model="form.date"
+                                    type="date"
+                                    v-show="form.dateOption == 1"
+                                    @*value-format="yyyy-MM-dd"*@
+                                    placeholder="选择日期">
+                    </el-date-picker>
+                    <el-date-picker v-model="form.date"
+                                    v-show="form.dateOption == 2"
+                                    type="month"
+                                    @*value-format="yyyy-MM"*@
+                                    placeholder="选择月">
+                    </el-date-picker>
+                    <el-date-picker v-model="form.date"
+                                    v-show="form.dateOption == 3"
+                                    type="year"
+                                    @*value-format="yyyy"*@
+                                    placeholder="选择年">
+                    </el-date-picker>
+                    <el-date-picker v-model="form.dateRange"
+                                    type="daterange"
+                                    v-show="form.dateOption == 4"
+                                    :picker-options="pickerOptions"
+                                    range-separator="至"
+                                    start-placeholder="开始日期"
+                                    end-placeholder="结束日期">
+                    </el-date-picker>
+                    <el-button type="primary" v-on:click="onFilter('form')">搜索</el-button>
+                </el-form-item>
+            </el-form>
+            <el-table :data="tableData" stripe border>
+                <el-table-column v-for="opt in allOptions" :prop="opt" :key="opt" :label="tableOptions[opt]"></el-table-column>
+            </el-table>
+            <div style="text-align:right">
+                <el-pagination v-on:size-change="handleSizeChange"
+                               v-on:current-change="handleCurrentChange"
+                               :current-page="currentPage"
+                               :page-sizes="[1, 3, 5, 10]"
+                               :page-size="pageSize"
+                               layout="total, sizes, prev, pager, next, jumper"
+                               :total="totalRows">
+                </el-pagination>
+            </div>
+        </el-collapse-item>
+        <el-collapse-item :title="lineData[1].ProductLineName" name="2">
+            <div>暂无数据</div>
+        </el-collapse-item>
+    </el-collapse>
+</el-main>
+
+
+<script>
+    var radarChart, barChart, radarChart, barOption
+    var tableOptions = {
+        DeviceId: "机器编号",
+        devicename: "设备名",
+        devicemodel: "设备新型号",
+        //ProductionT: "查询日期",
+        ProductLineId: "产线编号 ",
+        productlinename: "产线名",
+        ErrorN : "报警分类",
+        WarnT: "报警时长（秒)",
+        WarnC: "报警次数 (次）",
+        errname: "报警分类描述",
+        stationName: "工位"
+    }
+    var averageTime = {
+        Davgwarnt: "日平均报警时长(秒）",
+        Davgwarnc: "日平均报警次数(次） ",
+        days: "天数"
+    }
+    var allOptions = []
+    for (var c in tableOptions) {
+        if (typeof (c) == 'string') allOptions.push(c)
+    }
+    var demo = new Vue({
+        el: "#partPage",
+        mixins: [mixin],
+        data: function () {
+            return {
+                data: [],
+                tableData: [],
+                lineData: getLocalObj("lineData"),
+                activeNames: ['1'],
+                dateOptions: [
+                    {
+                        key: 1,
+                        value: '按日统计'
+                    },
+                    {
+                        key: 2,
+                        value: '按月统计'
+                    },
+                    {
+                        key: 3,
+                        value: '按年统计'
+                    },
+                    {
+                        key: 4,
+                        value: '按阶段统计'
+                    }
+                ],
+                allOptions: allOptions,
+                tableOptions: tableOptions,
+                form: {
+                    dateOption: 0,
+                    dateRange: [],
+                    date: ''
+                }
+            }
+        },
+        methods: {
+            onFilter: function (formName) {
+                var that = this
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        var year, month, day, dateRange = [], paramObj = {} 
+                        if (that.form.date) {
+                            year = that.form.date.getFullYear()
+                            month = that.form.date.getMonth() + 1
+                            day = that.form.date.getDate()
+                            if (month < 10) month = '0' + month
+                            if (day < 10) day = '0' + day
+                        }
+                        if (that.form.dateRange.length > 0) {
+                            dateRange.push(_dateToString(that.dateRange[0]))
+                            dateRange.push(_dateToString(that.dateRange[1]))
+                        }
+                        switch (that.form.dateOption) {
+                            case 1:
+                                paramObj = {
+                                    url: '/Reports/DeviceErrDailyRpt',
+                                    param: {
+                                        begintime: year + '-' + month + '-' + day,
+                                        groupid: 1
+                                    }
+                                }
+                                break;
+                            case 2:
+                                paramObj = {
+                                    url: '/Reports/DeviceErrMonthRpt',
+                                    param: {
+                                        begintime: year + '-' + month,
+                                        groupid: 1
+                                    }
+                                }
+                                break;
+                            case 3:
+                                paramObj = {
+                                    url: '/Reports/DeviceErrYearRpt',
+                                    param: {
+                                        begintime: year,
+                                        groupid: 1
+                                    }
+                                }
+                                break;
+                            case 4:
+                                paramObj = {
+                                    url: '/Reports/DeviceErrPhaseRpt',
+                                    param: {
+                                        begintime: dateRange[0],
+                                        endtime: dateRange[1],
+                                        groupid: 1
+                                    }
+                                }
+                                break;
+                        }
+                        console.log(paramObj)
+                        that.getRuntimeData(paramObj)
+                    } else {
+                        return false;
+                    }
+                });
+                return
+                //var lineData = getLocalObj("lineData")
+                //console.log(lineData)
+                //var date = new Date()
+                //var dateStr = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
+                
+            },
+            //获取运行状态数据
+            getRuntimeData: function (obj) {
+                var that = this
+                var url = obj.url + _formatQueryStr(obj.param)
+                $.ajax({
+                    url: url,
+                    //dataType: 'json',
+                    success: function (data) {
+                        data = JSON.parse(data)
+                        console.log('获取设备状态数据')
+                        console.log(url)
+                        console.log(data)
+                        that.data = data
+                        that.totalRows = data.length
+                        that.getData()
+                    },
+                    error: function (err) {
+                        console.error(err)
+                    }
+                })
+            },
+        },
+        created: function () {
+            var that = this
+            loadHtml("mainPage", "partPage")
+        }
+    })
+</script>
+
+

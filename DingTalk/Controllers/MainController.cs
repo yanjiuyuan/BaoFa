@@ -77,6 +77,10 @@ namespace WebZhongZhi.Controllers
         {
             return View();
         }
+        public ActionResult ChartDeviceErr()
+        {
+            return View();
+        }
         public ActionResult ChartDay()
         {
             return View();
