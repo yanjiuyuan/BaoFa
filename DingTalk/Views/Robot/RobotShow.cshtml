@@ -1,0 +1,57 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity WebGL Player | 3D</title>
+    <script src="/Build/UnityLoader.js"></script>
+    <script src="~/Scripts/jquery-3.2.1.min.js"></script>
+
+
+    <script>
+
+        var loaddone = 0;
+        var gameInstance = UnityLoader.instantiate("gameContainer", "/Build/buildweb.json");
+
+
+        function UnityLoadDone() {
+
+            console.log("LOAD DONE");
+            loaddone = 1;
+            //gameInstance.SendMessage("MC", "Select", configxml);
+
+        }
+        $(document).ready(function () {
+            var ws,ws1;
+            ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/api/RobotData/GetRobot");
+            ws.onopen = function () {
+                  if (ws.readyState == WebSocket.OPEN) {
+                    ws.send("1");
+                }  
+            };
+            ws.onerror = function () {
+                console.log("error");
+            };
+            ws.onclose = function () {
+                console.log("close");
+            };
+            ws.onmessage = function (result) {
+                console.log(x)
+                if (loaddone == 1) {
+                    var x = gameInstance.SendMessage("MC", "MessageIn", result.data);
+                 
+                }
+            };
+
+        });
+
+    </script>
+</head>
+<body style=" background-color: rgba( 100,149,237,0.2);">
+
+    <div id="gameContainer" style="width: 1560px; height: 768px; margin: auto"></div>
+</body>
+</html>

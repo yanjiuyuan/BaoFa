@@ -26,6 +26,7 @@ namespace DingTalk
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoTask.Initialize();
+            Bussiness.RobotData.init();
         }
     }
 

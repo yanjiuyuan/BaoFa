@@ -15,66 +15,58 @@ namespace Bussiness.ProductionLines
     public class ProductionLinesServer
     {
 
+        //修改完成  20180930
+
         private static Logger logger = Logger.CreateLogger(typeof(ProductionLinesServer));
-        public string GetProductionLinesData(int? ProductLineId, string ProductLineName
-            , int? CompanyId, string telephone, string registertime,
-            string role, string status, int? GroupId, int? FoundryId,
+        public string GetProductionLinesData(int? ProductLineId 
+            , string CompanyId, string telephone, string registertime,
+            string role, string status, string GroupId, string FoundryId,
             string IsEnable, string KeyWord
             , int? PageIndex = 0, int? PageSize = 5)
         {
-
+            DataTable dt = new DataTable();
+            string strsql = string.Empty;
+           
+           
+            //获取当前用户归属结构的机构层级关系
             try
-            {
-                int startRow = PageIndex.Value * PageSize.Value;
+            {  //查询归属的集团的BrnoDepth
+                  int startRow = PageIndex.Value * PageSize.Value;
                 StringBuilder sb = new StringBuilder();
-                sb.Append(" select * from (SELECT a.ProductLineId,a.ProductLineName,a.role,c.telephone,c.registertime,if(a.status=1,'启用','禁用') as  status " +
-                      ",d.groupid, d.GroupName,b.FoundryName,b.Foundryid,c.CompanyId,c.CompanyName  FROM huabao.`productlineinfo` a  left join huabao.`foundryinfo` b  on a.FoundryId=b.FoundryId left join huabao.`Companyinfo` c on b.companyid=c.companyid" +
-                    " left join groupinfo d on c.groupid=d.groupid) t1  ");
-                if (ProductLineId != null || ProductLineName != null || CompanyId != null || telephone != null || registertime != null
+                sb.Append(" select a.* from  productlineinfo a left join   (select Brno from branchinfo where  Level=3  )b on a.Brno=b.Brno  ");
+                if (ProductLineId != null ||    CompanyId != null || telephone != null || registertime != null
                     || role != null || status != null || IsEnable != null || KeyWord != null || FoundryId != null || GroupId != null)
                 {
                     sb.Append(" where 1=1 ");
                 }
                 if (KeyWord != null)
                 {
-                    string strWhereKeyWord = string.Format(
-                        " and ( ProductLineId like  '%{0}%' " +
-                        "   or  ProductLineName like  '%{0}%' " +
-                          "   or  CompanyName like  '%{0}%' " +
-                          "   or  GroupName like  '%{0}%' " +
-                           "   or FoundryName like  '%{0}%' " +
-                           "   or  telephone like  '%{0}%' " +
-                        "or role like  '%{0}%' ) ", KeyWord);
+                    string strWhereKeyWord = string.Format(" and  a.BrName like  '%{0}%'  ", KeyWord);
                     sb.Append(strWhereKeyWord);
                 }
-                if (ProductLineName != null)
-                {
-                    sb.Append(string.Format(" and ProductLineName='{0}' ", ProductLineName));
-                }
+                
                 if (ProductLineId != null)
                 {
-                    sb.Append(string.Format(" and ProductLineId='{0}'", ProductLineId));
+                    sb.Append(string.Format(" and a.ProductLineId='{0}'", ProductLineId));
                 }
                 if (CompanyId != null)
                 {
-                    sb.Append(string.Format(" and CompanyId='{0}'", CompanyId));
+                    sb.Append(string.Format(" and b.UpBrno='{0}'", CompanyId));
                 }
-                if (telephone != null)
-                {
-                    sb.Append(string.Format(" and telephone='{0}'", telephone));
-                }
+                 
                 if (FoundryId != null)
                 {
-                    sb.Append(string.Format(" and FoundryId='{0}'", FoundryId));
+                    sb.Append(string.Format(" and  b.Brno='{0}'", FoundryId));
                 }
                 if (GroupId != null)
                 {
-                    sb.Append(string.Format(" and GroupId='{0}'", GroupId));
+                    sb.Append(string.Format(" and BrnoDepth like '00,{0}%'", GroupId));
                 }
                 if (status != null)
                 {
                     sb.Append(string.Format(" and status='{0}'", status));
                 }
+                sb.Append(" Order by a.ProductLineID ");
                 int iRows = MySqlHelper.ExecuteQuery(sb.ToString()).Rows.Count;
                 string strWhereLimit = string.Format(" LIMIT {0},{1}", startRow, PageSize.Value);
 
@@ -99,7 +91,7 @@ namespace Bussiness.ProductionLines
             DataTable dt = new DataTable();
             try
             {
-                string strsql = "select * from groupinfo";
+                string strsql = "select * from branchinfo where Level=1";
 
 
                 dt = MySqlHelper.ExecuteQuery(strsql);
@@ -115,30 +107,18 @@ namespace Bussiness.ProductionLines
         }
 
 
-        public DataTable GetLinesList(string role="01", int departid=1)
+        public DataTable GetLinesList(string role="01", string brno = "01")
         {
             DataTable dt = new DataTable();
             string strsql = string.Empty;
+            int deplevel = Global.GetDepLevelByRole(role);
+            string BrnoDepth = Global.GetBrnoDepthByDepartID(deplevel, brno);
+            //获取当前用户归属结构的机构层级关系
             try
-            {
-
-        strsql = " select t1.* ,d.groupname from (select t.*, c.companyname ,c.groupid  from (select a.ProductLineId, a.ProductLineName, b.foundryid, b.foundryname ,b.companyid  " +
-              " from productlineinfo a left join foundryinfo b  on a.foundryid = b.foundryid  where a.status =1 ) t  " +
-             " left join companyinfo c   on t.companyid = c.companyid ) t1 " +
-          "left join groupinfo d on t1.groupid = d.groupid " +
-            "  where 1=1  ";
-                    if ("02".Equals(role))
-                        strsql += " and  t1.groupid=" + departid;
-                    else if ("03".Equals(role))
+            {  //查询归属的集团的BrnoDepth
+                    strsql = "select a.* from  productlineinfo a left join   (select Brno from branchinfo where  Level=3 and  BrnoDepth like '" + BrnoDepth+"%' )b on a.Brno=b.Brno  Order by a.Brno,a.ProductLineID";
+                    dt = MySqlHelper.ExecuteQuery(strsql);
                      
-                        strsql += " and  t1.companyid=" + departid;
-                    else if ("04".Equals(role))
-                    
-                        strsql += " and  t1.foundryid=" + departid;
-
-                strsql +=" order by groupid,companyid,foundryid,ProductLineId";
-
-                dt = MySqlHelper.ExecuteQuery(strsql);
             }
             catch (Exception ex)
             {
@@ -190,95 +170,76 @@ namespace Bussiness.ProductionLines
             return string.Join(",",linelist.ToArray());
 
         }
-        public string GetLineTreeList(string role = "01", int departid = 1)
+        public string GetLineTreeList(string role = "01", string brno="01")
         {
-            DataTable dt = new DataTable();
             List<Hashtable> list = new List<Hashtable>();
+            int deplevel = Global.GetDepLevelByRole(role);
+            string BrnoDepth = string.Empty;
+            string strsql= string.Empty;
+            //获取当前用户归属结构的机构层级关系
             try
             {
+                DataTable dt = new DataTable();
+                BrnoDepth = Global.GetBrnoDepthByDepartID(deplevel, brno);
 
-            string     strsql = " select t1.* ,d.groupname from (select t.*, c.companyname ,c.groupid  from (select a.ProductLineId, a.ProductLineName, b.foundryid, b.foundryname ,b.companyid  " +
-                    " from productlineinfo a left join foundryinfo b  on a.foundryid = b.foundryid ) t  " +
-                   " left join companyinfo c   on t.companyid = c.companyid ) t1 " +
-                "left join groupinfo d on t1.groupid = d.groupid " +
-                  "  where 1=1 ";
-                if ("02".Equals(role))
-                    strsql += " and    t1.groupid=" + departid;
-                else if ("03".Equals(role))
-
-                    strsql += " and    t1.companyid=" + departid;
-                else if ("04".Equals(role))
-
-                    strsql += " and    t1.foundryid=" + departid;
-
-                strsql += "  order by groupid,companyid,foundryid,ProductLineId";
+                strsql = " select Brno,BrName,UpBrno,Level from branchinfo where  BrnoDepth like '" + BrnoDepth + "%' order by BrnoDepth";
 
                 dt = MySqlHelper.ExecuteQuery(strsql);
-                string lstgroupid = string.Empty;
-                string lstfoundryid = string.Empty;
-                string lstcompanyid = string.Empty;
-                string lstlineid = string.Empty;
+
+                string listgroupid = string.Empty;
+                string listcompanyid = string.Empty;
+
 
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    string groupid = dt.Rows[i]["groupid"].ToString();
-                    string foundryid = dt.Rows[i]["foundryid"].ToString();
-                    string companyid = dt.Rows[i]["companyid"].ToString();
-                    string lineid = dt.Rows[i]["ProductLineId"].ToString();
-                    string groupnm = dt.Rows[i]["groupname"].ToString();
-                    string foundrynm = dt.Rows[i]["foundryname"].ToString();
-                    string companynm = dt.Rows[i]["companyname"].ToString();
-                    string linenm = dt.Rows[i]["ProductLineName"].ToString();
-
-                    if (!groupid.Equals(lstgroupid))
+                    if (dt.Rows[i]["Level"].ToString() == "1")//集团
                     {
-                        Hashtable t = new Hashtable();
-                        t.Add("groupid", groupid);
-                        t.Add("groupnm", groupnm);
-                        t.Add("list", new List<Hashtable>());
-                        list.Add(t);
-                        lstgroupid = groupid;
+                        Hashtable t2 = new Hashtable();
+                        t2.Add("groupid", dt.Rows[i]["Brno"]);
+                        t2.Add("groupnm", dt.Rows[i]["BrName"]);
+                        t2.Add("list", new List<Hashtable>());
+                        list.Add(t2);
+                        listgroupid = dt.Rows[i]["Brno"].ToString();
+                    }
+                    if (dt.Rows[i]["Level"].ToString() == "2")//公司
+                    {
+                        //归属集团brno
+                        string upbrno = dt.Rows[i]["UpBrno"].ToString();
+                        Hashtable upT = list.Find(x => (x["groupid"].ToString() == listgroupid));
+
+                        Hashtable t1 = new Hashtable();
+                        t1.Add("companyid", dt.Rows[i]["Brno"]);
+                        t1.Add("companynm", dt.Rows[i]["BrName"]);
+                        t1.Add("list", new List<Hashtable>());
+                        List<Hashtable> com_list1 = (List<Hashtable>)(upT)["list"];
+                        com_list1.Add(t1);
+                        listcompanyid = dt.Rows[i]["Brno"].ToString();
                     }
 
-                    if (!companyid.Equals(lstcompanyid))
+                    if (dt.Rows[i]["Level"].ToString() == "3")//产线
                     {
-                        List<Hashtable> com_list = (List<Hashtable>)(list.Find(x => (x["groupid"].ToString() == lstgroupid)))["list"];
-                        Hashtable t = new Hashtable();
-                        t.Add("companyid", companyid);
-                        t.Add("companynm", companynm);
-                        t.Add("list", new List<Hashtable>());
+                        //上级公司机构
+                        string upbrno = dt.Rows[i]["UpBrno"].ToString();
+                        List<Hashtable> com_list = (List<Hashtable>)(list.Find(x => (x["groupid"].ToString() == listgroupid)))["list"];
+                        List<Hashtable> fdy_list = (List<Hashtable>)(com_list.Find(x => (x["companyid"].ToString() == upbrno)))["list"];
+                        Hashtable t1 = new Hashtable();
+                        t1.Add("foundryid", dt.Rows[i]["Brno"]);
+                        t1.Add("foundrynm", dt.Rows[i]["BrName"]);
+                        t1.Add("list", new List<Hashtable>());
 
-                        com_list.Add(t);
-                        lstcompanyid = companyid;
+                        //查询产线加入列表
 
+                          strsql = "select ProductLineId,ProductLineName from  productlineinfo where Brno='" + dt.Rows[i]["Brno"].ToString() + "'";
+                        DataTable dt2 = MySqlHelper.ExecuteQuery(strsql);
+                        for (int linenum = 0; linenum < dt2.Rows.Count; linenum++)
+                        {
+                            Hashtable t3 = new Hashtable();
+                            t3.Add("lineid", dt2.Rows[linenum]["ProductLineId"]);
+                            t3.Add("linename", dt2.Rows[linenum]["ProductLineName"]);
+                            ((List<Hashtable>)(t1)["list"]).Add(t3);
+                        }
+                        fdy_list.Add(t1);
                     }
-                    if (!foundryid.Equals(lstfoundryid))
-                    {
-                        List<Hashtable> com_list = (List<Hashtable>)(list.Find(x => (x["groupid"].ToString() == lstgroupid)))["list"];
-                        List<Hashtable> fdy_list = (List<Hashtable>)(com_list.Find(x => (x["companyid"].ToString() == lstcompanyid)))["list"];
-
-                        Hashtable t = new Hashtable();
-                        t.Add("foundryid", foundryid);
-                        t.Add("foundrynm", foundrynm);
-                        t.Add("list", new List<Hashtable>());
-                        fdy_list.Add(t);
-                        lstfoundryid = foundryid;
-
-                    }
-                    if (!lineid.Equals(lstlineid))
-                    {
-                        List<Hashtable> com_list = (List<Hashtable>)(list.Find(x => (x["groupid"].ToString() == lstgroupid)))["list"];
-                        List<Hashtable> fdy_list = (List<Hashtable>)(com_list.Find(x => (x["companyid"].ToString() == lstcompanyid)))["list"];
-                        List<Hashtable> line_list = (List<Hashtable>)(fdy_list.Find(x => (x["foundryid"].ToString() == lstfoundryid)))["list"];
-
-                        Hashtable t = new Hashtable();
-                        t.Add("lineid", lineid);
-                        t.Add("linename", linenm);
-                        line_list.Add(t);
-                        lstlineid = lineid;
-
-                    }
-
 
                 }
             }

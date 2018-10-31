@@ -32,10 +32,10 @@ namespace DingTalk.Controllers
         /// <param name="PageSize">页条数</param>
         /// <returns>json数组</returns>
         //  /DeviceInfo/GetDeviceList?ProductLineId=1
-        public string  GetDeviceList(int? ProductLineId, int? CompanyId, int? GroupId, int? FoundryId,
+        public string GetDeviceList(int? ProductLineId, int? CompanyId, int? GroupId, int? FoundryId,
             int? status, string KeyWord, int? PageIndex = 0, int? PageSize = 10)
         {
-              DevicesServer dev = new DevicesServer();
+            DevicesServer dev = new DevicesServer();
             return dev.GetDeviceList(ProductLineId, CompanyId, GroupId, FoundryId, status, KeyWord, PageIndex, PageSize);
 
         }
@@ -57,15 +57,15 @@ namespace DingTalk.Controllers
         /// /DeviceInfo/DeviceAdd?DeviceId=111&DeviceName=222&DeviceType=1&DeviceModel=de33s3&ComAddress=0.0&ProductLineId=1&LocationId=23&DeviceStat=1
 
 
-        public string DeviceAdd(string DeviceId,string DeviceName,string DeviceType,string DeviceModel,string ComAddress
-            , int? ProductLineId,int? LocationId,string OnlineDate,string OfflineDate,int? DeviceStat )
+        public string DeviceAdd(string DeviceId, string DeviceName, string DeviceType, string DeviceModel, string ComAddress
+            , int? ProductLineId, int? LocationId, string OnlineDate, string OfflineDate, int? DeviceStat)
         {
             DevicesServer dev = new DevicesServer();
-           
+
             string oper = string.Empty;
-                if (HttpContext.Session["user"] != null)
-            oper = (HttpContext.Session["user"] as SessionUser).username;
-            return dev.DeviceAdd(DeviceId, DeviceName, DeviceType, DeviceModel, ComAddress, ProductLineId, LocationId, OnlineDate, OfflineDate, DeviceStat,oper );
+            if (HttpContext.Session["user"] != null)
+                oper = (HttpContext.Session["user"] as SessionUser).username;
+            return dev.DeviceAdd(DeviceId, DeviceName, DeviceType, DeviceModel, ComAddress, ProductLineId, LocationId, OnlineDate, OfflineDate, DeviceStat, oper);
 
 
         }
@@ -87,7 +87,7 @@ namespace DingTalk.Controllers
 
 
         public string DeviceSave(string DeviceId, string DeviceName, string DeviceType, string DeviceModel, string ComAddress
-          , int?  ProductLineId, int?  LocationId, string OnlineDate, string OfflineDate, int ?DeviceStat)
+          , int? ProductLineId, int? LocationId, string OnlineDate, string OfflineDate, int? DeviceStat)
         {
             DevicesServer dev = new DevicesServer();
 
@@ -105,10 +105,10 @@ namespace DingTalk.Controllers
         /// <param name="DeviceId">机器编号</param>
         /// <returns></returns>
         /// /DeviceInfo/DeviceDel?DeviceId=111
-        public string DeviceDel(string DeviceId )
+        public string DeviceDel(string DeviceId)
         {
             DevicesServer dev = new DevicesServer();
-            
+
             return dev.DeviceDel(DeviceId);
 
 
@@ -119,13 +119,21 @@ namespace DingTalk.Controllers
         /// <param name="DeviceId">机器编号</param>
         /// <returns></returns>
         /// /DeviceInfo/DeviceModelList
-        public string DeviceModelList( )
+        public string DeviceModelList()
         {
             DevicesServer dev = new DevicesServer();
 
-            return dev.DeviceModelList( );
+            return dev.DeviceModelList();
 
 
+        }
+
+
+        public string GetRobotCoordinate(string id)
+        {
+            DevicesServer dev = new DevicesServer();
+
+            return dev.GetRobotCoordinate(id);
         }
     }
 }

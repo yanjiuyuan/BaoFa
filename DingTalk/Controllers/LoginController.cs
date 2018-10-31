@@ -49,7 +49,7 @@ namespace WebZhongZhi.Controllers
                 Bussiness.Model.SessionUser user = new Bussiness.Model.SessionUser
                 {
                     username = json["username"].ToString(),
-                    departid= Convert.ToInt32(json["departid"].ToString() ),
+                    departid=  json["departid"].ToString() ,
                     departname = json["departname"].ToString(),
                     roleid = json["role"].ToString(),
                     lstlogintime = json["LoginTime"].ToString() 

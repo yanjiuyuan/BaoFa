@@ -38,8 +38,8 @@ namespace DingTalk.Controllers
         /// 测试数据：/ProductionLines/ProductionLinesData?CompanyId=1&keyword=1号生产线
 
         public string ProductionLinesData(int? LineId, string OrderID
-            , int? CompanyId, string telephone, string registertime,
-            string role, string status, int? GroupId, int? FoundryId,
+            , string CompanyId, string telephone, string registertime,
+            string role, string status, string GroupId, string FoundryId,
             string IsEnable, string KeyWord
             , int? PageIndex = 0, int? PageSize = 5)
         {
@@ -49,7 +49,7 @@ namespace DingTalk.Controllers
             //}
 
             role = "01";
-            int departid = 1;
+            string departid = "";
             if (HttpContext.Session["user"] != null)
             {
 
@@ -66,7 +66,7 @@ namespace DingTalk.Controllers
             }
             ProductionLinesServer pServer = new ProductionLinesServer();
 
-            return pServer.GetProductionLinesData( LineId, OrderID
+            return pServer.GetProductionLinesData( LineId 
             , CompanyId, telephone, registertime, role,
             status, GroupId, FoundryId, IsEnable, KeyWord, PageIndex, PageSize);
         }
@@ -84,7 +84,7 @@ namespace DingTalk.Controllers
         public string GetLineList()
         {
             string role = "01";
-            int departid = 1;
+            string departid = "";
             if (HttpContext.Session["user"] != null)
             {
 
@@ -99,7 +99,7 @@ namespace DingTalk.Controllers
         public string GetLineTreeList()
         {
             string role = "01";
-            int departid = 1;
+            string departid = "";
             if (HttpContext.Session["user"] != null)
             {
              

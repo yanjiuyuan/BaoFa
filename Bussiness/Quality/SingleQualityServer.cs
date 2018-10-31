@@ -12,15 +12,24 @@ namespace Bussiness.Quality
 {
     public class SingleQualityServer
     {
-        public DataTable GetSingQuality(string RFID, string strTableName)
+        public DataTable GetSingQuality(string RFID,int sprayid)
         {
-            string strSql = string.Format(" SELECT * FROM `{0}`  WHERE  rfidn='{1}' and    id_usage=(select max( id_usage ) from   `{2}`  WHERE  rfidn='{3}' )   ORDER BY {4}id", strTableName, RFID, strTableName,RFID, strTableName);
+             
+            string strSql = string.Format(" SELECT * FROM  sprayrecd  WHERE  rfidn='{0}' and    sprayid={1} ORDER BY  id",   RFID, sprayid );
             DataTable tb = MySqlHelper.ExecuteQuery(strSql);
             DataTable OldTb = ChangeTableBySecond(tb);
             //OldTb = CalculateTable(OldTb);
             return OldTb;
         }
+        public DataTable GetSingQualityLineUsage(string RFID)
+        {
 
+            string strSql = string.Format(" SELECT * FROM  lineusagerecd  WHERE  rfidn='{0}'   ORDER BY  lineusageid", RFID);
+            DataTable tb = MySqlHelper.ExecuteQuery(strSql);
+            DataTable OldTb = ChangeTableBySecond(tb);
+            //OldTb = CalculateTable(OldTb);
+            return OldTb;
+        }
         /// <summary>
         /// 取整点及头尾有效数据
         /// </summary>
@@ -31,21 +40,7 @@ namespace Bussiness.Quality
             DataTable tbOld = new DataTable();
             tbOld = tbNew.Clone();
             tbOld.PrimaryKey = null;
-            foreach (DataColumn col in tbOld.Columns)
-            {
-                if (col.ColumnName == "ID_RealTimeUsage" ||
-                    col.ColumnName == "VampID" ||
-                    col.ColumnName == "WaiOID" ||
-                        col.ColumnName == "WaiTID" ||
-                    col.ColumnName == "WaiSID" ||
-                    col.ColumnName == "OutsoleID" ||
-                     col.ColumnName == "MouthguardsID" ||
-                      col.ColumnName == "LineUsageID")
-                {
-                    col.DataType = typeof(string); //改变第一列属性值
-                }
-
-            }
+            tbOld.Columns[0].DataType = typeof(string);
             if (tbNew.Rows.Count > 0)
             {
               

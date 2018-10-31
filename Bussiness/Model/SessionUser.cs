@@ -14,7 +14,7 @@ namespace Bussiness.Model
 
         public string departname { get; set; }
 
-        public int departid { get; set; }
+        public string departid { get; set; }
 
         public string lstlogintime { get; set; }
 

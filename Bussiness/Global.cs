@@ -12,6 +12,10 @@ namespace Bussiness
    public static class Global
     {
         private static Logger logger = Logger.CreateLogger(typeof(Global));
+
+        public static string robotRun = "0";
+        public static string robotStop = "1";
+        public static Dictionary<string, RobotState> rootstatelist = new Dictionary<string, RobotState>();
         public static Dictionary<string, List<string>> AccessList = new Dictionary<string, List<string>>();
         public static Dictionary<string, List<string>> MenuList = new Dictionary<string, List<string>>();
         static Global()
@@ -80,9 +84,8 @@ namespace Bussiness
 
         //胶站列表
         public static Dictionary<string, string> jz = new Dictionary<string, string>
-        {   {"Vamp","鞋面喷胶"},
-                {"WaiO","围条一胶"}, {"WaiT","围条二胶"}, {"WaiS","围条三胶"}, {"Outsole","大底喷胶"},
-            { "Mouthguards","护齿喷胶"}
+        {   {"压底","BOilPressure"},
+                {"左十字压","LOilPressure"}, {"右十字压","ROilPressure"} 
 
         };
 
@@ -171,6 +174,166 @@ namespace Bussiness
         {
             DateTime dt = Convert.ToDateTime(datestr);
             return (dt.Month==12 && dt == dt.AddDays(1 - dt.Day).AddMonths(1).AddDays(-1));
+
+        }
+        
+        //根据角色代码，获取该登录人员的机构级别
+        public static int GetDepLevelByRole(string role)
+        {
+            int level = 0;
+            switch (role)
+             {
+                case "01"://管理员
+                    level = 0;
+                    break;
+                case "02"://集团用户
+                    level = 1;
+                    break;
+                case "03"://公司用户
+                    level = 2;
+                    break;
+                case "04"://车间用户
+                    level = 3;
+                    break;
+                default:
+                    level = 3;
+                    break;
+
+            }
+
+            return level;
+
+        }
+        public static   string  GetBrnoDepthByDepartID(int deplevel, string brno)
+        {
+            string BrnoDepth = string.Empty;
+            DataTable dt = new DataTable();
+            if (deplevel ==0)
+                BrnoDepth = "00,";
+            else
+            {
+                //查询归属的集团的BrnoDepth
+               string strsql = " select BrnoDepth branchinfo where  Level=" + deplevel + " and  Brno = '" + brno + "'";
+                dt = MySqlHelper.ExecuteQuery(strsql);
+                if (dt.Rows.Count >= 1)
+                {
+                    //存在
+                    string depth = dt.Rows[0]["BrnoDepth"].ToString();
+                    string[] depths = depth.Split(',');
+                    if (depths.Length >= 2)
+                        BrnoDepth = depths[0] + "," + depths[1];
+                    //得到机构层级，接下来查询所有该机构及下属机构的机构关系 
+
+                }
+            }
+            return BrnoDepth;
+        }
+
+        public static  int  GetCurrUsageId(int lineid)
+        {
+            string datestr = Global.GetDbDate();
+            string strSql = string.Empty;
+            strSql = " select max(id_usage)  from `usage` a where a.productlineid = " + lineid + " and  CT like '" + datestr + "%'";
+           DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
+
+            if (newTb.Rows.Count == 0)
+                return 0;
+            else
+                return int.Parse(Convert.ToString(newTb.Rows[0][0]));
+
+        }
+        public static int GetLstUsageId(int lineid)
+        {
+             string strSql = string.Empty;
+            strSql = " select max(id_usage)  from `usage` a where a.productlineid = " + lineid  ;
+            DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
+
+            if (newTb.Rows.Count == 0)
+                return 0;
+            else
+                return int.Parse(Convert.ToString(newTb.Rows[0][0]));
+
+        }
+
+        //获取胶站外的其他设备信息
+        public static Dictionary <string,string> GetMachineStationsWithoutSpary(int lineid)
+        {
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            string strSql = string.Empty;
+
+            strSql = "  select a.StationName,b.deviceid from `locationcfg` a " +
+        " left join(select deviceid, LocationId from deviceinfo where productlineid = "+ lineid+") b on a.LocationId = b.LocationId " +
+        " where a.productlineid =  " + lineid + " and a.JobType = '机器'  and a.SprayId is    null ";
+ 
+            DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
+
+            if (newTb.Rows.Count == 0)
+                return dic;
+            else
+            {
+                for(int i=0;i< newTb.Rows.Count;i++)
+                {
+                    dic.Add(Convert.ToString(newTb.Rows[i][0]), Convert.ToString(newTb.Rows[i][1]));
+                }
+            }
+            return dic;
+        }
+
+
+       public  static   List<int>  GetLineList(int? ProductLineId, int? CompanyId, int? GroupId, int? FoundryId)
+        {
+
+            List<int> list = new List<int>();
+            string strSql = string.Empty;
+            DataTable newTb = new DataTable();
+            if (ProductLineId != null)
+                list.Add((int)ProductLineId);
+            else if(FoundryId!=null)
+            {
+               
+                strSql = " select ProductLineId  from `productlineinfo` a where a.brno = " + FoundryId ;
+                  newTb = MySqlHelper.ExecuteQuery(strSql);
+                if(newTb.Rows.Count>0)
+                {
+                    foreach (DataRow dr in newTb.Rows)
+                        list.Add(int.Parse(dr[0].ToString())); 
+                } 
+            }
+            else if (CompanyId != null)
+            {
+                strSql = " select ProductLineId  from `productlineinfo` a where a.brno in (select Brno  from branchinfo where upbrno ='"+ CompanyId + "')  ";
+                newTb = MySqlHelper.ExecuteQuery(strSql);
+                if (newTb.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in newTb.Rows)
+                        list.Add(int.Parse(dr[0].ToString()));
+                }
+
+            }
+            else if (GroupId !=null)
+            {
+                strSql = " select ProductLineId  from `productlineinfo` a  where Brno in (select Brno  from branchinfo where where  BrnoDept like '00," + GroupId + ",%' and Level=3)  ";
+                newTb = MySqlHelper.ExecuteQuery(strSql);
+                if (newTb.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in newTb.Rows)
+                        list.Add(int.Parse(dr[0].ToString()));
+                }
+            }
+
+            else
+            {
+                strSql = " select ProductLineId  from `productlineinfo` a  ";
+                newTb = MySqlHelper.ExecuteQuery(strSql);
+                if (newTb.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in newTb.Rows)
+                        list.Add(int.Parse(dr[0].ToString()));
+                }
+
+            }
+             
+            return list;
 
         }
     }

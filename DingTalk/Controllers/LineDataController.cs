@@ -63,7 +63,7 @@ namespace DingTalk.Controllers
                 WebSocketReceiveResult result = await socket.ReceiveAsync(buffer, CancellationToken.None);
                 if (socket.State == WebSocketState.Open)
                 {
-                    string strMessage = Encoding.UTF8.GetString(buffer.Array, 0, result.Count);
+                    string lineid = Encoding.UTF8.GetString(buffer.Array, 0, result.Count);
                     //string returnMessage = "You send :" + message + ". at" + DateTime.Now.ToLongTimeString();
                     //string returnMessage = GetSpray();
 
@@ -83,52 +83,29 @@ namespace DingTalk.Controllers
                     //dString.Add("Outsole", returnOutsole);
                     string strJsonString = string.Empty;
 
-                    if (strMessage == "GetAllTable")
-                    {
+                 
                         DataTable linedt = new DataTable();
                         try {
                             //获取所有生产线
                             linedt =  GetLineDt(user);
+                            for (int x = 0; x < linedt.Rows.Count; x++)
+                            {
+                                int tmpid = 0;
+                                int.TryParse(linedt.Rows[x][0].ToString(), out tmpid);
+                                if (lineid != null && tmpid != int.Parse(lineid))
+                                {
+                                    linedt.Rows.RemoveAt(x);
+                                    x--;
+                                }
+                            }
+
+                            strJsonString = RunAllTask(linedt);
                         }
                         catch(Exception ex)
                         {
                             logger.Info(ex.Message);
                         }
-                        if (linedt.Rows.Count>0)
-                        { 
-                            string[] strList = new string[6] { "Vamp", "WaiO", "WaiT", "WaiS", "Outsole", "Mouthguards" };
-                            strJsonString = RunAllTask(strList, linedt);
-                             
-                        }
-
-
-                  
-                    }
-                    if (strMessage.Contains("GetTable"))   //GetTable:Vamp,Waio,WaiT...  
-                    {
-
-
-
-
-                        string[] strList = strMessage.Split(':');
-                        if (strList.Length >1)
-                        {
-                            Dictionary<string, DataTable> dString = new Dictionary<string, DataTable>();
-                            string strTable = strList[1].ToString();
-                            string[] strTablesList = strTable.Split(',');
-                            foreach (var item in strTablesList)
-                            {
-                                dString.Add(item, GetTableByTableName(item,1));
-                            }
-                            strJsonString = JsonConvert.SerializeObject(dString);
-                        }
-                        else
-                        {
-                            strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"参数有误!\"}";
-                        }
-
-                    }
-                    string returnMessage = strJsonString;
+                        string  returnMessage = strJsonString;
                     buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes(returnMessage));
                     await socket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
                 }
@@ -154,7 +131,7 @@ namespace DingTalk.Controllers
         public DataTable GetLineDt(SessionUser user)
         {
             string role = string.Empty;
-            int departid = 1;
+            string departid = "";
            
             if (user != null)
             {
@@ -181,39 +158,29 @@ namespace DingTalk.Controllers
         /// 测试数据 /api/dt/GetAllTable?strMessage=GetTable:Vamp,Waio
         /// 测试数据 /api/dt/GetAllTable?strMessage=GetTable:Usage
         [Route("GetAllTable")]
-        public string GetAllTable(string strMessage)
+        public string GetAllTable([FromUri]int? lineid=0 )
         {
             string strJsonString = string.Empty;
 
            
             
-            if (strMessage == "GetAllTable")
-            {
-                
-                DataTable linedt = GetLineDt((SessionUser)HttpContext.Current.Session["user"]);
-                string[] strList = new string[6] { "Vamp", "WaiO", "WaiT", "WaiS", "Outsole", "Mouthguards" };
-                strJsonString = RunAllTask(strList,linedt);
-            }
-            if (strMessage.Contains("GetTable"))   //GetTable:Vamp,Waio,WaiT...  
-            {
-                string[] strList = strMessage.Split(':');
-                if (strList.Length > 1)
-                {
-                    Dictionary<string, DataTable> dString = new Dictionary<string, DataTable>();
-                    string strTable = strList[1].ToString();
-                    string[] strTablesList = strTable.Split(',');
-                    foreach (var item in strTablesList)
-                    {
-                        dString.Add(item, GetTableByTableName(item,1));
-                    }
-                    strJsonString = JsonConvert.SerializeObject(dString);
-                }
-                else
-                {
-                    strJsonString = "{\"ErrorType\":1,\"ErrorMessage\":\"未输入表名!\"}";  
-                }
+              
+                    DataTable linedt = GetLineDt((SessionUser)HttpContext.Current.Session["user"]);
 
-            }
+                for (int x = 0; x < linedt.Rows.Count; x++)
+                {
+                    int tmpid = 0;
+                    int.TryParse(linedt.Rows[x][0].ToString(), out tmpid);
+                    if (lineid != 0 && tmpid !=  lineid)
+                    {
+                        linedt.Rows.RemoveAt(x);
+                    x--;
+                } 
+                }
+  
+                strJsonString = RunAllTask(linedt);
+             
+             
             string returnMessage = strJsonString;
             return returnMessage;
         }
@@ -221,10 +188,10 @@ namespace DingTalk.Controllers
 
         [Route("GetTable")]
 
-        public static DataTable GetTableByTableName(string strTableName,int lineid)
+        public static Dictionary<string, string> GetTableByTableName(int sprayid,string sprayname,int lineid,string deviceid)
         {
             LineDataServer lineDataServer = new LineDataServer();
-            var result = lineDataServer.GetTableMessage(strTableName,lineid);
+        Dictionary<string, string> result = lineDataServer.GetTableMessage(sprayid, sprayname, lineid, deviceid);
             return result;
         }
 
@@ -233,9 +200,9 @@ namespace DingTalk.Controllers
         /// </summary>
         /// <param name="strTableNames">表名数组</param>
         /// <returns>返回Json格式数组</returns>
-        public static string RunAllTask(string[] strTableNames,DataTable  linedt)
+        public static string RunAllTask( DataTable  linedt)
         {
-            int iCount = strTableNames.Length;
+         
             string strJsonString = string.Empty;
            List<Hashtable> list = new List<Hashtable>();
             try
@@ -253,28 +220,36 @@ namespace DingTalk.Controllers
                     int.TryParse(linedt.Rows[x][0].ToString(), out lineid);
 
 
-                    LineDataServer lds = new LineDataServer();
-
-                    Dictionary<string, string> vdt = lds.getVstate(lineid);
-                    dic.Add("V_STATE", vdt);
-
+                  
 
                 linename = linedt.Rows[x][1].ToString();
 
                 dic.Add("ProductLineId", lineid.ToString());
                 dic.Add("ProductLineName", linename);
-                Dictionary<string, DataTable> dString = new Dictionary<string, DataTable>();
+                    //获取产线的所有胶站工位名称及胶站编号
+                    Dictionary<string, Dictionary<string, string>> dString = new Dictionary<string, Dictionary<string, string>>();
 
-            
-                Task[] tasks = new Task[iCount];
-                    for (int i = 0; i < strTableNames.Length; i++)
+                    LineDataServer lds = new LineDataServer();
+
+                    Dictionary<string, Dictionary<string, string>> vdt = lds.getVstate(lineid);
+                    foreach(var x1 in vdt)
+                    dString.Add(x1.Key, x1.Value);
+
+
+                    SortedList<int, KeyValuePair<string,string>> spraylist = new LineDataServer().GetLineSprayList(lineid) ;
+                    
+                    Task[] tasks = new Task[spraylist.Count];
+                    for (int i = 0; i < spraylist.Count; i++)
                     {
+                        int sprayid = spraylist.Keys[i];
+                        string  sprayname = spraylist.Values[i].Key;
+                        string deviceid = spraylist.Values[i].Value;
                         lock (_oLock)
                         {
                             tasks[i] = Task.Factory.StartNew(() =>
                         {
                         });
-                            dString.Add(strTableNames[i], GetTableByTableName(strTableNames[i],lineid));
+                            dString.Add(sprayname, GetTableByTableName(sprayid, sprayname, lineid, deviceid));
                         }
                     }
                     Task.WaitAll(tasks);

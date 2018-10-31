@@ -15,7 +15,7 @@ namespace Bussiness.ProductionLines
     public class DevicesServer
     {
 
-        private static Logger logger = Logger.CreateLogger(typeof(ProductionLinesServer));
+        private static Logger logger = Logger.CreateLogger(typeof(DevicesServer));
         public string GetDeviceList(int? ProductLineId, int? CompanyId,   int? GroupId, int? FoundryId,
             int? devicestat, string KeyWord  , int? PageIndex = 0, int? PageSize = 10)
         {
@@ -23,31 +23,32 @@ namespace Bussiness.ProductionLines
             try
             {
                 int startRow = PageIndex.Value * PageSize.Value;
-                StringBuilder sb = new StringBuilder();
-                sb.Append(" select t.*,t1.ProductLineName,t1.foundryname,t1.companyName,t1.groupName from deviceinfo t" +
-                    " left join locationcfg t2 on t.LocationId=t2.LocationId and t.ProductLineId=t2.ProductLineId " +
-                    " left join" +
-                     "(select a.ProductLineId, a.ProductLineName, b.foundryid, b.foundryname , c.companyid , c.companyName , d.groupid  , d.groupName from productlineinfo a left join foundryinfo b  on a.foundryid = b.foundryid " +
-                 " left join companyinfo c   on b.companyid = c.companyid left join groupinfo d on c.groupid = d.groupid) t1 on t.ProductLineId=t1.ProductLineId");
-               
-               sb.Append(" where 1=1 ");
-                if (ProductLineId != null)
+
+                //设备最后是归属产线，所以，这个查询首先获取产线列表
+
+                List<int> linelist = Global.GetLineList(ProductLineId, CompanyId, GroupId, FoundryId);
+                StringBuilder lines = new StringBuilder();
+                int num = 0;
+                foreach (int s in linelist)
                 {
-                    sb.Append(string.Format(" and t1.ProductLineId='{0}'", ProductLineId));
+                   
+                    lines.Append(s);
+                    num++;
+                    if (num!= linelist.Count)
+                    lines.Append(",");
+
                 }
 
-                else if (FoundryId != null)
-                {
-                    sb.Append(string.Format(" and t1.FoundryId='{0}'", FoundryId));
-                }
-                else if (CompanyId != null)
-                {
-                    sb.Append(string.Format(" and t1.CompanyId='{0}'", CompanyId));
-                }
-                else if (GroupId != null)
-                {
-                    sb.Append(string.Format(" and t1.GroupId='{0}'", GroupId));
-                }
+                StringBuilder sb = new StringBuilder();
+
+
+                sb.Append(" select t.*,t1.ProductLineName,t2.stationname from deviceinfo t" +
+                    " left join productlineinfo t1 on  t.ProductLineId=t1.ProductLineId " +
+                    " left join locationcfg t2 on t.LocationId=t2.LocationId and t.ProductLineId=t2.ProductLineId " +
+                    "  where t.ProductLineId in("+ lines.ToString()+") ");
+
+
+           
                 if(devicestat!=null)
                     sb.Append(string.Format(" and t.DeviceStat={0}", devicestat));
                 if (KeyWord != null)
@@ -55,13 +56,12 @@ namespace Bussiness.ProductionLines
                     string strWhereKeyWord = string.Format(
                         " and ( DeviceId like  '%{0}%' " +
                         "   or  DeviceName like  '%{0}%' " +
-                          "   or  DeviceModel like  '%{0}%' " +
-                          "   or  CompanyName like  '%{0}%' " +
+                          "   or  DeviceModel like  '%{0}%' " + 
                              "   or  ProductLineName like  '%{0}%' ) ", KeyWord);
                     sb.Append(strWhereKeyWord);
                 }
                  
-                sb.Append("order by t1.groupid, t1.companyid, t1.foundryid, t1.ProductLineId, t.LocationId");
+                sb.Append("order by t.ProductLineId, t.LocationId");
                 int iRows = MySqlHelper.ExecuteQuery(sb.ToString()).Rows.Count;
                 string strWhereLimit = string.Format(" LIMIT {0},{1}", startRow, PageSize.Value);
 
@@ -219,5 +219,33 @@ namespace Bussiness.ProductionLines
             return retstr;
 
         }
+
+        //根据设备编号ID查询机器人坐标
+        public string GetRobotCoordinate(string id)
+        {
+            string retstr = string.Empty; ;
+            try
+            {   if(RobotData.data.ContainsKey(id))
+                {
+                    retstr = JsonConvert.SerializeObject( RobotData.data[id]);
+                     
+                }
+
+                else
+                {
+                    retstr = Global.RETURN_ERROR("设备查询为空");
+                }
+                 
+
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+               
+            }
+
+            return retstr;
+        }
+
     }
 }

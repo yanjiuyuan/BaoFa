@@ -114,5 +114,10 @@ namespace WebZhongZhi.Controllers
                 return Global.RETURN_ERROR("roleid参数不能为空！");
             return JsonConvert.SerializeObject(Global.AccessList[roleid]);
         }
+
+        public ActionResult Robot()
+        {
+            return View();
+        }
     }
 }

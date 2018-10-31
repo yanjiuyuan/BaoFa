@@ -22,7 +22,7 @@ namespace Bussiness
             try
             {
                 strPassword = MD5Encrypt.Encrypt(strPassword);
-                string strSql = string.Format("select username,password ,status,companyid,companyname,role from huabao.userInfo where username='{0}' ",
+                string strSql = string.Format("select username,password ,status,Brno,companyname,role from huabao.userInfo where username='{0}' ",
                     strUserName);
                 //int iResult= MySqlHelper.ExecuteSql(strSql);
                 DataTable dt = MySqlHelper.ExecuteQuery(strSql);

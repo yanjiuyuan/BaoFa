@@ -17,14 +17,14 @@ namespace Common.DbHelper
         {
             get
             {
-                return string.Format("{0}", "192.168.1.138:6379");
+                return string.Format("{0}", "zhgc@47.96.172.122:6379 ");
             }
         }
         public static string ReadServerConStr
         {
             get
             {
-                return string.Format("{0}", "192.168.1.138:6379");
+                return string.Format("{0}", "zhgc@47.96.172.122:6379 ");
             }
         }
         public static int MaxWritePoolSize

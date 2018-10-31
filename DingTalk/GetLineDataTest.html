@@ -10,7 +10,7 @@
         <input type="button" value="Connect" id="btnConnect" />
         <input type="button" value="DisConnect" id="btnDisConnect" />
         <hr />
-        <input type="text" id="txtInput" value="GetAllTable" />
+        <input type="text" id="txtInput" value="1" />
         <input type="button" value="Send" id="btnSend" />
         <br />
         <span id="messageSpan" style="color:red;"></span>
@@ -24,13 +24,14 @@
         function () {
             $("#btnConnect").click(function () {
                 $("#messageSpan").text("Connection...");
-                ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/api/dt/Get");
+                ws = new WebSocket("ws://" + window.location.hostname + ":" + window.location.port + "/api/RobotData/GetRobot");
                 //ws = new WebSocket(window.location.hostname + ":" + window.location.port+"/api/dt/ProcessWSChat");
                 ws.onopen = function () {
                     $("#messageSpan").text("Connected!");
                 };
                 ws.onmessage = function (result) {
                     $("#messageSpan").text(result.data);
+                    console.log(result.data)
                 };
                 ws.onerror = function (error) {
                     $("#messageSpan").text(error.data);

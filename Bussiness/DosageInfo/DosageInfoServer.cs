@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Common.LogHelper;
 namespace Bussiness.DosageInfo
 {
+
+    //查询生产用量
     public class DosageInfoServer
     {
         private static Logger logger = Logger.CreateLogger(typeof(DosageInfoServer));

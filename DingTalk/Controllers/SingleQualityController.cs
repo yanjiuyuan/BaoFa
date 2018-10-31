@@ -26,14 +26,18 @@ namespace DingTalk.Controllers
         /// 测试数据 SingleQuality/GetSingleQualityByRFID?RFID=5
         public string GetSingleQualityByRFID(string RFID)
         {
-            string[] strList = new string[7] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
+            string [] strList = new string[7] { "Vamp", "Waio", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
             Dictionary<string, DataTable> dic = new Dictionary<string, DataTable>();
-            foreach (var item in strList)
+            for(int i=0;i< strList.Length-1; i++)  
             {
                 SingleQualityServer sServer = new SingleQualityServer();
-                DataTable db = sServer.GetSingQuality(RFID, item);
-                dic.Add(item, db);
+                DataTable db = sServer.GetSingQuality(RFID, i);
+                dic.Add(strList[i], db);
             }
+            SingleQualityServer sServer1 = new SingleQualityServer();
+            DataTable db1 = sServer1.GetSingQualityLineUsage(RFID );
+            dic.Add(strList[6], db1);
+
             if (dic == null)
             {
                 return "{\"ErrorType\":0,\"ErrorMessage\":\"暂无数据!\"}";
@@ -49,7 +53,7 @@ namespace DingTalk.Controllers
 
 
             List<KeyValuePair<string, string>> list = new List<KeyValuePair<string, string>>();
-            string[] strList = new string[7] { "Vamp", "WaiO", "WaiT", "WaiS", "Outsole", "Mouthguards", "LineUsage" };
+            string[] strList = new string[7] { "1", "2", "3", "4", "5", "6", "7" };
             string[] descList = new string[7] { "鞋面喷胶站", "围条一胶站", "围条二胶站", "围条三胶站", "护齿喷胶站", "大底喷胶站", "生产线参数" };
 
             for (int i = 0; i < strList.Length; i++)
@@ -64,14 +68,16 @@ namespace DingTalk.Controllers
 
 
         //根据工位获取追溯鞋子时时数据
-        /// 测试数据 SingleQuality/GetSingleQualityByRFIDandSpray?RFID=5&Spray=Vamp
-        public string GetSingleQualityByRFIDandSpray(string RFID,string Spray)
+        /// 测试数据 SingleQuality/GetSingleQualityByRFIDandSpray?RFID=5&SprayId=Vamp
+        public string GetSingleQualityByRFIDandSpray(string RFID,int SprayId)
         {
-            
+            DataTable db = new DataTable();
                 SingleQualityServer sServer = new SingleQualityServer();
-                DataTable db = sServer.GetSingQuality(RFID, Spray);
-                 
-             
+                if (SprayId != 7)
+                      db = sServer.GetSingQuality(RFID, SprayId);
+                else
+            db = sServer.GetSingQualityLineUsage(RFID);
+         
             if (db.Rows.Count == 0)
             {
                 return "{\"ErrorType\":0,\"ErrorMessage\":\"暂无数据!\"}";

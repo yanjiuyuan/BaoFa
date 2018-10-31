@@ -1,0 +1,95 @@
+<Root>
+  <Robot>
+    <Model>HSR-JR605</Model>
+    <ModelName>华数六轴机器人系列</ModelName>
+    <Desc>
+      HSR-JR605是华数小型多用
+      机器人，荷重5kg，是具有低
+      投资，高产出优势。满足快速
+      拾放，具有较大的灵活性。在
+      保持六轴机器人的通用型的情
+      况下其结构紧凑，精度高，响
+      应快。
+    </Desc>
+    <JS>
+      <J Range="-200°/+200°" Ori="-Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">1</J>
+      <J Range="-180°/+0°" Ori="Z"  Type="R" Enable="true" InitAngle="-90"  MSTEP="4.0">2</J>
+      <J Range="+80°/+240°" Ori="Z"  Type="R" Enable="true" InitAngle="180"  MSTEP="4.0">3</J>
+      <J Range="-180°/+180°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">4</J>
+      <J Range="-115°/+115°" Ori="Z"  Type="R" Enable="true" InitAngle="90"  MSTEP="4.0">5</J>
+      <J Range="-360°/+360°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">6</J>
+    </JS>
+    <CameraPos X="2"></CameraPos>
+  </Robot>
+
+  <Robot>
+    <Model>HSR-DT801B</Model>
+    <ModelName>四轴并联关节机器人系列</ModelName>
+    <Desc>
+HSR-DT801B适用于哥哥行业的快
+速分拣排列或者装箱，集成智能
+视觉识别功能，可对目标的形状
+，特征，姿势进行识别并准确定
+位，具有良好的动态跟踪功能。
+重复定位精度高达0.1mm。空载
+抓取节拍可以达到140次/分钟(
+跨度400mm）。负载1KG能够满足
+大多数需要快速分拣的产品。 
+    </Desc>
+    <JS>
+      <J Range="+5°/+125°"  Ori="X"    Type="R" Enable="false" InitAngle="0" MSTEP="8.0">1</J>
+      <J Range="+5°/+125°"  Ori="X"    Type="R" Enable="false" InitAngle="0"  MSTEP="8.0">2</J>
+      <J Range="+5°/+125°"  Ori="X"    Type="R" Enable="false" InitAngle="0"  MSTEP="8.0">3</J>
+      <J Range="-360°/+360°"  Ori="Y"    Type="R" Enable="true" InitAngle="0"  MSTEP="8.0">4</J>
+        
+    </JS>
+     <PS>
+
+       <P X="25.54004" Y="1.812279" Z="0.01896091"   Scale="0.001" Enable="true"  MTIMES="10"  >1</P>
+     </PS>
+       
+   
+    <CameraPos X="26.5"></CameraPos>
+  </Robot>
+  <Robot>
+    <Model>HSR-HC420</Model>
+    <ModelName>四轴关节机器人系列</ModelName>
+    <Desc>
+HSR-HC420具有先天优势，其20
+kg 负载，臂长2000mm。冲压搬
+运行业中完全可以替换50kg六
+轴机器人，且具有速度优势，
+在自动化生产过程中实现低投
+入，高产出。
+    </Desc>
+    <JS>
+      <J Range="-145°/+145°" Ori="-Y"  Type="R" Enable="true" InitAngle="0" MSTEP="4.0">1</J>
+      <J Range="-135°/+135°" Ori="Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">2</J>
+      <J Range="-240mm/+240mm" Ori="Y"  Type="T" Enable="true" InitAngle="0" MaxStep="650"   InitScale="1"  SingleDistance="240"  MSTEP="18.5" >3</J>
+      <J Range="-180°/+180°" Ori="Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">4</J>
+      
+    </JS>
+    <CameraPos X="18.5"></CameraPos>
+  </Robot>
+ 
+  <Robot>
+    <Model>HSR-BR602</Model>
+    <ModelName>华数六轴机器人系列</ModelName>
+    <Desc>HSR-BR602是华数小型多用
+机器人，荷重5kg，是具有低
+投资，高产出优势。满足快速
+拾放，具有较大的灵活性。在
+保持六轴机器人的通用型的情
+况下其结构紧凑，精度高，响
+应快。   </Desc>
+    <JS>
+      <J Range="-200°/+200°" Ori="-Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">1</J>
+      <J Range="-180°/+0°" Ori="Z"  Type="R" Enable="true" InitAngle="-90"  MSTEP="4.0">2</J>
+      <J Range="+80°/+240°" Ori="Z"  Type="R" Enable="true" InitAngle="180"  MSTEP="4.0">3</J>
+      <J Range="-180°/+180°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">4</J>
+      <J Range="-115°/+115°" Ori="Z"  Type="R" Enable="true" InitAngle="90"  MSTEP="4.0">5</J>
+      <J Range="-360°/+360°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">6</J>
+    </JS>
+    <CameraPos X="10"></CameraPos>
+  </Robot>
+</Root>

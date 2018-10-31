@@ -70,21 +70,25 @@
     <Compile Include="AutoTask\AutoTaskServer.cs" />
     <Compile Include="Chart\ChartBeatServer.cs" />
     <Compile Include="Code\CodeServer.cs" />
-    <Compile Include="Company\CompanyServer.cs" />
+    <Compile Include="RobotData\RabbitServer.cs" />
+    <Compile Include="待删除Company\CompanyServer.cs" />
     <Compile Include="DosageInfo\DosageInfoServer.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="LineData\LineDataServer.cs" />
     <Compile Include="Login\LoginServer.cs" />
     <Compile Include="Model\SessionUser.cs" />
     <Compile Include="Order\OrderServer.cs" />
+    <Compile Include="ProductionLines\RobotServer.cs" />
     <Compile Include="ProductionLines\DevicesServer.cs" />
     <Compile Include="ProductionLines\ProductionLinesServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quality\QualityServer.cs" />
     <Compile Include="Quality\SingleQualityServer.cs" />
-    <Compile Include="Register\RegisterServer.cs" />
+    <Compile Include="待删除Register\RegisterServer.cs" />
     <Compile Include="Report\ReportServer.cs" />
-    <Compile Include="Shoes\ShoesInfo.cs" />
+    <Compile Include="RobotData\RobotData.cs" />
+    <Compile Include="RobotData\RobotState.cs" />
+    <Compile Include="RobotData\TimeTaskManager.cs" />
     <Compile Include="SprayData\SprayServer.cs" />
     <Compile Include="Time\TimeHelper.cs" />
     <Compile Include="Usage\UsageInfo.cs" />
@@ -106,6 +110,10 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="RobotConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <Content Include="dbpart.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

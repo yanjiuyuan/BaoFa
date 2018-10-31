@@ -170,7 +170,7 @@ namespace WebZhongZhi.Controllers
         public string GetDepartList()
         {
             string role = "01";
-            int departid = 0;
+            string departid = "";
             if (HttpContext.Session["user"] != null)
             {
                 role = (HttpContext.Session["user"] as SessionUser).roleid;

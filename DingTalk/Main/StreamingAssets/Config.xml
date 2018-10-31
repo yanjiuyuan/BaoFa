@@ -1,0 +1,143 @@
+<Root>
+  <Robot>
+    <Model>01-HSR-JR620L-01</Model>
+    <ModelName> 华数六轴机器人系列 </ModelName>
+    <Desc>HSR-JR620L</Desc>
+    <JS>
+      <J Range = "-200°/+200°" Ori="-Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">1</J>
+      <J Range = "-180°/+0°" Ori="-X"  Type="R" Enable="true" InitAngle="-90"  MSTEP="4.0">2</J>
+      <J Range = "+80°/+240°" Ori="-X"  Type="R" Enable="true" InitAngle="180"  MSTEP="4.0">3</J>
+      <J Range = "-180°/+180°" Ori="Z"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">4</J>
+      <J Range = "-115°/+115°" Ori="-X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">5</J>
+      <J Range = "-360°/+360°" Ori="Z"  Type="R" Enable="true" InitAngle="0"  MSTEP="8.0">6</J>
+    </JS>
+    <CameraPos X = "10" ></CameraPos>
+  </Robot>
+  <Robot>
+    <Model>01-HSR-JR620L-02</Model>
+    <ModelName> 华数六轴机器人系列 </ModelName>
+    <Desc>HSR-JR620L</Desc>
+    <JS>
+      <J Range = "-200°/+200°" Ori="-Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">1</J>
+      <J Range = "-180°/+0°" Ori="-X"  Type="R" Enable="true" InitAngle="-90"  MSTEP="4.0">2</J>
+      <J Range = "+80°/+240°" Ori="-X"  Type="R" Enable="true" InitAngle="180"  MSTEP="4.0">3</J>
+      <J Range = "-180°/+180°" Ori="Z"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">4</J>
+      <J Range = "-115°/+115°" Ori="-X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">5</J>
+      <J Range = "-360°/+360°" Ori="Z"  Type="R" Enable="true" InitAngle="0"  MSTEP="8.0">6</J>
+    </JS>
+    <CameraPos X = "10" ></CameraPos>
+  </Robot>
+  <Robot>
+    <Model>01-HSR-JR605-01</Model>
+    <ModelName> 华数六轴机器人系列 </ModelName>
+    <Desc>HSR-JR605</Desc>
+    <JS>
+      <J Range = "-200°/+200°" Ori="-Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">1</J>
+      <J Range = "-180°/+0°" Ori="Z"  Type="R" Enable="true" InitAngle="-180"  MSTEP="4.0">2</J>
+      <J Range = "+80°/+240°" Ori="Z"  Type="R" Enable="true" InitAngle="180"  MSTEP="4.0">3</J>
+      <J Range = "-180°/+180°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">4</J>
+      <J Range = "-115°/+115°" Ori="Z"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">5</J>
+      <J Range = "-360°/+360°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">6</J>
+    </JS>
+    <CameraPos X = "10" ></CameraPos>
+  </Robot>
+    <Robot>
+    <Model>01-HSR-JR605-02</Model>
+    <ModelName> 华数六轴机器人系列 </ModelName>
+    <Desc>HSR-JR605</Desc>
+    <JS>
+      <J Range = "-200°/+200°" Ori="-Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="2.0">1</J>
+      <J Range = "-180°/+0°" Ori="Z"  Type="R" Enable="true" InitAngle="-180"  MSTEP="2.0">2</J>
+      <J Range = "+80°/+240°" Ori="Z"  Type="R" Enable="true" InitAngle="180"  MSTEP="2.0">3</J>
+      <J Range = "-180°/+180°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="2.0">4</J>
+      <J Range = "-115°/+115°" Ori="Z"  Type="R" Enable="true" InitAngle="0"  MSTEP="2.0">5</J>
+      <J Range = "-360°/+360°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="8.0">6</J>
+    </JS>
+    <CameraPos X = "10" ></CameraPos>
+  </Robot>
+  <Robot>
+    <Model>01-HSR-JR605-03</Model>
+    <ModelName> 华数六轴机器人系列 </ModelName>
+    <Desc>HSR-JR605</Desc>
+    <JS>
+      <J Range = "-200°/+200°" Ori="-Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">1</J>
+      <J Range = "-180°/+0°" Ori="Z"  Type="R" Enable="true" InitAngle="-180"  MSTEP="4.0">2</J>
+      <J Range = "+80°/+240°" Ori="Z"  Type="R" Enable="true" InitAngle="180"  MSTEP="4.0">3</J>
+      <J Range = "-180°/+180°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">4</J>
+      <J Range = "-115°/+115°" Ori="Z"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">5</J>
+      <J Range = "-360°/+360°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">6</J>
+    </JS>
+    <CameraPos X = "10" ></CameraPos>
+  </Robot>
+  <Robot>
+    <Model>01-HSR-JR605-04</Model>
+    <ModelName> 华数六轴机器人系列 </ModelName>
+    <Desc>HSR-JR605</Desc>
+    <JS>
+      <J Range = "-200°/+200°" Ori="-Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="2.0">1</J>
+      <J Range = "-180°/+0°" Ori="Z"  Type="R" Enable="true" InitAngle="-180"  MSTEP="2.0">2</J>
+      <J Range = "+80°/+240°" Ori="Z"  Type="R" Enable="true" InitAngle="180"  MSTEP="2.0">3</J>
+      <J Range = "-180°/+180°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="2.0">4</J>
+      <J Range = "-115°/+115°" Ori="Z"  Type="R" Enable="true" InitAngle="0"  MSTEP="2.0">5</J>
+      <J Range = "-360°/+360°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="8.0">6</J>
+    </JS>
+    <CameraPos X = "10" ></CameraPos>
+  </Robot>
+  <Robot>
+    <Model>01-HSR-JR605-05</Model>
+    <ModelName> 华数六轴机器人系列 </ModelName>
+    <Desc>HSR-JR605</Desc>
+    <JS>
+      <J Range = "-200°/+200°" Ori="-Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="2.0">1</J>
+      <J Range = "-180°/+0°" Ori="Z"  Type="R" Enable="true" InitAngle="-180"  MSTEP="2.0">2</J>
+      <J Range = "+80°/+240°" Ori="Z"  Type="R" Enable="true" InitAngle="180"  MSTEP="2.0">3</J>
+      <J Range = "-180°/+180°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="2.0">4</J>
+      <J Range = "-115°/+115°" Ori="Z"  Type="R" Enable="true" InitAngle="0"  MSTEP="2.0">5</J>
+      <J Range = "-360°/+360°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="8.0">6</J>
+    </JS>
+    <CameraPos X = "10" ></CameraPos>
+  </Robot>
+  <Robot>
+    <Model>01-HSR-JR605-06</Model>
+    <ModelName> 华数六轴机器人系列 </ModelName>
+    <Desc>HSR-JR605</Desc>
+    <JS>
+      <J Range = "-200°/+200°" Ori="-Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">1</J>
+      <J Range = "-180°/+0°" Ori="Z"  Type="R" Enable="true" InitAngle="-180"  MSTEP="4.0">2</J>
+      <J Range = "+80°/+240°" Ori="Z"  Type="R" Enable="true" InitAngle="180"  MSTEP="4.0">3</J>
+      <J Range = "-180°/+180°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">4</J>
+      <J Range = "-115°/+115°" Ori="Z"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">5</J>
+      <J Range = "-360°/+360°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">6</J>
+    </JS>
+    <CameraPos X = "10" ></CameraPos>
+  </Robot>
+  <Robot>
+    <Model>01-HSR-JR605-07</Model>
+    <ModelName> 华数六轴机器人系列 </ModelName>
+    <Desc>HSR-JR605</Desc>
+    <JS>
+      <J Range = "-200°/+200°" Ori="-Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">1</J>
+      <J Range = "-180°/+0°" Ori="Z"  Type="R" Enable="true" InitAngle="-180"  MSTEP="4.0">2</J>
+      <J Range = "+80°/+240°" Ori="Z"  Type="R" Enable="true" InitAngle="180"  MSTEP="4.0">3</J>
+      <J Range = "-180°/+180°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">4</J>
+      <J Range = "-115°/+115°" Ori="Z"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">5</J>
+      <J Range = "-360°/+360°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">6</J>
+    </JS>
+    <CameraPos X = "10" ></CameraPos>
+  </Robot>
+  <Robot>
+    <Model>01-HSR-JR605-08</Model>
+    <ModelName> 华数六轴机器人系列 </ModelName>
+    <Desc>HSR-JR605</Desc>
+    <JS>
+      <J Range = "-200°/+200°" Ori="-Y"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">1</J>
+      <J Range = "-180°/+0°" Ori="Z"  Type="R" Enable="true" InitAngle="-90"  MSTEP="4.0">2</J>
+      <J Range = "+80°/+240°" Ori="Z"  Type="R" Enable="true" InitAngle="180"  MSTEP="4.0">3</J>
+      <J Range = "-180°/+180°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">4</J>
+      <J Range = "-115°/+115°" Ori="Z"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">5</J>
+      <J Range = "-360°/+360°" Ori="X"  Type="R" Enable="true" InitAngle="0"  MSTEP="4.0">6</J>
+    </JS>
+    <CameraPos X = "10" ></CameraPos>
+  </Robot>
+
+</Root>

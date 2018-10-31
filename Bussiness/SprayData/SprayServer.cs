@@ -67,31 +67,7 @@ namespace Bussiness.SprayData
             }
         }
 
-        public string GetSprayCoordinate(string  id)
-        {
-            try { 
-            string key = "设备1";
-            Dictionary<string, string> CoorDic = new Dictionary<string, string>();
-            List<string> list=  RedisHash.GetHashKeys(key);
-
-           for(int i=0;i<list.Count-1;i++)
-            {
-                string val = RedisHash.GetValueFromHash(key, list[i]);
-                CoorDic.Add(list[i], val);
-            }
-
-
-            return JsonConvert.SerializeObject(CoorDic);
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex.Message);
-                return Global.RETURN_ERROR(ex.Message);
-            }
-
-
-        }
-
+       
 
 
     }

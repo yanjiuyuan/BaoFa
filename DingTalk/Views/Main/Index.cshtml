@@ -112,9 +112,9 @@
             // $("#messageSpan").text("Connected!");
             console.log('open')
             if (ws.readyState == WebSocket.OPEN) {
-                ws.send("GetAllTable");
+                ws.send("1");
                 window.setInterval(function () {
-                    ws.send("GetAllTable");
+                    ws.send("1");
                 }, 500)
 
             } else {
