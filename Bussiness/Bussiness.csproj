@@ -71,7 +71,6 @@
     <Compile Include="Chart\ChartBeatServer.cs" />
     <Compile Include="Code\CodeServer.cs" />
     <Compile Include="RobotData\RabbitServer.cs" />
-    <Compile Include="待删除Company\CompanyServer.cs" />
     <Compile Include="DosageInfo\DosageInfoServer.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="LineData\LineDataServer.cs" />
@@ -84,7 +83,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quality\QualityServer.cs" />
     <Compile Include="Quality\SingleQualityServer.cs" />
-    <Compile Include="待删除Register\RegisterServer.cs" />
     <Compile Include="Report\ReportServer.cs" />
     <Compile Include="RobotData\RobotData.cs" />
     <Compile Include="RobotData\RobotState.cs" />

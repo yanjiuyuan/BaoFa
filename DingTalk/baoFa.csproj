@@ -162,7 +162,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CodeController.cs" />
-    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LineDataController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -172,7 +171,6 @@
     <Compile Include="Controllers\DeviceInfoController.cs" />
     <Compile Include="Controllers\ProductionLinesController.cs" />
     <Compile Include="Controllers\QualityController.cs" />
-    <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ShoesInfoController.cs" />
     <Compile Include="Controllers\ShowDetailController.cs" />
