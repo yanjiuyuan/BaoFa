@@ -7,32 +7,6 @@
     <!--查詢表單-->
     <el-form :inline="true" :model="formInline" class="demo-form-inline" style="width:30%;float:left;"
              size="medium">
-
-        @*<el-form-item label="集团名称">
-            <el-select v-model="formInline.groupnm" v-on:change="changeGroup">
-                <el-option label="全部" value=""></el-option>
-                <el-option v-for="e of groupnm" :label="e" :value="e" key="e"></el-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="公司名称">
-            <el-select v-model="formInline.companynm" v-on:change="changeCompany">
-                <el-option label="全部" value=""></el-option>
-                <el-option v-for="e of companynm" :label="e" :value="e" key="e"></el-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="车间名称">
-            <el-select v-model="formInline.foundrynm" v-on:change="changeFound">
-                <el-option label="全部" value=""></el-option>
-                <el-option v-for="e of foundrynm" :label="e" :value="e" key="e"></el-option>
-            </el-select>
-        </el-form-item>
-        <el-form-item label="产线名称">
-            <el-select v-model="formInline.linename">
-                <el-option label="全部" value=""></el-option>
-                <el-option v-for="c of linename" :label="c" :value="c" key="c"></el-option>
-            </el-select>
-        </el-form-item>*@
-
         <el-tree :data="lineTree"
                  default-expand-all
                  :expand-on-click-node="ifExtend"
@@ -42,20 +16,12 @@
                  highlight-current
                  :props="defaultProps">
         </el-tree>
-
+        
         <el-form-item label="关键字">
             <el-input v-model="formInline.keyword"
                       placeholder="请输入搜索关键字"></el-input>
             <el-button type="primary" v-on:click="onFilter">搜索</el-button>
         </el-form-item>
-
-        @*<el-form-item>
-            <el-radio-group v-model="formInline.status">
-                <el-radio :label="998">全部</el-radio>
-                <el-radio :label="1">启用</el-radio>
-                <el-radio :label="0">禁用</el-radio>
-            </el-radio-group>
-        </el-form-item>*@
     </el-form>
     <!--表格實體-->
     <el-table :data="tableData" stripe border style="width:70%;">

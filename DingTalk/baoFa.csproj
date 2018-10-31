@@ -162,11 +162,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CodeController.cs" />
-    <Compile Include="Controllers\DataViewController.cs" />
-    <Compile Include="Controllers\RobotDataController.cs" />
-    <Compile Include="Controllers\待删除CompanyController.cs" />
-    <Compile Include="Controllers\RobotController.cs" />
-    <Compile Include="Controllers\RobotInfoController.cs" />
+    <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LineDataController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -192,9 +188,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Build\UnityLoader.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="CfgFiles\log4net.cfg.xml" />
     <Content Include="Content\display.css" />
     <Content Include="Content\element.css" />
@@ -240,6 +233,7 @@
     <Content Include="Content\images\worker\8.jpg" />
     <Content Include="Content\images\worker\9.jpg" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\宝发0222.mp4" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />
@@ -262,7 +256,6 @@
     <Content Include="Content\fonts\element-icons.ttf" />
     <Content Include="Content\fonts\element-icons.woff" />
     <Content Include="log\log.txt" />
-    <Content Include="Main\StreamingAssets\Config.xml" />
     <Content Include="Scripts\config.js" />
     <Content Include="Scripts\echarts-all.js" />
     <Content Include="Scripts\element.js" />
@@ -280,22 +273,6 @@
     <Content Include="Scripts\supersized-init.js" />
     <Content Include="Scripts\supersized.3.2.7.min.js" />
     <Content Include="Scripts\vue.js" />
-    <Content Include="Build\buildweb.asm.code.unityweb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Build\buildweb.asm.framework.unityweb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Build\buildweb.asm.memory.unityweb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Build\buildweb.data.unityweb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Build\buildweb.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Views\Robot\RobotShow.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -401,7 +378,8 @@
     <Content Include="Views\Main\BlankPage.cshtml" />
     <Content Include="Views\Main\ManagerUser.cshtml" />
     <Content Include="Views\Main\ManagerDevice.cshtml" />
-    <Content Include="Views\Main\Robot.cshtml" />
+    <Content Include="Views\Main\ChartRunStatus.cshtml" />
+    <Content Include="Views\Main\ChartDeviceErr.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bussiness\Bussiness.csproj">
