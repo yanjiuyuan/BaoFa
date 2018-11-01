@@ -6,7 +6,7 @@
 <div id="partPage">
     <el-button v-on:click="handleAdd" type="primary">添加用户</el-button>
     <!--添加表單-->
-    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+    <el-dialog title="用户编辑" :visible.sync="dialogFormVisible">
         <el-form :inline="true" :model="ruleForm" class="demo-form-inline"
                  size="medium" :rules="rules" ref="ruleForm">
             <el-form-item label="用户名(必填)" prop="userName">
