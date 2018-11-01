@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="AutoTask\SubTaskServer.cs" />
     <Compile Include="AutoTask\AutoTaskServer.cs" />
+    <Compile Include="Chart\DataViewServer.cs" />
     <Compile Include="Chart\ChartBeatServer.cs" />
     <Compile Include="Code\CodeServer.cs" />
     <Compile Include="RobotData\RabbitServer.cs" />

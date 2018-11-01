@@ -23,59 +23,59 @@ namespace Bussiness.AutoTask
 
         private static Logger logger = Logger.CreateLogger(typeof(SubTaskServer));
 
-        private static string errorcollect = "select stationNAME, errortype, sum(warn_t) as warn_t, sum(warn_c) as warn_c from(select stationNAME, sum( if (errorn & 1 = 1, warn_t ,0)) as warn_t,'EN0' as errortype,  " +
-" sum( if (errorn & 1 = 1, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-
-" union all select stationNAME, sum( if (errorn & 2 = 2, warn_t, 0)) as warn_t,  " +
-" 'EN1' as errortype,sum( if (errorn & 2 = 2, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-
-" union all select stationNAME, sum( if (errorn & 4 = 4, warn_t, 0)) as warn_t,'EN2' as errortype,  " +
-" sum( if (errorn & 4 = 4, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-" union all select stationNAME, sum( if (errorn & 8 = 8, warn_t, 0)) as warn_t,'EN3' as errortype,  " +
-" sum( if (errorn & 8 = 8, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-" union all select stationNAME, sum( if (errorn & 16 = 16, warn_t, 0)) as warn_t,'EN4' as errortype,  " +
-" sum( if (errorn & 16 = 16, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-" union all select stationNAME, sum( if (errorn & 32 = 32, warn_t, 0)) as warn_t,'EN5' as errortype,  " +
-" sum( if (errorn & 32 = 32, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-
-" union all select stationNAME, sum( if (errorn & 64 = 64, warn_t, 0)) as warn_t,'EN6' as errortype,  " +
-" sum( if (errorn & 64 = 64, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-" union all  select stationNAME, sum( if (errorn & 128 = 128, warn_t, 0)) as warn_t,'EN7' as errortype,  " +
-" sum( if (errorn & 128 = 128, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-" union all select stationNAME, sum( if (errorn & 256 = 256, warn_t, 0)) as warn_t,'EN8' as errortype,  " +
-" sum( if (errorn & 256 = 256, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-" union all select stationNAME, sum( if (errorn & 512 = 512, warn_t, 0)) as warn_t,'EN9' as errortype,  " +
-" sum( if (errorn & 512 = 512, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-
-" union all select stationNAME, sum( if (errorn & 1024 = 1024, warn_t, 0)) as warn_t,'EN10' as errortype,  " +
-" sum( if (errorn & 1024 = 1024, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-" union all select stationNAME, sum( if (errorn & 2048 = 2048, warn_t, 0)) as warn_t,'EN11' as errortype,  " +
-" sum( if (errorn & 2048 = 2048, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  )t1 group by stationNAME, errortype";
-//" union all select stationNAME, sum( if (errorn & 4096 = 4096, warn_t, 0)) as warn_t,'EN12' as errortype,  " +
-//" sum( if (errorn & 4096 = 4096, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//        private static string errorcollect = "select stationNAME, errortype, sum(warn_t) as warn_t, sum(warn_c) as warn_c from(select stationNAME, sum( if (errorn & 1 = 1, warn_t ,0)) as warn_t,'EN0' as errortype,  " +
+//" sum( if (errorn & 1 = 1, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
 //" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
 
-//" union all select stationNAME, sum( if (errorn & 8192 = 8192, warn_t, 0)) as warn_t,'EN13' as errortype,  " +
-//" sum( if (errorn & 8192 = 8192, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" union all select stationNAME, sum( if (errorn & 2 = 2, warn_t, 0)) as warn_t,  " +
+//" 'EN1' as errortype,sum( if (errorn & 2 = 2, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
 //" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-//" union all select stationNAME, sum( if (errorn & 16384 = 16384, warn_t, 0)) as warn_t,'EN14' as errortype,  " +
-//" sum( if (errorn & 16384 = 16384, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+
+//" union all select stationNAME, sum( if (errorn & 4 = 4, warn_t, 0)) as warn_t,'EN2' as errortype,  " +
+//" sum( if (errorn & 4 = 4, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
 //" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
-//" union all select stationNAME, sum( if (errorn & 32768 = 32768, warn_t, 0)) as warn_t,'EN15' as errortype,  " +
-//" sum( if (errorn & 32768 = 32768, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
-//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME)t1 group by stationNAME, errortype";
+//" union all select stationNAME, sum( if (errorn & 8 = 8, warn_t, 0)) as warn_t,'EN3' as errortype,  " +
+//" sum( if (errorn & 8 = 8, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+//" union all select stationNAME, sum( if (errorn & 16 = 16, warn_t, 0)) as warn_t,'EN4' as errortype,  " +
+//" sum( if (errorn & 16 = 16, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+//" union all select stationNAME, sum( if (errorn & 32 = 32, warn_t, 0)) as warn_t,'EN5' as errortype,  " +
+//" sum( if (errorn & 32 = 32, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+
+//" union all select stationNAME, sum( if (errorn & 64 = 64, warn_t, 0)) as warn_t,'EN6' as errortype,  " +
+//" sum( if (errorn & 64 = 64, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+//" union all  select stationNAME, sum( if (errorn & 128 = 128, warn_t, 0)) as warn_t,'EN7' as errortype,  " +
+//" sum( if (errorn & 128 = 128, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+//" union all select stationNAME, sum( if (errorn & 256 = 256, warn_t, 0)) as warn_t,'EN8' as errortype,  " +
+//" sum( if (errorn & 256 = 256, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+//" union all select stationNAME, sum( if (errorn & 512 = 512, warn_t, 0)) as warn_t,'EN9' as errortype,  " +
+//" sum( if (errorn & 512 = 512, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+
+//" union all select stationNAME, sum( if (errorn & 1024 = 1024, warn_t, 0)) as warn_t,'EN10' as errortype,  " +
+//" sum( if (errorn & 1024 = 1024, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+//" union all select stationNAME, sum( if (errorn & 2048 = 2048, warn_t, 0)) as warn_t,'EN11' as errortype,  " +
+//" sum( if (errorn & 2048 = 2048, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+//" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  )t1 group by stationNAME, errortype";
+////" union all select stationNAME, sum( if (errorn & 4096 = 4096, warn_t, 0)) as warn_t,'EN12' as errortype,  " +
+////" sum( if (errorn & 4096 = 4096, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+////" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+
+////" union all select stationNAME, sum( if (errorn & 8192 = 8192, warn_t, 0)) as warn_t,'EN13' as errortype,  " +
+////" sum( if (errorn & 8192 = 8192, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+////" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+////" union all select stationNAME, sum( if (errorn & 16384 = 16384, warn_t, 0)) as warn_t,'EN14' as errortype,  " +
+////" sum( if (errorn & 16384 = 16384, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+////" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME  " +
+////" union all select stationNAME, sum( if (errorn & 32768 = 32768, warn_t, 0)) as warn_t,'EN15' as errortype,  " +
+////" sum( if (errorn & 32768 = 32768, 1 ,0)) as warn_c from(select(endtime - startTime) / 1000 AS warn_t, if (ERRORN is null ,0,ERRORN) as  " +
+////" ERRORN, stationNAME from huabao.LocationState where id_usage in ('{0}') and StationState = '报警' ) t group by stationNAME)t1 group by stationNAME, errortype";
 
         //获取各工位的末次生产时间
         public void taskInit(string datestr)
@@ -686,66 +686,83 @@ namespace Bussiness.AutoTask
         }
 
 
-        public void DeviceErrRptDay(string datestr)
+        public void LineErrRptDay(string datestr)
         {
             //查看前日所有班次
-            try {
+            try
+            {
 
-                string delsql = "delete from  RptDeviceErrDay where productionT ='" + datestr + "'";
+                string delsql = "delete from  RptLineErrDay where productionT ='" + datestr + "'";
                 int delC = MySqlHelper.ExecuteSql(delsql);
                 if (delC > 0)
                     logger.Info("RptDeviceErrDay删除现有旧数据，数量：" + delC);
 
-
                 DataTable dts = new DataTable();
-            string strsql = "select group_concat(id_usage) as id_usage,sum(nown) as nowan, sum(childn) as childn,productlineid  from `usage` where  createtime like '" + datestr + "%'   group by productlineid   order by productlineid ";
-            dts = MySqlHelper.ExecuteQuery(strsql);
-            if (dts.Rows.Count == 0)
-            {
-                logger.Info("当日无生产班次！");
-                return;
-            }
-
-
-            for (int i = 0; i < dts.Rows.Count; i++)
-            {
-                string id_usages = string.Empty;
-                int PlanWorkLoad = 0;
-                int productlineid = 0;
-                int isplanpoweron = 0;
-                int PlanPowerOnT = 0;
-                int WorkLoad = 0;
-           
-                id_usages = Convert.ToString(dts.Rows[i]["id_usage"]);
-                PlanWorkLoad = Convert.ToInt32(dts.Rows[i]["childn"].Equals(DBNull.Value) ? 0 : dts.Rows[i]["childn"]);
-                productlineid = Convert.ToInt32(dts.Rows[i]["productlineid"].Equals(DBNull.Value) ? 0 : dts.Rows[i]["productlineid"]);
-                // WorkLoad = Convert.ToInt32(dts.Rows[i]["nowan"].Equals(DBNull.Value) ? 0 : dts.Rows[i]["nowan"]);
-
-                //查询当日是否计划开机及计划开机时间
-
-                strsql = "select `ProductionDays` ,ProductionShifts,ProductionTimes from productlineinfo where productlineid=" + productlineid;
+                string strsql = "select group_concat(id_usage) as id_usage,sum(nown) as nowan, sum(childn) as childn,productlineid  from `usage` where  createtime like '" + datestr + "%'   group by productlineid   order by productlineid ";
                 dts = MySqlHelper.ExecuteQuery(strsql);
                 if (dts.Rows.Count == 0)
                 {
-                    logger.Info("查询产线参数设置为空！");
+                    logger.Info("当日无生产班次！");
                     return;
                 }
-                string ProductionDays = Convert.ToString(dts.Rows[i]["ProductionDays"]);
-                PlanPowerOnT = Convert.ToInt32(dts.Rows[i]["ProductionTimes"].Equals(DBNull.Value) ? 0 : dts.Rows[i]["ProductionTimes"]);
-                isplanpoweron = Global.IsWeekInList(datestr, ProductionDays) == true ? 1 : 0;
-                    //查询各事件次数及事件时间
-                    strsql = string.Format(
-                       "  insert into RptDeviceErrDay  " +
-                       "  select null as id, t.Deviceid, '{1}' as ProductionT, t.productlineid, errortype as errorn ,round(t2.warn_t  ) as warnt, t2.warn_c as warnc from " +
-                      " (select a.ProductLineId, a.DeviceId, b.StationName from deviceinfo a left join locationcfg b on a.LocationId = b.LocationId and " +
-                      "  a.ProductLineId = b.ProductLineId  where a.ProductLineId ={2}) t left join( " + errorcollect + " )  t2 on t.stationNAME = t2.stationNAME where t2.stationNAME is not null ",
-                 id_usages, datestr,  productlineid  );
-                 int insertC = MySqlHelper.ExecuteSql(strsql);
-                    logger.Info(strsql);
-                    logger.Info(productlineid + "产线机器报警统计数据插入数量：" + insertC);
-                 
+                for (int i = 0; i < dts.Rows.Count; i++)
+                {
+                    string id_usages = string.Empty;
+                    double warnt = 0;
+                    int warnc = 0;
+                    double firstwarninter = 0f;
+                    double avgwarnt = 0f;
+                    double avgwarninter = 0f;
 
-            }
+                    id_usages = Convert.ToString(dts.Rows[i]["id_usage"]);
+                    int productlineid = Convert.ToInt32(dts.Rows[i]["productlineid"].Equals(DBNull.Value) ? 0 : dts.Rows[i]["productlineid"]);
+
+                    string[] ids = id_usages.Split(',');
+
+                    for (int x = 0; x < ids.Length; x++)
+                    {
+                        //每一班
+                        int idusage = int.Parse(ids[x]);
+                        string sql = "   select tt2.*,tt1.warn_t ,tt1.warn_c from " +
+            "   (select '生产线' as stationname,     sum( if (stationstate = '报警', endtime - startTime, 0))/1000 AS warn_t,  sum( if (stationstate = '报警',1, 0)) " +
+           " AS warn_c   from huabao.LocationState where ID_USAGE = " + idusage + " and stationname = '生产线'    " +
+            "             ) tt1 left join(select '生产线' as stationname, round((beginwarn - beginwork) / 1000) as firstwarninter, round((endwork - endwarn) / 1000) as lstwarninter, round((endwarn - beginwarn) / 1000) as warninter from( " +
+           "   select(select min( if (StartTime is null,0,StartTime))  from locationstate where id_usage =  " + idusage + " and stationname = '生产线' and stationstate = '报警') as beginwarn " +
+          "   , (select min(if (StartTime is null,0,StartTime)) from locationstate where id_usage =  " + idusage + " and stationname = '生产线') as beginwork, " +
+         "    (select max(if (endtime is null,0,endtime)) from locationstate where id_usage =  " + idusage + " and stationname = '生产线') as endwork, " +
+         "     (select max(if (endtime is null,0,endtime))  from locationstate where id_usage =  " + idusage + " and stationname = '生产线' and stationstate = '报警') as endwarn) tt )tt2 on " +
+         "     tt1.stationname = tt2.stationname  ";
+                        DataTable warnlinedt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
+                        if (warnlinedt.Rows.Count > 0)
+                        {
+                             warnc = Convert.ToInt32(warnlinedt.Rows[0]["warn_c"].ToString());
+                            
+                            if (warnc > 0)
+                            {
+                                 firstwarninter = Convert.ToInt32(warnlinedt.Rows[0]["firstwarninter"].ToString());
+                                int lstwarninter = Convert.ToInt32(warnlinedt.Rows[0]["lstwarninter"].ToString());
+                                int warninter = Convert.ToInt32(warnlinedt.Rows[0]["warninter"].ToString());
+
+                                 warnt = Convert.ToDouble(warnlinedt.Rows[0]["warn_t"].ToString());
+                                 avgwarnt = warnt / warnc > 0 ? warnc : 1;
+                                 avgwarninter = (warninter - warnt) / warnc > 1 ? warnc - 1 : 1;
+
+                            
+                            }
+                        }
+                       
+
+                        strsql = string.Format("  insert into RptlineErrDay  " +
+                                      "  select null as id, '{0}' as ProductionT, {1}  as ProductLineId, {7} as IDUsage,   {2}  as   WarnT, {3} as   WarnC,  {4}  as AvgWarnT , {5}  as AvgWarnInter" +
+                                      " ,{6} as FirstWarnInter   ",
+                               datestr, productlineid, Math.Round(warnt, 2)  , warnc, Math.Round(avgwarnt, 2)  , Math.Round(avgwarninter, 2), Math.Round(firstwarninter, 2) , idusage);
+                        int insertC = MySqlHelper.ExecuteSql(strsql);
+                        logger.Info(strsql);
+                        logger.Info(productlineid + "产线报警统计数据插入数量：" + insertC);
+
+
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -753,7 +770,93 @@ namespace Bussiness.AutoTask
                 TaskFail("3006");
             }
         }
-       
+
+
+        public void DeviceErrRptDay(string datestr)
+        {
+            //查看前日所有班次
+            try
+            {
+
+                string delsql = "delete from  RptDeviceErrDay where productionT ='" + datestr + "'";
+                int delC = MySqlHelper.ExecuteSql(delsql);
+                if (delC > 0)
+                    logger.Info("RptDeviceErrDay删除现有旧数据，数量：" + delC);
+
+                DataTable dts = new DataTable();
+                string strsql = "select group_concat(id_usage) as id_usage,sum(nown) as nowan, sum(childn) as childn,productlineid  from `usage` where  createtime like '" + datestr + "%'   group by productlineid   order by productlineid ";
+                dts = MySqlHelper.ExecuteQuery(strsql);
+                if (dts.Rows.Count == 0)
+                {
+                    logger.Info("当日无生产班次！");
+                    return;
+                }
+                for (int i = 0; i < dts.Rows.Count; i++)
+                {
+                    string id_usages = string.Empty;
+
+
+                    id_usages = Convert.ToString(dts.Rows[i]["id_usage"]);
+                    int productlineid = Convert.ToInt32(dts.Rows[i]["productlineid"].Equals(DBNull.Value) ? 0 : dts.Rows[i]["productlineid"]);
+
+                    string[] ids = id_usages.Split(',');
+                    List<Dictionary<string, object>> devwarnlist = new List<Dictionary<string, object>>();
+
+                    for (int x = 0; x < ids.Length; x++)
+                    {
+                        //每一班
+                        int idusage = int.Parse(ids[x]);
+
+                        string sql = "   select tt6.deviceid,tt1.* ,round((tt2.beginwarn-tt3.beginwork)/1000) as firstwarninter, round((tt4.endwork-tt5.endwarn)/1000) as lstwarninter,round((tt5.endwarn-tt2.beginwarn)/1000) as warninter " +
+     "  from(  select  stationname,  sum( if (stationstate = '报警', endtime - startTime, 0))/1000 AS warn_t,  sum( if (stationstate = '报警',1, 0))  AS warn_c    from huabao.LocationState where " +
+  "  ID_USAGE = " + idusage + "     group by stationname)tt1 left join " +
+  " (select a.deviceid ,stationname from deviceinfo a left join locationcfg b on a.locationid=b.locationid and a.productlineid=b.productlineid where a.productlineid=" + productlineid + " ) tt6 on tt1.stationname=tt6.stationname " +
+   "left join " +
+  "    (select stationname, min( if (StartTime is null,0,StartTime)) as beginwarn " +
+  "    from locationstate where id_usage = " + idusage + "    and stationstate = '报警' group by stationname )tt2 on tt1.stationname = tt2.stationname " +
+  "    left join(  select stationname, min( if (StartTime is null,0,StartTime)) as beginwork " +
+  "    from locationstate where id_usage = " + idusage + "  group by stationname)tt3 on tt1.stationname = tt3.stationname " +
+  "      left join(  select stationname, max( if (endtime is null,0,endtime)) as endwork " +
+  "    from locationstate where id_usage = " + idusage + "  group by stationname)tt4 on tt1.stationname = tt4.stationname " +
+  "        left join(  select stationname, max( if (endtime is null,0,endtime)) as endwarn " +
+  "    from locationstate where id_usage = " + idusage + "  and stationstate = '报警'   group by stationname)tt5 on tt1.stationname = tt5.stationname where tt1.warn_c>0 ";
+
+                        DataTable devwarndt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
+
+                        if (devwarndt.Rows.Count > 0)
+                        {
+                            for (int tt = 0; tt < devwarndt.Rows.Count; tt++)
+                            {
+                                string stationname = devwarndt.Rows[tt]["stationname"].ToString();
+                                string deviceid = devwarndt.Rows[tt]["deviceid"].ToString();
+                                int warn_c = Convert.ToInt32(devwarndt.Rows[tt]["warn_c"].ToString());
+                                double firstwarninter = Convert.ToInt32(devwarndt.Rows[tt]["firstwarninter"].ToString());
+                                int lstwarninter = Convert.ToInt32(devwarndt.Rows[tt]["lstwarninter"].ToString());
+                                int warninter = Convert.ToInt32(devwarndt.Rows[tt]["warninter"].ToString());
+
+                                double warnt = Convert.ToDouble(devwarndt.Rows[tt]["warn_t"].ToString());
+                                double avgwarntm = warnt / (warn_c > 0 ? warn_c : 1);
+                                double avgwarninter = (warninter - warnt) /( warn_c > 1 ? warn_c - 1 : 1);
+
+                                strsql = string.Format("  insert into RptDeviceErrDay  " +
+                                              "  select null as id,  '{0}' as DeviceId, '{1}' as ProductionT, {2} as ProductLineId,{8} as IDUsage,   {3} as   WarnT, {4} as   WarnC,  {5} as AvgWarnT ,{6} as AvgWarnInter" +
+                                              " ,{7} as FirstWarnInter  ",
+                                      deviceid, datestr, productlineid, Math.Round(warnt, 2) , warn_c, Math.Round(avgwarntm, 2) , Math.Round(avgwarninter, 2) , Math.Round(firstwarninter, 2), idusage);
+                                int insertC = MySqlHelper.ExecuteSql(strsql);
+                                logger.Info(strsql);
+                                logger.Info(productlineid + "设备报警统计数据插入数量：" + insertC);
+
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                TaskFail("3007");
+            }
+        }
         public void LineDataRptMonth(string datestr)
         {
             //判断是否月末
@@ -805,7 +908,7 @@ namespace Bussiness.AutoTask
             int insertC = MySqlHelper.ExecuteSql(strsql);
             logger.Info("机器运行统计月报数据插入数量：" + insertC);
         }
-        public void DeviceErrMonth(string datestr)
+        public void LineErrMonth(string datestr)
         {
             //判断是否月末
             if (!Global.IsMonthLast(datestr))
@@ -816,6 +919,32 @@ namespace Bussiness.AutoTask
             string monthstr = Convert.ToDateTime(datestr).ToString("yyyy-MM");
 
   
+            string delsql = "delete from  rptLineerrMonth where productionT ='" + monthstr + "'";
+            int delC = MySqlHelper.ExecuteSql(delsql);
+            if (delC > 0)
+                logger.Info("rptLineerrMonth删除现有旧数据，数量：" + delC);
+
+            string strsql = string.Format(
+                  "  insert into rptLineerrMonth  " +
+                  " SELECT null as  id,  '{0}' as ProductionT, ProductLineId,  sum(WarnT) as warnT, sum(WarnC) as WarnC ," +
+                  " round(sum(WarnT)/sum(WarnC),2) as AvgWarnT,round(sum(AvgWarnInter)/count(*),2) as AvgWarnInter,round( sum(FirstWarnInter)/count(*),2) as FirstWarnInter ,count(distinct ProductionT) as Days  " +
+                  " FROM rptlineerrday where  ProductionT like '{0}%' group by ProductLineId "
+                    , monthstr);
+            int insertC = MySqlHelper.ExecuteSql(strsql);
+            logger.Info("产线报警统计月报数据插入数量：" + insertC);
+        }
+
+        public void DeviceErrMonth(string datestr)
+        {
+            //判断是否月末
+            if (!Global.IsMonthLast(datestr))
+            {
+                logger.Info("未到月末");
+                return;
+            }
+            string monthstr = Convert.ToDateTime(datestr).ToString("yyyy-MM");
+
+
             string delsql = "delete from  rptdeviceerrMonth where productionT ='" + monthstr + "'";
             int delC = MySqlHelper.ExecuteSql(delsql);
             if (delC > 0)
@@ -823,13 +952,13 @@ namespace Bussiness.AutoTask
 
             string strsql = string.Format(
                   "  insert into rptdeviceerrMonth  " +
-                  " SELECT null as  id, DeviceId, '{0}' as ProductionT, ProductLineId, ErrorN, sum(WarnT) as warnT, sum(WarnC) as WarnC ,count(id) as Days " +
-                  " FROM rptdeviceerrday where  ProductionT like '{0}%' group by DeviceId,ProductLineId,ErrorN "
+                  " SELECT null as  id, DeviceId, '{0}' as ProductionT, ProductLineId, sum(WarnT) as warnT, sum(WarnC) as WarnC , " +
+                  " round(sum(WarnT)/sum(WarnC),2) as AvgWarnT,round(sum(AvgWarnInter)/count(*),2) as AvgWarnInter, round(sum(FirstWarnInter)/count(*),2) as FirstWarnInter ,count(distinct ProductionT) as Days " +
+                  " FROM rptdeviceerrday where  ProductionT like '{0}%' group by DeviceId,ProductLineId "
                     , monthstr);
             int insertC = MySqlHelper.ExecuteSql(strsql);
             logger.Info("机器报警统计月报数据插入数量：" + insertC);
         }
-
 
         public void LineDataRptYear(string datestr)
         {
@@ -882,6 +1011,29 @@ namespace Bussiness.AutoTask
             int insertC = MySqlHelper.ExecuteSql(strsql);
             logger.Info("机器运行统计年报数据插入数量：" + insertC);
         }
+        public void LineErrYear(string datestr)
+        {
+            //判断是否月末
+            if (!Global.IsYearLast(datestr))
+            {
+                logger.Info("未到月末");
+                return;
+            }
+            string monthstr = Convert.ToDateTime(datestr).ToString("yyyy");
+
+            string delsql = "delete from  rptLineerrYear where productionT ='" + monthstr + "'";
+            int delC = MySqlHelper.ExecuteSql(delsql);
+            if (delC > 0)
+                logger.Info("rptLineerrYear删除现有旧数据，数量：" + delC);
+
+            string strsql = string.Format(
+                  "  insert into rptLineerrYear " +
+                  " SELECT null as  id, '{0}' as ProductionT, ProductLineId,   sum(WarnT) as warnT, sum(WarnC) as WarnC ," +
+                  " round(sum(WarnT)/sum(WarnC),2) as AvgWarnT,round(sum(AvgWarnInter)/count(*),2) as AvgWarnInter, round(sum(FirstWarnInter)/count(*),2) as FirstWarnInter,sum(days) as days,count(id) as months  FROM rptlineerrMonth where  ProductionT like '{0}%' group by ProductLineId "
+                    , monthstr);
+            int insertC = MySqlHelper.ExecuteSql(strsql);
+            logger.Info("产线报警统计年报数据插入数量：" + insertC);
+        }
         public void DeviceErrYear(string datestr)
         {
             //判断是否月末
@@ -899,8 +1051,8 @@ namespace Bussiness.AutoTask
 
             string strsql = string.Format(
                   "  insert into rptdeviceerrYear " +
-                  " SELECT null as  id, DeviceId, '{0}' as ProductionT, ProductLineId, ErrorN, sum(WarnT) as warnT, sum(WarnC) as WarnC ,sum(days) as days,count(id) as months " +
-                  " FROM rptdeviceerrMonth where  ProductionT like '{0}%' group by DeviceId,ProductLineId,ErrorN "
+                  " SELECT null as  id, DeviceId, '{0}' as ProductionT, ProductLineId,   sum(WarnT) as warnT, sum(WarnC) as WarnC , " +
+                  " round(sum(WarnT)/sum(WarnC),2) as AvgWarnT,round(sum(AvgWarnInter)/count(*),2) as AvgWarnInter, round(sum(FirstWarnInter)/count(*),2) as FirstWarnInter,sum(days) as days,count(id) as months  FROM rptdeviceerrMonth where  ProductionT like '{0}%' group by DeviceId,ProductLineId "
                     , monthstr);
             int insertC = MySqlHelper.ExecuteSql(strsql);
             logger.Info("机器报警统计年报数据插入数量：" + insertC);

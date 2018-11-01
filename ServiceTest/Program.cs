@@ -105,74 +105,78 @@ namespace ServiceTest
 
         static void Main(string[] args)
         {
-            foreach(var key in dic.Keys)
-            {
-                dic2.Add(key, new WState(0)); 
-            }
-            
-            try {
-                while (true)
-                {
-                    foreach (var key in dic2.Keys)
-                    {
-                        if (dic2[key].val == 0)
-                        { DateTime dt = System.DateTime.Now;
+            //foreach(var key in dic.Keys)
+            //{
+            //    dic2.Add(key, new WState(0)); 
+            //}
 
-                            TimeSpan ts = dt.Subtract(dic2[key].timestamp).Duration();
-                            //超过三秒，进行下一次赋值
-                            if (ts.Seconds >= 3)
-                            {
-                                int[] list = dic3[key];
-                                dic2[key].val = list[0];
-                                dic2[key].timestamp = System.DateTime.Now;
-                            }
+            //try {
+            //    while (true)
+            //    {
+            //        foreach (var key in dic2.Keys)
+            //        {
+            //            if (dic2[key].val == 0)
+            //            { DateTime dt = System.DateTime.Now;
 
-                        }
-                        if (dic2[key].val != 0)
-                        {
-                            DateTime dt = System.DateTime.Now;
+            //                TimeSpan ts = dt.Subtract(dic2[key].timestamp).Duration();
+            //                //超过三秒，进行下一次赋值
+            //                if (ts.Seconds >= 3)
+            //                {
+            //                    int[] list = dic3[key];
+            //                    dic2[key].val = list[0];
+            //                    dic2[key].timestamp = System.DateTime.Now;
+            //                }
 
-                            TimeSpan ts = dt.Subtract(dic2[key].timestamp).Duration();
-                            //超过三秒，进行下一次赋值
-                            if (ts.Seconds >= 3)
-                            {
-                                int[] list1 = dic3[key];
+            //            }
+            //            if (dic2[key].val != 0)
+            //            {
+            //                DateTime dt = System.DateTime.Now;
 
-                                int c = new List<int>(list1).IndexOf(dic2[key].val);
+            //                TimeSpan ts = dt.Subtract(dic2[key].timestamp).Duration();
+            //                //超过三秒，进行下一次赋值
+            //                if (ts.Seconds >= 3)
+            //                {
+            //                    int[] list1 = dic3[key];
 
-
-                                if (list1.Length == c + 1)
-                                {
-                                    dic2[key].val = 0;
-                                    dic2[key].timestamp = System.DateTime.Now;
-                                }
-                                else if (list1.Length > c + 1)
-                                {
-                                    dic2[key].val = list1[c + 1];
-                                    dic2[key].timestamp = System.DateTime.Now;
-                                }
-
-                            }
-
-                        }
+            //                    int c = new List<int>(list1).IndexOf(dic2[key].val);
 
 
-                        dic[key] = dic2[key].val;
-                    }
+            //                    if (list1.Length == c + 1)
+            //                    {
+            //                        dic2[key].val = 0;
+            //                        dic2[key].timestamp = System.DateTime.Now;
+            //                    }
+            //                    else if (list1.Length > c + 1)
+            //                    {
+            //                        dic2[key].val = list1[c + 1];
+            //                        dic2[key].timestamp = System.DateTime.Now;
+            //                    }
 
-                    string s = JsonConvert.SerializeObject(dic);
-                    Console.WriteLine(s);
-                    Thread.Sleep(100);
-                    ExchangeSendMsg(s);
-                }
-                   
-                
-            }
-            catch ( Exception ex)
-            {
+            //                }
 
-                Console.WriteLine(ex.Message);
-            }
+            //            }
+
+
+            //            dic[key] = dic2[key].val;
+            //        }
+
+            //        string s = JsonConvert.SerializeObject(dic);
+            //        Console.WriteLine(s);
+            //        Thread.Sleep(100);
+            //        ExchangeSendMsg(s);
+            //    }
+
+
+            //}
+            //catch ( Exception ex)
+            //{
+
+            //    Console.WriteLine(ex.Message);
+            //}
+            AutoTaskServer ats = new AutoTaskServer();
+            ats.TaskExec("2018-12-31");
+
+
             // TopicExchangeSendMsg();
             Console.WriteLine("按任意值，退出程序");
             Console.ReadKey();

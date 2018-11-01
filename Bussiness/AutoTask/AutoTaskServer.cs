@@ -100,7 +100,7 @@ namespace Bussiness.AutoTask
                 if (String.Compare(s, "06:00:01") > 0)
                 {
                     logger.Info("超出日终时间，跳出循环");
-                    break;
+                    //break;
                 }
 
                     string current_taskid = string.Empty;
