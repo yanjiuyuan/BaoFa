@@ -213,7 +213,7 @@ namespace Bussiness
             else
             {
                 //查询归属的集团的BrnoDepth
-               string strsql = " select BrnoDepth branchinfo where  Level=" + deplevel + " and  Brno = '" + brno + "'";
+               string strsql = " select BrnoDepth from branchinfo where  Level=" + deplevel + " and  Brno = '" + brno + "'";
                 dt = MySqlHelper.ExecuteQuery(strsql);
                 if (dt.Rows.Count >= 1)
                 {

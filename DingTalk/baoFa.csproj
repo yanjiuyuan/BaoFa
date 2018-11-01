@@ -162,6 +162,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CodeController.cs" />
+    <Compile Include="Controllers\DataViewController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LineDataController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -172,6 +173,9 @@
     <Compile Include="Controllers\ProductionLinesController.cs" />
     <Compile Include="Controllers\QualityController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\RobotController.cs" />
+    <Compile Include="Controllers\RobotDataController.cs" />
+    <Compile Include="Controllers\RobotInfoController.cs" />
     <Compile Include="Controllers\ShoesInfoController.cs" />
     <Compile Include="Controllers\ShowDetailController.cs" />
     <Compile Include="Controllers\SingleQualityController.cs" />
@@ -231,7 +235,6 @@
     <Content Include="Content\images\worker\8.jpg" />
     <Content Include="Content\images\worker\9.jpg" />
     <Content Include="Content\login.css" />
-    <Content Include="Content\宝发0222.mp4" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />

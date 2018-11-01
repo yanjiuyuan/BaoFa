@@ -1,4 +1,5 @@
 ﻿using Bussiness.AutoTask;
+using Bussiness.Chart;
 using Bussiness.ProductionLines;
 using Bussiness.Report;
 using Bussiness.WorkSataions;
@@ -173,10 +174,10 @@ namespace ServiceTest
 
             //    Console.WriteLine(ex.Message);
             //}
-            AutoTaskServer ats = new AutoTaskServer();
-            ats.TaskExec("2018-12-31");
-
-
+            //AutoTaskServer ats = new AutoTaskServer();
+            //ats.TaskExec("2018-10-30");
+            DataViewServer dv = new DataViewServer();
+            dv.GetData(1);
             // TopicExchangeSendMsg();
             Console.WriteLine("按任意值，退出程序");
             Console.ReadKey();
