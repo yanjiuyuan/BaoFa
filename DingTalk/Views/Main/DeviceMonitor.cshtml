@@ -9,11 +9,7 @@
     </div>
     <el-collapse v-model="activeNames">
         <el-collapse-item :title="useages[0].ProductLineName" name="1">
-            <div @*v-loading="loading"
-                 element-loading-text="数据加载中"
-                 element-loading-spinner="el-icon-loading"*@
-                 element-loading-background="rgba(0, 0, 0, 0.8)"
-                 id="imgFrame" style="margin-bottom:30px;position:relative;">
+            <div id="imgFrame" style="margin-bottom:30px;position:relative;">
                 <img src="~/Content/images/deviceMonitor.png" style="max-width:100%" />
                 <!--生产数量统计-->
                 <el-button plain type="danger" class="device-count" style="top:1%;left:0.56%;">当班产量</el-button>
@@ -36,9 +32,33 @@
                 <i v-else class="el-icon-rank" v-on:click="changeFullScreen(0)" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
             </div>
         </el-collapse-item>
-        <el-collapse-item :title="useages[1].ProductLineName" name="2">
-            <img src="~/Content/images/deviceMonitor2.png" style="max-width:100%" />
-        </el-collapse-item>
+        @*<el-collapse-item :title="useages[0].ProductLineName" name="2">
+            <div 
+                 element-loading-background="rgba(0, 0, 0, 0.8)"
+                 id="imgFrame2" style="margin-bottom:30px;position:relative;">
+                <img src="~/Content/images/deviceMonitor.png" style="max-width:100%" />
+                <!--生产数量统计-->
+                <el-button plain type="danger" class="device-count" style="top:1%;left:0.56%;">当班产量</el-button>
+                <el-button type="danger" class="device-count" style="top:1%;left:8.56%;font-weight:bold;">{{useages[0].Data.NowN}}</el-button>
+                <el-button plain type="danger" class="device-count" style="top:8%;left:0.56%;">总产量</el-button>
+                <el-button type="danger" class="device-count" style="top:8%;left:8.56%;font-weight:bold;">{{useages[0].Data.AllN}}</el-button>
+                <el-button plain type="danger" class="device-count" style="top:15%;left:0.56%;">生产节拍</el-button>
+                <el-button type="danger" class="device-count" style="top:15%;left:8.56%;font-weight:bold;">{{useages[0].Data.ProductionBeat}}</el-button>
+                <el-button plain type="danger" class="device-count" style="top:78%;left:45%;">总订单号</el-button>
+                <el-button type="danger" class="device-count" style="top:78%;left:53%;font-weight:bold;">{{useages[0].Data.OrderID}}</el-button>
+                <el-button plain type="danger" class="device-count" style="top:85%;left:45%;">子订单号</el-button>
+                <el-button type="danger" class="device-count" style="top:85%;left:53%;font-weight:bold;">{{useages[0].Data.ChildID}}</el-button>
+                <el-button plain type="danger" class="device-count" style="top:92%;left:45%;">运行状态</el-button>
+                <el-button type="danger" class="device-count" style="top:92%;left:53%;font-weight:bold;">{{useages[0].Data.Linestatus}}</el-button>
+                <!--设备状态按钮-->
+                <template v-for="(btn,index) of deviceBtns2">
+                    <sam-devicebtn :param="btn" :index="index"></sam-devicebtn>
+                </template>
+                <i v-if="showMask" class="el-icon-error" v-on:click="restoreScreen(0)" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
+                <i v-else class="el-icon-rank" v-on:click="changeFullScreen(0)" style="position:absolute;right:40px;bottom:20px;font-size:40px;"></i>
+            </div>
+        </el-collapse-item>*@
+
     </el-collapse>
 
 </el-main>
@@ -189,8 +209,8 @@
                 $.ajax({
                     url: "usage/getusage",
                     success: function (data) {
-                        //console.log('获取实时数量信息')
-                        //console.log(JSON.parse(data))
+                        console.log('获取实时数量信息')
+                        console.log(JSON.parse(data))
                         that.useages = JSON.parse(data)
                         setLocalObj('lineData', that.useages)
                     }
@@ -294,6 +314,7 @@
             ws.onmessage = function (result) {
                 that.loading = false
                 console.log('webSocket 获取数据')
+                console.log(JSON.parse(result.data))
                 that.handleStatusData(JSON.parse(result.data))
             };
             ws.onerror = function (error) {

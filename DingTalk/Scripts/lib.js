@@ -145,6 +145,7 @@ var DATASTR = CURDATE.getFullYear() + '-' + (CURDATE.getMonth() + 1) + '-' + CUR
 var mixin = {
     data: {
         user: {},
+        lineList: [],
         pickerOptions: pickerOptions,
         curYear: CURDATE.getFullYear(),
         curMonth: CURDATE.getMonth() + 1,

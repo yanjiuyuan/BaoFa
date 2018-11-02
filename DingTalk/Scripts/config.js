@@ -1,5 +1,5 @@
 ﻿
-//监控界面配置参数
+//监控界面配置参数-旧-华宝
 var SPRAY = {
     '雾化压': 'AtomizationPressure',
     '物料压': 'MaterialPressure',
@@ -20,8 +20,7 @@ var TENP = {
     '鞋长': 'ShoeL'
 }
 var SOLEP = {
-    '总油压': 'BOilPressure',
-    '状态': 'SOLEP '
+    '总油压': 'BOilPressure'
 }
 var VIEWONE = {
     '状态':'V1',
@@ -32,6 +31,14 @@ var VIEWTWO = {
     '状态': 'V2',
     '状态号': 'VisualTwoState',
     '报警号': 'VisualTwoError'
+}
+var EMPY = {}
+//监控界面配置参数-新-华昂
+var TENP_L = {
+    '左十字压': 'LOilPressure'
+}
+var TENP_R = {
+    '右十字压': 'ROilPressure'
 }
 
 var DETAILRANGE = {
@@ -61,6 +68,209 @@ var DETAILRANGE = {
     }//烤箱温度
 }
 var DEVICES = [
+    [
+        {
+            num: 1,
+            name: '鞋楦信息',
+            status: 0,
+            detail: _cloneObj(EMPY),
+            tooltip: {
+                disabled: true,
+                placement: 'top'
+            },
+            tips: {},
+            position: {
+                top: '82.02%',
+                left: '0.56%'
+            }
+        },
+        {
+            num: 2,
+            name: '视觉1号',
+            status: 0,
+            detail: _cloneObj(EMPY),
+            tooltip: {
+                disabled: true,
+                placement: 'right'
+            },
+            //tips: {
+            //    '1234': '4321',
+            //    '666':'888'
+            //},
+            tips: {
+
+            },
+            position: {
+                top: '63.95%',
+                left: '0.56%'
+            }
+        },
+        {
+            num: 3,
+            name: '一次喷胶',
+            status: 0,
+            detail: _cloneObj(SPRAY),
+            tooltip: {
+                disabled: true,
+                placement: 'top'
+            },
+            tips: {},
+            position: {
+                top: '58.14%',
+                left: '0.56%'
+            }
+        },
+        {
+            num: 4,
+            name: '压底',
+            status: 0,
+            detail: _cloneObj(SOLEP),
+            tooltip: {
+                disabled: true,
+                placement: 'right'
+            },
+            tips: {},
+            position: {
+                top: '49.55%',
+                left: '0.56%'
+            }
+        },
+        {
+            num: 5,
+            name: '视觉2号',
+            status: 0,
+            detail: _cloneObj(EMPY),
+            tooltip: {
+                disabled: true,
+                placement: 'right'
+            },
+            tips: {},
+            position: {
+                top: '43.27%',
+                left: '0.56%'
+            }
+        },
+        {
+            num: 6,
+            name: '喷处理剂',
+            status: 0,
+            detail: _cloneObj(SPRAY),
+            tooltip: {
+                disabled: true,
+                placement: 'right'
+            },
+            tips: {},
+            position: {
+                top: '36.67%',
+                left: '0.56%'
+            }
+        },
+        {
+            num: 7,
+            name: '二次喷胶',
+            status: 0,
+            detail: _cloneObj(SPRAY),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '31.16%',
+                left: '15.56%'
+            }
+        },
+        {
+            num: 8,
+            name: '三次喷胶',
+            status: 0,
+            detail: _cloneObj(SPRAY),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '24.42%',
+                left: '15.56%'
+            }
+        },
+        {
+            num: 9,
+            name: '贴围条1',
+            status: 0,
+            detail: _cloneObj(EMPY),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '14.80%',
+                left: '30.56%'
+            }
+        },
+        {
+            num: 10,
+            name: '贴围条2',
+            status: 0,
+            detail: _cloneObj(EMPY),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '17.67%',
+                left: '15.56%'
+            }
+        },
+        {
+            num: 11,
+            name: '护齿喷胶',
+            status: 0,
+            detail: _cloneObj(SPRAY),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '8.84%',
+                left: '30.56%'
+            }
+        },
+        {
+            num: 12,
+            name: '左十字压',
+            status: 0,
+            detail: _cloneObj(TENP_L),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '9.30%',
+                left: '84.88%'
+            }
+        },
+        {
+            num: 13,
+            name: '右十字压',
+            status: 0,
+            detail: _cloneObj(TENP_R),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '2.79%',
+                left: '84.88%'
+            }
+        }
+    ],
     [
     {
             num: 1,
@@ -117,34 +327,34 @@ var DEVICES = [
             }
         },
         {
-        num: 4,
-        name: '大底烤箱',
-        SprayID: 6,
-        status: 0,
-        detail: _cloneObj(ROSTER),
-        tooltip: {
-            disabled: true,
-            placement: 'right'
-        },
-        tips: {},
-        position: {
-            top: '49.55%',
-            left: '0.56%'
-        }
-        },
-        {
-        num: 5,
-        name: '大底喷胶',
-        status: 0,
-        tooltip: {
-            disabled: true,
-            placement: 'right'
-        },
-        tips: {},
-        position: {
-            top: '43.27%',
-            left: '0.56%'
-        }
+            num: 4,
+            name: '大底烤箱',
+            SprayID: 6,
+            status: 0,
+            detail: _cloneObj(ROSTER),
+            tooltip: {
+                disabled: true,
+                placement: 'right'
+            },
+            tips: {},
+            position: {
+                top: '49.55%',
+                left: '0.56%'
+            }
+            },
+            {
+            num: 5,
+            name: '大底喷胶',
+            status: 0,
+            tooltip: {
+                disabled: true,
+                placement: 'right'
+            },
+            tips: {},
+            position: {
+                top: '43.27%',
+                left: '0.56%'
+            }
         },
         {
             num: 6,
@@ -179,84 +389,84 @@ var DEVICES = [
             }
         },
         {
-        num: 8,
-        name: '围条一胶站',
-        status: 0,
-        SprayID: 2,
-        detail: _cloneObj(SPRAY),
-        tooltip: {
-            disabled: true,
-            placement: 'left'
-        },
-        tips: {},
-        position: {
-            top: '24.42%',
-            left: '15.56%'
-        }
-        },
-        {
-        num: 9,
-        name: '围条二胶站',
-        SprayID: 3,
-        status: 0,
-        detail: _cloneObj(SPRAY),
-        tooltip: {
-            disabled: true,
-            placement: 'left'
-        },
-        tips: {},
-        position: {
-            top: '14.80%',
-            left: '30.56%'
-        }
-        },
-        {
-        num: 10,
-        name: '围一烤箱',
-        SprayID: 2,
-        status: 0,
-        detail: _cloneObj(ROSTER),
-        tooltip: {
-            disabled: true,
-            placement: 'left'
-        },
-        tips: {},
-        position: {
-            top: '17.67%',
-            left: '15.56%'
-        }
+            num: 8,
+            name: '围条一胶站',
+            status: 0,
+            SprayID: 2,
+            detail: _cloneObj(SPRAY),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '24.42%',
+                left: '15.56%'
+            }
+            },
+            {
+            num: 9,
+            name: '围条二胶站',
+            SprayID: 3,
+            status: 0,
+            detail: _cloneObj(SPRAY),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '14.80%',
+                left: '30.56%'
+            }
         },
         {
-        num: 11,
-        name: '围二烤箱',
-        SprayID: 3,
-        status: 0,
-        detail: _cloneObj(ROSTER),
-        tooltip: {
-            disabled: true,
-            placement: 'left'
-        },
-        tips: {},
-        position: {
-            top: '8.84%',
-            left: '30.56%'
-        }
+            num: 10,
+            name: '围一烤箱',
+            SprayID: 2,
+            status: 0,
+            detail: _cloneObj(ROSTER),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '17.67%',
+                left: '15.56%'
+            }
+            },
+            {
+            num: 11,
+            name: '围二烤箱',
+            SprayID: 3,
+            status: 0,
+            detail: _cloneObj(ROSTER),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '8.84%',
+                left: '30.56%'
+            }
         },
         {
-        num: 12,
-        name: '围条三胶站',
-        SprayID: 4,
-        status: 0,
-        detail: _cloneObj(SPRAY),
-        tooltip: {
-            disabled: true,
-            placement: 'left'
-        },
-        tips: {},
-        position: {
-            top: '9.30%',
-            left: '84.88%'
-        }
+            num: 12,
+            name: '围条三胶站',
+            SprayID: 4,
+            status: 0,
+            detail: _cloneObj(SPRAY),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '9.30%',
+                left: '84.88%'
+            }
         },
         {
         num: 13,
@@ -317,20 +527,20 @@ var DEVICES = [
         }
         },
         {
-        num: 17,
-        name: '护齿喷胶站',
-        SprayID: 5,
-        status: 0,
-        detail: _cloneObj(SPRAY),
-        tooltip: {
-            disabled: true,
-            placement: 'left'
-        },
-        tips: {},
-        position: {
-            top: '62.79%',
-            left: '70%'
-        }
+            num: 17,
+            name: '护齿喷胶站',
+            SprayID: 5,
+            status: 0,
+            detail: _cloneObj(SPRAY),
+            tooltip: {
+                disabled: true,
+                placement: 'left'
+            },
+            tips: {},
+            position: {
+                top: '62.79%',
+                left: '70%'
+            }
         },
         {
             num: 18,
