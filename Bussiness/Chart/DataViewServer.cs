@@ -25,14 +25,14 @@ namespace Bussiness.Chart
         public string GetData(int lineid = 1)
         {
              
-            Dictionary<string, JObject> dv = new Dictionary<string, JObject>();
+            Dictionary<string, Object> dv = new Dictionary<string, Object>();
             //关键字订单
             //产线当前订单
             // 总订单号  已完成产品数   当日完成产品数    当日子订单编号                    
             int idusage = Global.GetLstUsageId(lineid);
 
             //订单 当班产量
-            string sql = "select OrderID	,ChildID,NowN,AllN from usage where ID_usage= " + idusage;
+            string sql = "select OrderID	,ChildID,NowN,AllN from `usage` where ID_usage= " + idusage;
             DataTable usagedt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
             string OrderID = string.Empty;
             string ChildID = string.Empty;
@@ -46,7 +46,7 @@ namespace Bussiness.Chart
                 NowN = usagedt.Rows[0]["NowN"].ToString();
                 AllN = usagedt.Rows[0]["AllN"].ToString();
             }
-            sql = "select OrderN,Customer,OrdTime,DeliveryTime from order where OrderID='" + OrderID + "'";
+            sql = "select OrderN,Customer,OrdTime,DeliveryTime from `order` where OrderID='" + OrderID + "'";
 
             //订单情况
             DataTable orderdt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
@@ -70,17 +70,17 @@ namespace Bussiness.Chart
             dic.Add("Customer", Customer);
             dic.Add("OrdTime", OrdTime);
             dic.Add("DeliveryTime", DeliveryTime);
-            dv.Add("order", JObject.FromObject(dic));
+            dv.Add("order", dic);
 
             //末班产线状态
-            sql = "select linestatus  from  Line where id_usage=" + idusage;
+            sql = "select linestatus  from  `Line` where id_usage=" + idusage;
 
 
             DataTable Linedt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
             string Linestatus = string.Empty;
             if (Linedt.Rows.Count >= 0)
             {
-                Linestatus = Linedt.Rows[0]["Customer"].ToString();
+                Linestatus = Linedt.Rows[0]["linestatus"].ToString();
             }
 
             int plan_t = 0;
@@ -91,9 +91,9 @@ namespace Bussiness.Chart
                 plan_t = 3600 * (Convert.ToInt32(pttb.Rows[0]["ProductionTimes"].ToString()));
             }
 
-            int run_t = 0;
-            int warn_t = 0;
-            int stop_t = 0;
+            double run_t = 0;
+            double warn_t = 0;
+            double stop_t = 0;
             sql = " select   sum( if (stationstate = '运行', endtime - startTime, 0))/1000 AS run_t , sum( if   " +
        " (stationstate = '停止', endtime - startTime, 0))/ 1000 AS stop_t,    " +
        " sum( if (stationstate = '报警', endtime - startTime, 0))/ 1000 AS warn_t,     " +
@@ -102,11 +102,11 @@ namespace Bussiness.Chart
 
             DataTable Linetimedt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
 
-            if (Linetimedt.Rows.Count >= 0)
+            if (Linetimedt.Rows.Count > 0)
             {
-                run_t = Convert.ToInt32(Linetimedt.Rows[0]["run_t"].ToString());
-                stop_t = Convert.ToInt32(Linetimedt.Rows[0]["stop_t"].ToString());
-                warn_t = Convert.ToInt32(Linetimedt.Rows[0]["warn_t"].ToString());
+                run_t = Convert.ToDouble(Linetimedt.Rows[0]["run_t"].ToString());
+                stop_t = Convert.ToDouble(Linetimedt.Rows[0]["stop_t"].ToString());
+                warn_t = Convert.ToDouble(Linetimedt.Rows[0]["warn_t"].ToString());
 
             }
             //产线利用率  run_t+free_t+warn_t /plan_t
@@ -114,22 +114,22 @@ namespace Bussiness.Chart
             //时间稼动率   run_t+free_t /run_t+free_t+warn_t
             if (run_t == 0 && warn_t == 0) warn_t = 1;
             //时间开动率
-            double time_activation = (run_t) / (run_t + warn_t);
+            double time_activation =Math.Round( (run_t) / (run_t + warn_t),2)*100;
             //设备利用率
-            double plan_activation = run_t + warn_t / plan_t;
+            double plan_activation = Math.Round((run_t + warn_t) / plan_t, 2) * 100;
             //产线稼动率
-            double activation = run_t / plan_t;
+            double activation = Math.Round(  run_t / plan_t,2)*100;
 
 
             //获取七日平均稼动率
             sql = "  select sum(RunT) as RunT, sum(WarnT) as WarnT,sum(PlanPowerOnT) as PlanPowerOnT " +
-                "  from rptproductday where ProductLineId = 1 order by ProductionT desc limit  ";
+                "  from rptproductday where ProductLineId = 1 order by ProductionT desc limit 1 ";
 
             double RunT = 0.0;
             double WarnT = 0.0;
             double PlanPowerOnT = 0.0;
             DataTable Lineavgdt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-            if (Lineavgdt.Rows.Count >= 0)
+            if (Lineavgdt.Rows.Count >  0)
             {
                 RunT = Convert.ToDouble(Lineavgdt.Rows[0]["RunT"].ToString());
                 WarnT = Convert.ToDouble(Lineavgdt.Rows[0]["WarnT"].ToString());
@@ -138,11 +138,11 @@ namespace Bussiness.Chart
             }
             if (run_t == 0 && warn_t == 0) warn_t = 1;
             //时间开动率
-            double time_activation_7 = (RunT) / (RunT + WarnT);
+            double time_activation_7 = Math.Round((RunT) / (RunT + WarnT),2)*100;
             //设备利用率
-            double plan_activation_7 = RunT + WarnT / PlanPowerOnT;
+            double plan_activation_7 = Math.Round(RunT + WarnT / PlanPowerOnT,2)*100;
             //产线稼动率
-            double activation_7 = RunT / PlanPowerOnT;
+            double activation_7 = Math.Round(RunT / PlanPowerOnT,2)*100;
 
             Dictionary<string, string> dicline = new Dictionary<string, string>();
             dicline.Add("Linestatus", Linestatus);
@@ -153,7 +153,7 @@ namespace Bussiness.Chart
             dicline.Add("plan_activation_7", plan_activation_7.ToString());
             dicline.Add("time_activation_7", time_activation_7.ToString());
 
-            dv.Add("activation_line", JObject.FromObject(dic));
+            dv.Add("activation_line", dic);
 
 
             //当日  七日平均
@@ -165,11 +165,10 @@ namespace Bussiness.Chart
 
             string lstmonstr = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
 
-            sql = " select tt1.* ,tt2.RunT,tt2.WarnT,tt2.StopT,tt2.PlanPowerOnT,tt3.CircleTime from  " +
-            " (select b.productlineid, left(ct,10) as ProductionT , sum(1) as all_num, sum(if (QualityType = 1,1,0)) as pass_num   from quality a  right join `usage` b on a.id_usage = b.id_usage " +
-                "  where b.productlineid = " + lineid + " and a.id_usage > (select min(id_usage) from  `usage`  where  left(ct,10)>'" + lstmonstr + "') group by left(ct, 10)) tt1 " +
-                 " left join rptproductday tt2 on tt1.ProductionT = tt2.ProductionT " +
-               " left join productlineinfo tt3 on tt1.productlineid = tt3.productlineid order by7 tt1.ProductionT";
+            sql = " select tt1.* ,tt2.RunT,tt2.WarnT,tt2.StopT,tt2.PlanPowerOnT,tt2.WorkLoad,tt3.CircleTime  from  " +
+            " (select b.productlineid, left(CreateTime, 10) as ProductionT, sum(if (QualityType != null,1,0)) as all_num, sum(if (QualityType = 1,1,0)) as pass_num   from `usage` b left join  " +
+             "  `quality` a on a.id_usage = b.id_usage   where b.productlineid = "+lineid+" and b.id_usage > (select min(id_usage) from  `usage`  where left(CreateTime,10)> '"+lstmonstr+ "') group by left(CreateTime, 10)) tt1 left join rptproductday tt2 on tt1.ProductionT = tt2.ProductionT  " +
+             " left join productlineinfo tt3 on tt1.productlineid = tt3.productlineid where RunT  is not null  order by  tt1.ProductionT";
             DataTable efectlinedt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
             List<Dictionary<string, object>> efectlinelist = new List<Dictionary<string, object>>();
             if (efectlinedt.Rows.Count > 0)
@@ -184,26 +183,31 @@ namespace Bussiness.Chart
                         QA_all_num = Convert.ToInt32(efectlinedt.Rows[i]["all_num"].ToString());
                         QA_pass_num = Convert.ToInt32(efectlinedt.Rows[i]["pass_num"].ToString());
                     }
-
+                    if(QA_all_num==0 )
+                    {
+                        QA_all_num = 1;
+                        QA_pass_num = 1;
+                    }
+                    
                     int CircleTime = Convert.ToInt32(efectlinedt.Rows[i]["CircleTime"].ToString());
                     int WorkLoad = Convert.ToInt32(efectlinedt.Rows[i]["WorkLoad"].ToString());
                     double QA_RunT = Convert.ToDouble(efectlinedt.Rows[i]["RunT"].ToString());
                     double QA_WarnT = Convert.ToDouble(efectlinedt.Rows[i]["WarnT"].ToString());
                     double QA_PlanPowerOnT = Convert.ToDouble(efectlinedt.Rows[i]["PlanPowerOnT"].ToString());
 
-                    double OEE = 100 * (WorkLoad * WorkLoad / (QA_RunT + QA_WarnT)) * (QA_pass_num / QA_all_num);
+                    double OEE = 100 * (WorkLoad * CircleTime / (QA_RunT + QA_WarnT)*3600) * (QA_pass_num / QA_all_num);
                     double TEEP = OEE * ((QA_RunT + QA_WarnT) / QA_PlanPowerOnT);
                     efectlinedic.Add("ProductionT", ProductionT);
                     efectlinedic.Add("WorkLoad", WorkLoad);
-                    efectlinedic.Add("OEE", OEE);
-                    efectlinedic.Add("TEEP", TEEP);
+                    efectlinedic.Add("OEE", Math.Round(OEE,2));
+                    efectlinedic.Add("TEEP", Math.Round(TEEP,2));
                     efectlinelist.Add(efectlinedic);
                 }
 
 
 
             }
-            dv.Add("line_oee", JObject.FromObject(efectlinelist));
+            dv.Add("line_oee", efectlinelist);
 
             //产线当日警报情况
             sql = "   select tt2.*,tt1.warn_t ,tt1.warn_c from " +
@@ -231,52 +235,25 @@ namespace Bussiness.Chart
                     double avgwarntm = warnt / warnc > 0 ? warnc : 1;
                     double avgwarninter = (warninter - warnt) / warnc > 1 ? warnc - 1 : 1;
                     warnlinedic.Add("firstwarninter", firstwarninter);
-                    warnlinedic.Add("avgwarnt", avgwarntm);
-                    warnlinedic.Add("avgwarninter", avgwarninter);
+                    warnlinedic.Add("avgwarnt", Math.Round(avgwarntm,2));
+                    warnlinedic.Add("avgwarninter", Math.Round(avgwarninter,2));
 
                 }
             }
-            dv.Add("line_warn_stat", JObject.FromObject(warnlinedic));
+            dv.Add("line_warn_stat", warnlinedic);
 
             //产线1个月警报曲线
-            sql = "select WarnT,WarnC,FirstWarnInter,avgwarnt,avgwarninter from rptlineerrday where  productLineId=" + lineid
-                + " and ProductionT > '" + lstmonstr + "'";
+            sql = "select ProductionT,  WarnT,WarnC,FirstWarnInter,avgwarnt,avgwarninter from rptlineerrday where  productLineId=" + lineid
+                + " and ProductionT > '" + lstmonstr + "' order by ProductionT";
             DataTable warnlinedt1 = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
             if (warnlinedt.Rows.Count > 0)
             {
-                dv.Add("line_warn_curve", JObject.FromObject(warnlinedt1));
+                dv.Add("line_warn_curve",warnlinedt1);
             }
-
-
-
-
-
-
-
-
-
-
-
+             
             //警报数据曲线
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+             
             //工位信息
             //实时工位状态  末次班次平均加工周期   七日平均加工周期
             sql = " select tt1.*,tt2.run7 from " +
@@ -284,7 +261,7 @@ namespace Bussiness.Chart
     " from(select t2.Locationid, t2.JobType, t2.LocationSeq, t1.stationNAME, round(run_t /if (run_c > 0,run_c,1))as run from(select   sum( if (stationstate = '运行', endtime - startTime, 0))/ 1000 AS run_t, sum( if " +
    "  (stationstate = '运行',1, 0))  AS run_c, stationNAME " +
      "  from huabao.LocationState where id_usage =  " + idusage + "  group by stationNAME ) as t1 left join   huabao.locationcfg t2 " +
-     "  on t1.stationNAME = t2.StationNam ewhere t2.productlineid= " + lineid + ") a1 left join(select  stationNAME, stationstate, (TIMESTAMPDIFF(SECOND, '1970-1-1', NOW()) - round(starttime / 1000)) " +
+     "  on t1.stationNAME = t2.StationName where t2.productlineid= " + lineid + ") a1 left join(select  stationNAME, stationstate, (TIMESTAMPDIFF(SECOND, '1970-1-1', NOW()) - round(starttime / 1000)) " +
      "     as currtime    from huabao.LocationStatecache where " +
       "  id_usage = " + idusage + "  )b1 on a1.stationNAME = b1.stationNAME order by a1.JobType, a1.LocationSeq)  tt1 left join " +
     " (select Locationid, round(sum(RunT) /if (sum(RunC) > 0,sum(RunC),1)) as run7 from( " +
@@ -292,13 +269,9 @@ namespace Bussiness.Chart
 
 
             DataTable stationstatedt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-            if (stationstatedt.Rows.Count >= 0)
-            {
-                dv.Add("location_stat", JObject.FromObject(stationstatedt));
-            }
-
-            //实时工序繁忙状态 +当日工序繁忙曲线
-
+            
+            dv.Add("location_stat",  stationstatedt);
+            //实时工序繁忙状态 +当日工序繁忙曲线 
             sql = "  select left(CT, 10)  as Date, locationName ,NUM from queuestat where DataType=0 and ProductLineID=1 ORDER BY SEQ";
 
             DataTable stationdt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);

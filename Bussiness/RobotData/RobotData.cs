@@ -74,12 +74,13 @@ namespace Bussiness
                 linestage.Add(lineids[id], localdic);
                  
             }
+
+
              
+            MySqlHelper.ExecuteSql("update queuestat set num=0 ,CT=now() where DataType=0 ");
 
-                //查询产线数据
 
-
-                for (int id = 0; id < lineids.Count; id++)
+            for (int id = 0; id < lineids.Count; id++)
                 {
                 int lineid = lineids[id];
                 string queuename = "Q_Line2Ser_" + lineid;
@@ -87,7 +88,7 @@ namespace Bussiness
 
                 Common.RabbitMQ.RabbitMQHelper.ListenMqMsg(queuename, lineid, ProcessQG,exchangenm);
                 TimeTaskManager.AddTimer(1, 10000, CheckMQ, lineid);
-            }
+                }
 
                  
 
@@ -123,28 +124,23 @@ namespace Bussiness
             
             Dictionary<int, int> nowstatdic = linestage[lineid];
             //第一组套楦及贴腹
-            if (dict.Contains("O0"))
+            //第一组套楦及贴腹
+            if (dict.Contains("I0"))
             {
                 //Debug.Log("O0" + dict["O0"]);
-                int val = int.Parse(dict["O0"].ToString());
-                //套楦工作完成
-                if ((val & 2) < 1) nowstatdic[-1] = 0;
-                if (nowstatdic[-1]==0 && (val & 2) > 0)
+                int val = int.Parse(dict["I0"].ToString());
+                //套楦工作气缸
+
+                if ((val & 1) >0) nowstatdic[-1] = 0;
+                if (nowstatdic[-1] == 0 && (val & 1)<1)
                 {
-                    nowstatdic[-1] = 1; //-1 是气缸编号
-                    //视觉站+1
-                    QueueAdd(lineid, "视觉1站"); //2是工位编号
-                     
+                    nowstatdic[11] = 1;
+                    //敲平 +1
+                    QueueAdd(lineid, "视觉1站");
+                   
                 }
-                //贴腹
-                if ((val & 8) < 1) nowstatdic[6] = 0;
-                if (nowstatdic[6] == 0 && (val & 8) > 0)
-                {
-                    nowstatdic[6] = 1;
-                    //贴大底+1
-                    QueueMinus(lineid, "贴腹");
-                }
-  
+
+
             }
             //第二组压合
             if (dict.Contains("O2"))
@@ -152,123 +148,115 @@ namespace Bussiness
                 //Debug.Log("O2" + dict["O2"]);
                 int val = int.Parse(dict["O2"].ToString());
                 //压底
-                if ((val & 4096)<1) nowstatdic[11] = 0;
-                if (nowstatdic[11] == 0 && (val & 4096) > 0)
+                if ((val & 128)<1) nowstatdic[11] = 0;
+                if (nowstatdic[11] == 0 && (val & 128) > 0)
                 {
                     nowstatdic[11] = 1;
                     //敲平 +1
-                    QueueAdd(lineid, "敲平");  
+                    QueueAdd(lineid, "视觉2站");
+                    QueueMinus(lineid, "压底");
                 } 
             }
             //第三组1#图像站
-            if (dict.Contains("O4"))
+            if (dict.Contains("I11"))
             {
                 //Debug.Log("O4" + dict["O4"]);
-                int val = int.Parse(dict["O4"].ToString());
+                int val = int.Parse(dict["I11"].ToString());
                 //1#阻挡气缸
 
                 //1#工位完成
-                if ((val & 128) < 1) nowstatdic[1] = 0;
-                if (nowstatdic[1] == 0 && (val & 128) > 0)
+                if ((val & 2) < 1) nowstatdic[1] = 0;
+                if (nowstatdic[1] == 0 && (val & 2) > 0)
                 {
                     nowstatdic[1] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "鞋面喷胶"); QueueMinus(lineid,"视觉1站");
+                    QueueAdd(lineid, "一次喷胶");
+                    QueueMinus(lineid, "视觉1站");
                 }
-                if ((val & 256) < 1) nowstatdic[2] = 0;
-                if (nowstatdic[2] == 0 && (val & 256) > 0)
+                if ((val & 4) < 1) nowstatdic[2] = 0;
+                if (nowstatdic[2] == 0 && (val & 4) > 0)
                 {
                     nowstatdic[2] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "鞋面喷胶"); QueueMinus(lineid, "视觉1站");
+                    QueueAdd(lineid, "一次喷胶");
+                    QueueMinus(lineid, "视觉1站");
                 } 
             }
 
             //第四组鞋面喷胶站
-            if (dict.Contains("O6") && dict.Contains("O8"))
+            if (dict.Contains("I15")  )
             {
                 //Debug.Log("O6" + dict["O6"]);
                 //Debug.Log("O8" + dict["O8"]);
-                int val = int.Parse(dict["O6"].ToString());
-                int val2 = int.Parse(dict["O8"].ToString());
-
-                if ((val & 32768) < 1) nowstatdic[4] = 0;
-                if (nowstatdic[4] == 0 && (val & 32768) > 0)
+                int val = int.Parse(dict["I15"].ToString());
+                
+                if ((val & 2) < 1) nowstatdic[4] = 0;
+                if (nowstatdic[4] == 0 && (val & 2) > 0)
                 {
                     nowstatdic[4] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "贴腹"); QueueMinus(lineid, "鞋面喷胶");
+                    QueueAdd(lineid, "压底");
+                    QueueMinus(lineid, "一次喷胶");
                 }
-                if ((val2 & 1) < 1) nowstatdic[5] = 0;
-                if (nowstatdic[5] == 0 && (val2 & 1) > 0)
+                if ((val & 8) < 1) nowstatdic[5] = 0;
+                if (nowstatdic[5] == 0 && (val  & 8) > 0)
                 {
                     nowstatdic[5] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "贴腹"); QueueMinus(lineid, "鞋面喷胶");
+                    QueueAdd(lineid, "压底");
+                    QueueMinus(lineid, "一次喷胶");
                 }
                  
 
             }
-
-            // 人工贴大底 没有信号 暂时不加
-            //敲平12  是在人工贴大底环节的
-            if (dict.Contains("O20"))
-            {
-                //Debug.Log("O0" + dict["O20"]);
-                int val = int.Parse(dict["O20"].ToString());
-                //套楦工作气缸
-                if ((val & 2) < 1) nowstatdic[12] = 0;
-                if (nowstatdic[12] == 0 && (val & 2) > 0)
-                {
-                    nowstatdic[12] = 1;
-                    //视觉2 +1
-                    QueueAdd(lineid, "视觉2站"); QueueMinus(lineid, "敲平");
-                }
-                
-            }
+ 
             //2#图像站
-            if (dict.Contains("O10"))
+            if (dict.Contains("I19"))
             {
                 //Debug.Log("O10" + dict["O10"]);
-                int val = int.Parse(dict["O10"].ToString());
+                int val = int.Parse(dict["I19"].ToString());
                  
-                if ((val & 128) < 1) nowstatdic[14] = 0;
-                if (nowstatdic[14] == 0 && (val & 128) > 0)
+                if ((val & 2) < 1) nowstatdic[14] = 0;
+                if (nowstatdic[14] == 0 && (val & 2) > 0)
                 {
                     nowstatdic[14] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "围条一胶"); QueueMinus(lineid, "视觉2站");
+                    QueueAdd(lineid, "喷处理剂");
+                    QueueMinus(lineid, "视觉2站");
                 }
-                if ((val & 256) < 1) nowstatdic[15] = 0;
-                if (nowstatdic[15] == 0 && (val & 256) > 0)
+                if ((val & 32) < 1) nowstatdic[15] = 0;
+                if (nowstatdic[15] == 0 && (val & 32) > 0)
                 {
                     nowstatdic[15] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "围条一胶"); QueueMinus(lineid, "视觉2站");
+                    QueueAdd(lineid, "喷处理剂");
+                    QueueMinus(lineid, "视觉2站");
                 }
            
 
             }
             //围条一胶站
-            if (dict.Contains("O12"))
+            if (dict.Contains("I23"))
             {
                 // Debug.Log("O12" + dict["O12"]);
                 //Debug.Log("O10" + dict["O10"]);
-                int val = int.Parse(dict["O10"].ToString());
+                int val = int.Parse(dict["I23"].ToString());
 
-                if ((val & 256) < 1) nowstatdic[17] = 0;
-                if (nowstatdic[17] == 0 && (val & 256) > 0)
+                if ((val & 2) < 1) nowstatdic[17] = 0;
+                if (nowstatdic[17] == 0 && (val & 2) > 0)
                 {
                     nowstatdic[17] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "围条二胶"); QueueMinus(lineid, "围条一胶");
+                    QueueAdd(lineid, "二次喷胶");
+                    QueueMinus(lineid, "喷处理剂");
                 }
-                if ((val & 512) < 1) nowstatdic[18] = 0;
-                if (nowstatdic[18] == 0 && (val & 512) > 0)
+                if ((val & 8) < 1) nowstatdic[18] = 0;
+                if (nowstatdic[18] == 0 && (val & 8) > 0)
                 {
                     nowstatdic[18] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "围条二胶"); QueueMinus(lineid, "围条一胶");
+                    QueueAdd(lineid, "二次喷胶");
+                    QueueMinus(lineid, "喷处理剂");
                 }
 
               
@@ -276,198 +264,116 @@ namespace Bussiness
             }
 
             //围条二胶站
-            if (dict.Contains("O14"))
+            if (dict.Contains("I27"))
             {
                 //Debug.Log("O14" + dict["O14"]);
-                int val = int.Parse(dict["O14"].ToString());
+                int val = int.Parse(dict["I27"].ToString());
 
-                if ((val & 128) < 1) nowstatdic[23] = 0;
-                if (nowstatdic[23] == 0 && (val & 128) > 0)
+                if ((val & 2) < 1) nowstatdic[23] = 0;
+                if (nowstatdic[23] == 0 && (val & 2) > 0)
                 {
                     nowstatdic[23] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "围条三胶"); QueueMinus(lineid, "围条二胶");
+                    QueueAdd(lineid, "三次喷胶");
+                    QueueMinus(lineid, "二次喷胶");
                 }
-                if ((val & 256) < 1) nowstatdic[24] = 0;
-                if (nowstatdic[24] == 0 && (val & 256) > 0)
+                if ((val & 8) < 1) nowstatdic[24] = 0;
+                if (nowstatdic[24] == 0 && (val & 8) > 0)
                 {
                     nowstatdic[24] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "围条三胶"); QueueMinus(lineid, "围条二胶");
+                    QueueAdd(lineid, "三次喷胶");
+                    QueueMinus(lineid, "二次喷胶");
                 }
                  
 
             }
 
             //围条三胶站
-            if (dict.Contains("O16") && dict.Contains("O18"))
+            if (dict.Contains("I31") )
             {
                 //Debug.Log("O16" + dict["O16"]);
                 //Debug.Log("O18" + dict["O18"]);
-                int val = int.Parse(dict["O16"].ToString());
-                int val2 = int.Parse(dict["O18"].ToString());
-
-                if ((val & 32768) < 1) nowstatdic[27] = 0;
-                if (nowstatdic[27] == 0 && (val & 32768) > 0)
+                int val = int.Parse(dict["I31"].ToString());
+               
+                if ((val & 2) < 1) nowstatdic[27] = 0;
+                if (nowstatdic[27] == 0 && (val & 2) > 0)
                 {
                     nowstatdic[27] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "围条贴附"); QueueMinus(lineid, "围条三胶");
+                    QueueAdd(lineid, "护齿喷胶");
+                    QueueMinus(lineid, "三次喷胶");
                 }
-                if ((val2 & 1) < 1) nowstatdic[28] = 0;
-                if (nowstatdic[28] == 0 && (val2 & 1) > 0)
+                if ((val & 8) < 1) nowstatdic[28] = 0;
+                if (nowstatdic[28] == 0 && (val &8 ) > 0)
                 {
                     nowstatdic[28] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "围条贴附"); QueueMinus(lineid, "围条三胶");
+                    QueueAdd(lineid, "护齿喷胶");
+                    QueueMinus(lineid, "三次喷胶");
                 }
                  
             }
-            //围条机
-            if (dict.Contains("O22"))
-            {
-                //Debug.Log("O22" + dict["O22"]);
-                int val = int.Parse(dict["O22"].ToString());
-                //31#阻挡气缸
-                if ((val & 4) < 1) nowstatdic[31] = 0;
-                if (nowstatdic[31] == 0 && (val & 4) > 0)
-                {
-                    nowstatdic[31] = 1;
-                   
-                    QueueAdd(lineid, "侧压"); QueueMinus(lineid, "围条贴附");
-                }
-                if ((val & 8) < 1) nowstatdic[32] = 0;
-                if (nowstatdic[32] == 0 && (val & 8) > 0)
-                {
-                    nowstatdic[32] = 1;
-                     
-                    QueueAdd(lineid, "侧压"); QueueMinus(lineid, "围条贴附");
-                }
-                if ((val & 16) < 1) nowstatdic[33] = 0;
-                if (nowstatdic[33] == 0 && (val & 16) > 0)
-                {
-                    nowstatdic[33] = 1;
-
-                    QueueAdd(lineid, "侧压"); QueueMinus(lineid, "围条贴附");
-                }
-                if ((val & 32) < 1) nowstatdic[34] = 0;
-                if (nowstatdic[34] == 0 && (val & 32) > 0)
-                {
-                    nowstatdic[34] = 1;
-
-                    QueueAdd(lineid, "侧压"); QueueMinus(lineid, "围条贴附");
-                }
-                 
-            }
-
-            //滚压
-            if (dict.Contains("O22"))
-            {
-                int val = int.Parse(dict["O22"].ToString());
-                if ((val & 4096) < 1) nowstatdic[35] = 0;
-                if (nowstatdic[35] == 0 && (val & 4096) > 0)
-                {
-                    nowstatdic[35] = 1;
-                    //视觉2 +1
-                    QueueAdd(lineid, "护齿喷胶"); QueueMinus(lineid, "侧压");
-                }
-           }
+             
             //护齿喷胶站
-            if (dict.Contains("O24"))
+            if (dict.Contains("I43"))
             {
                 //Debug.Log("O24" + dict["O24"]);
                 int val = int.Parse(dict["O24"].ToString());
-                if ((val & 128) < 1) nowstatdic[37] = 0;
-                if (nowstatdic[37] == 0 && (val & 128) > 0)
+                if ((val & 4) < 1) nowstatdic[37] = 0;
+                if (nowstatdic[37] == 0 && (val & 4) > 0)
                 {
                     nowstatdic[37] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "贴护齿"); QueueMinus(lineid, "护齿喷胶");
+                    QueueAdd(lineid, "十字压");
+                    QueueMinus(lineid, "护齿喷胶");
                 }
-                if ((val & 256) < 1) nowstatdic[38] = 0;
-                if (nowstatdic[38] == 0 && (val & 256) > 0)
+                if ((val & 16) < 1) nowstatdic[38] = 0;
+                if (nowstatdic[38] == 0 && (val & 16) > 0)
                 {
                     nowstatdic[38] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "贴护齿"); QueueMinus(lineid, "护齿喷胶");
+                    QueueAdd(lineid, "十字压");
+                    QueueMinus(lineid, "护齿喷胶");
                 }
                  
             }
 
-            //贴护齿
-            if (dict.Contains("O28"))
-            {
-                //Debug.Log("O28" + dict["O28"]);
-                int val = int.Parse(dict["O28"].ToString());
-                if ((val & 2) < 1) nowstatdic[40] = 0;
-                if (nowstatdic[40] == 0 && (val & 2) > 0)
-                {
-                    nowstatdic[40] = 1;
-                    //视觉2 +1
-                    QueueAdd(lineid, "十字压"); QueueMinus(lineid, "贴护齿");
-                }
- 
-
-            }
-
+             
 
             //左十字压
-            if (dict.Contains("O26"))
+            if (dict.Contains("O25"))
             {
 
                 //Debug.Log("O26" + dict["O26"]);
-                int val = int.Parse(dict["O26"].ToString());
-                if ((val & 1) < 1) nowstatdic[42] = 0;
-                if (nowstatdic[42] == 0 && (val & 1) > 0)
+                int val = int.Parse(dict["O25"].ToString());
+                if ((val & 64) < 1) nowstatdic[42] = 0;
+                if (nowstatdic[42] == 0 && (val & 64) > 0)
                 {
                     nowstatdic[42] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "品检"); QueueMinus(lineid, "十字压");
+                QueueMinus(lineid, "十字压");
                 }
 
           
             }
 
             //右十字压
-            if (dict.Contains("O28"))
+            if (dict.Contains("O29"))
             {
                 //Debug.Log("O28" + dict["O28"]);
                 int val = int.Parse(dict["O28"].ToString());
-                if ((val & 16384) < 1) nowstatdic[44] = 0;
-                if (nowstatdic[44] == 0 && (val & 16384) > 0)
+                if ((val & 16) < 1) nowstatdic[44] = 0;
+                if (nowstatdic[44] == 0 && (val & 16) > 0)
                 {
                     nowstatdic[44] = 1;
                     //视觉2 +1
-                    QueueAdd(lineid, "品检"); QueueMinus(lineid, "十字压");
+                      QueueMinus(lineid, "十字压");
                 } 
 
             }
 
-            //品检  //码垛
-            if (dict.Contains("O26"))
-            {
-
-                int val = int.Parse(dict["O26"].ToString());
-                if ((val & 8192) < 1) nowstatdic[45] = 0;
-                if (nowstatdic[45] == 0 && (val & 8192) > 0)
-                {
-                    nowstatdic[45] = 1;
-                    //视觉2 +1
-                    QueueAdd(lineid, "码垛"); QueueMinus(lineid, "品检");
-                }
-                if ((val & 32768) < 1) nowstatdic[46] = 0;
-                if (nowstatdic[46] == 0 && (val & 32768) > 0)
-                {
-                    nowstatdic[46] = 1;
-                    //视觉2 +1
-                    QueueMinus(lineid, "码垛");
-                }
-                 
-
-            }
-
-
-
+              
 
 
 
