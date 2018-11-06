@@ -233,7 +233,7 @@ namespace Bussiness
         {
             string datestr = Global.GetDbDate();
             string strSql = string.Empty;
-            strSql = " select max(id_usage)  from `usage` a where a.productlineid = " + lineid + " and  CT like '" + datestr + "%'";
+            strSql = " select max(id_usage)  from `usage` a where a.productlineid = " + lineid + " and  CT like '" + datestr + "%' group by null";
            DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
 
             if (newTb.Rows.Count == 0)

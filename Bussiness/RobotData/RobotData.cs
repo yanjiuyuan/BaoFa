@@ -37,17 +37,17 @@ namespace Bussiness
             RedisHelper redis = new RedisHelper();
 
 
-            Dictionary<string, string> dic = redis.GetHashAllKV("currFileContent");
+            //Dictionary<string, string> dic = redis.GetHashAllKV("currFileContent");
              
 
-            foreach (var x in dic.Keys)
-            {
-                List<string> s = new List<string>(dic[x].Split('\n'));
-                for (int i = 0; i < s.Count; i++)
-                    s[i] = i.ToString() + " " + s[i];
+            //foreach (var x in dic.Keys)
+            //{
+            //    List<string> s = new List<string>(dic[x].Split('\n'));
+            //    for (int i = 0; i < s.Count; i++)
+            //        s[i] = i.ToString() + " " + s[i];
 
-                codeData.Add(x, s);
-            }
+            //    codeData.Add(x, s);
+            //}
 
             
             DataTable dt = MySqlHelper.ExecuteQuery("select deviceid from deviceinfo");
@@ -433,7 +433,7 @@ namespace Bussiness
                   data[key] = dic;
                    
                 
-                DealData(key, dic);
+               // DealData(key, dic);
 
  
             }
@@ -444,11 +444,11 @@ namespace Bussiness
 
 
         }
-        private async static void DealData(string key, Dictionary<string, string> dic)
-        {
-            var t = AsyncBus(key,dic);
+        //private async static void DealData(string key, Dictionary<string, string> dic)
+        //{
+        //    //var t = AsyncBus(key,dic);
    
-        }
+        //}
         static async Task<int>  AsyncBus(string key, Dictionary<string, string> dic)
         {
             return await Task.Run(() =>

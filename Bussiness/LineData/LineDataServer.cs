@@ -107,7 +107,7 @@ namespace Bussiness.LineData
                 if (tblineusage.Rows.Count > 0)
                 {
                     paradic = JsonHelper.DataRowToDic(tblineusage.Columns, tblineusage.Rows[0]);
-
+                }
                     int num = 0;
                     StringBuilder sb = new StringBuilder();
                     Dictionary<string, string> dic = Global.GetMachineStationsWithoutSpary(lineid);
@@ -144,10 +144,11 @@ namespace Bussiness.LineData
 
                         if (Global.jz.ContainsKey(stanm))
                         {
+                            if(paradic.ContainsKey(Global.jz[stanm]))
                             subdic.Add(Global.jz[stanm], paradic[Global.jz[stanm]]);
                         }
                         retdic.Add(stanm, subdic);
-                    }
+                     
                 }
 
                 }

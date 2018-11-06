@@ -58,13 +58,13 @@ namespace Bussiness.Chart
                     " if (run is null  ,0,run) as run ,if (free is null ,0,free) as free ,if (warn is null ,0,warn) as warn  from(select t3.*, t2.LocationSeq, t2.JobType  from(select  stationNAME, stationstate, (TIMESTAMPDIFF(SECOND, '1970-1-1 08:00:00', NOW()) - round(starttime / 1000)) as currtime " +
                     " from huabao.LocationStatecache where ProductLineId =  " + lineid + ") t3 " +
             " left join(SELECT * from huabao.locationcfg where ProductLineId = " + lineid + ")  t2 " +
-                   " on t3.stationNAME = t2.StationName) as b1   left join(select stationNAME, " +
-        "  round(run_t /if (run_c > 0,run_c,1))as run,round(free_t /if (free_c > 0,free_c,1)) as free,round(warn_t /if (warn_c > 0,warn_c,1))as warn " +
-     " from(select   sum( if (stationstate = '运行', endtime - startTime, 0))/ 1000 AS run_t, sum( if (stationstate = '运行',1, 0))  AS run_c, sum( if " +
+                   " on t3.stationNAME = t2.StationName and t2.state=1) as b1   left join(select stationNAME, " +
+        "  round( run_t  /if (run_c > 0,run_c,1))as run,round(free_t /if (free_c > 0,free_c,1)) as free,round(warn_t /if (warn_c > 0,warn_c,1))as warn " +
+     " from(select   sum( if (stationstate = '运行',if( (endtime - startTime)<300000,endtime - startTime,300000), 0))/ 1000 AS run_t, sum( if (stationstate = '运行',1, 0))  AS run_c, sum( if " +
        "  (stationstate = '空闲', endtime - startTime, 0))/ 1000 AS free_t, sum( if (stationstate = '空闲',1, 0))  AS free_c, " +
       " sum( if (stationstate = '报警', endtime - startTime, 0))/ 1000 AS warn_t, sum( if (stationstate = '报警',1, 0))  " +
         " AS warn_c, stationNAME from huabao.LocationState where starttime > " + begintime + " and starttime< " + endtime + " and ProductLineId =  " + lineid + " " +
-       " group by stationNAME ) a2 )a1 on a1.stationNAME = b1.stationNAME order by b1.JobType, b1.LocationSeq";
+       " group by stationNAME ) a2 )a1 on a1.stationNAME = b1.stationNAME where JobType is not null  order by b1.JobType, b1.LocationSeq";
 
                  
                 DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
