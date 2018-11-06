@@ -667,7 +667,7 @@ namespace Bussiness.AutoTask
                     " where a.ProductLineId ={5} ) t left join " +
                     " (select stationNAME, if (run_c is null ,0,run_c)as run_c, round( if (run_t is null ,0,run_t) /3600 ,2) as run_t, round(if (free_t is null ,0,free_t) /3600 ,2) as free_t  , " +
                     " if (free_c is null ,0,free_c)as free_c , round(if (warn_t is null ,0,warn_t) /3600 ,2) as warn_t, if (warn_c is null ,0,warn_c)as warn_c " +
-                    "  from(select   sum( if (stationstate = '运行', endtime - startTime, 0))/ 1000 AS run_t, sum( if (stationstate = '运行',1, 0))  AS run_c, sum( if " +
+                    "  from(select   sum( if (stationstate = '运行', if( (endtime - startTime)<300000,endtime - startTime,300000), 0))/ 1000 AS run_t, sum( if (stationstate = '运行',1, 0))  AS run_c, sum( if " +
                     " (stationstate = '空闲', endtime - startTime, 0))/ 1000 AS free_t, sum( if (stationstate = '空闲',1, 0))  AS free_c, " +
                     " sum( if (stationstate = '报警', endtime - startTime, 0))/ 1000 AS warn_t, sum( if (stationstate = '报警',1, 0))   " +
                     "  AS warn_c, stationNAME from huabao.LocationState where id_usage in ({6}) group by stationNAME ) t1)t2 on t.StationName = t2.StationName where t2.StationName is not null "
@@ -855,6 +855,52 @@ namespace Bussiness.AutoTask
             {
                 logger.Error(ex.Message);
                 TaskFail("3007");
+            }
+        }
+
+
+        public void LocationRptDay(string datestr)
+        {
+            //查看前日所有班次
+            try
+            {
+
+                string delsql = "delete from  RptLocationDay where productionT ='" + datestr + "'";
+                int delC = MySqlHelper.ExecuteSql(delsql);
+                if (delC > 0)
+                    logger.Info("RptLocationDay删除现有旧数据，数量：" + delC);
+
+                DataTable dts = new DataTable();
+                string strsql = "select group_concat(id_usage) as id_usage,sum(nown) as nowan, sum(childn) as childn,productlineid  from `usage` where  createtime like '" + datestr + "%'   group by productlineid   order by productlineid ";
+                dts = MySqlHelper.ExecuteQuery(strsql);
+                if (dts.Rows.Count == 0)
+                {
+                    logger.Info("当日无生产班次！");
+                    return;
+                }
+                for (int i = 0; i < dts.Rows.Count; i++)
+                {
+                    string id_usages = string.Empty; 
+                    id_usages = Convert.ToString(dts.Rows[i]["id_usage"]);
+                    int productlineid = Convert.ToInt32(dts.Rows[i]["productlineid"].Equals(DBNull.Value) ? 0 : dts.Rows[i]["productlineid"]);
+                  string  inserttsql = " insert into rptlocationday " +
+             " select null   ,t2.locationid ,'"+datestr +"' ,"+productlineid+",t1.run_t,t1.run_C,t1.free_t,t1.free_c,t1.warn_t,t1.warn_c from  " +
+             " (select sum( if (stationstate = '运行', endtime - startTime, 0))/ 1000 AS " +
+             " run_t,sum( if (stationstate = '运行',1, 0))  AS run_c, sum( if (stationstate = '空闲', endtime - startTime, 0))/ 1000 AS free_t, " +
+             " sum( if (stationstate = '空闲',1, 0))  AS free_c, sum( if (stationstate = '报警', endtime - startTime, 0))/ 1000 AS warn_t, " +
+             " sum( if (stationstate = '报警',1, 0))  AS warn_c, stationNAME from huabao.LocationState where id_usage in ("+id_usages+") " +
+             " group by stationNAME ) as t1 left join   huabao.locationcfg t2  on t1.stationNAME = t2.StationName where locationid is not null ";
+
+                    int insertC = MySqlHelper.ExecuteSql(inserttsql);
+                    if (insertC > 0)
+                        logger.Info("rptlocationday插入报表数据，数量：" + insertC);
+                     
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                TaskFail("3008");
             }
         }
         public void LineDataRptMonth(string datestr)
