@@ -46,10 +46,14 @@
                     var that = this
                     $.ajax({
                         url: '/ProductionLines/GetLineList',
+                        dataType: 'JSON',
                         success: function (data) {
                             console.log('获取产线列表')
                             console.log(data)
                             
+                        },
+                        finally: function (r) {
+                            console.log(r)
                         }
                     })
                 },
@@ -60,7 +64,6 @@
                         url: '/Main/AccessList?roleid=' + _getCookie('Role'),
                         success: function (data) {
                             console.log('获取交易码列表')
-                            console.log(JSON.parse(data))
                             that.accessList = JSON.parse(data)
                         }
                     })
