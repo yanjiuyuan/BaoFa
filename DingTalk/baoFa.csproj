@@ -205,7 +205,6 @@
     <Content Include="Content\images\device\机器人喷胶站.jpg" />
     <Content Include="Content\images\device\烤箱.jpg" />
     <Content Include="Content\images\device\视觉站.png" />
-    <Content Include="Content\images\flowLine.jpg" />
     <Content Include="Content\images\icon.png" />
     <Content Include="Content\images\icon900-540.png" />
     <Content Include="Content\images\lineVerticalView.png" />

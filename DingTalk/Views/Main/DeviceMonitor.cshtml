@@ -220,73 +220,25 @@
             handleStatusData: function (devData) {
                 var that = this;
                 //一号线数据
-                var devDataArr1 = []
-                for (let d in devData[0].Data) {
-                    if (devData[0].Data[d][0])
-                    devDataArr1.push(devData[0].Data[d][0])
-                }
-                devDataArr1.push(devData[0].V_STATE)
-
+                var devDataObj = devData[0].Data
+    
                 that.deviceBtns = _cloneArr(DEVICES[0])
-                that.deviceBtns2 = _cloneArr(DEVICES[1])
-                console.log(devDataArr1)
+                console.log(devDataObj)
                 for (let i = 0; i < that.deviceBtns.length; i++) {
                     var dev = that.deviceBtns[i]
-                    var ifDevData = false
                     if (!dev.detail) continue
                     //胶站设置数据
-                    for (let dObj of devDataArr1) {
-                        if (!dObj) continue
-                        if (dObj.SprayID != dev.SprayID || dObj.SprayID == null) continue
-                        //设备名称
-                        //if (dObj.stationName) dev.name = dObj.stationName
-                        //设备状态
-                        if (dObj.stationstate) dev.status = dObj.stationstate
-                        if (dObj.VisualOneState) dev.status = dObj.VisualOneState
-                        if (dObj.VisualTwoState) dev.status = dObj.VisualTwoState
-                        if (dObj.StationState) dev.status = dObj.StationState
-                        if (dObj.V1) dev.status = dObj.V1
-                        if (dObj.SOLEP) dev.status = dObj.SOLEP
-                        if (dObj.V2) dev.status = dObj.V2
-                        if (dObj.TENP) dev.status = dObj.TENP
-                        for (let det in dev.detail) {
-                            var ele = dev.detail[det]
-                            if (dObj[ele] != null) {
-                                dev.detail[det] = dObj[ele]
-                                //
-                                if (DETAILRANGE[ele]) {
-                                    if ((dObj[ele] < DETAILRANGE[ele].min || dObj[ele] > DETAILRANGE[ele].max)) {
-                                        console.log('报警报警报警报警报警报警')
-                                        console.log(ele)
-                                        console.log(dObj)
-                                        console.log(DETAILRANGE[ele].min)
-                                        console.log(DETAILRANGE[ele].max)
-                                        dev.status = '报警'
-                                        dev.tooltip.disabled = false
-                                        dev.tips[det] = det + ":" + dObj[ele]
-                                    }
-                                    else {
-                                        dev.status = '运行' 
-                                    }
-                                    if (getLocalObj('lineData')[0].Data.Linestatus == '生产完成' || getLocalObj('lineData')[0].Data.Linestatus == '停止' || getLocalObj('lineData')[0].Data.Linestatus == '离线') {
-                                        console.log('生产完成')
-                                        dev.status = '停止'
-                                    }
+                    for (let d in devDataObj) {
+                        let dObj = devDataObj[d]
+                        if (d == dev.name) {
+                            for (let det in dev.detail) {
+                                var ele = dev.detail[det]
+                                if (dObj[ele] != null) {
+                                    dev.detail[det] = dObj[ele]
                                 }
-                                if (dev.status == '停止') dev.detail[det] = 0
-                                if (dev.status == '未启用') dev.detail[det] = 0
                             }
-                            else {
-                                delete dev.detail[det]
-                            }
+                            break
                         }
-                        
-                        ifDevData = true
-                        continue
-                    }
-                    //其他设置数据
-                    if (!ifDevData) {
-
                     }
                 }
                 console.log(that.deviceBtns)
@@ -300,6 +252,130 @@
                         that.loading = false
                         data = JSON.parse(data)
                         console.log('ajax 获取状态数据')
+                        console.log(data)
+                        data = [
+                            {
+                                "ProductLineName": "华昂硫化鞋生产线01",
+                                "Data": {
+                                    "视觉1号": {
+                                        "stationstate": "停止",
+                                        "DeviceId": "01-HSR-JR605-01"
+                                    },
+                                    "压底": {
+                                        "stationstate": "停止",
+                                        "DeviceId": "01-YD-01",
+                                        "BOilPressure": "32"
+                                    },
+                                    "视觉2号": {
+                                        "stationstate": "停止",
+                                        "DeviceId": "01-HSR-JR605-03"
+                                    },
+                                    "贴围条1": {
+                                        "stationstate": "停止",
+                                        "DeviceId": "01-HSR-JR620L-01"
+                                    },
+                                    "贴围条2": {
+                                        "stationstate": "停止",
+                                        "DeviceId": "01-HSR-JR620L-02"
+                                    },
+                                    "左十字压": {
+                                        "stationstate": "停止",
+                                        "DeviceId": "",
+                                        "LOilPressure": "30"
+                                    },
+                                    "鞋楦信息": {
+                                        "stationstate": "停止",
+                                        "DeviceId": "01-XXXX-01"
+                                    },
+                                    "右十字压": {
+                                        "stationstate": "停止",
+                                        "DeviceId": "",
+                                        "ROilPressure": "30"
+                                    },
+                                    "一次喷胶": {
+                                        "ID": "1540898729171",
+                                        "ID_Usage": "78",
+                                        "SprayID": "1",
+                                        "RFIDN": "88",
+                                        "AtomizationPressure": "0",
+                                        "MaterialPressure": "0",
+                                        "GlueWeight": "19.464",
+                                        "FlowMeter": "0",
+                                        "OvenTemperatureNow": "12",
+                                        "StateN": "4",
+                                        "ErrorN": "19004",
+                                        "stationName": "一次喷胶",
+                                        "stationstate": "停止",
+                                        "DeviceId": "01-HSR-JR605-02"
+                                    },
+                                    "喷处理剂": {
+                                        "ID": "1540891845507",
+                                        "ID_Usage": "78",
+                                        "SprayID": "2",
+                                        "RFIDN": "72",
+                                        "AtomizationPressure": "0",
+                                        "MaterialPressure": "0",
+                                        "GlueWeight": "23.464",
+                                        "FlowMeter": "0",
+                                        "OvenTemperatureNow": "10",
+                                        "StateN": "0",
+                                        "ErrorN": "19004",
+                                        "stationName": "喷处理剂",
+                                        "stationstate": "停止",
+                                        "DeviceId": "01-HSR-JR605-04"
+                                    },
+                                    "二次喷胶": {
+                                        "ID": "1540898065561",
+                                        "ID_Usage": "78",
+                                        "SprayID": "3",
+                                        "RFIDN": "91",
+                                        "AtomizationPressure": "0",
+                                        "MaterialPressure": "0",
+                                        "GlueWeight": "26.464",
+                                        "FlowMeter": "0",
+                                        "OvenTemperatureNow": "10",
+                                        "StateN": "0",
+                                        "ErrorN": "3294",
+                                        "stationName": "二次喷胶",
+                                        "stationstate": "停止",
+                                        "DeviceId": "01-HSR-JR605-05"
+                                    },
+                                    "三次喷胶": {
+                                        "ID": "1540892232004",
+                                        "ID_Usage": "78",
+                                        "SprayID": "4",
+                                        "RFIDN": "72",
+                                        "AtomizationPressure": "0",
+                                        "MaterialPressure": "0",
+                                        "GlueWeight": "29.464",
+                                        "FlowMeter": "0",
+                                        "OvenTemperatureNow": "10",
+                                        "StateN": "0",
+                                        "ErrorN": "19004",
+                                        "stationName": "三次喷胶",
+                                        "stationstate": "停止",
+                                        "DeviceId": "01-HSR-JR605-06"
+                                    },
+                                    "护齿喷胶": {
+                                        "ID": "1540892455521",
+                                        "ID_Usage": "78",
+                                        "SprayID": "5",
+                                        "RFIDN": "72",
+                                        "AtomizationPressure": "0",
+                                        "MaterialPressure": "0",
+                                        "GlueWeight": "9.464",
+                                        "FlowMeter": "0",
+                                        "OvenTemperatureNow": "0",
+                                        "StateN": "0",
+                                        "ErrorN": "19004",
+                                        "stationName": "护齿喷胶",
+                                        "stationstate": "停止",
+                                        "DeviceId": "01-HSR-JR605-07"
+                                    }
+                                },
+                                "ProductLineId": "1"
+                            }
+                        ]
                         console.log(data)
                         that.handleStatusData(data)
                     }

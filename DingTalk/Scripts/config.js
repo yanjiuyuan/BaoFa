@@ -80,8 +80,8 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '82.02%',
-                left: '0.56%'
+                top: '44.3%',
+                left: '84.6%'
             }
         },
         {
@@ -101,8 +101,8 @@ var DEVICES = [
 
             },
             position: {
-                top: '63.95%',
-                left: '0.56%'
+                top: '53.0%',
+                left: '84.6%'
             }
         },
         {
@@ -116,8 +116,8 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '58.14%',
-                left: '0.56%'
+                top: '61.2%',
+                left: '84.6%'
             }
         },
         {
@@ -131,8 +131,8 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '49.55%',
-                left: '0.56%'
+                top: '67.2%',
+                left: '70%'
             }
         },
         {
@@ -146,8 +146,8 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '43.27%',
-                left: '0.56%'
+                top: '76.2%',
+                left: '70%'
             }
         },
         {
@@ -161,8 +161,8 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '36.67%',
-                left: '0.56%'
+                top: '80.2%',
+                left: '0%'
             }
         },
         {
@@ -176,8 +176,8 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '31.16%',
-                left: '15.56%'
+                top: '47.8%',
+                left: '0%'
             }
         },
         {
@@ -191,8 +191,8 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '24.42%',
-                left: '15.56%'
+                top: '40.2%',
+                left: '0%'
             }
         },
         {
@@ -206,8 +206,8 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '14.80%',
-                left: '30.56%'
+                top: '34.67%',
+                left: '15.56%'
             }
         },
         {
@@ -221,7 +221,7 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '17.67%',
+                top: '25.67%',
                 left: '15.56%'
             }
         },
@@ -236,7 +236,7 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '8.84%',
+                top: '21%',
                 left: '30.56%'
             }
         },
@@ -251,8 +251,8 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '9.30%',
-                left: '84.88%'
+                top: '1.2%',
+                left: '84.6%'
             }
         },
         {
@@ -266,8 +266,8 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '2.79%',
-                left: '84.88%'
+                top: '9.3%',
+                left: '84.6%'
             }
         }
     ],
