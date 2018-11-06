@@ -72,7 +72,7 @@ var DEVICES = [
         {
             num: 1,
             name: '鞋楦信息',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(EMPY),
             tooltip: {
                 disabled: true,
@@ -87,7 +87,7 @@ var DEVICES = [
         {
             num: 2,
             name: '视觉1号',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(EMPY),
             tooltip: {
                 disabled: true,
@@ -108,7 +108,7 @@ var DEVICES = [
         {
             num: 3,
             name: '一次喷胶',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(SPRAY),
             tooltip: {
                 disabled: true,
@@ -123,7 +123,7 @@ var DEVICES = [
         {
             num: 4,
             name: '压底',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(SOLEP),
             tooltip: {
                 disabled: true,
@@ -138,7 +138,7 @@ var DEVICES = [
         {
             num: 5,
             name: '视觉2号',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(EMPY),
             tooltip: {
                 disabled: true,
@@ -153,7 +153,7 @@ var DEVICES = [
         {
             num: 6,
             name: '喷处理剂',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(SPRAY),
             tooltip: {
                 disabled: true,
@@ -168,7 +168,7 @@ var DEVICES = [
         {
             num: 7,
             name: '二次喷胶',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(SPRAY),
             tooltip: {
                 disabled: true,
@@ -176,14 +176,14 @@ var DEVICES = [
             },
             tips: {},
             position: {
-                top: '47.8%',
+                top: '49%',
                 left: '0%'
             }
         },
         {
             num: 8,
             name: '三次喷胶',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(SPRAY),
             tooltip: {
                 disabled: true,
@@ -198,7 +198,7 @@ var DEVICES = [
         {
             num: 9,
             name: '贴围条1',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(EMPY),
             tooltip: {
                 disabled: true,
@@ -213,7 +213,7 @@ var DEVICES = [
         {
             num: 10,
             name: '贴围条2',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(EMPY),
             tooltip: {
                 disabled: true,
@@ -228,7 +228,7 @@ var DEVICES = [
         {
             num: 11,
             name: '护齿喷胶',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(SPRAY),
             tooltip: {
                 disabled: true,
@@ -243,7 +243,7 @@ var DEVICES = [
         {
             num: 12,
             name: '左十字压',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(TENP_L),
             tooltip: {
                 disabled: true,
@@ -258,7 +258,7 @@ var DEVICES = [
         {
             num: 13,
             name: '右十字压',
-            status: 0,
+            stationstate: 0,
             detail: _cloneObj(TENP_R),
             tooltip: {
                 disabled: true,
