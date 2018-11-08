@@ -109,7 +109,7 @@
                             if (param.Spray == '7') {
 
                                 for (var d in data) {
-                                    xArr.push(data[d][ 'ID'])
+                                    xArr.push(data[d][ 'LineUsageID'])
                                     y1Arr.push(data[d].BOilPressure)
                                     y2Arr.push(data[d].LOilPressure)
                                     y3Arr.push(data[d].ROilPressure)
@@ -131,7 +131,7 @@
                         } else {
                             xArr = [0], y1Arr = [0], y2Arr = [0], y3Arr = [0], y4Arr = [0], y5Arr = [0], y6Arr = [0], y7Arr = [0]
                         }
-                        if (param.Spray == 'LineUsage') {
+                        if (param.Spray == '7') {
                             lineOptions[index].xAxis[0].data = xArr
                             lineOptions[index].series[0].data = y1Arr
                             lineOptions[index].series[1].data = y2Arr
