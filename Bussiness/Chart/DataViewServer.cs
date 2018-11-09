@@ -358,7 +358,7 @@ namespace Bussiness.Chart
             {
                 minusage = Convert.ToInt32(quadt1.Rows[0]["id_usage"].ToString());
             }
-            sql = "select all_num,round(100*pass_num/all_num) as pass_rate,round(100*inferior_num/all_num) as inferior_rate ,round(100*waste_num/all_num ) as  waste_rate from  " +
+            sql = "select all_num as all_num7,round(100*pass_num/all_num) as pass_rate7,round(100*inferior_num/all_num) as inferior_rate7 ,round(100*waste_num/all_num ) as  waste_rate7 from  " +
 
                      " (select sum(1) as all_num, sum(if (QualityType = 1,1,0)) as pass_num,sum(if (QualityType = 2,1,0)) as inferior_num ,sum(if (QualityType = 3,1,0)) as waste_num " +
 
@@ -367,7 +367,7 @@ namespace Bussiness.Chart
             DataTable quadt7 = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
             Dictionary<string, double> quadicdt7 = new Dictionary<string, double>();
 
-            if (quadt.Rows.Count > 0)
+            if (quadt7.Rows.Count > 0)
             {
                 all_num7 = Convert.ToDouble(quadt7.Rows[0]["all_num7"].ToString());
                 pass_rate7 = Convert.ToDouble(quadt7.Rows[0]["pass_rate7"].ToString());
@@ -375,10 +375,10 @@ namespace Bussiness.Chart
                 waste_rate7 = Convert.ToDouble(quadt7.Rows[0]["waste_rate7"].ToString());
 
             }
-            quadic.Add("all_num7", all_num);
-            quadic.Add("pass_rate7", Math.Round(pass_rate,2));
-            quadic.Add("inferior_rate7", Math.Round(inferior_rate,2));
-            quadic.Add("waste_rate7", Math.Round(waste_rate,2));
+            quadic.Add("all_num7", all_num7);
+            quadic.Add("pass_rate7", Math.Round(pass_rate7,2));
+            quadic.Add("inferior_rate7", Math.Round(inferior_rate7,2));
+            quadic.Add("waste_rate7", Math.Round(waste_rate7,2));
 
             dv.Add("quality", quadic);
             //设备效率指标

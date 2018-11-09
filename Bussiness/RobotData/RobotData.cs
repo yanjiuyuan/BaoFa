@@ -401,7 +401,7 @@ namespace Bussiness
         static void Query(object obj)
         {
     
-            string key = (string)obj; logger.Info(key);
+            string key = (string)obj;  
             try {
             
              
@@ -410,7 +410,6 @@ namespace Bussiness
                     RedisHelper redis = new RedisHelper();
                     dic = redis.GetHashAllKV(key);
                    
-                    logger.Info(key +(dic.ContainsKey("deviceId")? dic["deviceId"].ToString():"none"));
                   data[key] = dic;
                    
                 
