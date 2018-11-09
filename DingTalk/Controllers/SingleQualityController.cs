@@ -54,7 +54,7 @@ namespace DingTalk.Controllers
 
             List<KeyValuePair<string, string>> list = new List<KeyValuePair<string, string>>();
             string[] strList = new string[7] { "1", "2", "3", "4", "5", "6", "7" };
-            string[] descList = new string[7] { "鞋面喷胶站", "围条一胶站", "围条二胶站", "围条三胶站", "护齿喷胶站", "大底喷胶站", "生产线参数" };
+            string[] descList = new string[7] { "一次喷胶", "喷处理剂", "二次喷胶", "三次喷胶", "护齿喷胶", "大底喷胶", "压合参数" };
 
             for (int i = 0; i < strList.Length; i++)
             {
@@ -69,12 +69,12 @@ namespace DingTalk.Controllers
 
         //根据工位获取追溯鞋子时时数据
         /// 测试数据 SingleQuality/GetSingleQualityByRFIDandSpray?RFID=5&SprayId=Vamp
-        public string GetSingleQualityByRFIDandSpray(string RFID,int SprayId)
+        public string GetSingleQualityByRFIDandSpray(string RFID,int Spray)
         {
             DataTable db = new DataTable();
                 SingleQualityServer sServer = new SingleQualityServer();
-                if (SprayId != 7)
-                      db = sServer.GetSingQuality(RFID, SprayId);
+                if (Spray != 7)
+                      db = sServer.GetSingQuality(RFID, Spray);
                 else
             db = sServer.GetSingQualityLineUsage(RFID);
          

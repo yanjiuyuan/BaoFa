@@ -112,6 +112,7 @@ namespace Bussiness.AutoTask
                     logger.Info("登记初始化任务完成失败：更新条数：" + updateC);
                     return;
                 }
+                MySqlHelper.ExecuteSql("update queuestat set num=0 ,CT=now() where DataType=0 ");
 
 
             }
