@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace DingTalk.Controllers
 {
-    public class StatisticsController : BaseController
+    public class StatisticsController : Controller
     {
         // GET: Statistics
         public ActionResult Index()

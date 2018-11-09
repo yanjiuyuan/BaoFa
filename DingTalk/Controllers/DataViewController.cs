@@ -22,7 +22,7 @@ namespace DingTalk.Controllers
     //电子看板
 
     //一次http查询，获取所有看板数据
-    public class DataViewController : BaseController
+    public class DataViewController : Controller
     {
         // GET: Reports
         public ActionResult Index()
