@@ -263,7 +263,7 @@ namespace Bussiness.Chart
             sql = "select ProductionT,  WarnT,WarnC,FirstWarnInter,avgwarnt,avgwarninter from rptlineerrday where  productLineId=" + lineid
                 + " and ProductionT > '" + lstmonstr + "' order by ProductionT";
             DataTable warnlinedt1 = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-            if (warnlinedt.Rows.Count > 0)
+            if (warnlinedt1.Rows.Count > 0)
             {
                 dv.Add("line_warn_curve",warnlinedt1);
             }
