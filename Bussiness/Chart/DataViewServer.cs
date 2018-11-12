@@ -94,6 +94,22 @@ namespace Bussiness.Chart
             double run_t = 0;
             double warn_t = 0;
             double stop_t = 0;
+            sql = " select stationstate, round((TIMESTAMPDIFF(SECOND, '1970-1-1 08:00:00', NOW())- starttime/1000),2)  as currtime from locationstatecache  where stationname ='生产线' ";
+            DataTable Linetoday = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
+            if(Linetoday.Rows.Count>0)
+            {
+                string sstate = Linetoday.Rows[0]["stationstate"].ToString();
+                double todaytm = Convert.ToDouble( Linetoday.Rows[0]["currtime"].ToString());
+                if ("运行".Equals(sstate))
+                    run_t = todaytm;
+                else if("报警".Equals(sstate))
+                    warn_t = todaytm;
+                 else if ("停止".Equals(sstate))
+                    stop_t = todaytm;
+
+            }
+             
+
             sql = " select   sum( if (stationstate = '运行', endtime - startTime, 0))/1000 AS run_t , sum( if   " +
        " (stationstate = '停止', endtime - startTime, 0))/ 1000 AS stop_t,    " +
        " sum( if (stationstate = '报警', endtime - startTime, 0))/ 1000 AS warn_t,     " +
@@ -104,9 +120,9 @@ namespace Bussiness.Chart
 
             if (Linetimedt.Rows.Count > 0)
             {
-                run_t = Convert.ToDouble(Linetimedt.Rows[0]["run_t"].ToString());
-                stop_t = Convert.ToDouble(Linetimedt.Rows[0]["stop_t"].ToString());
-                warn_t = Convert.ToDouble(Linetimedt.Rows[0]["warn_t"].ToString());
+                run_t += Convert.ToDouble(Linetimedt.Rows[0]["run_t"].ToString());
+                stop_t += Convert.ToDouble(Linetimedt.Rows[0]["stop_t"].ToString());
+                warn_t += Convert.ToDouble(Linetimedt.Rows[0]["warn_t"].ToString());
 
             }
             //产线利用率  run_t+free_t+warn_t /plan_t
@@ -114,11 +130,11 @@ namespace Bussiness.Chart
             //时间稼动率   run_t+free_t /run_t+free_t+warn_t
             if (run_t == 0 && warn_t == 0) warn_t = 1;
             //时间开动率
-            double time_activation =Math.Round( (run_t) / (run_t + warn_t),2)*100;
+            double time_activation =Math.Round(100 * (run_t) / (run_t + warn_t),2) ;
             //设备利用率
-            double plan_activation = Math.Round((run_t + warn_t) / plan_t, 2) * 100;
+            double plan_activation = Math.Round(100 * (run_t + warn_t) / plan_t, 2)  ;
             //产线稼动率
-            double activation = Math.Round(  run_t / plan_t,2)*100;
+            double activation = Math.Round(100 * run_t / plan_t,2) ;
 
 
             //获取七日平均稼动率
@@ -138,11 +154,11 @@ namespace Bussiness.Chart
             }
             if (run_t == 0 && warn_t == 0) warn_t = 1;
             //时间开动率
-            double time_activation_7 = Math.Round((RunT) / (RunT + WarnT),2)*100;
+            double time_activation_7 = Math.Round(100*(RunT) / (RunT + WarnT),2);
             //设备利用率
-            double plan_activation_7 = Math.Round((RunT + WarnT )/ PlanPowerOnT,2)*100;
+            double plan_activation_7 = Math.Round(100 * (RunT + WarnT )/ PlanPowerOnT,2) ;
             //产线稼动率
-            double activation_7 = Math.Round(RunT / PlanPowerOnT,2)*100;
+            double activation_7 = Math.Round(100 * RunT / PlanPowerOnT,2) ;
 
             Dictionary<string, string> dicline = new Dictionary<string, string>();
             dicline.Add("Linestatus", Linestatus);
@@ -195,11 +211,11 @@ namespace Bussiness.Chart
                     double QA_WarnT = Convert.ToDouble(efectlinedt.Rows[i]["WarnT"].ToString());
                     double QA_PlanPowerOnT = Convert.ToDouble(efectlinedt.Rows[i]["PlanPowerOnT"].ToString());
                     //时间开动率
-                    double TACT  = Math.Round((QA_RunT) / (QA_RunT + QA_WarnT), 2) * 100;
+                    double TACT  = Math.Round(100 * (QA_RunT) / (QA_RunT + QA_WarnT), 2)  ;
                     //设备利用率
-                    double DACT  = Math.Round((QA_RunT + QA_WarnT) / QA_PlanPowerOnT, 2) * 100;
+                    double DACT  = Math.Round(100 * (QA_RunT + QA_WarnT) / QA_PlanPowerOnT, 2)  ;
                     //产线稼动率
-                    double ACT  = Math.Round(QA_RunT / QA_PlanPowerOnT, 2) * 100;
+                    double ACT  = Math.Round(100 * QA_RunT / QA_PlanPowerOnT, 2)  ;
 
 
                     double OEE = 100 * (WorkLoad * CircleTime / ((QA_RunT + QA_WarnT)*3600)) * (QA_pass_num / QA_all_num);
