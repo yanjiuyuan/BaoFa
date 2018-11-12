@@ -422,7 +422,7 @@ namespace Bussiness.Chart
             string begindate = "0";
             if (begindatedt.Rows.Count > 0)
             {
-                begindate = devdt.Rows[0]["ProductionT"].ToString();
+                begindate = begindatedt.Rows[0]["ProductionT"].ToString();
             }
 
             sql = "  select tt1.locationid,tt1.stationname,tt1.devicemodel ,tt2.* from " +
