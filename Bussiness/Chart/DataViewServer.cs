@@ -91,6 +91,8 @@ namespace Bussiness.Chart
                 plan_t = 3600 * (Convert.ToInt32(pttb.Rows[0]["ProductionTimes"].ToString()));
             }
 
+            
+
             double run_t = 0;
             double warn_t = 0;
             double stop_t = 0;
@@ -137,39 +139,7 @@ namespace Bussiness.Chart
             double activation = Math.Round(100 * run_t / plan_t,2) ;
 
 
-            //获取七日平均稼动率
-            sql = "  select sum(RunT) as RunT, sum(WarnT) as WarnT,sum(PlanPowerOnT) as PlanPowerOnT " +
-                "  from rptproductday where ProductLineId = 1 order by ProductionT desc limit 1 ";
-
-            double RunT = 0.0;
-            double WarnT = 0.0;
-            double PlanPowerOnT = 0.0;
-            DataTable Lineavgdt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-            if (Lineavgdt.Rows.Count >  0)
-            {
-                RunT = Convert.ToDouble(Lineavgdt.Rows[0]["RunT"].ToString());
-                WarnT = Convert.ToDouble(Lineavgdt.Rows[0]["WarnT"].ToString());
-                PlanPowerOnT = Convert.ToDouble(Lineavgdt.Rows[0]["PlanPowerOnT"].ToString());
-
-            }
-            if (run_t == 0 && warn_t == 0) warn_t = 1;
-            //时间开动率
-            double time_activation_7 = Math.Round(100*(RunT) / (RunT + WarnT),2);
-            //设备利用率
-            double plan_activation_7 = Math.Round(100 * (RunT + WarnT )/ PlanPowerOnT,2) ;
-            //产线稼动率
-            double activation_7 = Math.Round(100 * RunT / PlanPowerOnT,2) ;
-
-            Dictionary<string, string> dicline = new Dictionary<string, string>();
-            dicline.Add("Linestatus", Linestatus);
-            dicline.Add("ACT", activation.ToString());
-            dicline.Add("DACT", plan_activation.ToString());
-            dicline.Add("TACT", time_activation.ToString());
-            dicline.Add("ACT7", activation_7.ToString());
-            dicline.Add("DACT7", plan_activation_7.ToString());
-            dicline.Add("TACT7", time_activation_7.ToString());
-
-            dv.Add("activation_line", dicline);
+         
 
 
             //当日  七日平均
@@ -424,8 +394,8 @@ namespace Bussiness.Chart
                     double dev_warn_t = Convert.ToDouble(devdt.Rows[i]["warn_t"].ToString());
                     devdic.Add("stationname", stationname);
                     devdic.Add("devicemodel", devicemodel);
-                    devdic.Add("dev_activation",Math.Round(100* (dev_run_t + dev_free_t) / (PlanPowerOnT*3600),2));
-                    devdic.Add("dev_plan_activation", Math.Round(100 * (dev_run_t + dev_free_t + dev_warn_t) / (PlanPowerOnT * 3600), 2));
+                    devdic.Add("dev_activation",Math.Round(100* (dev_run_t + dev_free_t) / (plan_t*3600),2));
+                    devdic.Add("dev_plan_activation", Math.Round(100 * (dev_run_t + dev_free_t + dev_warn_t) / (plan_t * 3600), 2));
                     devdic.Add("dev_time_activation", Math.Round(100 * (dev_run_t + dev_free_t) / (dev_run_t + dev_free_t + dev_warn_t > 0 ? (dev_run_t + dev_free_t + dev_warn_t) : 1),2));
                     devlist.Add(devdic);
                 }
@@ -441,12 +411,48 @@ namespace Bussiness.Chart
                 begindate = begindatedt.Rows[0]["ProductionT"].ToString();
             }
 
+            //获取七日平均稼动率
+            sql = "  select sum(RunT) as RunT, sum(WarnT) as WarnT,sum(PlanPowerOnT) as PlanPowerOnT " +
+                "  from rptproductday where ProductLineId = 1 order by ProductionT desc limit 7 ";
+
+            double RunT = 0.0;
+            double WarnT = 0.0;
+            double PlanPowerOnT = 0.0;
+            DataTable Lineavgdt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
+            if (Lineavgdt.Rows.Count > 0)
+            {
+                RunT = Convert.ToDouble(Lineavgdt.Rows[0]["RunT"].ToString());
+                WarnT = Convert.ToDouble(Lineavgdt.Rows[0]["WarnT"].ToString());
+                PlanPowerOnT = Convert.ToDouble(Lineavgdt.Rows[0]["PlanPowerOnT"].ToString());
+
+            }
+            if (run_t == 0 && warn_t == 0) warn_t = 1;
+            //时间开动率
+            double time_activation_7 = Math.Round(100 * (RunT) / (RunT + WarnT), 2);
+            //设备利用率
+            double plan_activation_7 = Math.Round(100 * (RunT + WarnT) / PlanPowerOnT, 2);
+            //产线稼动率
+            double activation_7 = Math.Round(100 * RunT / PlanPowerOnT, 2);
+
+            Dictionary<string, object> dicline = new Dictionary<string, object>();
+            dicline.Add("stationname", "生产线");
+            dicline.Add("devicemodel", "");
+            dicline.Add("ACT7", activation_7.ToString());
+            dicline.Add("DACT7", plan_activation_7.ToString());
+            dicline.Add("TACT7", time_activation_7.ToString());
+
+           
+
+
             sql = "  select tt1.locationid,tt1.stationname,tt1.devicemodel ,tt2.* from " +
        " (select a.deviceid, a.devicemodel, b.stationname, b.locationid from deviceinfo a left join locationcfg b on a.locationid = b.locationid and a.ProductLineId = b.ProductLineId where a.ProductLineId =" + lineid +
         " )tt1  right join (select deviceid, SUM(RunT) as RunT, SUM(FreeT) as FreeT, SUM(WarnT) as WarnT, SUM(PlanPowerOnT) as PlanPowerOnT  " +
          " from rptdeviceday where ProductLineId = " + lineid + " and ProductionT >= '" + begindate + "' group by deviceid  ) tt2 on tt1.deviceid = tt2.deviceid  ";
             DataTable devdt7 = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
             List<Dictionary<string, object>> devlist7 = new List<Dictionary<string, object>>();
+
+            devlist7.Add(dicline);
+
             if (devdt7.Rows.Count > 0)
             {
                 for (int i = 0; i < devdt7.Rows.Count; i++)
@@ -461,8 +467,8 @@ namespace Bussiness.Chart
                     double dev_PlanPowerOnT = Convert.ToDouble(devdt7.Rows[i]["PlanPowerOnT"].ToString());
                     devdic7.Add("stationname", stationname);
                     devdic7.Add("devicemodel", devicemodel);
-                    devdic7.Add("dev_activation7", Math.Round( (dev_run_t + dev_free_t)*100 / PlanPowerOnT,2));
-                    devdic7.Add("dev_plan_activation7", Math.Round(100*(dev_run_t + dev_free_t + dev_warn_t),2) / PlanPowerOnT);
+                    devdic7.Add("dev_activation7", Math.Round( (dev_run_t + dev_free_t)*100 / plan_t,2));
+                    devdic7.Add("dev_plan_activation7", Math.Round(100*(dev_run_t + dev_free_t + dev_warn_t) / PlanPowerOnT, 2));
                     devdic7.Add("dev_time_activation7", Math.Round(100*(dev_run_t + dev_free_t) / (dev_run_t + dev_free_t + dev_warn_t > 0 ? (dev_run_t + dev_free_t + dev_warn_t) : 1),2));
                     devlist7.Add(devdic7);
                 }
