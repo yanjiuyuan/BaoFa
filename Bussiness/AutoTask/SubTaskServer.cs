@@ -249,7 +249,7 @@ namespace Bussiness.AutoTask
                     return;
                 }
 
-                var file = File.Open(Environment.CurrentDirectory + "\\dbpart.config", FileMode.Open);
+                var file = File.Open(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\dbpart.config", FileMode.Open);
                 string s = string.Empty;
                 using (var stream = new StreamReader(file, System.Text.Encoding.GetEncoding("gb2312")))
                 {
