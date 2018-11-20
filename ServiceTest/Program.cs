@@ -175,7 +175,7 @@ namespace ServiceTest
             //    Console.WriteLine(ex.Message);
             //}
             //AutoTaskServer ats = new AutoTaskServer();
-            //ats.TaskExec("2018-10-30");
+            //ats.TaskExec("2018-11-13");
             DataViewServer dv = new DataViewServer();
             dv.GetData(1);
             // TopicExchangeSendMsg();
