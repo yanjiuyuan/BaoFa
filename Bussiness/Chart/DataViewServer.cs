@@ -494,11 +494,11 @@ namespace Bussiness.Chart
 
             double hist_warn_c = 0; double hist_firstwarninter = 0; double hist_avgwarnt = 0;
             double hist_warninter = 0;
-            sql = "select  c.stationname, sum(WarnC)/count(*) as WarnC ,sum(WarnT)/count(*) as WarnT,sum(AvgWarnT)/count(*) as AvgWarnT,  " +
+            sql = "select c.locationseq, c.stationname, sum(WarnC)/count(*) as WarnC ,sum(WarnT)/count(*) as WarnT,sum(AvgWarnT)/count(*) as AvgWarnT,  " +
      " sum(AvgWarnInter) / count(*) as AvgWarnInter,sum(FirstWarnInter) / count(*) as FirstWarnInter " +
       " from rptdeviceerrday a  left  join deviceinfo b  on a.DeviceId = b.DeviceId left " +
    " join locationcfg c  on b.locationid = c.locationid and b.ProductLineId = c.ProductLineId  " +
-   " where a.ProductLineId = " + lineid + "  and ProductionT >= '" + lstmonstr + "' group by  c.stationname ";
+   " where a.ProductLineId = " + lineid + "  and ProductionT >= '" + lstmonstr + "' group by  c.stationname ,c.locationseq order by c.locationseq ";
             DataTable devwarnhisdt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
             if (devwarnhisdt.Rows.Count > 0)
             {
@@ -508,10 +508,10 @@ namespace Bussiness.Chart
 
                     string stationname = devwarnhisdt.Rows[i]["stationname"].ToString();
 
-                 hist_warn_c = Convert.ToDouble(devwarnhisdt.Rows[0]["WarnC"].ToString());
-                hist_firstwarninter = Convert.ToDouble(devwarnhisdt.Rows[0]["FirstWarnInter"].ToString());
-                hist_avgwarnt = Convert.ToDouble(devwarnhisdt.Rows[0]["AvgWarnT"].ToString());
-                hist_warninter = Convert.ToDouble(devwarnhisdt.Rows[0]["AvgWarnInter"].ToString());
+                 hist_warn_c = Convert.ToDouble(devwarnhisdt.Rows[i]["WarnC"].ToString());
+                hist_firstwarninter = Convert.ToDouble(devwarnhisdt.Rows[i]["FirstWarnInter"].ToString());
+                hist_avgwarnt = Convert.ToDouble(devwarnhisdt.Rows[i]["AvgWarnT"].ToString());
+                hist_warninter = Convert.ToDouble(devwarnhisdt.Rows[i]["AvgWarnInter"].ToString());
              
                
              devwarndic.Add("stationname", stationname);
