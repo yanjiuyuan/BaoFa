@@ -3,6 +3,7 @@ using Common.Code;
 using Common.DbHelper;
 using Common.JsonHelper;
 using Common.LogHelper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -28,11 +29,7 @@ namespace Bussiness.Chart
             {
                 
 
-
-
-                logger.Info("查询生产节拍");
-           
-               
+ 
                 long begintime = 0;
                 long endtime = 0;
                 string datestr =   DateTime.Now.ToLongDateString();
@@ -97,6 +94,68 @@ namespace Bussiness.Chart
         }
 
 
+        public string LocationBeatQuery(string DataTime,string stationname, int lineid = 1)
+        {
+            string strJsonString = string.Empty;
 
+            try
+            {
+ 
+                long begintime = 0;
+                long endtime = 0;
+                string datestr = DateTime.Now.ToLongDateString();
+                if (DataTime == null)
+                {
+
+                    begintime = TimeHelper.ConvertDateTimeToInt(Convert.ToDateTime(datestr));
+                    endtime = TimeHelper.ConvertDateTimeToInt(Convert.ToDateTime(datestr).AddDays(1));
+                }
+                else
+                {
+                    DateTimeFormatInfo dtFormat = new DateTimeFormatInfo();
+
+                    dtFormat.ShortDatePattern = "yyyy-MM-dd";
+                    datestr = DataTime;
+                    begintime = TimeHelper.ConvertDateTimeToInt(Convert.ToDateTime(datestr, dtFormat));
+                    endtime = TimeHelper.ConvertDateTimeToInt(Convert.ToDateTime(datestr, dtFormat).AddDays(1));
+
+                }
+                double avgrun = 0.0;
+                double avgfree = 0.0;
+                double avgwarn = 0.0;
+                 
+                //获取七日平均
+                string strSql = " select round( sum(runt)  /sum(if (runc > 0,runc,1)))as run,round(sum(freet)/ sum(if (freec > 0,freec,1))) as free,round(sum(warnt) /sum(if (warnc > 0,warnc,1)))as warn from rptlocationday a left join locationcfg b on a.ProductLineId=b.ProductLineId and a.locationid=" +
+                    "b.locationid where a.ProductLineId=" + lineid + " and b.StationName='" + stationname + "' limit 7";
+                 DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
+                if(newTb.Rows.Count>0)
+                {
+                    avgrun = Convert.ToDouble(newTb.Rows[0]["run"].ToString());
+                    avgfree = Convert.ToDouble(newTb.Rows[0]["free"].ToString());
+                    avgwarn = Convert.ToDouble(newTb.Rows[0]["warn"].ToString());
+
+                }
+                
+                
+
+                string strSql1="  select stationstate, FROM_UNIXTIME(starttime / 1000, '%H:%i:%s' ) as tm    , if (currtime > 299,299,currtime) as timelen from(  "+
+                         "  select  stationstate, starttime, (TIMESTAMPDIFF(SECOND, '1970-1-1 08:00:00', NOW()) - round(starttime / 1000)) as currtime     from locationstatecache where ProductLineId ="+lineid+" and StationName = '"+stationname+"' "+
+                     "  union all  select  stationstate, starttime, round((endtime - starttime) / 1000) as currtime from locationstate  where ProductLineId = "+lineid+ " and StationName = '" + stationname + "'  and starttime >  '"+ begintime+ "' order by starttime desc limit 200 " +
+                " ) a order by starttime asc  ";
+                DataTable  Tb = MySqlHelper.ExecuteQuery(strSql1);
+                string recds = JsonConvert.SerializeObject(Tb);
+
+
+                string strjson = "{ \"avgrun\":" + avgrun + ", \"avgfree\":" + avgfree + ", \"avgwarn \": " + avgwarn + " ,\"records\":" + recds + " }";
+                return strjson;
+
+            }
+            catch (Exception ex)
+            {
+                logger.Error("查询生产节拍失败" + ex.Message);
+                return Global.RETURN_ERROR(ex.Message);
+            }
+             
+        }
     }
 }

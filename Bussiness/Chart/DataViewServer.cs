@@ -264,13 +264,13 @@ namespace Bussiness.Chart
 
 
             sql = "  select if (tt1.run is null ,0,tt1.run) run,tt2.* from( "+
-           "  select t21.*, t2.JobType, t2.LocationSeq, t2.stationNAME from  " +
+           "  select t21.*, t2.JobType, t2.LocationSeq,t2.state, t2.stationNAME from  " +
        "   (select Locationid, round(sum(RunT) /if (sum(RunC) > 0,sum(RunC),1)) as run7 from(select * from rptlocationday where productlineid = " + lineid + "  and productionT >='" + datestr7 + "') " +
-       "   t group by Locationid ) t21 left join huabao.locationcfg t2   on t21.Locationid = t2.Locationid where t2.productlineid = "+ lineid + "  ) tt2 " +
+       "   t group by Locationid ) t21 left join huabao.locationcfg t2   on t21.Locationid = t2.Locationid where t2.productlineid = "+ lineid + "   ) tt2 " +
         "  left join(select round(run_t /if (run_c > 0,run_c,1))as run ,stationNAME " +
             "  from(select   sum( if (stationstate = '运行', if ((endtime - startTime) < 300000,endtime - startTime,300000), 0))/ 1000 AS run_t, " +
              "    sum( if (stationstate = '运行',1, 0))  AS run_c, stationNAME   from huabao.LocationState where id_usage = " + idusage + " group by stationNAME ) as t1 " +
-         "   )  tt1  on tt1.stationNAME = tt2.stationNAME  order by tt2.LocationSeq ";
+         "   )  tt1  on tt1.stationNAME = tt2.stationNAME  where tt2.state=1 order by tt2.LocationSeq ";
 
  
 
@@ -438,11 +438,11 @@ namespace Bussiness.Chart
             Dictionary<string, object> dicline = new Dictionary<string, object>();
             dicline.Add("stationname", "生产线");
             dicline.Add("devicemodel", "");
-            dicline.Add("ACT7", activation_7.ToString());
-            dicline.Add("DACT7", plan_activation_7.ToString());
-            dicline.Add("TACT7", time_activation_7.ToString());
+            dicline.Add("dev_activation7", activation_7.ToString());
+            dicline.Add("dev_plan_activation7", plan_activation_7.ToString());
+            dicline.Add("dev_time_activation7", time_activation_7.ToString());
+            
 
-           
 
 
             sql = "  select tt1.locationid,tt1.stationname,tt1.devicemodel ,tt2.* from " +

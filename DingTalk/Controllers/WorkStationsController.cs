@@ -56,5 +56,13 @@ namespace DingTalk.Controllers
 
 
         }
+        public string GetLocationList(int lineid = 1)
+        {
+            WorkSataionsServer wServer = new WorkSataionsServer();
+            return wServer.GetLocationList(lineid);
+
+
+        }
+
     }
 }

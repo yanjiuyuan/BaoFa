@@ -115,5 +115,12 @@ namespace DingTalk.Controllers
              return chartBeatServer.ChartBeatQuery(DataTime,lineid );
         }
 
+        public string LocationBeatQuery(string DataTime, string stationname, int lineid = 1)
+        {
+            ChartBeatServer chartBeatServer = new ChartBeatServer();
+            return chartBeatServer.LocationBeatQuery(DataTime, stationname, lineid);
+        }
+
+
     }
 }
