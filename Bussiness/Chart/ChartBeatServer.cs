@@ -140,7 +140,7 @@ namespace Bussiness.Chart
 
                 string strSql1="  select stationstate, FROM_UNIXTIME(starttime / 1000, '%H:%i:%s' ) as tm    , if (currtime > 299,299,currtime) as timelen from(  "+
                          "  select  stationstate, starttime, (TIMESTAMPDIFF(SECOND, '1970-1-1 08:00:00', NOW()) - round(starttime / 1000)) as currtime     from locationstatecache where ProductLineId ="+lineid+" and StationName = '"+stationname+"' "+
-                     "  union all  select  stationstate, starttime, round((endtime - starttime) / 1000) as currtime from locationstate  where ProductLineId = "+lineid+ " and StationName = '" + stationname + "'  and starttime >  '"+ begintime+ "' order by starttime desc limit 200 " +
+                     "  union all  select  stationstate, starttime, round((endtime - starttime) / 1000) as currtime from locationstate  where ProductLineId = "+lineid+ " and StationName = '" + stationname + "'  and starttime >  '"+ begintime+ "' and stationstate!='报警' order by starttime desc limit 200 " +
                 " ) a order by starttime asc  ";
                 DataTable  Tb = MySqlHelper.ExecuteQuery(strSql1);
                 string recds = JsonConvert.SerializeObject(Tb);
