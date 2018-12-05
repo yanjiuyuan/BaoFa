@@ -102,7 +102,7 @@ namespace Bussiness.LineData
 
                 //获取压底和十字压参数
                 string strlineusageSql = "select t1.*,t2.VisualOneState,t2.VisualOneError,t2.VisualTwoState,t2.VisualTwoError,t2.VisualThreeState,t2.VisualThreeError "+
-                     " from(select *  from  `LineUsagerecd`  where id_usage = " +usageid+" order by lineusageid desc limit 1)t1 left join  `Line` t2 on t1.id_usage =t2.id_usage ";
+                     " from(select *  from  `lineusagerecd`  where id_usage = " +usageid+" order by lineusageid desc limit 1)t1 left join  `line` t2 on t1.id_usage =t2.id_usage ";
                 tblineusage = MySqlHelper.ExecuteQuery(strlineusageSql);
                 if (tblineusage.Rows.Count > 0)
                 {
@@ -123,7 +123,7 @@ namespace Bussiness.LineData
                             sb.Append(",");
                     }
 
-                    string strSqlstate = "select a.stationName,if(b.stationstate is null ,'停止', b.stationstate ) as stationstate  from  LocationCfg a left join " +
+                    string strSqlstate = "select a.stationName,if(b.stationstate is null ,'停止', b.stationstate ) as stationstate  from  locationcfg a left join " +
                         "locationstatecache b on a.stationName=b.stationName and a.ProductLineId=b.ProductLineId  where "
                     + "a.ProductLineId = " + lineid + "  and "
                      + "a.stationName in ( " + sb.ToString() + ") ";

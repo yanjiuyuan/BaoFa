@@ -73,7 +73,7 @@ namespace Bussiness.Chart
             dv.Add("order", dic);
 
             //末班产线状态
-            sql = "select linestatus  from  `Line` where id_usage=" + idusage;
+            sql = "select linestatus  from  `line` where id_usage=" + idusage;
 
 
             DataTable Linedt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
@@ -278,28 +278,10 @@ namespace Bussiness.Chart
             
             dv.Add("location_stat",  stationstatedt);
             //实时工序繁忙状态 +当日工序繁忙曲线 
-            sql = "  select left(CT, 10)  as Date, locationName ,NUM from queuestat where DataType=0 and ProductLineID=1 ORDER BY SEQ";
-
-            DataTable stationdt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-            if (stationdt.Rows.Count >= 0)
-            {
-                dv.Add("location_busy", stationdt );
-                Dictionary<string, DataTable> busylinedic = new Dictionary<string, DataTable>();
-                for (int i = 0; i < stationdt.Rows.Count; i++)
-                {
-                    string locationName = stationdt.Rows[i]["locationName"].ToString();
-                    string date = stationdt.Rows[i]["Date"].ToString();
-                    sql = "  select  substring(CT,12,5) as TM ,NUM from queuestat where DataType=1 and ProductLineID=" + lineid + " and locationName='"+ locationName + "' and CT like '" + date + "%' order by CT";
-
-                    DataTable linedt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-
-                    busylinedic.Add(locationName, linedt);
-                }
-                dv.Add("location_busy_curve",  busylinedic );
-
-            }
 
 
+            dv.Add("location_busy", LocationBusyData.LocationBusyState[lineid]);
+          
 
             // 产线当日品检 
             // 末次品检数      当日品检合格率  次品率   废品率

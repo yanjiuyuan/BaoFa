@@ -153,7 +153,7 @@
             trigger: 'axis'
         },
         legend: {
-            data: ['硫化鞋'],
+            data: ['硫化鞋','平均效率'],
             x: 'left'
         },
         toolbox: {
@@ -179,7 +179,7 @@
             {
                 type: 'value',
                 axisLabel: {
-                    formatter: '{value} 只/小时'
+                    formatter: '{value} 双/小时'
                 }
             }
         ],
@@ -189,6 +189,11 @@
                 type: 'line',
                 smooth: true,
                 itemStyle: { normal: { areaStyle: { type: 'default' } } },
+                data: [0]
+            },
+            {
+                name: '平均效率',
+                type: 'line',
                 data: [0]
             }
         ]
@@ -288,16 +293,22 @@
                 console.log("获取生产速度数据")
                 console.log(data)
                 data = JSON.parse(data).Rows
-                var xArr = [], yArr = []
+                var xArr = [], yArr = [], yArr2 = []
+                var total = 0
                 for (var d in data) {
                     xArr.push(data[d].ID_RealTimeUsage)
                     yArr.push(data[d].CurrN)
+                    total += parseInt(data[d].CurrN)
                 }
                 if (data.length == 0) {
-                    xArr = [0], yArr = [0]
+                    xArr = [0], yArr = [0], yArr2 = [0]
+                } 
+                for (var i = 0; i < data.length; i++) {
+                    yArr2.push((total / data.length).toFixed(2))
                 }
                 areaOption.xAxis[0].data = xArr
                 areaOption.series[0].data = yArr
+                areaOption.series[1].data = yArr2
                 areaChart.setOption(areaOption,true)
             }
         })

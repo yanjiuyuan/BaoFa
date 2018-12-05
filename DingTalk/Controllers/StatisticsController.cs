@@ -35,7 +35,7 @@ namespace DingTalk.Controllers
 
             DateTime starttm = Convert.ToDateTime(DataTime);
             DateTime endtm = Convert.ToDateTime(DataTime).AddDays(1);
-            string StartDate = starttm .ToString("yyyy-MM-dd HH:mm:ss");
+            string StartDate = starttm.ToString("yyyy-MM-dd HH:mm:ss");
             string EndDate = endtm.ToString("yyyy-MM-dd HH:mm:ss");
             return dServer.GetDosageInfo(StartDate, EndDate, lineid);
         }
@@ -49,7 +49,7 @@ namespace DingTalk.Controllers
         /// <returns>返回头尾以及整点数据</returns>
         /// 测试数据 Statistics/GetCurrentProduction
         /// 测试数据 /Statistics/GetCurrentProduction?DataTime=2018-03-01&Count=100&lineid=1
-        public string GetCurrentProduction(string DataTime,int Count,int lineid=1, int duramins=5)
+        public string GetCurrentProduction(string DataTime, int Count, int lineid = 1, int duramins = 5)
         {
             string strResult = string.Empty;
             if (DataTime != null)
@@ -63,11 +63,11 @@ namespace DingTalk.Controllers
             return strResult;
         }
 
-        public string ChangeTime(string DataTime,int duramins, int lineid=1)
+        public string ChangeTime(string DataTime, int duramins, int lineid = 1)
         {
             DateTime time = Convert.ToDateTime(DataTime);
             long lTime = TimeHelper.ConvertDateTimeToInt(time);
-            
+
             DateTime timeend = time.AddDays(1);
             long lTimeend = TimeHelper.ConvertDateTimeToInt(timeend);
 
@@ -83,7 +83,7 @@ namespace DingTalk.Controllers
         /// <returns>返回头尾以及整点数据</returns>
         /// 测试数据 Statistics/GetYieldFluct
         /// 测试数据 /Statistics/GetYieldFluct?DataTime=2018-05-13&dura=30&lineid=1
-        public string GetYieldFluct(string DataTime, int dura=30, int lineid = 1)
+        public string GetYieldFluct(string DataTime, int dura = 30, int lineid = 1)
         {
             string strResult = string.Empty;
             if (DataTime != null)
@@ -97,7 +97,7 @@ namespace DingTalk.Controllers
             return strResult;
         }
 
-        public string FluctChangeTime(string DataTime, int dura,int lineid=1)
+        public string FluctChangeTime(string DataTime, int dura, int lineid = 1)
         {
             DateTime time = Convert.ToDateTime(DataTime);
             long lTime = TimeHelper.ConvertDateTimeToInt(time);
@@ -109,10 +109,10 @@ namespace DingTalk.Controllers
         }
 
         /// 测试数据 /Statistics/ChartBeatQuery?mins=60
-        public string ChartBeatQuery(string DataTime,int lineid = 1 )
+        public string ChartBeatQuery(string DataTime, int lineid = 1)
         {
-             ChartBeatServer chartBeatServer = new  ChartBeatServer();
-             return chartBeatServer.ChartBeatQuery(DataTime,lineid );
+            ChartBeatServer chartBeatServer = new ChartBeatServer();
+            return chartBeatServer.ChartBeatQuery(DataTime, lineid);
         }
 
         public string LocationBeatQuery(string DataTime, string stationname, int lineid = 1)

@@ -15,7 +15,7 @@ namespace Bussiness.WorkSataions
         private static Logger logger = Logger.CreateLogger(typeof(WorkSataionsServer));
         public DataTable GetWorkStationInfo()
         {
-            string strSql = " SELECT  * FROM  `ArtificialConfig` a LEFT JOIN  `artificialinformation` b ON  a.Preferredid=b.ID_ArtificialInformation  WHERE endtime IS NULL  AND starttime IS NOT NULL ";
+            string strSql = " SELECT  * FROM  `artificialconfig` a LEFT JOIN  `artificialinformation` b ON  a.Preferredid=b.ID_ArtificialInformation  WHERE endtime IS NULL  AND starttime IS NOT NULL ";
             DataTable db=MySqlHelper.ExecuteQuery(strSql);
             return db;
         }

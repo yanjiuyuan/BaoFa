@@ -16,7 +16,7 @@ namespace DingTalk.Controllers
             return View();
         }
 
-        
+
 
         /// <summary>
         /// 工位读取接口
@@ -31,10 +31,10 @@ namespace DingTalk.Controllers
 
         //test:  /WorkStations/GetWorkStationList?orderid=99-1-18-1&lineid=1
 
-        public string  GetWorkStationList(string orderid, int lineid = 1)
+        public string GetWorkStationList(string orderid, int lineid = 1)
         {
             WorkSataionsServer wServer = new WorkSataionsServer();
-           return wServer.GetWorkStationList(orderid, lineid);
+            return wServer.GetWorkStationList(orderid, lineid);
 
 
         }
@@ -49,10 +49,10 @@ namespace DingTalk.Controllers
         }
 
 
-        public string GetMachineLocationList(  int lineid = 1)
+        public string GetMachineLocationList(int lineid = 1)
         {
             WorkSataionsServer wServer = new WorkSataionsServer();
-            return wServer.GetMachineLocationList( lineid);
+            return wServer.GetMachineLocationList(lineid);
 
 
         }
