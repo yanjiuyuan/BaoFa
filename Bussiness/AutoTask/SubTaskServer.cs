@@ -249,7 +249,7 @@ namespace Bussiness.AutoTask
                     return;
                 }
 
-                var file = File.Open(Environment.CurrentDirectory + "\\dbpart.config", FileMode.Open);
+                var file = File.Open(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\dbpart.config", FileMode.Open);
                 string s = string.Empty;
                 using (var stream = new StreamReader(file, System.Text.Encoding.GetEncoding("gb2312")))
                 {
@@ -516,10 +516,10 @@ namespace Bussiness.AutoTask
 
             try
             {
-                string delsql = "delete from  RptProductDay where productionT ='" + datestr + "'";
+                string delsql = "delete from  rptproductday where productionT ='" + datestr + "'";
                 int delC = MySqlHelper.ExecuteSql(delsql);
                 if (delC > 0)
-                    logger.Info("RptProductDay删除现有旧数据，数量：" + delC);
+                    logger.Info("rptproductday删除现有旧数据，数量：" + delC);
 
 
 
@@ -590,7 +590,7 @@ namespace Bussiness.AutoTask
 
 
                     //数据插入
-                    strsql = string.Format("insert into RptProductDay set " +
+                    strsql = string.Format("insert into rptproductday set " +
                         " ProductLineId={0},ProductionT='{1}',RunT={2},RunC={3},StopT={4},StopC={5},WarnT={6},WarnC={7},OffLineT={8},OffLineC={9}, " +
                         " PlanPowerOnT={10} ,PowerOnT={11} ,PowerOffT={12} ,IsPlanPowerOn={13},PlanShifts={14},Shifts={15},PlanWorkLoad={16},WorkLoad={17} "
                         , productlineid, datestr, RunT, RunC, StopT, StopC, WarnT, WarnC, OffLineT, OffLineC, PlanPowerOnT, RunT + WarnT, StopT + OffLineT, isplanpoweron, PlanShifts

@@ -90,7 +90,7 @@ namespace Bussiness.AutoTask
 
 
 
-        public void TaskExec(string datestr)
+        public void TaskExec(string datestr,int force=0)
         {
             while(true)
             {
@@ -100,7 +100,8 @@ namespace Bussiness.AutoTask
                 if (String.Compare(s, "06:00:01") > 0)
                 {
                     logger.Info("超出日终时间，跳出循环");
-                    //break;
+                    if(force==0)
+                    break;
                 }
 
                     string current_taskid = string.Empty;

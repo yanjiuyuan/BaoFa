@@ -73,7 +73,7 @@ namespace Bussiness.Chart
             dv.Add("order", dic);
 
             //末班产线状态
-            sql = "select linestatus  from  `Line` where id_usage=" + idusage;
+            sql = "select linestatus  from  `line` where id_usage=" + idusage;
 
 
             DataTable Linedt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
@@ -91,9 +91,27 @@ namespace Bussiness.Chart
                 plan_t = 3600 * (Convert.ToInt32(pttb.Rows[0]["ProductionTimes"].ToString()));
             }
 
+            
+
             double run_t = 0;
             double warn_t = 0;
             double stop_t = 0;
+            sql = " select stationstate, round((TIMESTAMPDIFF(SECOND, '1970-1-1 08:00:00', NOW())- starttime/1000),2)  as currtime from locationstatecache  where stationname ='生产线' ";
+            DataTable Linetoday = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
+            if(Linetoday.Rows.Count>0)
+            {
+                string sstate = Linetoday.Rows[0]["stationstate"].ToString();
+                double todaytm = Convert.ToDouble( Linetoday.Rows[0]["currtime"].ToString());
+                if ("运行".Equals(sstate))
+                    run_t = todaytm;
+                else if("报警".Equals(sstate))
+                    warn_t = todaytm;
+                 else if ("停止".Equals(sstate))
+                    stop_t = todaytm;
+
+            }
+             
+
             sql = " select   sum( if (stationstate = '运行', endtime - startTime, 0))/1000 AS run_t , sum( if   " +
        " (stationstate = '停止', endtime - startTime, 0))/ 1000 AS stop_t,    " +
        " sum( if (stationstate = '报警', endtime - startTime, 0))/ 1000 AS warn_t,     " +
@@ -104,9 +122,9 @@ namespace Bussiness.Chart
 
             if (Linetimedt.Rows.Count > 0)
             {
-                run_t = Convert.ToDouble(Linetimedt.Rows[0]["run_t"].ToString());
-                stop_t = Convert.ToDouble(Linetimedt.Rows[0]["stop_t"].ToString());
-                warn_t = Convert.ToDouble(Linetimedt.Rows[0]["warn_t"].ToString());
+                run_t += Convert.ToDouble(Linetimedt.Rows[0]["run_t"].ToString());
+                stop_t += Convert.ToDouble(Linetimedt.Rows[0]["stop_t"].ToString());
+                warn_t += Convert.ToDouble(Linetimedt.Rows[0]["warn_t"].ToString());
 
             }
             //产线利用率  run_t+free_t+warn_t /plan_t
@@ -114,46 +132,14 @@ namespace Bussiness.Chart
             //时间稼动率   run_t+free_t /run_t+free_t+warn_t
             if (run_t == 0 && warn_t == 0) warn_t = 1;
             //时间开动率
-            double time_activation =Math.Round( (run_t) / (run_t + warn_t),2)*100;
+            double time_activation =Math.Round(100 * (run_t) / (run_t + warn_t),2) ;
             //设备利用率
-            double plan_activation = Math.Round((run_t + warn_t) / plan_t, 2) * 100;
+            double plan_activation = Math.Round(100 * (run_t + warn_t) / plan_t, 2)  ;
             //产线稼动率
-            double activation = Math.Round(  run_t / plan_t,2)*100;
+            double activation = Math.Round(100 * run_t / plan_t,2) ;
 
 
-            //获取七日平均稼动率
-            sql = "  select sum(RunT) as RunT, sum(WarnT) as WarnT,sum(PlanPowerOnT) as PlanPowerOnT " +
-                "  from rptproductday where ProductLineId = 1 order by ProductionT desc limit 1 ";
-
-            double RunT = 0.0;
-            double WarnT = 0.0;
-            double PlanPowerOnT = 0.0;
-            DataTable Lineavgdt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-            if (Lineavgdt.Rows.Count >  0)
-            {
-                RunT = Convert.ToDouble(Lineavgdt.Rows[0]["RunT"].ToString());
-                WarnT = Convert.ToDouble(Lineavgdt.Rows[0]["WarnT"].ToString());
-                PlanPowerOnT = Convert.ToDouble(Lineavgdt.Rows[0]["PlanPowerOnT"].ToString());
-
-            }
-            if (run_t == 0 && warn_t == 0) warn_t = 1;
-            //时间开动率
-            double time_activation_7 = Math.Round((RunT) / (RunT + WarnT),2)*100;
-            //设备利用率
-            double plan_activation_7 = Math.Round((RunT + WarnT )/ PlanPowerOnT,2)*100;
-            //产线稼动率
-            double activation_7 = Math.Round(RunT / PlanPowerOnT,2)*100;
-
-            Dictionary<string, string> dicline = new Dictionary<string, string>();
-            dicline.Add("Linestatus", Linestatus);
-            dicline.Add("ACT", activation.ToString());
-            dicline.Add("DACT", plan_activation.ToString());
-            dicline.Add("TACT", time_activation.ToString());
-            dicline.Add("ACT7", activation_7.ToString());
-            dicline.Add("DACT7", plan_activation_7.ToString());
-            dicline.Add("TACT7", time_activation_7.ToString());
-
-            dv.Add("activation_line", dicline);
+         
 
 
             //当日  七日平均
@@ -195,11 +181,11 @@ namespace Bussiness.Chart
                     double QA_WarnT = Convert.ToDouble(efectlinedt.Rows[i]["WarnT"].ToString());
                     double QA_PlanPowerOnT = Convert.ToDouble(efectlinedt.Rows[i]["PlanPowerOnT"].ToString());
                     //时间开动率
-                    double TACT  = Math.Round((QA_RunT) / (QA_RunT + QA_WarnT), 2) * 100;
+                    double TACT  = Math.Round(100 * (QA_RunT) / (QA_RunT + QA_WarnT), 2)  ;
                     //设备利用率
-                    double DACT  = Math.Round((QA_RunT + QA_WarnT) / QA_PlanPowerOnT, 2) * 100;
+                    double DACT  = Math.Round(100 * (QA_RunT + QA_WarnT) / QA_PlanPowerOnT, 2)  ;
                     //产线稼动率
-                    double ACT  = Math.Round(QA_RunT / QA_PlanPowerOnT, 2) * 100;
+                    double ACT  = Math.Round(100 * QA_RunT / QA_PlanPowerOnT, 2)  ;
 
 
                     double OEE = 100 * (WorkLoad * CircleTime / ((QA_RunT + QA_WarnT)*3600)) * (QA_pass_num / QA_all_num);
@@ -274,45 +260,28 @@ namespace Bussiness.Chart
                 datestr7 = min7datedt.Rows[0]["productionT"].ToString();
             //工位信息
             //实时工位状态  末次班次平均加工周期   七日平均加工周期
-            sql = " select tt1.*,tt2.run7 from " +
-      " (select a1.*, if (stationstate is null ,'停止',stationstate) as stationstate , if (currtime is null ,0,currtime) as currtime " +
-    " from(select t2.Locationid, t2.JobType, t2.LocationSeq, t1.stationNAME, round(run_t /if (run_c > 0,run_c,1))as run from(select   sum( if (stationstate = '运行', if( (endtime - startTime)<300000,endtime - startTime,300000), 0))/ 1000 AS run_t, sum( if " +
-   "  (stationstate = '运行',1, 0))  AS run_c, stationNAME " +
-     "  from huabao.LocationState where id_usage =  " + idusage + "  group by stationNAME ) as t1 left join   huabao.locationcfg t2 " +
-     "  on t1.stationNAME = t2.StationName where t2.productlineid= " + lineid + ") a1 left join(select  stationNAME, stationstate, (TIMESTAMPDIFF(SECOND, '1970-1-1', NOW()) - round(starttime / 1000)) " +
-     "     as currtime    from huabao.LocationStatecache where " +
-      "  id_usage = " + idusage + "  )b1 on a1.stationNAME = b1.stationNAME order by a1.JobType, a1.LocationSeq)  tt1 left join " +
-    " (select Locationid, round(sum(RunT) /if (sum(RunC) > 0,sum(RunC),1)) as run7 from( " +
-      "  select * from rptlocationday where productlineid =  " + lineid  +
-     " and productionT >='"+ datestr7 + "' ) t group by Locationid) tt2 on tt1.Locationid = tt2.Locationid";
 
+
+
+            sql = "  select if (tt1.run is null ,0,tt1.run) run,tt2.* from( "+
+           "  select t21.*, t2.JobType, t2.LocationSeq,t2.state, t2.stationNAME from  " +
+       "   (select Locationid, round(sum(RunT) /if (sum(RunC) > 0,sum(RunC),1)) as run7 from(select * from rptlocationday where productlineid = " + lineid + "  and productionT >='" + datestr7 + "') " +
+       "   t group by Locationid ) t21 left join huabao.locationcfg t2   on t21.Locationid = t2.Locationid where t2.productlineid = "+ lineid + "   ) tt2 " +
+        "  left join(select round(run_t /if (run_c > 0,run_c,1))as run ,stationNAME " +
+            "  from(select   sum( if (stationstate = '运行', if ((endtime - startTime) < 300000,endtime - startTime,300000), 0))/ 1000 AS run_t, " +
+             "    sum( if (stationstate = '运行',1, 0))  AS run_c, stationNAME   from huabao.LocationState where id_usage = " + idusage + " group by stationNAME ) as t1 " +
+         "   )  tt1  on tt1.stationNAME = tt2.stationNAME  where tt2.state=1 order by tt2.LocationSeq ";
+
+ 
 
             DataTable stationstatedt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
             
             dv.Add("location_stat",  stationstatedt);
             //实时工序繁忙状态 +当日工序繁忙曲线 
-            sql = "  select left(CT, 10)  as Date, locationName ,NUM from queuestat where DataType=0 and ProductLineID=1 ORDER BY SEQ";
-
-            DataTable stationdt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-            if (stationdt.Rows.Count >= 0)
-            {
-                dv.Add("location_busy", stationdt );
-                Dictionary<string, DataTable> busylinedic = new Dictionary<string, DataTable>();
-                for (int i = 0; i < stationdt.Rows.Count; i++)
-                {
-                    string locationName = stationdt.Rows[i]["locationName"].ToString();
-                    string date = stationdt.Rows[i]["Date"].ToString();
-                    sql = "  select  substring(CT,12,5) as TM ,NUM from queuestat where DataType=1 and ProductLineID=" + lineid + " and locationName='"+ locationName + "' and CT like '" + date + "%' order by CT";
-
-                    DataTable linedt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-
-                    busylinedic.Add(locationName, linedt);
-                }
-                dv.Add("location_busy_curve",  busylinedic );
-
-            }
 
 
+            dv.Add("location_busy", LocationBusyData.LocationBusyState[lineid]);
+          
 
             // 产线当日品检 
             // 末次品检数      当日品检合格率  次品率   废品率
@@ -408,8 +377,8 @@ namespace Bussiness.Chart
                     double dev_warn_t = Convert.ToDouble(devdt.Rows[i]["warn_t"].ToString());
                     devdic.Add("stationname", stationname);
                     devdic.Add("devicemodel", devicemodel);
-                    devdic.Add("dev_activation",Math.Round(100* (dev_run_t + dev_free_t) / (PlanPowerOnT*3600),2));
-                    devdic.Add("dev_plan_activation", Math.Round(100 * (dev_run_t + dev_free_t + dev_warn_t) / (PlanPowerOnT * 3600), 2));
+                    devdic.Add("dev_activation",Math.Round(100* (dev_run_t + dev_free_t) / (plan_t*3600),2));
+                    devdic.Add("dev_plan_activation", Math.Round(100 * (dev_run_t + dev_free_t + dev_warn_t) / (plan_t * 3600), 2));
                     devdic.Add("dev_time_activation", Math.Round(100 * (dev_run_t + dev_free_t) / (dev_run_t + dev_free_t + dev_warn_t > 0 ? (dev_run_t + dev_free_t + dev_warn_t) : 1),2));
                     devlist.Add(devdic);
                 }
@@ -425,12 +394,48 @@ namespace Bussiness.Chart
                 begindate = begindatedt.Rows[0]["ProductionT"].ToString();
             }
 
+            //获取七日平均稼动率
+            sql = "  select sum(RunT) as RunT, sum(WarnT) as WarnT,sum(PlanPowerOnT) as PlanPowerOnT " +
+                "  from rptproductday where ProductLineId = 1 order by ProductionT desc limit 7 ";
+
+            double RunT = 0.0;
+            double WarnT = 0.0;
+            double PlanPowerOnT = 0.0;
+            DataTable Lineavgdt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
+            if (Lineavgdt.Rows.Count > 0)
+            {
+                RunT = Convert.ToDouble(Lineavgdt.Rows[0]["RunT"].ToString());
+                WarnT = Convert.ToDouble(Lineavgdt.Rows[0]["WarnT"].ToString());
+                PlanPowerOnT = Convert.ToDouble(Lineavgdt.Rows[0]["PlanPowerOnT"].ToString());
+
+            }
+            if (run_t == 0 && warn_t == 0) warn_t = 1;
+            //时间开动率
+            double time_activation_7 = Math.Round(100 * (RunT) / (RunT + WarnT), 2);
+            //设备利用率
+            double plan_activation_7 = Math.Round(100 * (RunT + WarnT) / PlanPowerOnT, 2);
+            //产线稼动率
+            double activation_7 = Math.Round(100 * RunT / PlanPowerOnT, 2);
+
+            Dictionary<string, object> dicline = new Dictionary<string, object>();
+            dicline.Add("stationname", "生产线");
+            dicline.Add("devicemodel", "");
+            dicline.Add("dev_activation7", activation_7.ToString());
+            dicline.Add("dev_plan_activation7", plan_activation_7.ToString());
+            dicline.Add("dev_time_activation7", time_activation_7.ToString());
+            
+
+
+
             sql = "  select tt1.locationid,tt1.stationname,tt1.devicemodel ,tt2.* from " +
        " (select a.deviceid, a.devicemodel, b.stationname, b.locationid from deviceinfo a left join locationcfg b on a.locationid = b.locationid and a.ProductLineId = b.ProductLineId where a.ProductLineId =" + lineid +
         " )tt1  right join (select deviceid, SUM(RunT) as RunT, SUM(FreeT) as FreeT, SUM(WarnT) as WarnT, SUM(PlanPowerOnT) as PlanPowerOnT  " +
          " from rptdeviceday where ProductLineId = " + lineid + " and ProductionT >= '" + begindate + "' group by deviceid  ) tt2 on tt1.deviceid = tt2.deviceid  ";
             DataTable devdt7 = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
             List<Dictionary<string, object>> devlist7 = new List<Dictionary<string, object>>();
+
+            devlist7.Add(dicline);
+
             if (devdt7.Rows.Count > 0)
             {
                 for (int i = 0; i < devdt7.Rows.Count; i++)
@@ -445,8 +450,8 @@ namespace Bussiness.Chart
                     double dev_PlanPowerOnT = Convert.ToDouble(devdt7.Rows[i]["PlanPowerOnT"].ToString());
                     devdic7.Add("stationname", stationname);
                     devdic7.Add("devicemodel", devicemodel);
-                    devdic7.Add("dev_activation7", Math.Round( (dev_run_t + dev_free_t)*100 / PlanPowerOnT,2));
-                    devdic7.Add("dev_plan_activation7", Math.Round(100*(dev_run_t + dev_free_t + dev_warn_t),2) / PlanPowerOnT);
+                    devdic7.Add("dev_activation7", Math.Round( (dev_run_t + dev_free_t)*100 / dev_PlanPowerOnT, 2));
+                    devdic7.Add("dev_plan_activation7", Math.Round(100*(dev_run_t + dev_free_t + dev_warn_t) / dev_PlanPowerOnT, 2));
                     devdic7.Add("dev_time_activation7", Math.Round(100*(dev_run_t + dev_free_t) / (dev_run_t + dev_free_t + dev_warn_t > 0 ? (dev_run_t + dev_free_t + dev_warn_t) : 1),2));
                     devlist7.Add(devdic7);
                 }
@@ -466,66 +471,72 @@ namespace Bussiness.Chart
             // 七日平均稼动时间  七日平均负荷时间    七日平均产线稼动率
 
             //当日设备报警情况
-
-            sql = "   select tt1.* ,round((tt2.beginwarn-tt3.beginwork)/1000) as firstwarninter, round((tt4.endwork-tt5.endwarn)/1000) as lstwarninter,round((tt5.endwarn-tt2.beginwarn)/1000) as warninter " +
-         "  from(  select  stationname,sum( if (stationstate = '报警', endtime - startTime, 0))/1000 AS warn_t,  sum( if (stationstate = '报警',1, 0))  AS warn_c    from huabao.LocationState where " +
-     "  ID_USAGE = " + idusage + "    group by stationname)tt1 left join " +
-      "    (select stationname, min( if (StartTime is null,0,StartTime)) as beginwarn " +
-      "    from locationstate where id_usage = " + idusage + "    and stationstate = '报警' group by stationname )tt2 on tt1.stationname = tt2.stationname " +
-      "    left join(  select stationname, min( if (StartTime is null,0,StartTime)) as beginwork " +
-      "    from locationstate where id_usage = " + idusage + "  group by stationname)tt3 on tt1.stationname = tt3.stationname " +
-     "      left join(  select stationname, max( if (endtime is null,0,endtime)) as endwork " +
-      "    from locationstate where id_usage = " + idusage + "  group by stationname)tt4 on tt1.stationname = tt4.stationname " +
-    "        left join(  select stationname, max( if (endtime is null,0,endtime)) as endwarn " +
-      "    from locationstate where id_usage = " + idusage + "  and stationstate = '报警'   group by stationname)tt5 on tt1.stationname = tt5.stationname where tt1.warn_c>0 ";
-
-            DataTable devwarndt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
+            //根据stationname 获取月平均故障统计值
             List<Dictionary<string, object>> devwarnlist = new List<Dictionary<string, object>>();
-            if (devwarndt.Rows.Count > 0)
+
+            double hist_warn_c = 0; double hist_firstwarninter = 0; double hist_avgwarnt = 0;
+            double hist_warninter = 0;
+            sql = "select c.locationseq, c.stationname, sum(WarnC)/count(*) as WarnC ,sum(WarnT)/count(*) as WarnT,sum(AvgWarnT)/count(*) as AvgWarnT,  " +
+     " sum(AvgWarnInter) / count(*) as AvgWarnInter,sum(FirstWarnInter) / count(*) as FirstWarnInter " +
+      " from rptdeviceerrday a  left  join deviceinfo b  on a.DeviceId = b.DeviceId left " +
+   " join locationcfg c  on b.locationid = c.locationid and b.ProductLineId = c.ProductLineId  " +
+   " where a.ProductLineId = " + lineid + "  and ProductionT >= '" + lstmonstr + "' group by  c.stationname ,c.locationseq order by c.locationseq ";
+            DataTable devwarnhisdt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
+            if (devwarnhisdt.Rows.Count > 0)
             {
-                for (int i = 0; i < devwarndt.Rows.Count; i++)
+                for (int i = 0; i < devwarnhisdt.Rows.Count; i++)
                 {
                     Dictionary<string, object> devwarndic = new Dictionary<string, object>();
 
-                    //获取
-                    string stationname = devwarndt.Rows[i]["stationname"].ToString();
-                    int warn_c = Convert.ToInt32(devwarndt.Rows[i]["warn_c"].ToString());
-                    int firstwarninter = Convert.ToInt32(devwarndt.Rows[i]["firstwarninter"].ToString());
-                    int lstwarninter = Convert.ToInt32(devwarndt.Rows[i]["lstwarninter"].ToString());
-                    int warninter = Convert.ToInt32(devwarndt.Rows[i]["warninter"].ToString());
+                    string stationname = devwarnhisdt.Rows[i]["stationname"].ToString();
 
-                    double warnt = Convert.ToDouble(devwarndt.Rows[i]["warn_t"].ToString());
-                    double avgwarntm = warnt / warn_c > 0 ? warn_c : 1;
-                    double avgwarninter = (warninter - warnt) / warn_c > 1 ? warn_c - 1 : 1;
-                    devwarndic.Add("stationname", stationname);
-                    devwarndic.Add("warn_c", warn_c);
-                    devwarndic.Add("firstwarninter",firstwarninter);
-                    devwarndic.Add("avgwarnt", Math.Round(avgwarntm,2));
-                    devwarndic.Add("avgwarninter", Math.Round(avgwarninter,2));
+                 hist_warn_c = Convert.ToDouble(devwarnhisdt.Rows[i]["WarnC"].ToString());
+                hist_firstwarninter = Convert.ToDouble(devwarnhisdt.Rows[i]["FirstWarnInter"].ToString());
+                hist_avgwarnt = Convert.ToDouble(devwarnhisdt.Rows[i]["AvgWarnT"].ToString());
+                hist_warninter = Convert.ToDouble(devwarnhisdt.Rows[i]["AvgWarnInter"].ToString());
+             
+               
+             devwarndic.Add("stationname", stationname);
 
-                    //根据stationname 获取月平均故障统计值
-                    double hist_warn_c = 0; double hist_firstwarninter = 0; double hist_avgwarnt = 0;
-                    double hist_warninter = 0;
-                   sql = "select sum(WarnC)/count(*) as WarnC ,sum(WarnT)/count(*) as WarnT,sum(AvgWarnT)/count(*) as AvgWarnT,  " +
-            " sum(AvgWarnInter) / count(*) as AvgWarnInter,sum(FirstWarnInter) / count(*) as FirstWarnInter " +
-             " from rptdeviceerrday a  left  join deviceinfo b  on a.DeviceId = b.DeviceId left " +
-          " join locationcfg c  on b.locationid = c.locationid and b.ProductLineId = c.ProductLineId  " +
-          " where a.ProductLineId = " + lineid + "  and c.stationname = '" + stationname + "' and ProductionT >= '" + lstmonstr + "' group by null ";
-                    DataTable devwarnhisdt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-                    if (devwarnhisdt.Rows.Count > 0   )
+           devwarndic.Add("h_avg_warn_c", Math.Round(hist_warn_c, 2));
+            devwarndic.Add("h_firstwarninter", Math.Round(hist_firstwarninter, 2));
+            devwarndic.Add("h_avgwarnt", Math.Round(hist_avgwarnt, 2));
+            devwarndic.Add("h_avgwarninter", Math.Round(hist_avgwarnt, 2));
+            sql = "   select tt1.* ,round((tt2.beginwarn-tt3.beginwork)/1000) as firstwarninter, round((tt4.endwork-tt5.endwarn)/1000) as lstwarninter,round((tt5.endwarn-tt2.beginwarn)/1000) as warninter " +
+         "  from(  select  stationname,sum( if (stationstate = '报警', endtime - startTime, 0))/1000 AS warn_t,  sum( if (stationstate = '报警',1, 0))  AS warn_c    from huabao.LocationState where " +
+     "  ID_USAGE = " + idusage + "    and stationname='" + stationname + "')tt1 left join " +
+      "    (select stationname, min( if (StartTime is null,0,StartTime)) as beginwarn " +
+      "    from locationstate where id_usage = " + idusage + "    and stationstate = '报警' and stationname='"+ stationname+"'  )tt2 on tt1.stationname = tt2.stationname " +
+      "    left join(  select stationname, min( if (StartTime is null,0,StartTime)) as beginwork " +
+      "    from locationstate where id_usage = " + idusage + "  and stationname='" + stationname + "' )tt3 on tt1.stationname = tt3.stationname " +
+     "      left join(  select stationname, max( if (endtime is null,0,endtime)) as endwork " +
+      "    from locationstate where id_usage = " + idusage + " and stationname='" + stationname + "' )tt4 on tt1.stationname = tt4.stationname " +
+    "        left join(  select stationname, max( if (endtime is null,0,endtime)) as endwarn " +
+      "    from locationstate where id_usage = " + idusage + "  and stationstate = '报警'   and stationname='" + stationname + "' )tt5 on tt1.stationname = tt5.stationname where tt1.warn_c>0 ";
+                    int warn_c = 0;
+                    int firstwarninter = 0;
+                    double avgwarntm = 0.0;
+                    double avgwarninter = 0.0;
+                    DataTable devwarndt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
+                   if (devwarndt.Rows.Count > 0)
                     {
-                        hist_warn_c = Convert.ToDouble(devwarnhisdt.Rows[0]["WarnC"].ToString());
-                        hist_firstwarninter = Convert.ToDouble(devwarnhisdt.Rows[0]["FirstWarnInter"].ToString());
-                        hist_avgwarnt = Convert.ToDouble(devwarnhisdt.Rows[0]["AvgWarnT"].ToString());
-                        hist_warninter = Convert.ToDouble(devwarnhisdt.Rows[0]["AvgWarnInter"].ToString());
+
+                          warn_c = Convert.ToInt32(devwarndt.Rows[0]["warn_c"].ToString());
+                          firstwarninter = Convert.ToInt32(devwarndt.Rows[0]["firstwarninter"].ToString());
+                        int lstwarninter = Convert.ToInt32(devwarndt.Rows[0]["lstwarninter"].ToString());
+                        int warninter = Convert.ToInt32(devwarndt.Rows[0]["warninter"].ToString());
+
+                        double warnt = Convert.ToDouble(devwarndt.Rows[0]["warn_t"].ToString());
+                          avgwarntm = warnt / warn_c > 0 ? warn_c : 1;
+                          avgwarninter = (warninter - warnt) / warn_c > 1 ? warn_c - 1 : 1;
+                       
+
                     }
+                    devwarndic.Add("warn_c", warn_c);
+                    devwarndic.Add("firstwarninter", firstwarninter);
+                    devwarndic.Add("avgwarnt", Math.Round(avgwarntm, 2));
+                    devwarndic.Add("avgwarninter", Math.Round(avgwarninter, 2));
 
-                        devwarndic.Add("h_avg_warn_c", Math.Round(hist_warn_c, 2));
-                        devwarndic.Add("h_firstwarninter", Math.Round(hist_firstwarninter,2));
-                        devwarndic.Add("h_avgwarnt", Math.Round(hist_avgwarnt,2));
-                        devwarndic.Add("h_avgwarninter", Math.Round(hist_avgwarnt,2));
-
-                     
                     devwarnlist.Add(devwarndic);
                 }
             }

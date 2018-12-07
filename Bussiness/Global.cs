@@ -17,6 +17,10 @@ namespace Bussiness
         public static bool busy_statics = true;
         public static string robotRun = "0";
         public static string robotStop = "1";
+        public static double freeLevel = 0.5;
+        public static double busyLevel = 2;
+         
+
         public static Dictionary<string, RobotState> rootstatelist = new Dictionary<string, RobotState>();
         public static Dictionary<string, List<string>> AccessList = new Dictionary<string, List<string>>();
         public static Dictionary<string, List<string>> MenuList = new Dictionary<string, List<string>>();

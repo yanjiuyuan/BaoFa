@@ -31,27 +31,27 @@ namespace DingTalk.Controllers
             string strPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
                 "ExcelFiles\\华宝硫化鞋生产线日报表模板.xls");
             //服务器生成路径
-            string strServerPath= Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                "ExcelFiles\\日报表\\"+ "华宝硫化鞋生产线日报表" + DateTime.Now.ToString("yyyy-MM-dd"))+ ".xls";
+            string strServerPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                "ExcelFiles\\日报表\\" + "华宝硫化鞋生产线日报表" + DateTime.Now.ToString("yyyy-MM-dd")) + ".xls";
             ReportServer reportServer = new ReportServer();
             reportServer.GetDailyReport(strPath, strServerPath);
-            return File(new FileStream(strServerPath, FileMode.Open), "application/octet-stream", Server.UrlEncode("华宝硫化鞋生产线日报表"+DateTime.Now.ToString("yyyy-MM-dd") + ".xls"));
+            return File(new FileStream(strServerPath, FileMode.Open), "application/octet-stream", Server.UrlEncode("华宝硫化鞋生产线日报表" + DateTime.Now.ToString("yyyy-MM-dd") + ".xls"));
         }
 
         /// 测试数据：Reports/GetMonQuality?startYear=2018&startMonth=5&endYear=2018&endMonth=5
-        public string GetMonQuality(string startYear,string startMonth, string endYear, string endMonth)
+        public string GetMonQuality(string startYear, string startMonth, string endYear, string endMonth)
         {
             QualityServer quaServer = new QualityServer();
             string startdatestr = startYear + "-" + startMonth + "-" + "01";
             DateTime starttime = Convert.ToDateTime(startdatestr);
-           string StartDate = starttime.ToString("yyyy-MM-dd HH:mm:ss");
+            string StartDate = starttime.ToString("yyyy-MM-dd HH:mm:ss");
 
             string enddatestr = endYear + "-" + endMonth + "-" + "01";
             DateTime endtime = Convert.ToDateTime(enddatestr);
             string EndDate = endtime.AddMonths(1).ToString("yyyy-MM-dd HH:mm:ss");
-            if(startMonth.Equals(endMonth) && startYear.Equals(endYear))
+            if (startMonth.Equals(endMonth) && startYear.Equals(endYear))
                 return quaServer.GetMonQuality(StartDate, EndDate, false);
-             else
+            else
                 return quaServer.GetMonQuality(StartDate, EndDate);
 
         }
@@ -88,7 +88,7 @@ namespace DingTalk.Controllers
                 return dosServer.GetMonProduct(StartDate, EndDate, false);
             else
                 return dosServer.GetMonProduct(StartDate, EndDate);
-             
+
 
         }
 
@@ -96,7 +96,7 @@ namespace DingTalk.Controllers
 
         /// </summary>
         /// 测试数据： Reports/GetProductDailyReport?DataTime=2018-05-11&lineid=1
-        public FileStreamResult GetProductDailyReport(string DataTime, int lineid=1)
+        public FileStreamResult GetProductDailyReport(string DataTime, int lineid = 1)
         {
             //模板路径
             string strPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
@@ -113,13 +113,13 @@ namespace DingTalk.Controllers
 
             reportServer.GetProductDailyReport(strPath, strServerPath, StartDate, EndDate, lineid);
             return File(new FileStream(strServerPath, FileMode.Open), "application/octet-stream", Server.UrlEncode("华宝硫化鞋生产线产量日报表" + "ExcelFiles\\日报表\\" + "华宝硫化鞋生产线产量日报表" + DataTime) + ".xls");
-    
+
         }
         /// </summary>
         /// 测试数据： Reports/GetProductDailyData?DataTime=2018-05-11&lineid=1
         public string GetProductDailyData(string DataTime, int lineid = 1)
         {
-             
+
             ReportServer reportServer = new ReportServer();
             DateTime starttime = Convert.ToDateTime(DataTime);
             string StartDate = starttime.ToString("yyyy-MM-dd HH:mm:ss");
@@ -127,8 +127,8 @@ namespace DingTalk.Controllers
             DateTime endtime = Convert.ToDateTime(DataTime).AddDays(1);
             string EndDate = endtime.ToString("yyyy-MM-dd HH:mm:ss");
 
-           return reportServer.GetProductDailyData( StartDate, EndDate, lineid);
-           
+            return reportServer.GetProductDailyData(StartDate, EndDate, lineid);
+
         }
 
 
@@ -166,8 +166,8 @@ namespace DingTalk.Controllers
             DateTime endtime = Convert.ToDateTime(DataTime).AddDays(1);
             string EndDate = endtime.ToString("yyyy-MM-dd HH:mm:ss");
 
-             return   reportServer.GetQualityDailyData(StartDate, EndDate, lineid);
-         
+            return reportServer.GetQualityDailyData(StartDate, EndDate, lineid);
+
         }
 
 
@@ -203,25 +203,25 @@ namespace DingTalk.Controllers
         /// <param name="foundryid">车间id</param>
         /// <param name="ProductLineId">产线id</param>
         /// <returns></returns>
-        public string  LineDailyRpt(string begintime,   int? groupid, int? companyid, int? foundryid, int? ProductLineId)
+        public string LineDailyRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId)
         {
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid,  companyid,foundryid, ProductLineId);
+            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
 
             ReportServer rps = new ReportServer();
             return rps.LineDailyRpt(begintime, lineids);
 
 
         }
-    /// <param name=""begintime"">开始日期(*)
-    /// <param name=""endtime""> 结束日期(*)
-    /// <param name=""groupid"">集团id
-    /// <param name=""companyid"">公司id
-    /// <param name=""foundryid"">车间id
-    /// <param name=""ProductLineId"">产线id"	
-        public string LinePhaseRpt(string begintime,string endtime, int? groupid, int? companyid, int? foundryid, int? ProductLineId)
+        /// <param name=""begintime"">开始日期(*)
+        /// <param name=""endtime""> 结束日期(*)
+        /// <param name=""groupid"">集团id
+        /// <param name=""companyid"">公司id
+        /// <param name=""foundryid"">车间id
+        /// <param name=""ProductLineId"">产线id"	
+        public string LinePhaseRpt(string begintime, string endtime, int? groupid, int? companyid, int? foundryid, int? ProductLineId)
         {
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
@@ -269,7 +269,7 @@ namespace DingTalk.Controllers
             return rps.LineYearRpt(begintime, lineids);
         }
 
-        public string DeviceDailyRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId ,string  devicemodel)
+        public string DeviceDailyRpt(string begintime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel)
         {
 
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
@@ -278,7 +278,7 @@ namespace DingTalk.Controllers
             string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
 
             ReportServer rps = new ReportServer();
-            return rps.DeviceDailyRpt(begintime, lineids,devicemodel);
+            return rps.DeviceDailyRpt(begintime, lineids, devicemodel);
 
 
         }
@@ -296,7 +296,7 @@ namespace DingTalk.Controllers
             string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
 
             ReportServer rps = new ReportServer();
-            return rps.DevicePhaseRpt(begintime, endtime, lineids,devicemodel);
+            return rps.DevicePhaseRpt(begintime, endtime, lineids, devicemodel);
 
 
         }
@@ -345,7 +345,7 @@ namespace DingTalk.Controllers
             string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
 
             ReportServer rps = new ReportServer();
-            return rps.DeviceErrDailyRpt(begintime, lineids, devicemodel,islisterr);
+            return rps.DeviceErrDailyRpt(begintime, lineids, devicemodel, islisterr);
 
 
         }
@@ -355,7 +355,7 @@ namespace DingTalk.Controllers
         /// <param name=""companyid"">公司id
         /// <param name=""foundryid"">车间id
         /// <param name=""ProductLineId"">产线id"	
-        public string DeviceErrPhaseRpt(string begintime, string endtime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel,int islisterr = 1)
+        public string DeviceErrPhaseRpt(string begintime, string endtime, int? groupid, int? companyid, int? foundryid, int? ProductLineId, string devicemodel, int islisterr = 1)
         {
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
@@ -363,7 +363,7 @@ namespace DingTalk.Controllers
             string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
 
             ReportServer rps = new ReportServer();
-            return rps.DeviceErrPhaseRpt(begintime, endtime, lineids, devicemodel,islisterr);
+            return rps.DeviceErrPhaseRpt(begintime, endtime, lineids, devicemodel, islisterr);
 
 
         }

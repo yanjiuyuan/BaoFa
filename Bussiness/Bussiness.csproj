@@ -85,6 +85,8 @@
     <Compile Include="Quality\QualityServer.cs" />
     <Compile Include="Quality\SingleQualityServer.cs" />
     <Compile Include="Report\ReportServer.cs" />
+    <Compile Include="RobotData\DataViewData.cs" />
+    <Compile Include="RobotData\LocationBusyData.cs" />
     <Compile Include="RobotData\RobotData.cs" />
     <Compile Include="RobotData\RobotState.cs" />
     <Compile Include="RobotData\TimeTaskManager.cs" />

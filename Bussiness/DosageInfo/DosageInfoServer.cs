@@ -111,7 +111,9 @@ namespace Bussiness.DosageInfo
                 {
                     //转换时间格式
                     tbOld.Rows[i][0] = TimeHelper.GetStringToDateTime((tbOld.Rows[i][0].ToString()));
-                     }
+                    tbOld.Rows[i][2] = Convert.ToInt32(tbOld.Rows[i][2]) < 0 ? 0 : (Convert.ToInt32(tbOld.Rows[i][2]) / 2);
+
+                }
             }
             catch (Exception ex)
             {
@@ -262,7 +264,7 @@ namespace Bussiness.DosageInfo
             {
                 //转换时间格式
                 tbOld.Rows[i][0] = TimeHelper.GetStringToDateTime((tbOld.Rows[i][0].ToString()));
-                tbOld.Rows[i][2] = Convert.ToInt32(tbOld.Rows[i][2]) < 0 ? 0 : Convert.ToInt32(tbOld.Rows[i][2]);
+                tbOld.Rows[i][2] = Convert.ToInt32(tbOld.Rows[i][2]) < 0 ? 0 : (Convert.ToInt32(tbOld.Rows[i][2]) / 2);
             }
             }
             catch (Exception ex)

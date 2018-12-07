@@ -14,7 +14,8 @@ namespace Common.DbHelper
     public class MySqlHelper
     {
         private static Logger logger = Logger.CreateLogger(typeof(MySqlHelper));
-        private static string connstr = @"Host=47.96.172.122;UserName=huabao;Password=huabao2025;Database=huabao;Port=3306;CharSet=utf8;Allow Zero Datetime=true";
+        // private static string connstr = @"Host=47.96.172.122;UserName=huabao;Password=huabao2025;Database=huabao;Port=3306;CharSet=utf8;Allow Zero Datetime=true";
+        private static string connstr = @"Host=119.3.66.94;UserName=huabao;Password=huabao20252014;Database=huabao;Port=3306;CharSet=utf8;Allow Zero Datetime=true";
 
         #region 执行查询语句，返回MySqlDataReader
         /// <summary>

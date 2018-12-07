@@ -35,8 +35,8 @@ namespace DingTalk.Controllers
         /// 测试数据：DataView/GetData?lineid=1
         public string GetData(int lineid)
         {
-            DataViewServer ds = new DataViewServer();
-            return ds.GetData(lineid);
+            
+            return  Bussiness.DataViewData.lineViewData[lineid];
              
         }
 

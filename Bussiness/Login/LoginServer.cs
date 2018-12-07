@@ -22,7 +22,7 @@ namespace Bussiness
             try
             {
                 strPassword = MD5Encrypt.Encrypt(strPassword);
-                string strSql = string.Format("select username,password ,status,Brno,companyname,role from huabao.userInfo where username='{0}' ",
+                string strSql = string.Format("select username,password ,status,Brno,companyname,role from huabao.userinfo where username='{0}' ",
                     strUserName);
                 //int iResult= MySqlHelper.ExecuteSql(strSql);
                 DataTable dt = MySqlHelper.ExecuteQuery(strSql);
@@ -50,7 +50,7 @@ namespace Bussiness
                     else
                     {
                        
-                        string updatesql = "update huabao.userInfo set lastLoginTime='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' where   username='" + strUserName + "'";
+                        string updatesql = "update huabao.userinfo set lastLoginTime='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "' where   username='" + strUserName + "'";
                         iResult = MySqlHelper.ExecuteSql(updatesql);
                         if(iResult==1)
                         {
@@ -103,7 +103,7 @@ namespace Bussiness
             int iRole = 0;
             try
             {
-                string strSql = string.Format("select role from huabao.userInfo where username='{0}'", strUserName);
+                string strSql = string.Format("select role from huabao.userinfo where username='{0}'", strUserName);
             DataSet dataset = MySqlHelper.GetDataSet(strSql);
             iRole= Int32.TryParse(dataset.Tables[0].Rows[0]["role"].ToString(),out iRole) ?iRole:0;
          
@@ -125,7 +125,7 @@ namespace Bussiness
         {
             try { 
             string GetCompanyId = string.Empty;
-            string strSql = string.Format("select CompanyId from huabao.userInfo where username='{0}'", strUserName);
+            string strSql = string.Format("select CompanyId from huabao.userinfo where username='{0}'", strUserName);
             DataSet dataset = MySqlHelper.GetDataSet(strSql);
             GetCompanyId = dataset.Tables[0].Rows[0]["CompanyId"].ToString();
             return GetCompanyId;

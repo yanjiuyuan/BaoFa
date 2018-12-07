@@ -27,6 +27,8 @@ namespace DingTalk
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoTask.Initialize();
             Bussiness.RobotData.init();
+            Bussiness.DataViewData.init();
+            Bussiness.LocationBusyData.init();
         }
     }
 

@@ -15,7 +15,7 @@ namespace Bussiness.WorkSataions
         private static Logger logger = Logger.CreateLogger(typeof(WorkSataionsServer));
         public DataTable GetWorkStationInfo()
         {
-            string strSql = " SELECT  * FROM  `ArtificialConfig` a LEFT JOIN  `artificialinformation` b ON  a.Preferredid=b.ID_ArtificialInformation  WHERE endtime IS NULL  AND starttime IS NOT NULL ";
+            string strSql = " SELECT  * FROM  `artificialconfig` a LEFT JOIN  `artificialinformation` b ON  a.Preferredid=b.ID_ArtificialInformation  WHERE endtime IS NULL  AND starttime IS NOT NULL ";
             DataTable db=MySqlHelper.ExecuteQuery(strSql);
             return db;
         }
@@ -76,5 +76,22 @@ namespace Bussiness.WorkSataions
 
         }
 
+        public string GetLocationList(int lineid)
+        {
+            string retstr = string.Empty;
+            try
+            {
+                string strSql = " select jobtype, locationid,stationname from locationcfg  WHERE productlineid =" + lineid + " and    state=1 order by locationseq ";
+                DataTable db = MySqlHelper.ExecuteQuery(strSql);
+                return JsonConvert.SerializeObject(db);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.Message);
+                return Global.RETURN_ERROR(ex.Message);
+
+            }
+
+        }
     }
 }

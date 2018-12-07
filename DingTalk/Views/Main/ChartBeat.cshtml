@@ -52,8 +52,8 @@
                         var machineCurrentX = [], machineCurrentY1 = [], machineCurrentY2 = [], machineCurrentY3 = [], machineCurrentY4 = []
                         for (let d of data) {
                             if (d.JobType == '人工') {
-                                peopleX.push(d.stationNAME)
-                                peopleCurrentX.push(d.stationNAME)
+                                peopleX.push(d.StationName)
+                                peopleCurrentX.push(d.StationName)
                                 peopleY1.push(d.run)
                                 peopleY2.push(d.free)
                                 peopleY3.push(d.warn)
@@ -85,8 +85,8 @@
                             }
                             else {
                                 if (d.stationNAME == '视觉3号站')  continue
-                                machineX.push(d.stationNAME)
-                                machineCurrentX.push(d.stationNAME)
+                                machineX.push(d.StationName)
+                                machineCurrentX.push(d.StationName)
                                 machineY1.push(d.run)
                                 machineY2.push(d.free)
                                 machineY3.push(d.warn)
