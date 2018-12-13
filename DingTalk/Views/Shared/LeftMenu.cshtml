@@ -32,10 +32,10 @@
                             <el-menu-item-group>
                                 <el-menu-item v-show="menuList.indexOf('3001')>=0" index="3-1" onclick="loadPage('/Main/ChartProduce')">实时生产统计</el-menu-item>
                                 <el-menu-item v-show="menuList.indexOf('3002')>=0" index="3-5" onclick="loadPage('/Main/ChartBeat')">实时生产节拍</el-menu-item>
-                                <el-menu-item v-show="menuList.indexOf('3003')>=0" index="3-3" onclick="loadPage('/Main/ChartProductQuality')">单品质量分析</el-menu-item>
-                                <el-menu-item v-show="menuList.indexOf('3004')>=0" index="3-2" onclick="loadPage('/Main/ChartOrderQuality')">批次质量分析</el-menu-item>
-                                <el-menu-item index="3-7" onclick="loadPage('/Main/ChartRunStatus')">运行状况分析</el-menu-item>
-                                <el-menu-item index="3-8" onclick="loadPage('/Main/ChartDeviceErr')">设备报警分析</el-menu-item>
+                                @*<el-menu-item v-show="menuList.indexOf('3003')>=0" index="3-3" onclick="loadPage('/Main/ChartProductQuality')">单品质量分析</el-menu-item>
+                                <el-menu-item v-show="menuList.indexOf('3004')>=0" index="3-2" onclick="loadPage('/Main/ChartOrderQuality')">批次质量分析</el-menu-item>*@
+                                <el-menu-item index="3-7" onclick="loadPage('/Main/ChartRunStatus')">产线运行分析</el-menu-item>
+                                <el-menu-item index="3-8" onclick="loadPage('/Main/ChartDeviceStatus')">设备运行统计</el-menu-item>
                                 <el-menu-item v-show="menuList.indexOf('3005')>=0" index="3-6" onclick="loadPage('/Main/ChartDay')">日统计报表</el-menu-item>
                                 <el-menu-item v-show="menuList.indexOf('3006')>=0" index="3-4" onclick="loadPage('/Main/ChartMultiply')">月统计报表</el-menu-item>
                             </el-menu-item-group>
@@ -43,13 +43,13 @@
                         <el-menu-item v-show="menuList.indexOf('4000')>=0" index="4" onclick="loadPage('/Main/VideoMonitor')">
                             <i class="el-icon-view"></i>视频监控
                         </el-menu-item>
-                        <el-submenu index="4">
+                        <el-submenu index="4"  v-show="menuList.indexOf('5000')>=0" >
                             <template slot="title">
                                 <i class="el-icon-setting"></i>系统管理
                             </template>
                             <el-menu-item-group>
-                                <el-menu-item index="4-1" onclick="loadPage('/Main/ManagerUser')">用户管理</el-menu-item>
-                                <el-menu-item index="4-2" onclick="loadPage('/Main/ManagerDevice')">设备管理</el-menu-item>
+                                <el-menu-item index="4-1"  v-show="menuList.indexOf('5001')" onclick="loadPage('/Main/ManagerUser')">用户管理</el-menu-item>
+                                <el-menu-item index="4-2" v-show="menuList.indexOf('5002')" onclick="loadPage('/Main/ManagerDevice')">设备管理</el-menu-item>
                                      </el-menu-item-group>
                         </el-submenu>
                        

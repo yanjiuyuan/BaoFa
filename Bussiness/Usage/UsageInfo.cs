@@ -49,7 +49,7 @@ namespace Bussiness.UsageInfo
                     DateTime time = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd"));
                     long lTime = TimeHelper.ConvertDateTimeToInt(time);
                     //string strSql = string.Format("SELECT  *  FROM  `usage` a  LEFT JOIN  `line` b ON a.id_usage=b.id_usage  WHERE UpData_Time>{0}  ORDER BY  ct DESC LIMIT 0,1", lTime);
-                    string strSql = string.Format("SELECT  *  FROM  `usage` a  LEFT JOIN  `line` b ON a.id_usage=b.id_usage  where a.ProductLineId={0}    ORDER BY  ct DESC LIMIT 0,1", lineid);
+                    string strSql = string.Format("SELECT  a.ID_Usage, a.ChildID, a.OrderID, a.ChildN, a.ProductionT, a.ProductionBeat, round(a.NowN/2) as NowN, round(a.OldN/2) as OldN ,round(a.AllN/2) as AllN , a.WeiTiaoConsumption, a.HuChiConsumption, a.BiaoQianConsumption, a.DaDiConsumption,  a.ProductLineId ,b.*  FROM  `usage` a  LEFT JOIN  `line` b ON a.id_usage=b.id_usage  where a.ProductLineId={0}    ORDER BY  ct DESC LIMIT 0,1", lineid);
                     DataTable tb = MySqlHelper.ExecuteQuery(strSql);
                     if (tb.Rows.Count > 0)
                     {

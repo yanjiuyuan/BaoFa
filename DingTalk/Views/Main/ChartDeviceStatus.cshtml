@@ -50,18 +50,11 @@
                 </el-form-item>
             </el-form>
             <el-table :data="tableData" stripe border>
-                <el-table-column v-for="opt in allOptions" :prop="opt" :key="opt" :label="tableOptions[opt]"></el-table-column>
+                <el-table-column v-for="opt in allOptions" :prop="opt" :key="opt"  :width="lenOptions[opt]" :label="tableOptions[opt]"></el-table-column>
             </el-table>
-            <div style="text-align:right">
-                <el-pagination v-on:size-change="handleSizeChange"
-                               v-on:current-change="handleCurrentChange"
-                               :current-page="currentPage"
-                               :page-sizes="[10]"
-                               :page-size="pageSize"
-                               layout="total, sizes, prev, pager, next, jumper"
-                               :total="totalRows">
-                </el-pagination>
-            </div>
+            <!--图形展示-->
+            @*<div id="barChart" style="height:400px;width:49%;float:left;border:solid 1px rgb(128, 128, 128)"></div>
+            <div id="radarChart" style="height:400px;width:49%;float:left;border:solid 1px rgb(128, 128, 128)"></div>*@
         </el-collapse-item>
         @*<el-collapse-item :title="lineData[1].ProductLineName" name="2">
             <div>暂无数据</div>
@@ -71,26 +64,39 @@
 
 
 <script>
-    var radarChart, barChart, radarChart, barOption
+    var radarChart, barChart, barOption
+    var    date1 = new Date();
+    date1.setTime(date1.getTime() - 24 * 60 * 60 * 1000);
+    var currentdate = _dateToString(date1);
+
     var tableOptions = {
-        DeviceId: "机器编号",
-        devicename: "设备名",
-        devicemodel: "设备新型号",
-        //ProductionT: "查询日期",
-        ProductLineId: "产线编号 ",
-        productlinename: "产线名",
-        ErrorN : "报警分类",
-        WarnT: "报警时长（秒)",
-        WarnC: "报警次数 (次）",
-        errname: "报警分类描述",
-        stationName: "工位"
+        DeviceName: "设备名称",
+        DeviceModel: "设备型号",
+        ProductionT: "日期",
+        PlanPowerOnT: "计划开机时间/h",
+        RunT: "运行时间/h",
+        FreeT: "空闲时间/h",
+        AvgRunT: "运行周期/s",
+        WarnT: "报警时间/h",
+        WarnC: "报警次数",
+        AvgWarnT: "平均报警时间/s",
+        AvgWarnInter: "平均报警间隔/s",
+        FirstWarnInter: "平均首次报警时间/s",
+        Days: "天数"
     }
-    var averageTime = {
-        Davgwarnt: "日平均报警时长(秒）",
-        Davgwarnc: "日平均报警次数(次） ",
-        days: "天数"
-    }
+     
     var allOptions = []
+    var lenOptions = {
+        DeviceName: 150,
+ 
+        ProductionT: 200,
+        PlanPowerOnT: 120,
+       
+        AvgWarnT: 120,
+        AvgWarnInter: 120,
+        FirstWarnInter: 150 
+         
+    }
     for (var c in tableOptions) {
         if (typeof (c) == 'string') allOptions.push(c)
     }
@@ -99,7 +105,6 @@
         mixins: [mixin],
         data: function () {
             return {
-                data: [],
                 tableData: [],
                 lineData: getLocalObj("lineData"),
                 activeNames: ['1'],
@@ -123,10 +128,12 @@
                 ],
                 allOptions: allOptions,
                 tableOptions: tableOptions,
+                lenOptions: lenOptions,
+              
                 form: {
-                    dateOption: 0,
+                    dateOption: 1,
                     dateRange: [],
-                    date: ''
+                    date: currentdate
                 }
             }
         },
@@ -136,21 +143,22 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var year, month, day, dateRange = [], paramObj = {} 
-                        if (that.form.date) {
-                            year = that.form.date.getFullYear()
-                            month = that.form.date.getMonth() + 1
-                            day = that.form.date.getDate()
+                        if (that.form.dateOption!=4) {
+                            year = new Date(that.form.date).getFullYear() 
+                            month = new Date(that.form.date).getMonth() + 1
+                            day = new Date(that.form.date).getDate()
                             if (month < 10) month = '0' + month
                             if (day < 10) day = '0' + day
                         }
-                        if (that.form.dateRange.length > 0) {
-                            dateRange.push(_dateToString(that.dateRange[0]))
-                            dateRange.push(_dateToString(that.dateRange[1]))
+                       else if (that.form.dateRange.length > 0) {
+                           
+                            dateRange.push(_dateToString(that.form.dateRange[0]))
+                            dateRange.push(_dateToString(that.form.dateRange[1]))
                         }
                         switch (that.form.dateOption) {
                             case 1:
                                 paramObj = {
-                                    url: '/Reports/DeviceErrDailyRpt',
+                                    url: '/Reports/DeviceDailyRpt',
                                     param: {
                                         begintime: year + '-' + month + '-' + day,
                                         groupid: 1
@@ -159,7 +167,7 @@
                                 break;
                             case 2:
                                 paramObj = {
-                                    url: '/Reports/DeviceErrMonthRpt',
+                                    url: '/Reports/DeviceMonthRpt',
                                     param: {
                                         begintime: year + '-' + month,
                                         groupid: 1
@@ -168,7 +176,7 @@
                                 break;
                             case 3:
                                 paramObj = {
-                                    url: '/Reports/DeviceErrYearRpt',
+                                    url: '/Reports/DeviceYearRpt',
                                     param: {
                                         begintime: year,
                                         groupid: 1
@@ -177,10 +185,10 @@
                                 break;
                             case 4:
                                 paramObj = {
-                                    url: '/Reports/DeviceErrPhaseRpt',
+                                    url: '/Reports/DevicePhaseRpt',
                                     param: {
-                                        begintime: dateRange[0],
-                                        endtime: dateRange[1],
+                                        begintime:  dateRange[0],
+                                        endtime:  dateRange[1],
                                         groupid: 1
                                     }
                                 }
@@ -208,12 +216,15 @@
                     //dataType: 'json',
                     success: function (data) {
                         data = JSON.parse(data)
-                        console.log('获取设备状态数据')
+                        console.log('获取运行状态数据')
                         console.log(url)
-                        console.log(data)
-                        that.data = data
-                        that.totalRows = data.length
-                        that.getData()
+                        console.log(data.length)
+                         
+                         
+                        that.tableData = data
+                    
+                         
+                      
                     },
                     error: function (err) {
                         console.error(err)
@@ -226,6 +237,8 @@
             loadHtml("mainPage", "partPage")
         }
     })
+
+     
 </script>
 
 

@@ -208,7 +208,7 @@ namespace DingTalk.Controllers
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            string lineids = Global.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
 
             ReportServer rps = new ReportServer();
             return rps.LineDailyRpt(begintime, lineids);
@@ -226,7 +226,7 @@ namespace DingTalk.Controllers
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            string lineids = Global.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
 
             ReportServer rps = new ReportServer();
             return rps.LinePhaseRpt(begintime, endtime, lineids);
@@ -246,7 +246,7 @@ namespace DingTalk.Controllers
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            string lineids = Global.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
             ReportServer rps = new ReportServer();
             return rps.LineMonthRpt(begintime, lineids);
 
@@ -264,7 +264,7 @@ namespace DingTalk.Controllers
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            string lineids = Global.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
             ReportServer rps = new ReportServer();
             return rps.LineYearRpt(begintime, lineids);
         }
@@ -275,7 +275,7 @@ namespace DingTalk.Controllers
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            string lineids = Global.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
 
             ReportServer rps = new ReportServer();
             return rps.DeviceDailyRpt(begintime, lineids, devicemodel);
@@ -293,7 +293,7 @@ namespace DingTalk.Controllers
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            string lineids = Global.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
 
             ReportServer rps = new ReportServer();
             return rps.DevicePhaseRpt(begintime, endtime, lineids, devicemodel);
@@ -313,7 +313,7 @@ namespace DingTalk.Controllers
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            string lineids = Global.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
             ReportServer rps = new ReportServer();
             return rps.DeviceMonthRpt(begintime, lineids, devicemodel);
 
@@ -331,7 +331,7 @@ namespace DingTalk.Controllers
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            string lineids = Global.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
             ReportServer rps = new ReportServer();
             return rps.DeviceYearRpt(begintime, lineids, devicemodel);
         }
@@ -342,7 +342,7 @@ namespace DingTalk.Controllers
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            string lineids = Global.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
 
             ReportServer rps = new ReportServer();
             return rps.DeviceErrDailyRpt(begintime, lineids, devicemodel, islisterr);
@@ -360,7 +360,7 @@ namespace DingTalk.Controllers
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            string lineids = Global.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
 
             ReportServer rps = new ReportServer();
             return rps.DeviceErrPhaseRpt(begintime, endtime, lineids, devicemodel, islisterr);
@@ -380,7 +380,7 @@ namespace DingTalk.Controllers
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            string lineids = Global.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
             ReportServer rps = new ReportServer();
             return rps.DeviceErrMonthRpt(begintime, lineids, devicemodel, islisterr);
 
@@ -398,7 +398,7 @@ namespace DingTalk.Controllers
             if (groupid == null && companyid == null && foundryid == null && ProductLineId == null)
                 return Global.RETURN_ERROR("部门编号不能全部为空");
             ProductionLinesServer pls = new ProductionLinesServer();
-            string lineids = pls.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
+            string lineids = Global.GetLinesStr(groupid, companyid, foundryid, ProductLineId);
             ReportServer rps = new ReportServer();
             return rps.DeviceErrYearRpt(begintime, lineids, devicemodel, islisterr);
         }

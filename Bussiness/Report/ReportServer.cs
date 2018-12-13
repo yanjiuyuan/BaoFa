@@ -754,16 +754,19 @@ namespace Bussiness.Report
 
         public string LineDailyRpt(string begintime, string lineids )
         {
-         
+            
             string RSTSTR = string.Empty;
             try
             {
-                string querysql = "select t.* ,concat(round(runt*100/if(allt>0,allt,1),2),'%' ) as runrate, " +
-                   " concat(round(stopt * 100 /if (allt > 0,allt,1),2),'%' ) as stoprate,  " +
-                   " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
-                   " concat(round(offlinet * 100 /if (allt > 0,allt,1),2),'%' ) as offlinerate, " +
-                   " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate, " +
-                   " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate " +
+                string querysql = "select 1 as Days, t.* ,round(runt*100/if(allt>0,allt,1),2) as runrate, " +
+                  "  round(runt, 2) as RunT, round(stopt, 2) as StopT,round(warnt, 2) as WarnT,round(offlinet, 2) as OffLineT,"+
+                   "round(stopt * 100 /if (allt > 0,allt,1),2) as stoprate,  " +
+                   "round(warnt * 100 /if (allt > 0,allt,1),2)  as warnrate, " +
+                   " round(offlinet * 100 /if (allt > 0,allt,1),2) as offlinerate, " +
+                  " round((WorkLoad * planpoweronT)*100 / (planworkload  * (runt + warnt)),2) as OEE ,"+
+                   " round((runt) * 100 /if (planpoweronT > 0,planpoweronT,1),2) as  ACT, " +
+                   " round((runt+warnt) * 100 /if (planpoweronT > 0,planpoweronT,1),2) as  DACT ," +
+                       " round((runt ) * 100 /if ((runt+warnt) > 0,(runt+warnt),1),2) as  TACT  " +
                    "  from( select  a.* , a.runt + a.stopt + a.warnt + offlinet as allt, b.productlinename from rptproductday a left " +
                    "  join productlineinfo b on a.productlineid = b.productlineid  where a.productionT='" + begintime + "' and a.productlineid in (" + lineids+ ")) t";
 
@@ -786,13 +789,16 @@ namespace Bussiness.Report
             try
             {
                 string querysql = "select t.* , "+
-                " round(runt / days, 2) as Davgrunt,round(stopt / days, 2) as Davgstopt,round(warnt / days, 2) as Davgwarnt,round(offlinet / days, 2) as Davgofflinet, " +
-                " concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate, " +
-                " concat(round(stopt * 100 /if (allt > 0,allt,1),2),'%' ) as stoprate, " +
-                " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
-                " concat(round(offlinet * 100 /if (allt > 0,allt,1),2),'%' ) as offlinerate, " +
-                " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate, " +
-                " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate " +
+                " round(runt , 2) as RunT,round(stopt , 2) as StopT,round(warnt, 2) as WarnT,round(offlinet , 2) as OffLineT, " +
+                "  round(runt * 100 /if (allt > 0,allt,1),2)  as runrate, " +
+                "  round(stopt * 100 /if (allt > 0,allt,1),2) as stoprate, " +
+                "  round(warnt * 100 /if (allt > 0,allt,1),2)  as warnrate, " +
+                "  round(offlinet * 100 /if (allt > 0,allt,1),2)  as offlinerate, " +
+                   " round((WorkLoad * planpoweronT)*100 / (planworkload  * (runt + warnt)),2) as OEE ," +
+            " round((runt) * 100 /if (planpoweronT > 0,planpoweronT,1),2) as  ACT, " +
+                   " round((runt+warnt) * 100 /if (planpoweronT > 0,planpoweronT,1),2) as  DACT ," +
+                       " round((runt ) * 100 /if ((runt+warnt) > 0,(runt+warnt),1),2) as  TACT  " +
+
                 "  from( select  a.*, a.runt + a.stopt + a.warnt + offlinet as allt, b.productlinename from rptproductmonth a left  join " +
                 " productlineinfo b on a.productlineid = b.productlineid where a.productionT='" + begintime + "' and a.productlineid in (" + lineids + ")) t ";
 
@@ -810,19 +816,22 @@ namespace Bussiness.Report
 
         public string LinePhaseRpt(string begintime, string endtime, string lineids)
         {
-
+            string tm = begintime + "-" + endtime;
             string RSTSTR = string.Empty;
             try
             {
-                string querysql = "   select t.* ,  '"+begintime+"-"+endtime+"' as productionT,  "+
-               "   round(runt / days, 2) as Davgrunt,round(stopt / days, 2) as Davgstopt,round(warnt / days, 2) as Davgwarnt,round(offlinet / days, 2) as Davgofflinet,  " +
-               "   concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate,   " +
-               "   concat(round(stopt * 100 /if (allt > 0,allt,1),2),'%' ) as stoprate,  " +
-               "   concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate,   " +
-               "   concat(round(offlinet * 100 /if (allt > 0,allt,1),2),'%' ) as offlinerate,  " +
-               "   concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate,   " +
-               "   concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate  " +
-               "   from(select count(id) as days, sum(runt) as runt, sum(RunC) as RunC, sum(StopT) as StopT, sum(StopC) as StopC, sum(WarnT) as WarnT, sum(WarnC) as WarnC, sum(OffLineT) as OffLineT, sum(OffLineC) as OffLineC,  " +
+                string querysql = "   select t.* ,  '"+tm+ "' as ProductionT,  " +
+               "   round(runt , 2) as RunT,round(stopt, 2) as StopT,round(warnt , 2) as WarnT,round(offlinet , 2) as OffLineT,  " +
+               "    round(runt * 100 /if (allt > 0,allt,1),2)  as runrate,   " +
+               "    round(stopt * 100 /if (allt > 0,allt,1),2)  as stoprate,  " +
+               "    round(warnt * 100 /if (allt > 0,allt,1),2)  as warnrate,   " +
+               "    round(offlinet * 100 /if (allt > 0,allt,1),2)  as offlinerate,  " +
+                  " round((WorkLoad * planpoweronT)*100 / (planworkload  * (runt + warnt)),2) as OEE ," +
+             " round((runt) * 100 /if (planpoweronT > 0,planpoweronT,1),2) as  ACT, " +
+                   " round((runt+warnt) * 100 /if (planpoweronT > 0,planpoweronT,1),2) as  DACT ," +
+                       " round((runt ) * 100 /if ((runt+warnt) > 0,(runt+warnt),1),2) as  TACT  " +
+
+               "   from(select count(id) as Days, sum(runt) as RunT, sum(RunC) as RunC, sum(StopT) as StopT, sum(StopC) as StopC, sum(WarnT) as WarnT, sum(WarnC) as WarnC, sum(OffLineT) as OffLineT, sum(OffLineC) as OffLineC,  " +
                "   sum(PlanPowerOnT) as PlanPowerOnT, sum(PowerOnT) as PowerOnT, sum(PowerOffT) as PowerOffT, sum(IsPlanPowerOn) as IsPlanPowerOn, sum(PlanShifts) as PlanShifts, sum(Shifts) as Shifts, sum(PlanWorkLoad) as PlanWorkLoad, sum(WorkLoad) as WorkLoad  " +
                "   ,a.ProductLineId, productlinename, sum(a.runt + a.stopt + a.warnt + offlinet) as allt from rptproductday a left    join  " +
                "  productlineinfo b on a.productlineid = b.productlineid where a.productionT >= '"+begintime+ "' and productionT <= '" + endtime + "' and  a.productlineid in (" + lineids + ") group by a.ProductLineId, productlinename) t ";
@@ -847,13 +856,16 @@ namespace Bussiness.Report
             try
             {
                 string querysql = "select t.* , " +
-                " round(runt / days, 2) as Davgrunt,round(stopt / days, 2) as Davgstopt,round(warnt / days, 2) as Davgwarnt,round(offlinet / days, 2) as Davgofflinet, " +
-                " concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate, " +
-                " concat(round(stopt * 100 /if (allt > 0,allt,1),2),'%' ) as stoprate, " +
-                " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
-                " concat(round(offlinet * 100 /if (allt > 0,allt,1),2),'%' ) as offlinerate, " +
-                " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate, " +
-                " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate " +
+                " round(runt , 2) as RunT,round(stopt , 2) as StopT,round(warnt , 2) as WarnT,round(offlinet, 2) as OffLineT, " +
+                "  round(runt * 100 /if (allt > 0,allt,1),2) as runrate, " +
+                "  round(stopt * 100 /if (allt > 0,allt,1),2) as stoprate, " +
+                "  round(warnt * 100 /if (allt > 0,allt,1),2) as warnrate, " +
+                "  round(offlinet * 100 /if (allt > 0,allt,1),2) as offlinerate, " +
+                   " round((WorkLoad * planpoweronT)*100 / (planworkload  * (runt + warnt)),2) as OEE ," +
+               " round((runt) * 100 /if (planpoweronT > 0,planpoweronT,1),2) as  ACT, " +
+                   " round((runt+warnt) * 100 /if (planpoweronT > 0,planpoweronT,1),2) as  DACT ," +
+                       " round((runt ) * 100 /if ((runt+warnt) > 0,(runt+warnt),1),2) as  TACT  " +
+
                 "  from( select  a.*, a.runt + a.stopt + a.warnt + offlinet as allt, b.productlinename from rptproductyear a left  join " +
                 " productlineinfo b on a.productlineid = b.productlineid  where a.productionT='" + begintime + "' and a.productlineid in (" + lineids + ")) t";
 
@@ -875,20 +887,17 @@ namespace Bussiness.Report
             string RSTSTR = string.Empty;
             try
             {
-                string querysql = "select t.* , "+ 
-                 " concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate,  "+
-                 " concat(round(freet * 100 /if (allt > 0,allt,1),2),'%' ) as freerate,  " +
-                 " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
-                 " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate, " +
-                 " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate " +
-                 " from(select a.*, b.productlinename, c.devicename, c.devicemodel, (a.runt + a.freet + a.warnt) as allt from rptdeviceday a " +
-                 " left  join productlineinfo b on a.productlineid = b.productlineid " +
-                 " left join deviceinfo c on a.deviceid = c.deviceid " +
-                 " where a.productionT ='" + begintime + "' and a.productlineid in ('" + lineids + "')";
-                if (devicemodel != null)
-                    querysql += " and c.devicemodel = '" + devicemodel + "'";
+                string querysql =
+                    " select 1 as Days, tt1.DeviceId, tt1.DeviceName,tt1.DeviceModel,tt1.ProductionT,tt1.PlanPowerOnT, tt1.RunT,tt1.FreeT,Round(tt1.RunT * 3600 / tt1.RunC) as AvgRunT,  " +
+           " tt1.WarnT,tt1.WarnC, tt2.AvgWarnT,tt2.AvgWarnInter,tt2.FirstWarnInter  " +
+          " from(select a.*, b.productlinename, c.devicename, c.devicemodel, (a.runt + a.freet + a.warnt) as allt from rptdeviceday a  " +
+          "  left join productlineinfo b on a.productlineid = b.productlineid  left   join deviceinfo c on a.deviceid = c.deviceid  " +
+             "     where a.productionT = '"+begintime+"' and a.productlineid in ('" + lineids + "') ) tt1  left join  "+
+             "        rptdeviceerrday tt2 on tt1.productionT = tt2.productionT and tt1.DeviceId = tt2.DeviceId  ";
+                  if (devicemodel != null)
+                    querysql += " and tt1.devicemodel = '" + devicemodel + "'";
 
-                querysql += " ) t order by productlineid,deviceid";
+                querysql += "  order by tt1.DeviceId";
                    DataTable dt = MySqlHelper.ExecuteQuery(querysql);
 
                 RSTSTR = JsonConvert.SerializeObject(dt);
@@ -904,27 +913,27 @@ namespace Bussiness.Report
 
         public string DevicePhaseRpt(string begintime, string endtime, string lineids, string devicemodel)
         {
-
+            string tm = begintime + "-" + endtime;
             string RSTSTR = string.Empty;
             try
             {
-                string querysql = "   select t.* ,  '"+begintime+"-"+endtime+"' as productionT,  "+
-                     " round(runt / days, 2) as Davgrunt,round(freet / days, 2) as Davgfreet,round(warnt / days, 2) as Davgwarnt, " +
-                     " concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate,   " +
-                     " concat(round(freet * 100 /if (allt > 0,allt,1),2),'%' ) as freerate, " +
-                     " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
-                     " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate,   " +
-                     " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate  " +
-                     " from(select a.*,  b.productlinename, c.devicename, c.devicemodel, (a.runt + a.freet + a.warnt) as allt from  " +
-                     " (select deviceid, productlineid, count(id) as days, sum(runt) as runt, sum(RunC) as RunC, sum(freet) as freet, sum(freec) as freec, sum(WarnT) as WarnT, sum(WarnC) as WarnC,  " +
-                     " sum(PlanPowerOnT) as PlanPowerOnT, sum(PowerOnT) as PowerOnT, sum(PowerOffT) as PowerOffT, sum(IsPlanPowerOn) as IsPlanPowerOn, sum(PlanWorkLoad) as PlanWorkLoad, sum(WorkLoad) as WorkLoad  " +
-                     " from rptdeviceday where productionT >= '" + begintime + "' and productionT <=  '" + begintime + "' and  productlineid in ('1,2') group by deviceid, productlineid)a  " +
-                     " left  join    productlineinfo b on a.productlineid = b.productlineid  left  join    deviceinfo c on a.deviceid = c.deviceid  ";
-                 
-                     if (devicemodel != null)
-                    querysql += " where  c.devicemodel = '" + devicemodel + "'";
+                string querysql =
+                       "  select DeviceId,DeviceName,DeviceModel ,'"+ tm + "' as ProductionT, sum(PlanPowerOnT) as PlanPowerOnT,sum(RunT) as RunT,sum(FreeT) as FreeT,  "+
+                     "    Round(sum(RunT) * 3600 / sum(RunC)) as AvgRunT,sum(WarnT) as WarnT,sum(WarnC) as WarnC,  " +
+                       "   Round(sum(WarnT) * 3600 / sum(WarnC)) as AvgWarnT, round(sum(AvgWarnInter) / sum(Days)) as AvgWarnInter, " +
+                       "   round(sum(FirstWarnInter) / sum(Days)) as FirstWarnInter , " +
+                       "  sum(Days) as Days from( " +
+                       "   select 1 as Days, tt1.DeviceId, tt1.DeviceName, tt1.DeviceModel, tt1.ProductionT, tt1.PlanPowerOnT, tt1.RunT, tt1.FreeT, tt1.RunC, " +
+                        "     tt1.WarnT, tt1.WarnC, tt2.AvgWarnT, tt2.AvgWarnInter, tt2.FirstWarnInter   from(select a.*, b.productlinename, " +
+                        "      c.devicename, c.devicemodel, (a.runt + a.freet + a.warnt) as allt from rptdeviceday a    left " +
+                        "  join productlineinfo b on a.productlineid = b.productlineid  left " +
+                    "     join deviceinfo c on a.deviceid = c.deviceid       where a.productionT >= '" + begintime + "' and a.productionT <= '" + endtime + "'and a.productlineid in ('" + lineids+"')) tt1  left join " +
+                    "  rptdeviceerrday tt2 on tt1.productionT = tt2.productionT and tt1.DeviceId = tt2.DeviceId    order by tt1.DeviceId " +
+                       "  ) t ";
+              if (devicemodel != null)
+                    querysql += "  where devicemodel = '" + devicemodel + "'";
 
-                querysql += " ) t order by productlineid,deviceid";
+                querysql += " group by DeviceId, DeviceName, DeviceModel  order by DeviceId";
                 DataTable dt = MySqlHelper.ExecuteQuery(querysql);
 
                 RSTSTR = JsonConvert.SerializeObject(dt);
@@ -943,21 +952,17 @@ namespace Bussiness.Report
             string RSTSTR = string.Empty;
             try
             {
-                string querysql = "select t.* , " +
-                 " round(runt / days, 2) as Davgrunt,round(freet / days, 2) as Davgfreet,round(warnt / days, 2) as Davgwarnt, " +
-                " concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate,  " +
-                 " concat(round(freet * 100 /if (allt > 0,allt,1),2),'%' ) as freerate,  " +
-                 " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
-                 " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate, " +
-                 " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate " +
-                 " from(select a.*, b.productlinename, c.devicename, c.devicemodel, (a.runt + a.freet + a.warnt) as allt from rptdevicemonth a " +
-                 " left  join productlineinfo b on a.productlineid = b.productlineid " +
-                 " left join deviceinfo c on a.deviceid = c.deviceid " +
-                 " where a.productionT ='" + begintime + "' and a.productlineid in ('" + lineids + "')";
+                string querysql =
+                  " select tt1.Days, tt1.DeviceId, tt1.DeviceName,tt1.DeviceModel,tt1.ProductionT,tt1.PlanPowerOnT, tt1.RunT,tt1.FreeT,Round(tt1.RunT * 3600 / tt1.RunC) as AvgRunT,  " +
+         " tt1.WarnT,tt1.WarnC, tt2.AvgWarnT,tt2.AvgWarnInter,tt2.FirstWarnInter  " +
+        " from(select a.*, b.productlinename, c.devicename, c.devicemodel, (a.runt + a.freet + a.warnt) as allt from rptdevicemonth a  " +
+        "  left join productlineinfo b on a.productlineid = b.productlineid  left   join deviceinfo c on a.deviceid = c.deviceid  " +
+           "     where a.productionT = '" + begintime + "' and a.productlineid in ('" + lineids + "') ) tt1  left join  " +
+           "        rptdeviceerrmonth tt2 on tt1.productionT = tt2.productionT and tt1.DeviceId = tt2.DeviceId  ";
                 if (devicemodel != null)
-                    querysql += " and c.devicemodel = '" + devicemodel + "'";
+                    querysql += " and tt1.devicemodel = '" + devicemodel + "'";
 
-                querysql += " ) t order by productlineid,deviceid";
+                querysql += "  order by tt1.DeviceId";
                 DataTable dt = MySqlHelper.ExecuteQuery(querysql);
 
                 RSTSTR = JsonConvert.SerializeObject(dt);
@@ -975,21 +980,17 @@ namespace Bussiness.Report
             string RSTSTR = string.Empty;
             try
             {
-                string querysql = "select t.* , " +
-                 " round(runt / days, 2) as Davgrunt,round(freet / days, 2) as Davgfreet,round(warnt / days, 2) as Davgwarnt, " +
-                " concat(round(runt * 100 /if (allt > 0,allt,1),2),'%' ) as runrate,  " +
-                 " concat(round(freet * 100 /if (allt > 0,allt,1),2),'%' ) as freerate,  " +
-                 " concat(round(warnt * 100 /if (allt > 0,allt,1),2),'%' ) as warnrate, " +
-                 " concat(round(runt * 100 /if (planpoweronT > 0,planpoweronT,1),2),'%' ) as userate, " +
-                 " concat(round(workload * 100 /if (planworkload > 0,planworkload,1),2),'%' ) as activationate " +
-                 " from(select a.*, b.productlinename, c.devicename, c.devicemodel, (a.runt + a.freet + a.warnt) as allt from rptdeviceyear a " +
-                 " left  join productlineinfo b on a.productlineid = b.productlineid " +
-                 " left join deviceinfo c on a.deviceid = c.deviceid " +
-                 " where a.productionT ='" + begintime + "' and a.productlineid in ('" + lineids + "')";
+                string querysql =
+                   " select tt1.Days, tt1.DeviceId, tt1.DeviceName,tt1.DeviceModel,tt1.ProductionT,tt1.PlanPowerOnT, tt1.RunT,tt1.FreeT,Round(tt1.RunT * 3600 / tt1.RunC) as AvgRunT,  " +
+          " tt1.WarnT,tt1.WarnC, tt2.AvgWarnT,tt2.AvgWarnInter,tt2.FirstWarnInter  " +
+         " from(select a.*, b.productlinename, c.devicename, c.devicemodel, (a.runt + a.freet + a.warnt) as allt from rptdeviceyear a  " +
+         "  left join productlineinfo b on a.productlineid = b.productlineid  left   join deviceinfo c on a.deviceid = c.deviceid  " +
+            "     where a.productionT = '" + begintime + "' and a.productlineid in ('" + lineids + "') ) tt1  left join  " +
+            "        rptdeviceerryear tt2 on tt1.productionT = tt2.productionT and tt1.DeviceId = tt2.DeviceId  ";
                 if (devicemodel != null)
-                    querysql += " and c.devicemodel = '" + devicemodel + "'";
+                    querysql += " and tt1.devicemodel = '" + devicemodel + "'";
 
-                querysql += " ) t order by productlineid,deviceid";
+                querysql += "  order by tt1.DeviceId";
                 DataTable dt = MySqlHelper.ExecuteQuery(querysql);
 
                 RSTSTR = JsonConvert.SerializeObject(dt);

@@ -44,8 +44,7 @@ namespace Bussiness
         {
             while (true)
             {
-                try
-                {
+                 
                     Thread.Sleep(5000);
                    
                     foreach (int key in datakeys)
@@ -58,11 +57,8 @@ namespace Bussiness
                         // DealData(key, dic); 
                     }
 
-                }
-                catch (Exception e)
-                {
-                    logger.Info(e.Message);
-                }
+                 
+                
             }
 
         }

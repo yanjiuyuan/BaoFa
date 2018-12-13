@@ -50,7 +50,7 @@
                 </el-form-item>
             </el-form>
             <el-table :data="tableData" stripe border>
-                <el-table-column v-for="opt in allOptions" :prop="opt" :key="opt" :label="tableOptions[opt]"></el-table-column>
+                <el-table-column v-for="opt in allOptions" :prop="opt" :key="opt"  :width="lenOptions[opt]" :label="tableOptions[opt]"></el-table-column>
             </el-table>
             <!--图形展示-->
             <div id="barChart" style="height:400px;width:49%;float:left;border:solid 1px rgb(128, 128, 128)"></div>
@@ -64,39 +64,35 @@
 
 
 <script>
-    var radarChart, barChart, radarChart, barOption
+    var radarChart, barChart, barOption
+    var date1 = new Date();
+    date1.setTime(date1.getTime() - 24 * 60 * 60 * 1000);
+    var currentdate = _dateToString(date1);
+
     var tableOptions = {
         ProductLineId: "产线编号",
         productlinename: "产线名",
-        ProductionT: "查询日期",
-        days: "天数",
+        ProductionT: "日期",
+        PlanPowerOnT: "计划开机时间",
         RunC: "运行次数",
         StopC: "停止次数",
         WarnC: "报警次数",
         OffLineC: "离线次数",
-        IsPlanPowerOn: "是否计划开机",
-        PlanShifts: "计划流转次数",
-        Shifts: "流转次数",
-        PlanWorkLoad: "计划产量",
-        WorkLoad: "实际产量"
+          PlanWorkLoad: "计划产量",
+        WorkLoad: "实际产量",
+        Days: "天数"
     }
     var barTableConfig = {
-        runt: "运行时长",
+        RunT: "运行时长",
         StopT: "停止时长",
         WarnT: "报警时长",
-        OffLineT: "离线时长",
-        PlanPowerOnT: "计划开机时长",
-        PowerOnT: "开机时长",
-        PowerOffT: "停机时长",
-        allt: "总时长"
+        OffLineT: "离线时长"
+       
     }
     var radarConfig = {
-        runrate: "运行率",
-        stoprate: "停止率",
-        warnrate: "报警率",
-        offlinerate: "离线率",
-        userate: "产线使用率",
-        activationate: "产线稼动率"
+        ACT: "稼动率",
+        TACT: "时间开动率",
+        OEE: "综合效率" 
     }
     var averageTime = {
         Davgrunt: "日平均运行时长",
@@ -105,6 +101,19 @@
         Davgofflinet: "日平均离线时长"
     }
     var allOptions = []
+    var lenOptions = {
+        ProductLineId: 100,
+        productlinename:200,
+        ProductionT: 200,
+        PlanPowerOnT: 150,
+        RunC: 100,
+        StopC: 100,
+        WarnC: 100,
+        OffLineC: 100,
+        PlanWorkLoad: 100,
+        WorkLoad: 100 
+         
+    }
     for (var c in tableOptions) {
         if (typeof (c) == 'string') allOptions.push(c)
     }
@@ -136,10 +145,11 @@
                 ],
                 allOptions: allOptions,
                 tableOptions: tableOptions,
+                lenOptions: lenOptions,
                 form: {
-                    dateOption: 0,
+                    dateOption: 1,
                     dateRange: [],
-                    date: ''
+                    date: currentdate
                 }
             }
         },
@@ -149,16 +159,17 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         var year, month, day, dateRange = [], paramObj = {} 
-                        if (that.form.date) {
-                            year = that.form.date.getFullYear()
-                            month = that.form.date.getMonth() + 1
-                            day = that.form.date.getDate()
+                        if (that.form.dateOption!=4) {
+                            year = new Date(that.form.date).getFullYear()
+                            month = new Date( that.form.date).getMonth() + 1
+                            day = new Date(that.form.date).getDate()
                             if (month < 10) month = '0' + month
                             if (day < 10) day = '0' + day
                         }
-                        if (that.form.dateRange.length > 0) {
-                            dateRange.push(_dateToString(that.dateRange[0]))
-                            dateRange.push(_dateToString(that.dateRange[1]))
+                       else if (that.form.dateRange.length > 0) {
+                           
+                            dateRange.push(_dateToString(that.form.dateRange[0]))
+                            dateRange.push(_dateToString(that.form.dateRange[1]))
                         }
                         switch (that.form.dateOption) {
                             case 1:
@@ -192,8 +203,8 @@
                                 paramObj = {
                                     url: '/Reports/LinePhaseRpt',
                                     param: {
-                                        begintime: dateRange[0],
-                                        endtime: dateRange[1],
+                                        begintime:  dateRange[0],
+                                        endtime:  dateRange[1],
                                         groupid: 1
                                     }
                                 }
@@ -224,24 +235,38 @@
                         console.log('获取运行状态数据')
                         console.log(url)
                         console.log(data)
+                        var data0 = data[0]
+                        if (data.length >0 && data[0]["Days"] == null)
+                            data[0]["Days"]=1
                         that.tableData = data
-
+                    
                         var yArr = [], radarArr = []
-                        for (let b in barTableConfig) data[b] == null ? yArr.push(0) : yArr.push(data[b])
-                        for (let r in radarConfig) data[r] == null ? radarArr.push(0) : radarArr.push(data[r])
+                        for (let b in barTableConfig) data0[b] == null ? yArr.push(0) : yArr.push(data0[b])
+                        for (let r in radarConfig) data0[r] == null ? radarArr.push(0) : radarArr.push(data0[r])
                         barOption.series[0].data = yArr
                         barChart.setOption(barOption)
+                        console.log(yArr)
+                        console.log('radarArr!!!!!!!!!!!!!!!!!!!!!!!!!!!~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+                        console.log(radarArr)
+                        option.series[0].data = {
+                           
+                        }
+                        console.log(option.series[0])
+ 
                         myChart.addData([
                             [
-                                1,        // 系列索引
+                                0,        // 系列索引
                                 {         // 新增数据
                                     name: '效率分析',
-                                    value: radarValue
+                                    value: radarArr
+                                    //value: radarValue
                                 },
                                 false,     // 新增数据是否从队列头部插入
                                 false      // 是否增加队列长度，false则自定删除原有数据，队头插入删队尾，队尾插入删队头
                             ]
                         ])
+                        myChart.setOption(option)
+                      
                     },
                     error: function (err) {
                         console.error(err)
@@ -265,7 +290,7 @@
     barOption = {
         title: {
             text: '时长统计(单位-小时)',
-            x: 'center'
+            x: 'left'
         },
         toolbox: {
             show: true,
@@ -279,10 +304,10 @@
         calculable: true,
         grid: {
             borderWidth: 0,
-            x: 0,
-            x2: 0,
-            y: 0,
-            y2: 0
+            x: 10,
+            x2: 10,
+            y: 50,
+            y2: 10
         },
         xAxis: [
             {
@@ -302,10 +327,11 @@
                 type: 'bar',
                 itemStyle: {
                     normal: {
+                        fontSize: 20,
                         color: function (params) {
                             // build a color map as your need.
                             var colorList = [
-                                '#C1232B', '#B5C334', '#FCCE10', '#E87C25', '#27727B',
+                                '#B5C334', '#FCCE10', '#C1232B', '#ACA6A0', '#27727B',
                                 '#FE8463', '#9BCA63', '#FAD860', '#F3A43B', '#60C0DD',
                                 '#D7504B', '#C6E579', '#F4E001', '#F0805A', '#26C0C0'
                             ];
@@ -313,8 +339,9 @@
                         },
                         label: {
                             show: true,
+                            textStyle: { fontSize: 20, color: 'rgba(25,25,25,1)' },
                             position: 'top',
-                            formatter: '{b}\n{c}'
+                            formatter: '{b}\n{c}' 
                         }
                     }
                 },
@@ -330,11 +357,11 @@
         radarName.push({
             text: radarConfig[r]
         })
-        radarValue.push(0)
+        radarValue.push(10)
     }
     option = {
         title: {
-            text: '效率分析',
+            text: '效率分析(百分比)',
             x: 'center'
         },
         tooltip: {
@@ -375,13 +402,21 @@
                         areaStyle: {
                             color: 'rgba(151,229,151,0.7)',
                             type: 'default'
-                        }
-
+                        },
+                      
+                        label: {
+                            position: 'right',
+                                show: true,
+                                textStyle: { fontSize: 20, color: 'rgba(25,25,25,1)' },
+                                formatter: function (params) {
+                                    return params.value;
+                                }   
+                        } 
                     }
                 },
                 data: [{
                     name: '效率分析',
-                    value: radarValue
+                    value:  [0,  0, 0]
                 }]
             }
         ]

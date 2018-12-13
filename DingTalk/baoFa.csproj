@@ -172,6 +172,7 @@
     <Compile Include="Controllers\DeviceInfoController.cs" />
     <Compile Include="Controllers\ProductionLinesController.cs" />
     <Compile Include="Controllers\QualityController.cs" />
+    <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RobotController.cs" />
     <Compile Include="Controllers\RobotDataController.cs" />
@@ -380,6 +381,7 @@
     <Content Include="Views\Main\ManagerDevice.cshtml" />
     <Content Include="Views\Main\ChartRunStatus.cshtml" />
     <Content Include="Views\Main\ChartDeviceErr.cshtml" />
+    <Content Include="Views\Main\ChartDeviceStatus.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Bussiness\Bussiness.csproj">

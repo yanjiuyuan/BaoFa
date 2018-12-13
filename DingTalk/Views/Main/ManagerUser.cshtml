@@ -14,14 +14,14 @@
             </el-form-item>
             <el-form-item label="用户角色(必填)" prop="iRole">
                 <el-select v-model="ruleForm.iRole" placeholder="请选择">
-                    <el-option v-for="role in roleList"
+                    <el-option v-for="role in roleList1"
                                :key="role.roleid"
                                :label="role.rolename"
                                :value="role.roleid">
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="部门名称(必填)" prop="strCompanyName">
+            <el-form-item label="单位名称(必填)" prop="strCompanyName">
                 <el-select v-model="ruleForm.strCompanyName" placeholder="请选择" :filter="false">
                     <el-option v-for="depart in departList" :filter="false"
                                :key="depart.Value"
@@ -31,28 +31,14 @@
                 </el-select>
             </el-form-item>
 
-            <el-form-item label="真实姓名">
-                <el-input v-model="ruleForm.strRealName" style="width:100px;"></el-input>
-            </el-form-item>
+           
             <el-form-item label="电话号码">
                 <el-input v-model="ruleForm.strphoneNumber" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="地址">
                 <el-input v-model="ruleForm.strAddress" style="width:200px;"></el-input>
             </el-form-item>
-            <el-form-item label="省">
-                <el-input v-model="ruleForm.strProvince" style="width:100px;"></el-input>
-            </el-form-item>
-            <el-form-item label="市">
-                <el-input v-model="ruleForm.strCity" style="width:100px;"></el-input>
-            </el-form-item>
-            <el-form-item label="电话">
-                <el-input v-model="ruleForm.strTelephone" style="width:100px;"></el-input>
-            </el-form-item>
-            <el-form-item label="其他概要">
-                <el-input v-model="ruleForm.strOtherContact" style="width:100px;"></el-input>
-            </el-form-item>
-            <el-form-item label="传真">
+             <el-form-item label="传真">
                 <el-input v-model="ruleForm.strFax" style="width:100px;"></el-input>
             </el-form-item>
             <el-form-item label="邮箱">
@@ -80,7 +66,7 @@
         </div>
     </el-dialog>
     <!--表格實體-->
-    <el-table :data="tableData" stripe border>
+    <el-table :data="tableData" stripe border  :height="tableheight">
         <el-table-column type="expand">
             <template slot-scope="props">
                 <el-form label-position="left" inline class="table-expand">
@@ -99,16 +85,16 @@
                 </el-form>
             </template>
         </el-table-column>
-        <el-table-column prop="UserId" label="用户编号"></el-table-column>
+       
         <el-table-column prop="userName" label="用户名"></el-table-column>
-        <el-table-column prop="realName" label="真实姓名"></el-table-column>
-        <el-table-column prop="lastLoginTime" label="上次登录"></el-table-column>
-        <el-table-column prop="registerTime" label="注册时间"></el-table-column>
+        
+        <el-table-column prop="lastLoginTime" label="上次登录" width="250px"></el-table-column>
+      
         <el-table-column prop="statusText" label="状态"></el-table-column>
         <el-table-column prop="roleText" label="角色"></el-table-column>
-        <el-table-column prop="CompanyName" label="公司名称"></el-table-column>
-        <el-table-column label="操作">
-            <template slot-scope="scope">
+        <el-table-column prop="BrName" label="单位名称"></el-table-column>
+        <el-table-column label="操作" >
+            <template slot-scope="scope" v-if="scope.row.role!='01'">
                 <el-button size="mini"
                             v-on:click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                 <el-button size="mini"
@@ -122,7 +108,7 @@
         <el-pagination v-on:size-change="handleSizeChange"
                         v-on:current-change="handleCurrentChange"
                         :current-page="currentPage"
-                        :page-sizes="[1, 3, 5, 10]"
+                        :page-sizes="[10]"
                         :page-size="pageSize"
                         layout="total, sizes, prev, pager, next, jumper"
                         :total="totalRows">
@@ -139,9 +125,12 @@
         data: function () {
             return {
                 lineData: lineData,
+                tableheight:800,
                 data: [],
+                pageSize:10,
                 tableData: [],
                 roleList: [],
+                roleList1:[],
                 departList: [],
                 disableAdd: false,
                 showAddUser: false,
@@ -159,8 +148,8 @@
                     strOtherContact: '',
                     strFax: '',
                     strEmail: '',
-                    strCompanyId: '',
-                    strCompanyName: '',
+                    Brno: '',
+                    BrName: '',
                     status: ''
                 }
             }
@@ -213,8 +202,11 @@
                     url: "/Register/GetRoleList",
                     success: function (data) {
                         that.roleList = JSON.parse(data)
-                        console.log('//获取角色列表')
-                        console.log(data)
+                        for (let d of that.roleList) {
+                            if (d.roleid != "01")
+                                that.roleList1.push(d);
+                        }
+                    
                         
                     },
                     error: function (err) {
@@ -248,9 +240,9 @@
                     if (valid ) {
                         that.disableAdd = true
                         for (let d of that.departList) {
-                            if (d.Value == that.ruleForm.strCompanyName) that.ruleForm.strCompanyId = d.Key
+                            if (d.Value == that.ruleForm.BrName) that.ruleForm.Brno = d.Key
                         }
-                        that.ruleForm.strCompanyName = that.ruleForm.strCompanyName.replace(/-/g,'')
+                        that.ruleForm.BrName = that.ruleForm.BrName.replace(/-/g,'')
                         var url = '/Register/CheckRegister' + _formatQueryStr(that.ruleForm)
                         console.log("添加用户")
                         console.log(url)
@@ -281,7 +273,7 @@
                     if (valid) {
                         that.disableAdd = true
                         that.ruleForm.strCompanyName = that.ruleForm.strCompanyName.replace(/-/g, '')
-                        var url = '/Register/CheckRegister' + _formatQueryStr(that.ruleForm)
+                        //var url = '/Register/CheckRegister' + _formatQueryStr(that.ruleForm)
                         var url = '/Register/UserModify' + _formatQueryStr(that.ruleForm)
                         console.log("编辑用户")
                         console.log(url)
@@ -329,12 +321,25 @@
                 this.ruleForm.strOtherContact = row.otherContact
                 this.ruleForm.strFax = row.fax
                 this.ruleForm.strEmail = row.email
-                this.ruleForm.strCompanyId = row.CompanyId
-                this.ruleForm.strCompanyName = row.CompanyName
+                this.ruleForm.Brno = row.Brno
+                this.ruleForm.BrName = row.BrName
                 this.ruleForm.status = row.status + ''
             },
             handleDelete: function (index, row) {
-
+                var that = this
+                var username = row.userName
+                var url = '/Register/UserDelete?username='+username  
+                console.log(url)
+                $.ajax({
+                    url: url,
+                    success: function (data) {
+                        alert("删除完成")
+                        console.log("删除用户完成")
+                        
+                        that.getUserList()
+                    }
+                })
+            
             }
         },
         created: function () {
@@ -342,6 +347,10 @@
             this.getDepartList()
             this.getRoleList()
             loadHtml("mainPage", "partPage")
+        },
+
+        mounted: function () {
+            this.tableHeight = window.innerHeight - this.$refs.table.$el.offsetTop - 50;
         }
     })
 

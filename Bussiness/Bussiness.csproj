@@ -93,6 +93,7 @@
     <Compile Include="SprayData\SprayServer.cs" />
     <Compile Include="Time\TimeHelper.cs" />
     <Compile Include="Usage\UsageInfo.cs" />
+    <Compile Include="User\RegisterServer.cs" />
     <Compile Include="WorkSataions\WorkSataionsServer.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -364,5 +364,69 @@ namespace Bussiness
             return list;
 
         }
+        public static string GetLinesStr(int? ProductLineId, int? CompanyId, int? GroupId, int? FoundryId)
+        {
+
+            List<int> list = new List<int>();
+            string strSql = string.Empty;
+            DataTable newTb = new DataTable();
+            if (ProductLineId != null)
+                list.Add((int)ProductLineId);
+            else if (FoundryId != null)
+            {
+
+                strSql = " select ProductLineId  from `productlineinfo` a where a.brno = " + FoundryId;
+                newTb = MySqlHelper.ExecuteQuery(strSql);
+                if (newTb.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in newTb.Rows)
+                        list.Add(int.Parse(dr[0].ToString()));
+                }
+            }
+            else if (CompanyId != null)
+            {
+                strSql = " select ProductLineId  from `productlineinfo` a where a.brno in (select Brno  from branchinfo where upbrno ='" + CompanyId + "')  ";
+                newTb = MySqlHelper.ExecuteQuery(strSql);
+                if (newTb.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in newTb.Rows)
+                        list.Add(int.Parse(dr[0].ToString()));
+                }
+
+            }
+            else if (GroupId != null)
+            {
+                strSql = " select ProductLineId  from `productlineinfo` a  where Brno in (select Brno  from branchinfo where where  BrnoDept like '00," + GroupId + ",%' and Level=3)  ";
+                newTb = MySqlHelper.ExecuteQuery(strSql);
+                if (newTb.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in newTb.Rows)
+                        list.Add(int.Parse(dr[0].ToString()));
+                }
+            }
+
+            else
+            {
+                strSql = " select ProductLineId  from `productlineinfo` a  ";
+                newTb = MySqlHelper.ExecuteQuery(strSql);
+                if (newTb.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in newTb.Rows)
+                        list.Add(int.Parse(dr[0].ToString()));
+                }
+
+            }
+            string ids = "";
+            for(int i=0;i<list.Count;i++)
+            {
+                ids += list[i];
+                if (i != list.Count - 1)
+                    ids += ",";
+
+
+            }
+            return ids;
+
+        }
     }
 }

@@ -151,7 +151,7 @@ namespace Bussiness.Chart
 
             string lstmonstr = DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd");
 
-            sql = " select tt1.* ,tt2.RunT,tt2.WarnT,tt2.StopT,tt2.PlanPowerOnT,tt2.WorkLoad,tt3.CircleTime  from  " +
+            sql = " select tt1.* ,tt2.RunT,tt2.WarnT,tt2.StopT,tt2.PlanPowerOnT,tt2.WorkLoad,tt3.CircleTime,tt2.PlanWorkLoad  from  " +
             " (select b.productlineid, left(CreateTime, 10) as ProductionT, sum(if (QualityType != null,1,0)) as all_num, sum(if (QualityType = 1,1,0)) as pass_num   from `usage` b left join  " +
              "  `quality` a on a.id_usage = b.id_usage   where b.productlineid = "+lineid+" and b.id_usage > (select min(id_usage) from  `usage`  where left(CreateTime,10)> '"+lstmonstr+ "') group by left(CreateTime, 10)) tt1 left join rptproductday tt2 on tt1.ProductionT = tt2.ProductionT  " +
              " left join productlineinfo tt3 on tt1.productlineid = tt3.productlineid where RunT  is not null  order by  tt1.ProductionT";
@@ -164,7 +164,7 @@ namespace Bussiness.Chart
                     Dictionary<string, object> efectlinedic = new Dictionary<string, object>();
                     string ProductionT = efectlinedt.Rows[i]["ProductionT"].ToString();
                     int QA_all_num = 1; int QA_pass_num = 1;
-                    if (efectlinedt.Rows[i]["all_num"] != null)
+                    if (efectlinedt.Rows[i]["all_num"] !=  System.DBNull.Value)
                     {
                         QA_all_num = Convert.ToInt32(efectlinedt.Rows[i]["all_num"].ToString());
                         QA_pass_num = Convert.ToInt32(efectlinedt.Rows[i]["pass_num"].ToString());
@@ -180,6 +180,7 @@ namespace Bussiness.Chart
                     double QA_RunT = Convert.ToDouble(efectlinedt.Rows[i]["RunT"].ToString());
                     double QA_WarnT = Convert.ToDouble(efectlinedt.Rows[i]["WarnT"].ToString());
                     double QA_PlanPowerOnT = Convert.ToDouble(efectlinedt.Rows[i]["PlanPowerOnT"].ToString());
+                    double QA_PlanWorkLoad = Convert.ToDouble(efectlinedt.Rows[i]["PlanWorkLoad"].ToString());
                     //时间开动率
                     double TACT  = Math.Round(100 * (QA_RunT) / (QA_RunT + QA_WarnT), 2)  ;
                     //设备利用率
@@ -188,7 +189,7 @@ namespace Bussiness.Chart
                     double ACT  = Math.Round(100 * QA_RunT / QA_PlanPowerOnT, 2)  ;
 
 
-                    double OEE = 100 * (WorkLoad * CircleTime / ((QA_RunT + QA_WarnT)*3600)) * (QA_pass_num / QA_all_num);
+                    double OEE = 100 * (WorkLoad * QA_PlanPowerOnT / ((QA_RunT + QA_WarnT)* QA_PlanWorkLoad)) * (QA_pass_num / QA_all_num);
                     double TEEP = OEE * ((QA_RunT + QA_WarnT) / QA_PlanPowerOnT);
                     efectlinedic.Add("ProductionT", ProductionT);
                     efectlinedic.Add("WorkLoad", WorkLoad);
@@ -219,7 +220,7 @@ namespace Bussiness.Chart
             Dictionary<string, object> warnlinedic = new Dictionary<string, object>();
             if (warnlinedt.Rows.Count > 0)
             {
-                int warnc = Convert.ToInt32(warnlinedt.Rows[0]["warn_c"].ToString());
+                int warnc = Convert.ToInt32(warnlinedt.Rows[0]["warn_c"]==System.DBNull.Value?"0": warnlinedt.Rows[0]["warn_c"].ToString());
                 warnlinedic.Add("warn_c", warnc);
 
                 double warnt = 0;
