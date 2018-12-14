@@ -581,10 +581,10 @@ var WORKERS = [
     {
         ArtificialConfig_ID: 1,
         Mark: 1,
-        Jobs: '套楦',
+        Jobs: '蒸湿套楦',
         position: {
-            top: '74%',
-            left: '4%'
+            top: '66%',
+            left: '86%'
         },
         stationstate: '',
         img: ''
@@ -592,75 +592,152 @@ var WORKERS = [
     {
         ArtificialConfig_ID: 1,
         Mark: 0,
-        Jobs: '套楦',
+        Jobs: '蒸湿套楦',
         position: {
-            top: '74%',
-            left: '14%'
+            top: '66%',
+            left: '86%'
         },
         stationstate: '',
         img: ''
     },
     {
-        ArtificialConfig_ID: 4,
+        ArtificialConfig_ID: 2,
         Mark: 1,
-        Jobs: '帖大底',
+        Jobs: '贴腹',
         position: {
-            top: '0%',
-            left: '22%'
-        },
-        stationstate: '',
-        img: ''
-    },
-    {
-        ArtificialConfig_ID: 4,
-        Mark: 0,
-        Jobs: '帖大底',
-        position: {
-            top: '0%',
-            left: '32%'
-        },
-        stationstate: '',
-        img: ''
-    },
-    {
-        ArtificialConfig_ID: 5,
-        Mark: 1,
-        Jobs: '敲平',
-        position: {
-            top: '2%',
-            left: '42%'
-        },
-        stationstate: '',
-        img: ''
-    },
-    {
-        ArtificialConfig_ID: 5,
-        Mark: 0,
-        Jobs: '敲平',
-        position: {
-            top: '2%',
+            top: '66%',
             left: '52%'
         },
         stationstate: '',
         img: ''
     },
     {
-        ArtificialConfig_ID: 8,
-        Mark: 1,
-        Jobs: '贴围条',
+        ArtificialConfig_ID: 2,
+        Mark: 0,
+        Jobs: '贴腹',
         position: {
-            top: '20%',
-            left: '82%'
+            top: '66%',
+            left: '52%'
+        },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 3,
+        Mark: 1,
+        Jobs: '贴大底',
+        position: {
+            top: '66%',
+            left: '44%'
+        },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 3,
+        Mark: 0,
+        Jobs: '贴大底',
+        position: {
+            top: '66%',
+            left: '44%'
+        },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 4,
+        Mark: 1,
+        Jobs: '敲平',
+        position: {
+            top: '66%',
+            left: '36%'
+        },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 4,
+        Mark: 0,
+        Jobs: '敲平',
+        position: {
+            top: '66%',
+            left: '36%'
+        },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 6,
+        Mark: 1,
+        Jobs: '滚压',
+        position: {
+            top: '2%',
+            left: '59%'
+        },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 6,
+        Mark: 0,
+        Jobs: '滚压',
+        position: {
+            top: '2%',
+            left: '59%'
+        },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 7,
+        Mark: 1,
+        Jobs: '贴护齿',
+        position: {
+            top: '2%',
+            left: '69%'
+        },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 7,
+        Mark: 0,
+        Jobs: '贴护齿',
+        position: {
+            top: '2%',
+            left: '69%'
         },
         stationstate: '',
         img: ''
     },
     {
         ArtificialConfig_ID: 8,
-        Mark: 0,
-        Jobs: '贴围条',
+        Mark: 1,
+        Jobs: '贴标',
         position: {
-            top: '20%',
+            top: '2%',
+            left: '76%'
+        },
+        stationstate: '',
+        img: ''
+    },
+    //{
+    //    ArtificialConfig_ID: 8,
+    //    Mark: 0,
+    //    Jobs: '贴标',
+    //    position: {
+    //        top: '2%',
+    //        left: '76%'
+    //    },
+    //    stationstate: '',
+    //    img: ''
+    //},
+    {
+        ArtificialConfig_ID: 9,
+        Mark: 1,
+        Jobs: '品检',
+        position: {
+            top: '2%',
             left: '92%'
         },
         stationstate: '',
@@ -668,22 +745,33 @@ var WORKERS = [
     },
     {
         ArtificialConfig_ID: 9,
-        Mark: 1,
-        Jobs: '滚压',
+        Mark: 0,
+        Jobs: '品检',
         position: {
-            top: '74%',
-            left: '60%'
+            top: '2%',
+            left: '92%'
         },
         stationstate: '',
         img: ''
     },
     {
-        ArtificialConfig_ID: 9,
-        Mark: 0,
-        Jobs: '滚压',
+        ArtificialConfig_ID: 10,
+        Mark: 1,
+        Jobs: '码垛',
         position: {
-            top: '74%',
-            left: '70%'
+            top: '46%',
+            left: '92%'
+        },
+        stationstate: '',
+        img: ''
+    },
+    {
+        ArtificialConfig_ID: 10,
+        Mark: 0,
+        Jobs: '码垛',
+        position: {
+            top: '46%',
+            left: '92%'
         },
         stationstate: '',
         img: ''
@@ -691,10 +779,10 @@ var WORKERS = [
     {
         ArtificialConfig_ID: 11,
         Mark: 1,
-        Jobs: '帖护齿',
+        Jobs: '放围条',
         position: {
-            top: '74%',
-            left: '40%'
+            top: '2%',
+            left: '49%'
         },
         stationstate: '',
         img: ''
@@ -702,54 +790,21 @@ var WORKERS = [
     {
         ArtificialConfig_ID: 11,
         Mark: 0,
-        Jobs: '帖护齿',
+        Jobs: '放围条',
         position: {
-            top: '74%',
-            left: '50%'
+            top: '2%',
+            left: '49%'
         },
         stationstate: '',
         img: ''
     },
     {
-        ArtificialConfig_ID: 13,
+        ArtificialConfig_ID: 12,
         Mark: 1,
-        Jobs: '品检',
-        position: {
-            top: '74%',
-            left: '22%'
-        },
-        stationstate: '',
-        img: ''
-    },
-    {
-        ArtificialConfig_ID: 13,
-        Mark: 0,
-        Jobs: '品检',
-        position: {
-            top: '74%',
-            left: '32%'
-        },
-        stationstate: '',
-        img: ''
-    },
-    {
-        ArtificialConfig_ID: 14,
-        Mark: 1,
-        Jobs: '工艺组组长',
+        Jobs: '组长',
         position: {
             top: '30%',
             left: '36%'
-        },
-        stationstate: '',
-        img: ''
-    },
-    {
-        ArtificialConfig_ID: 15,
-        Mark: 1,
-        Jobs: '喷胶调试员',
-        position: {
-            top: '30%',
-            left: '50%'
         },
         stationstate: '',
         img: ''

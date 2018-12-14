@@ -171,7 +171,7 @@ a{
     position: absolute;
     width: 8%;
     color: red;
-    text-align:center;
+    /*text-align:center;*/
     font-size:0.8rem;
 }
 .device-worker button {
@@ -179,7 +179,8 @@ a{
     font-size: 0.8rem;
 }
 .device-worker img{
-    width:100%;
+    width:70%;
+    display:block;
 }
 .device-button:hover{
     z-index:2;
