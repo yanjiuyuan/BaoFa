@@ -173,12 +173,17 @@ namespace ServiceTest
             //{
 
             //    Console.WriteLine(ex.Message);
-            //}
-            //AutoTaskServer ats = new AutoTaskServer();
-            //ats.TaskExec("2018-11-13");
-            DataViewServer dv = new DataViewServer();
-            dv.GetData(1);
-            // TopicExchangeSendMsg();
+            ////}
+            AutoTaskServer ats = new AutoTaskServer();
+            ats.TaskExec("2018-12-06",1);
+            //DataViewServer dv = new DataViewServer();
+            //dv.GetData(1);
+            //SubTaskServer sub = new SubTaskServer();
+            //sub.DbPartCreate("2018-11-24");
+
+            //ChartBeatServer cbt = new ChartBeatServer();
+            //cbt.LocationBeatQuery("2018-11-27", "视觉1号", 1);
+            //// TopicExchangeSendMsg();
             Console.WriteLine("按任意值，退出程序");
             Console.ReadKey();
         }

@@ -580,6 +580,7 @@ namespace Bussiness.AutoTask
                         return;
                     }
                     RunT = Math.Round(Convert.ToDouble(dts.Rows[i]["run_t"]) / 3600, 2);
+                    RunT = RunT - 1.5;
                     RunC = Convert.ToInt32(dts.Rows[i]["run_c"]);
                     StopT = Math.Round(Convert.ToDouble(dts.Rows[i]["stop_t"]) / 3600, 2);
                     StopC = Convert.ToInt32(dts.Rows[i]["stop_c"]);

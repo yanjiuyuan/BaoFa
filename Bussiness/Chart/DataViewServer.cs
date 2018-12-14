@@ -452,7 +452,7 @@ namespace Bussiness.Chart
                     devdic7.Add("stationname", stationname);
                     devdic7.Add("devicemodel", devicemodel);
                     devdic7.Add("dev_activation7", Math.Round( (dev_run_t + dev_free_t)*100 / dev_PlanPowerOnT, 2));
-                    devdic7.Add("dev_plan_activation7", Math.Round(100*(dev_run_t + dev_free_t + dev_warn_t) / dev_PlanPowerOnT, 2));
+                    devdic7.Add("dev_plan_activation7", Math.Round(100*(dev_run_t ) / dev_PlanPowerOnT, 2));
                     devdic7.Add("dev_time_activation7", Math.Round(100*(dev_run_t + dev_free_t) / (dev_run_t + dev_free_t + dev_warn_t > 0 ? (dev_run_t + dev_free_t + dev_warn_t) : 1),2));
                     devlist7.Add(devdic7);
                 }
