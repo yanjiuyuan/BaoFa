@@ -61,7 +61,7 @@ namespace Bussiness.Chart
        "  (stationstate = '空闲', endtime - startTime, 0))/ 1000 AS free_t, sum( if (stationstate = '空闲',1, 0))  AS free_c, " +
       " sum( if (stationstate = '报警', endtime - startTime, 0))/ 1000 AS warn_t, sum( if (stationstate = '报警',1, 0))  " +
         " AS warn_c, stationNAME from huabao.LocationState where starttime > " + begintime + " and starttime< " + endtime + " and ProductLineId =  " + lineid + " " +
-       " group by stationNAME ) a2 )a1 on a1.stationNAME = b1.stationNAME where JobType is not null  order by b1.JobType, b1.LocationSeq";
+       " group by stationNAME ) a2 )a1 on a1.stationNAME = b1.stationNAME where JobType is not null  order by   b1.LocationSeq";
 
                  
                 DataTable newTb = MySqlHelper.ExecuteQuery(strSql);

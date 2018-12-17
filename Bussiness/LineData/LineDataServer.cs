@@ -48,12 +48,15 @@ namespace Bussiness.LineData
                  
 
                 int usageid = Global.GetCurrUsageId(lineid);
-                
-            strSql = "select a.* , if ( b.stationstate is null,'停止',  b.stationstate) as stationstate from "
-           + " (select  *  , '"+ sprayname + "' as stationName from  `sprayrecd`   where ID_Usage = "+usageid+" and SprayId="+ sprayid + "  order by  ID desc limit 1) a"
-           + " left join(select  stationName, stationstate from LocationStateCache  where productlineid = " + lineid + "  "
-           + "  and stationName = '" + sprayname + "' order by starttime desc limit 1) b on a.stationName = b.stationName" ;
- 
+
+
+                strSql = "select a.* , if ( b.stationstate is null,'停止',  b.stationstate) as stationstate from "
+
+               + " (select  stationName, stationstate from LocationStateCache  where productlineid = " + lineid
+                + "  and stationName = '" + sprayname + "' order by starttime desc limit 1) b  "
+               + " left join (select  *  , '" + sprayname + "' as stationName from  `sprayrecd`   where ID_Usage = " + usageid + " and SprayId=" + sprayid + "  order by  ID desc limit 1) a"
+               + "  on a.stationName = b.stationName";
+
                 newTb = MySqlHelper.ExecuteQuery(strSql);
             
             }

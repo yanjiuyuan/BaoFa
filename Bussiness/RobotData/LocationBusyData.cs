@@ -22,7 +22,8 @@ namespace Bussiness
         {
 
         }
-        public  static Dictionary<int, Dictionary<string, double>> LocationBusyState = new Dictionary<int, Dictionary<string, double>>();
+        public  static Dictionary<int, Dictionary<string, int>> LocationBusyState1 = new Dictionary<int, Dictionary<string, int>>();
+        public static Dictionary<int, Dictionary<string, int>> LocationBusyState2 = new Dictionary<int, Dictionary<string, int>>();
 
         private static Logger logger = Logger.CreateLogger(typeof(RobotData));
 
@@ -35,7 +36,8 @@ namespace Bussiness
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 datakeys.Add(int.Parse(dt.Rows[i]["productlineid"].ToString()));
-                LocationBusyState.Add(int.Parse(dt.Rows[i]["productlineid"].ToString()), new Dictionary<string, double>());
+                LocationBusyState1.Add(int.Parse(dt.Rows[i]["productlineid"].ToString()), new Dictionary<string, int>());
+                LocationBusyState2.Add(int.Parse(dt.Rows[i]["productlineid"].ToString()), new Dictionary<string, int>());
 
             }
 
@@ -85,36 +87,54 @@ namespace Bussiness
                 try
                 {
                     Thread.Sleep(10000);
-                    DateTime dtm = DateTime.Now.AddMinutes(-10);
-                    long begintime = TimeHelper.ConvertDateTimeToInt(dtm);
-
+                    Decimal  begintime = 0;
+                    string qrysql = "  select (TIMESTAMPDIFF(SECOND, '1970-1-1 08:00:00', NOW())-300) * 1000  as begintime";
+                    DataTable datedt = MySqlHelper.ExecuteQuery(qrysql);
+                    if (datedt.Rows.Count > 0)
+                        begintime = Convert.ToDecimal( datedt.Rows[0]["begintime"].ToString());
+                    else
+                    {
+                     DateTime dtm = DateTime.Now.AddMinutes(-5);
+                        begintime = TimeHelper.ConvertDateTimeToInt(dtm);
+                    }
                     foreach (int key in datakeys)
                     {
-                         
-                            string sql =
-                                " select tt1.stationname, round(tt1.runt/if(tt1.freet=0,1,tt1.freet),2) as runrate from  ( " +
-                         " select t.stationname, sum(if (t.stationstate = '运行',tm ,0))  as runt, sum(if (t.stationstate = '空闲',tm ,0))  as freet from  " +
-                        "  (  select stationname, stationstate, (TIMESTAMPDIFF(SECOND, '1970-1-1 08:00:00', NOW()) * 1000 - starttime) as tm  " +
-               "   from locationstate where starttime > " + begintime + " and productlineid = " + key +
-              "   union  select stationname, stationstate, (TIMESTAMPDIFF(SECOND, '1970-1-1 08:00:00', NOW()) * 1000 - starttime) as tm  " +
-              "    from locationstatecache where productlineid = " + key + "  ) t where stationname in " +
-             "   (select stationname from locationcfg where productlineid = " + key + " and state = 1)  group by stationname ) tt1 ";
 
-
-                            Dictionary<string, double> dic = new Dictionary<string, double>();
+                        string sql =
+                   "select tt2.locationid, tt2.stationname, if( runc>0,runc,0) as runc from locationcfg tt2  left join (  select t.productlineid,  "+
+            " t.stationname, sum(if (t.stationstate = '运行',1 ,0))  as runc  from(select stationname, stationstate, starttime, productlineid  " +
+            "  from locationstate where starttime >  " + begintime + "  and productlineid = " + key+"   union  select stationname, stationstate, starttime, productlineid  " +
+            " from locationstatecache where productlineid = 1  ) t where stationname in    (select stationname from locationcfg where productlineid =   "+ key+" and state = 1)  " +
+            "  group by productlineid ,stationname ) tt1  " +
+            " on tt1.productlineid = tt2.productlineid and tt1.stationname = tt2.stationname  where tt2.state = 1  order by tt2.locationid";
+                        Dictionary<string, int> dic2 = new Dictionary<string, int>();
+                        Dictionary<string, int> dic = new Dictionary<string, int>();
                             DataTable dt = MySqlHelper.ExecuteQuery(sql);
                             for (int i = 0; i < dt.Rows.Count; i++)
                             {
-                                string stationname = dt.Rows[i]["stationname"].ToString();
-                                double runrate = Convert.ToDouble(dt.Rows[i]["runrate"].ToString());
-                                dic.Add(stationname, runrate);
+                                int  locationid = Convert.ToInt32(dt.Rows[i]["locationid"].ToString());
+                            string stationname = dt.Rows[i]["stationname"].ToString();
+                            int runc = Convert.ToInt32(dt.Rows[i]["runc"].ToString());
+                            if (locationid<=11)
+                                dic.Add(stationname, runc);
 
 
                             }
-                            LocationBusyState[key] = dic;
+                        for (int i = dt.Rows.Count-1; i >0; i--)
+                        {
+                            int locationid = Convert.ToInt32(dt.Rows[i]["locationid"].ToString());
+                            string stationname = dt.Rows[i]["stationname"].ToString();
+                            int runc = Convert.ToInt32(dt.Rows[i]["runc"].ToString());
+                            if (locationid > 11)
+                                dic2.Add(stationname, runc);
 
-                            // DealData(key, dic); 
+
                         }
+                        LocationBusyState1[key] = dic;
+                        LocationBusyState2[key] = dic2;
+
+                        // DealData(key, dic); 
+                    }
 
                 }
                 catch (Exception e)

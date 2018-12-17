@@ -281,8 +281,8 @@ namespace Bussiness.Chart
             //实时工序繁忙状态 +当日工序繁忙曲线 
 
 
-            dv.Add("location_busy", LocationBusyData.LocationBusyState[lineid]);
-          
+            dv.Add("location_busy1", LocationBusyData.LocationBusyState1[lineid]);
+            dv.Add("location_busy2", LocationBusyData.LocationBusyState2[lineid]);
 
             // 产线当日品检 
             // 末次品检数      当日品检合格率  次品率   废品率
@@ -451,8 +451,8 @@ namespace Bussiness.Chart
                     double dev_PlanPowerOnT = Convert.ToDouble(devdt7.Rows[i]["PlanPowerOnT"].ToString());
                     devdic7.Add("stationname", stationname);
                     devdic7.Add("devicemodel", devicemodel);
-                    devdic7.Add("dev_activation7", Math.Round( (dev_run_t + dev_free_t)*100 / dev_PlanPowerOnT, 2));
-                    devdic7.Add("dev_plan_activation7", Math.Round(100*(dev_run_t ) / dev_PlanPowerOnT, 2));
+                    devdic7.Add("dev_activation7", Math.Round( (dev_run_t + dev_free_t + +dev_warn_t) *100 / dev_PlanPowerOnT, 2));
+                    devdic7.Add("dev_plan_activation7", Math.Round(100*(dev_run_t + dev_free_t) / dev_PlanPowerOnT, 2));
                     devdic7.Add("dev_time_activation7", Math.Round(100*(dev_run_t + dev_free_t) / (dev_run_t + dev_free_t + dev_warn_t > 0 ? (dev_run_t + dev_free_t + dev_warn_t) : 1),2));
                     devlist7.Add(devdic7);
                 }
