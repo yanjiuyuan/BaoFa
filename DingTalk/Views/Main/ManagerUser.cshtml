@@ -21,8 +21,8 @@
                     </el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="单位名称(必填)" prop="strCompanyName">
-                <el-select v-model="ruleForm.strCompanyName" placeholder="请选择" :filter="false">
+            <el-form-item label="单位名称(必填)" prop="BrName">
+                <el-select v-model="ruleForm.BrName" placeholder="请选择" :filter="false">
                     <el-option v-for="depart in departList" :filter="false"
                                :key="depart.Value"
                                :label="depart.Value"

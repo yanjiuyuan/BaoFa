@@ -61,7 +61,7 @@ namespace Bussiness.Chart
        "  (stationstate = '空闲', endtime - startTime, 0))/ 1000 AS free_t, sum( if (stationstate = '空闲',1, 0))  AS free_c, " +
       " sum( if (stationstate = '报警', endtime - startTime, 0))/ 1000 AS warn_t, sum( if (stationstate = '报警',1, 0))  " +
         " AS warn_c, stationNAME from huabao.LocationState where starttime > " + begintime + " and starttime< " + endtime + " and ProductLineId =  " + lineid + " " +
-       " group by stationNAME ) a2 )a1 on a1.stationNAME = b1.stationNAME where JobType is not null  order by b1.JobType, b1.LocationSeq";
+       " group by stationNAME ) a2 )a1 on a1.stationNAME = b1.stationNAME where JobType is not null  order by   b1.LocationSeq";
 
                  
                 DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
@@ -123,11 +123,12 @@ namespace Bussiness.Chart
                 double avgrun = 0.0;
                 double avgfree = 0.0;
                 double avgwarn = 0.0;
-                 
                 //获取七日平均
-                string strSql = " select round( sum(runt)  /sum(if (runc > 0,runc,1)))as run,round(sum(freet)/ sum(if (freec > 0,freec,1))) as free,round(sum(warnt) /sum(if (warnc > 0,warnc,1)))as warn from rptlocationday a left join locationcfg b on a.ProductLineId=b.ProductLineId and a.locationid=" +
-                    "b.locationid where a.ProductLineId=" + lineid + " and b.StationName='" + stationname + "' limit 7";
-                 DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
+                string strSql = "  select round(sum(runt)  / sum(if (runc > 0,runc,1)))as run,round(sum(freet) / sum(if (freec > 0,freec,1))) as free," +
+                    " round(sum(warnt) / sum(if (warnc > 0,warnc,1)))as warn from(select a.* from rptlocationday a left " +
+                   " join locationcfg  b on a.ProductLineId = b.ProductLineId and a.locationid = b.locationid where a.ProductLineId = " + lineid +
+                     " and b.StationName = '" + stationname + "' order by a.ProductionT desc limit 7) tt1";
+                   DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
                 if(newTb.Rows.Count>0)
                 {
                     avgrun = Convert.ToDouble(newTb.Rows[0]["run"].ToString());
