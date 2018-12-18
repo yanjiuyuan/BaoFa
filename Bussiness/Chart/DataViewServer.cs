@@ -288,69 +288,69 @@ namespace Bussiness.Chart
             // 末次品检数      当日品检合格率  次品率   废品率
             // 七日平均品检数  七日平均品检率
 
-            double all_num = 0.0;
-            double pass_rate = 0.0;
-            double inferior_rate = 0.0;
-            double waste_rate = 0.0;
-            sql = "select all_num,round(100*pass_num/all_num) as pass_rate,round(100*inferior_num/all_num) as inferior_rate ,round(100*waste_num/all_num ) as  waste_rate from  " +
+            //double all_num = 0.0;
+            //double pass_rate = 0.0;
+            //double inferior_rate = 0.0;
+            //double waste_rate = 0.0;
+            //sql = "select all_num,round(100*pass_num/all_num) as pass_rate,round(100*inferior_num/all_num) as inferior_rate ,round(100*waste_num/all_num ) as  waste_rate from  " +
 
-                    " (select sum(1) as all_num, sum(if (QualityType = 1,1,0)) as pass_num,sum(if (QualityType = 2,1,0)) as inferior_num ,sum(if (QualityType = 3,1,0)) as waste_num " +
+            //        " (select sum(1) as all_num, sum(if (QualityType = 1,1,0)) as pass_num,sum(if (QualityType = 2,1,0)) as inferior_num ,sum(if (QualityType = 3,1,0)) as waste_num " +
 
-                    " from quality where id_usage = " + idusage + ") t where all_num is not null";
-            DataTable quadt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-            Dictionary<string, double> quadic = new Dictionary<string, double>();
+            //        " from quality where id_usage = " + idusage + ") t where all_num is not null";
+            //DataTable quadt = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
+            //Dictionary<string, double> quadic = new Dictionary<string, double>();
 
-            if (quadt.Rows.Count > 0)
-            {
-                all_num = Convert.ToDouble(quadt.Rows[0]["all_num"].ToString());
-                pass_rate = Convert.ToDouble(quadt.Rows[0]["pass_rate"].ToString());
-                inferior_rate = Convert.ToDouble(quadt.Rows[0]["inferior_rate"].ToString());
-                waste_rate = Convert.ToDouble(quadt.Rows[0]["waste_rate"].ToString());
+            //if (quadt.Rows.Count > 0)
+            //{
+            //    all_num = Convert.ToDouble(quadt.Rows[0]["all_num"].ToString());
+            //    pass_rate = Convert.ToDouble(quadt.Rows[0]["pass_rate"].ToString());
+            //    inferior_rate = Convert.ToDouble(quadt.Rows[0]["inferior_rate"].ToString());
+            //    waste_rate = Convert.ToDouble(quadt.Rows[0]["waste_rate"].ToString());
 
-            }
-            quadic.Add("all_num", all_num);
-            quadic.Add("pass_rate", Math.Round(pass_rate,2));
-            quadic.Add("inferior_rate", Math.Round(inferior_rate,2));
-            quadic.Add("waste_rate", Math.Round(waste_rate,2));
+            //}
+            //quadic.Add("all_num", all_num);
+            //quadic.Add("pass_rate", Math.Round(pass_rate,2));
+            //quadic.Add("inferior_rate", Math.Round(inferior_rate,2));
+            //quadic.Add("waste_rate", Math.Round(waste_rate,2));
 
-            double all_num7 = 0.0;
-            double pass_rate7 = 0.0;
-            double inferior_rate7 = 0.0;
-            double waste_rate7 = 0.0;
+            //double all_num7 = 0.0;
+            //double pass_rate7 = 0.0;
+            //double inferior_rate7 = 0.0;
+            //double waste_rate7 = 0.0;
 
 
-            sql = "select distinct  `usage`.id_usage " +
+       //     sql = "select distinct  `usage`.id_usage " +
 
-       " from quality left join `usage` on quality.id_usage = `usage`.id_usage where  ProductLineId = 1 order by quality.id_usage desc limit 1 offset 7 ";
-            DataTable quadt1 = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-            int minusage = 0;
-            if (quadt1.Rows.Count > 0)
-            {
-                minusage = Convert.ToInt32(quadt1.Rows[0]["id_usage"].ToString());
-            }
-            sql = "select all_num as all_num7,round(100*pass_num/all_num) as pass_rate7,round(100*inferior_num/all_num) as inferior_rate7 ,round(100*waste_num/all_num ) as  waste_rate7 from  " +
+       //" from quality left join `usage` on quality.id_usage = `usage`.id_usage where  ProductLineId = 1 order by quality.id_usage desc limit 1 offset 7 ";
+       //     DataTable quadt1 = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
+       //     int minusage = 0;
+       //     if (quadt1.Rows.Count > 0)
+       //     {
+       //         minusage = Convert.ToInt32(quadt1.Rows[0]["id_usage"].ToString());
+       //     }
+       //     sql = "select all_num as all_num7,round(100*pass_num/all_num) as pass_rate7,round(100*inferior_num/all_num) as inferior_rate7 ,round(100*waste_num/all_num ) as  waste_rate7 from  " +
 
-                     " (select sum(1) as all_num, sum(if (QualityType = 1,1,0)) as pass_num,sum(if (QualityType = 2,1,0)) as inferior_num ,sum(if (QualityType = 3,1,0)) as waste_num " +
+       //              " (select sum(1) as all_num, sum(if (QualityType = 1,1,0)) as pass_num,sum(if (QualityType = 2,1,0)) as inferior_num ,sum(if (QualityType = 3,1,0)) as waste_num " +
 
-                     " from quality left join `usage` on quality.id_usage = `usage`.id_usage  where quality.id_usage >= " + minusage + "  and    `usage`.ProductLineId= " + lineid + " ) t";
+       //              " from quality left join `usage` on quality.id_usage = `usage`.id_usage  where quality.id_usage >= " + minusage + "  and    `usage`.ProductLineId= " + lineid + " ) t";
 
-            DataTable quadt7 = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
-            Dictionary<string, double> quadicdt7 = new Dictionary<string, double>();
+       //     DataTable quadt7 = Common.DbHelper.MySqlHelper.ExecuteQuery(sql);
+       //     Dictionary<string, double> quadicdt7 = new Dictionary<string, double>();
 
-            if (quadt7.Rows.Count > 0)
-            {
-                all_num7 = Convert.ToDouble(quadt7.Rows[0]["all_num7"].ToString());
-                pass_rate7 = Convert.ToDouble(quadt7.Rows[0]["pass_rate7"].ToString());
-                inferior_rate7 = Convert.ToDouble(quadt7.Rows[0]["inferior_rate7"].ToString());
-                waste_rate7 = Convert.ToDouble(quadt7.Rows[0]["waste_rate7"].ToString());
+       //     if (quadt7.Rows.Count > 0)
+       //     {
+       //         all_num7 = Convert.ToDouble(quadt7.Rows[0]["all_num7"].ToString());
+       //         pass_rate7 = Convert.ToDouble(quadt7.Rows[0]["pass_rate7"].ToString());
+       //         inferior_rate7 = Convert.ToDouble(quadt7.Rows[0]["inferior_rate7"].ToString());
+       //         waste_rate7 = Convert.ToDouble(quadt7.Rows[0]["waste_rate7"].ToString());
 
-            }
-            quadic.Add("all_num7", all_num7);
-            quadic.Add("pass_rate7", Math.Round(pass_rate7,2));
-            quadic.Add("inferior_rate7", Math.Round(inferior_rate7,2));
-            quadic.Add("waste_rate7", Math.Round(waste_rate7,2));
+       //     }
+       //     quadic.Add("all_num7", all_num7);
+       //     quadic.Add("pass_rate7", Math.Round(pass_rate7,2));
+       //     quadic.Add("inferior_rate7", Math.Round(inferior_rate7,2));
+       //     quadic.Add("waste_rate7", Math.Round(waste_rate7,2));
 
-            dv.Add("quality", quadic);
+       //     dv.Add("quality", quadic);
             //设备效率指标
             //产线->多少设备->工位
             //当日设备稼动率

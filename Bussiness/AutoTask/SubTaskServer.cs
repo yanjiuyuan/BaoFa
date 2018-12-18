@@ -248,8 +248,8 @@ namespace Bussiness.AutoTask
                     logger.Info("无需创建分区");
                     return;
                 }
-
-                var file = File.Open(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "\\dbpart.config", FileMode.Open);
+                
+                var file = File.Open(AppDomain.CurrentDomain.BaseDirectory + "bin\\dbpart.config", FileMode.Open);
                 string s = string.Empty;
                 using (var stream = new StreamReader(file, System.Text.Encoding.GetEncoding("gb2312")))
                 {

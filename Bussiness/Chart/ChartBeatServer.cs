@@ -123,11 +123,12 @@ namespace Bussiness.Chart
                 double avgrun = 0.0;
                 double avgfree = 0.0;
                 double avgwarn = 0.0;
-                 
                 //获取七日平均
-                string strSql = " select round( sum(runt)  /sum(if (runc > 0,runc,1)))as run,round(sum(freet)/ sum(if (freec > 0,freec,1))) as free,round(sum(warnt) /sum(if (warnc > 0,warnc,1)))as warn from rptlocationday a left join locationcfg b on a.ProductLineId=b.ProductLineId and a.locationid=" +
-                    "b.locationid where a.ProductLineId=" + lineid + " and b.StationName='" + stationname + "' limit 7";
-                 DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
+                string strSql = "  select round(sum(runt)  / sum(if (runc > 0,runc,1)))as run,round(sum(freet) / sum(if (freec > 0,freec,1))) as free," +
+                    " round(sum(warnt) / sum(if (warnc > 0,warnc,1)))as warn from(select a.* from rptlocationday a left " +
+                   " join locationcfg  b on a.ProductLineId = b.ProductLineId and a.locationid = b.locationid where a.ProductLineId = " + lineid +
+                     " and b.StationName = '" + stationname + "' order by a.ProductionT desc limit 7) tt1";
+                   DataTable newTb = MySqlHelper.ExecuteQuery(strSql);
                 if(newTb.Rows.Count>0)
                 {
                     avgrun = Convert.ToDouble(newTb.Rows[0]["run"].ToString());
