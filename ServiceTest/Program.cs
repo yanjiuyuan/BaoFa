@@ -175,7 +175,7 @@ namespace ServiceTest
             //    Console.WriteLine(ex.Message);
             ////}
             AutoTaskServer ats = new AutoTaskServer();
-            ats.TaskExec("2018-12-06",1);
+            ats.TaskExec("2018-12-17",1);
             //DataViewServer dv = new DataViewServer();
             //dv.GetData(1);
             //SubTaskServer sub = new SubTaskServer();
