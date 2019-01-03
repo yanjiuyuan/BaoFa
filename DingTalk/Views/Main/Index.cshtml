@@ -36,6 +36,7 @@
                         url: '/Main/MenuList?roleid=' + _getCookie('Role'),
                         success: function (data) {
                             console.log('获取菜单列表')
+                            console.log(_getCookie('Role'))
                             console.log(JSON.parse(data))
                             that.menuList = JSON.parse(data)
                         }
