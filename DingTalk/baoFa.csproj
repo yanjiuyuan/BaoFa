@@ -162,6 +162,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CodeController.cs" />
+    <Compile Include="Controllers\ExRegController.cs" />
     <Compile Include="Controllers\DataViewController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LineDataController.cs" />

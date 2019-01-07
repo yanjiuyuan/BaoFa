@@ -546,7 +546,7 @@ namespace Bussiness.AutoTask
                     double RunT = 0, StopT = 0, WarnT = 0, OffLineT = 0;
                     int RunC = 0, StopC = 0, WarnC = 0, OffLineC = 0;
                     id_usages = Convert.ToString(dts.Rows[i]["id_usage"]);
-                    PlanWorkLoad = 1200* dts.Rows.Count;
+                    PlanWorkLoad = 2400* dts.Rows.Count;
                     productlineid = Convert.ToInt32(dts.Rows[i]["productlineid"].Equals(DBNull.Value) ? 0 : dts.Rows[i]["productlineid"]);
                     WorkLoad = Convert.ToInt32(dts.Rows[i]["nowan"].Equals(DBNull.Value) ? 0 : dts.Rows[i]["nowan"]);
 
