@@ -33,7 +33,7 @@ namespace DingTalk.Controllers
 
 
         /// 测试数据：DataView/GetData?lineid=1
-        public string GetWarnTypeList( string type)
+        public string ExTypeList( string type)
         {
             string retstr = string.Empty;
             DataTable dt = (new WarnServer()).WarnTypeList(type);
@@ -60,7 +60,7 @@ namespace DingTalk.Controllers
         }
 
 
-        public string GetWarnList(int lineid,string datestr)
+        public string ExMessList(int lineid,string datestr)
         {
             string retstr = string.Empty;
             DataTable dt = (new WarnServer()).GetWarnList(lineid,datestr);
@@ -69,7 +69,7 @@ namespace DingTalk.Controllers
             return retstr;
         }
 
-        public string  WarnReg(int lineid, string productiont, int? locationid, string warntype
+        public string  ExReg(int lineid, string productiont, int? locationid, string warntype
             , string warnphe, string treatment, string warntime, string opr,int ? warndura)
         {
             string retstr = string.Empty;
